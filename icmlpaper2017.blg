@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: icmlpaper2017.aux
+The style file: icml2017.bst
+Database file #1: biblio.bib
+Warning--empty journal in valiant2014learning
+Warning--empty journal in Auer
+Warning--empty journal in BlumR88
+Warning--empty booktitle in lee2016gradient
+You've used 30 entries,
+            2773 wiz_defined-function locations,
+            782 strings with 10352 characters,
+and the built_in function-call counts, 14155 in all, are:
+= -- 1258
+> -- 943
+< -- 11
++ -- 316
+- -- 285
+* -- 1184
+:= -- 2246
+add.period$ -- 112
+call.type$ -- 30
+change.case$ -- 185
+chr.to.int$ -- 29
+cite$ -- 64
+duplicate$ -- 642
+empty$ -- 1042
+format.name$ -- 327
+if$ -- 2933
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 30
+newline$ -- 179
+num.names$ -- 120
+pop$ -- 313
+preamble$ -- 1
+purify$ -- 155
+quote$ -- 0
+skip$ -- 527
+stack$ -- 0
+substring$ -- 275
+swap$ -- 63
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 330
+warning$ -- 4
+while$ -- 110
+width$ -- 0
+write$ -- 434
+(There were 4 warnings)
