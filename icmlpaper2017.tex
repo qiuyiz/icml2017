@@ -1018,7 +1018,7 @@ We want to show that $a_i^2 = \Omega(\epsilon)$. First, we analyze the random dr
 By assumption, we know that $\expt[C(\theta_i)^2] \geq
 \epsilon$.
 Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, then $C(\theta_i)$ is
-$poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}C(\theta_i)^2 \geq \epsilon/2$, where $\hat{\expt}$ denotes the empirical average. Therefore, we must have found some $\theta_i$ such that $C(\theta_i)^2 \geq \epsilon/2$. 
+$poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}C(\theta_i)^2 \geq \epsilon/2$, where $\hat{\expt}$ denotes the empirical average. Therefore, we must have found some $\theta_i$ such that $C(\theta_i)^2 \geq \epsilon/2$. \Snote{I don’t think Hoeffding’s bounds apply here. If \Phi is always bounded, you can just apply a Markov argument here}.
 
 
 Next, notice that $\hat{L}$ is a quadratic in $a_i$, which is a scalar. Therefore, the gradient
@@ -1035,11 +1035,12 @@ Therefore,
  a_i^* & = - \frac{1}{\widehat{\Phi}(\theta_i,\theta_i)} (\sum_{j\neq i} a_j \widehat{\Phi}(\theta_i,\theta_j) + \sum_{j=1}^k b_j \widehat{\Phi}(\theta_i,w_j)) \\
 & = -\frac{1}{\widehat{\Phi}(\theta_i,\theta_i)}\widehat{C}(\theta_i) 
 \end{align*}
+\Snote{ Is $\widehat{\Phi}$ computable efficiently? What about $\widehat{C}$?}
 
 
-By our generalization bounds, in $poly(d,1/\epsilon)$ samples, we can
+By our generalization bounds \Snote{Give a ref to the theorem}, in $poly(d,1/\epsilon)$ samples, we can
 find $\theta_i$ such that $\widehat{C}(\theta_i)^2 \geq \epsilon/4$
-(notice $\Phi(\theta_i,\theta_i) = 1$). As $a_i$ is initially $0$ when sampling $\theta_i$, we conclude
+(notice $\Phi(\theta_i,\theta_i) = 1$ \Snote{but the above expression has $\widehat{\Phi}$). As $a_i$ is initially $0$ when sampling $\theta_i$, we conclude
 that we can find $\theta_i$ such that
 %
 \[ \left( \pd{\hat{L}}{a_i} \right)^2 = 4 \widehat{C}(\theta_i)^2 \geq \epsilon.\]
@@ -1059,11 +1060,12 @@ Now, we calculate the following gradient:
 \end{equation}
 
 Therefore, since $\theta_i$ moves in the direction of the gradient of $(a_i^*)^2$ in expectation and $(a_i^*)^2$ is $poly(d)$-Lipschitz in $\theta_i$, so we conclude by a standard analysis of gradient descent with stepsize $1/poly(d)$ that $(a_i^*)^2$ is a supermartingale with a bounded difference of $poly(d)$. Finally, we can conclude with Azuma's, that in $poly(1/\epsilon,d,\log(1/\zeta))$ iterations, $(a_i^*)^2 = \Omega(\epsilon)$ with probability $1-\zeta$ .
+\Snote{The last part was too fast. Can you please elaborate what do you mean by ‘moves in the same direction of the gradient of ..’? Also, what analysis of SGD are you using, please cite a theorem and plug it in here? I don’t know how do supermartingale bounds applies to SGD.}
 \end{proof}
 
 \begin{restatable}{theorem}{eigConv}
 \label{eigConv}
-Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. For any $m$, we can construct a realizable $(1,m)$-Harmonic potential, $\Phi_m$. 
+Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. For any $m$, we can construct a realizable $(1,m)$-Harmonic potential, $\Phi_m$. \Snote{almost harmonic?}
 
 Furthermore, let $L$ as in \eqref{errLoss} with potential $\Phi_m$. Then, for all $ 1 > \epsilon > 0$, we can choose $m = O(\log(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and $\|a\| \leq poly(d)$, then each $(a_i, \theta_i)$ must satisfy at least one of the following conditions:
 
@@ -1076,7 +1078,7 @@ i) There exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$
 \end{restatable}
 %
 \begin{proof}
-We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
+We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
 Using the Laplacian formula on $S^{d-1}$ gives:
 \begin{align*}
 \Delta f & = (\sin \theta)^{2-d} \frac{\partial}{\partial \theta}\left[ (\sin \theta)^{d-2} \frac{\partial f(\cos \theta)}{\partial \theta}\right] \\
