@@ -7,45 +7,45 @@ Warning--empty journal in valiant2014learning
 Warning--empty journal in Auer
 Warning--empty journal in BlumR88
 Warning--empty booktitle in lee2016gradient
-You've used 30 entries,
+You've used 31 entries,
             2773 wiz_defined-function locations,
-            782 strings with 10352 characters,
-and the built_in function-call counts, 14155 in all, are:
-= -- 1258
-> -- 943
-< -- 11
-+ -- 316
-- -- 285
-* -- 1184
-:= -- 2246
-add.period$ -- 112
-call.type$ -- 30
-change.case$ -- 185
-chr.to.int$ -- 29
-cite$ -- 64
-duplicate$ -- 642
-empty$ -- 1042
-format.name$ -- 327
-if$ -- 2933
+            787 strings with 10487 characters,
+and the built_in function-call counts, 14458 in all, are:
+= -- 1281
+> -- 953
+< -- 13
++ -- 320
+- -- 288
+* -- 1202
+:= -- 2295
+add.period$ -- 115
+call.type$ -- 31
+change.case$ -- 188
+chr.to.int$ -- 30
+cite$ -- 66
+duplicate$ -- 662
+empty$ -- 1074
+format.name$ -- 331
+if$ -- 2996
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 30
-newline$ -- 179
-num.names$ -- 120
-pop$ -- 313
+missing$ -- 32
+newline$ -- 184
+num.names$ -- 124
+pop$ -- 324
 preamble$ -- 1
-purify$ -- 155
+purify$ -- 158
 quote$ -- 0
-skip$ -- 527
+skip$ -- 540
 stack$ -- 0
-substring$ -- 275
-swap$ -- 63
-text.length$ -- 4
+substring$ -- 277
+swap$ -- 65
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 330
+type$ -- 336
 warning$ -- 4
-while$ -- 110
+while$ -- 113
 width$ -- 0
-write$ -- 434
+write$ -- 447
 (There were 4 warnings)

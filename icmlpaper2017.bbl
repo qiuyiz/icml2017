@@ -1,4 +1,4 @@
-\begin{thebibliography}{30}
+\begin{thebibliography}{31}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -137,6 +137,12 @@ Livni, Roi, Shalev{-}Shwartz, Shai, and Shamir, Ohad.
 \newblock On the computational efficiency of training neural networks.
 \newblock \emph{CoRR}, abs/1410.1141, 2014.
 \newblock URL \url{http://arxiv.org/abs/1410.1141}.
+
+\bibitem[Nesterov(2013)]{nesterov2013introductory}
+Nesterov, Yurii.
+\newblock \emph{Introductory lectures on convex optimization: A basic course},
+  volume~87.
+\newblock Springer Science \& Business Media, 2013.
 
 \bibitem[Panageas \& Piliouras(2016)Panageas and Piliouras]{PanageasP16}
 Panageas, Ioannis and Piliouras, Georgios.
