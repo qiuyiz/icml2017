@@ -184,7 +184,17 @@
 %\footnotetext{hi}
 
 \begin{abstract} 
-We study the efficacy of learning neural networks with neural networks by the (stochastic) gradient descent method. While gradient descent enjoys empirical success in a variety of applications, there is a lack of theoretical guarantees that explains the practical utility of deep learning. We focus on two-layer neural networks with a linear activation on the output node. We show that under some mild assumptions and certain classes of activation functions, gradient descent does learn the parameters of the neural network and converges to the global minima. Using a node-wise gradient descent algorithm, we show that learning can be done in finite, sometimes $poly(d,1/\epsilon)$, time and sample complexity.
+  We study the efficacy of learning neural networks with neural
+  networks by the (stochastic) gradient descent method. While gradient
+  descent enjoys empirical success in a variety of applications, there
+  is a lack of theoretical guarantees that explains the practical
+  utility of deep learning. We focus on two-layer neural networks with
+  a linear activation on the output node. We show that under some mild
+  assumptions and certain classes of activation functions, gradient
+  descent does learn the parameters of the neural network and
+  converges to the global minima. Using a node-wise gradient descent
+  algorithm, we show that learning can be done in finite, sometimes
+  $poly(d,1/\epsilon)$, time and sample complexity.
 \end{abstract} 
 
 \section{Introduction}
@@ -278,7 +288,21 @@ Our main tool for analysis is to derive second-order information about our dynam
 
 We acknowledge that there is still a large gap between our developed theory and practice. However, our work can offer theoretical explanations and guidelines for the design of better activation functions or gradient-based training algorithms. For example, better accuracy and training speed were reported when using the newly discovered exponential linear unit (ELU) activation function in \cite{ClevertUH15} \cite{ShahKSS16}. We hope for more theory-backed answers to these and many other questions in deep learning.
 
-In section 2, we introduce our framework and assumptions, and derive and derive the equivalence between gradient descent and electron-proton dynamics under a suitable potential. In section 3, we give an overview of our main results and techniques for showing convergence of gradient descent to learn the hidden parameters for depth-2 neural networks with specified activation functions, including some common activation functions, such as the sign and the polynomial. These convergence results are proven under ideal assumptions to simply illustrate our ideas. In section 4, we address the steps necessary to prove finite convergence guarantees using a node-wise gradient descent algorithm, dealing with errors introduced from approximation and discretization. In section 5, experimental results confirm that depth-2 neural networks can be learned by gradient descent with common activation functions but seem to discredit that claim for higher depth networks.  
+In section 2, we introduce our framework and assumptions, and derive
+and derive the equivalence between gradient descent and
+electron-proton dynamics under a suitable potential. In section 3, we
+give an overview of our main results and techniques for showing
+convergence of gradient descent to learn the hidden parameters for
+depth-2 neural networks with specified activation functions, including
+some common activation functions, such as the sign and the
+polynomial. These convergence results are proven under ideal
+assumptions to simply illustrate our ideas. In section 4, we address
+the steps necessary to prove finite convergence guarantees using a
+node-wise gradient descent algorithm, dealing with errors introduced
+from approximation and discretization. In section 5, experimental
+results confirm that depth-2 neural networks can be learned by
+gradient descent with common activation functions but seem to
+discredit that claim for higher depth networks.
 
 
 \section{Deep Learning, Potentials, and Electron-Proton Dynamics}
@@ -513,8 +537,12 @@ If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative. Thu
 \section{Runtime Bounds with Stochastic Gradients}
 
 The gradient descent convergence results in the previous sections lay the foundation for reasoning about the convergence of stochastic gradient descent (SGD) in standard backpropagation. To derive finite runtime bounds, we need to address three technical details: 1) realizable potentials are only approximately strict subharmonic or $\lambda$-harmonic, 2) the variance of the stochastic gradient and 3) SGD should escape local minima in a bounded (hopefully polynomial) amount of time. The second and third detail are analyzed with standard techniques in optimization and statistics: the former requires generalization bounds for neural networks and the latter requires a lower bound on the negative curvature, which leads to the follow definition.
-
-\begin{definition} Let $\Omega \subseteq \R^d$. A point $x^*$ is a {\bf $\epsilon$-strict} point of $f : \Omega \to \R$ if f is twice differentiable at $x^*$ and $\lambda_{min}(\nabla^2f(x^*)) < -\epsilon$
+%
+\begin{definition} 
+Let $\Omega \subseteq \R^d$. A point $x^*$ is a
+  {\bf $\epsilon$-strict} point of $f : \Omega \to \R$ if f is twice
+  differentiable at $x^*$ and
+  $\lambda_{min}(\nabla^2f(x^*)) < -\epsilon$
 \end{definition}
 
 Note that if a critical point is not a local minimum, then it is
@@ -525,7 +553,19 @@ to a point in $\mathcal{M}_\epsilon$, where
 
 Intuitively, this means that SGD will converge to points with small gradient and small negative curvature. The full proofs of all these claims are found in supplementary material. 
 
-Because of the errors, we cannot simply analyze the convergence of SGD on all $\theta_i$ simultaneously since as before, the pairwise interaction terms between the $\theta_i$ present complications. To derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy node-wise SGD algorithm to learn the hidden weights, i.e. we run a full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The main idea is that after running SGD with respect to $\theta_1$, $\theta_1$ should be close to some $w_j$ for some $j$. Then, we can carefully induct and show that $\theta_2$ must be some other $w_k$ for $k\neq j$ and so on. The pseudocode of the exact node-wise SGD algorithm as well as the full theorems of the convergence results, as mentioned in Table~\ref{table1}, is given in the supplementary material
+Because of the errors, we cannot simply analyze the convergence of SGD
+on all $\theta_i$ simultaneously since as before, the pairwise
+interaction terms between the $\theta_i$ present complications. To
+derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
+node-wise SGD algorithm to learn the hidden weights, i.e. we run a
+full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
+main idea is that after running SGD with respect to $\theta_1$,
+$\theta_1$ should be close to some $w_j$ for some $j$. Then, we can
+carefully induct and show that $\theta_2$ must be some other $w_k$ for
+$k\neq j$ and so on. The pseudocode of the exact node-wise SGD
+algorithm as well as the full theorems of the convergence results, as
+mentioned in Table~\ref{table1}, is given in the supplementary
+material
 
 In addition, we remark that node-wise SGD allows us to learn the value of $k$, the number of hidden nodes in the target function. This may suggest that node-wise SGD serves as a good initialization algorithm for training neural networks. A similar claim was also made in \cite{WuM16}. 
 
@@ -778,10 +818,15 @@ Let $f : \R^d \to \R$ be a function such that $|f(x)| \leq c\|x\|^p$. Let $X$ be
 
 \begin{proof}
 By standard concentration bounds and analysis, 
-\[|E[f(X)] - E[f(X)| \|X\|\leq B]| \]
-\[\leq (1- \frac{1}{P(\|X\|\leq B)}) E[|f(X)|{\bf 1}_{\|X\|\leq B}]| \]
-\[+ |E[f(X){\bf 1}_{\|X\|>B}]|\]
-\[\leq E[|f(X)|{\bf 1}_{\|X\|>B}] + 2cB^pe^{-B^2/8d}\]
+\begin{align*}
+& |E[f(X)] - E[f(X)| \|X\|\leq B]| \\
+& \qquad \leq (1- \frac{1}{P(\|X\|\leq B)}) E[|f(X)|{\bf 1}_{\|X\|\leq B}]| \\
+& \qquad \qquad + |E[f(X){\bf 1}_{\|X\|>B}]| \\
+& \qquad \leq E[|f(X)|{\bf 1}_{\|X\|>B}] + 2cB^pe^{-B^2/8d}
+\end{align*}
+\Snote{Check the first term, prob is $< 1,$ making the first term
+  negative. Also, in the terms in the proof, you don't want
+  conditioning, but rather an and with an indicator of the event.}
 
 
 Taking $B = poly(d,p,\log(1/\epsilon))$ will make the second term $< \epsilon/2$, then the first term is also bounded by:
@@ -793,7 +838,7 @@ Taking $B = poly(d,p,\log(1/\epsilon))$ will make the second term $< \epsilon/2$
 
 Next, we can appeal to the following well-cited theorems and standard techniques. For a better understanding of the notation and theorems used, we refer the refer to \cite{bartlett2002rademacher}.
 %
-\begin{theorem} (\cite{bartlett2002rademacher}) 
+\begin{theorem}[\cite{bartlett2002rademacher}]
 Consider a function class $\mathcal{F}$ of functions $f : \mathcal{X} \to [0,1]$. And let $ x_1,...,x_n \in \mathcal{X}$ be i.i.d. samples selected according to some distribution $\mathcal{D}$. Let the Rademacher complexity of $\mathcal{F}$ to be 
 \[R_n (\mathcal{F}) = E_{x_i,\sigma_i}\left[\sup_{f \in \mathcal{F}} \left|\frac{2}{n}\sum_{i=1}^nf(x_i)\sigma_i\right|\right]\]
 
@@ -803,7 +848,7 @@ for all $f \in\mathcal{F}$ simultaneously.
 \end{theorem}
 
 For all of our polynomial time bounds, whether we are calculating the potential or its derivatives, we are interested in bounding the Rademacher complexity of the class of functions of the form $\sigma_1(x^T\theta) \sigma_2(x^Tw)$, where $\sigma_1,\sigma_2$ are scalar functions.
-
+%
 \begin{theorem}
 Let $\mathcal{X} = \{x \in \R^d, \|x\|_2\leq B\}$ and let $\sigma_1,\sigma_2 : \R \to [-C,C]$ be $L$-Lipschitz functions. Consider the following class of functions
 %
@@ -820,8 +865,10 @@ Since $\sigma_1,\sigma_2$ are L-lipschitz, we apply standard structural results 
 \[R_n(\sigma_i\circ \mathcal{G}) \leq 2LB\sqrt{\frac{2}{n}}\]
 %
 Let $s(x) = x^2$, then $s$ is $2C$-Lipschitz when $|x|\leq C$, so 
-
-\[R_n(s\circ \sigma_i\circ\mathcal{G}) \leq 8CLB\sqrt{\frac{2}{n}}, R_n(s\circ(\sigma_1\circ \mathcal{G} +\sigma_2\circ \mathcal{G})) \leq 32 CLB\sqrt{\frac{2}{n}}\]
+%
+\[R_n(s\circ \sigma_i\circ\mathcal{G}) \leq 8CLB\sqrt{\frac{2}{n}},
+R_n(s\circ(\sigma_1\circ \mathcal{G} +\sigma_2\circ \mathcal{G})) \leq
+32 CLB\sqrt{\frac{2}{n}}\]
  
 Since $2\sigma_1(x^T\theta)\sigma_2(x^Tw) = (\sigma_1(x^T\theta)+\sigma_2(x^Tw))^2 - \sigma_1(x^T\theta)^2 - \sigma_2(x^Tw)^2$, we conclude that 
 \[R_n (\mathcal{F}_{\sigma_1,\sigma_2}) \leq 48CLB\sqrt{\frac{2}{n}}\]
@@ -835,25 +882,42 @@ Then, in $poly(d^p,1/\epsilon, \log(1/\zeta))$ samples, we can compute $\hat{L}$
 \end{theorem}
 
 \begin{proof}
-We first bound the generalization error of each $\Phi$. Notice that our approximation to $\Phi$ is done by first drawing $n$ i.i.d. samples $x_i \sim \mathcal{D}_B$, where $\mathcal{D}_B$ is the Gaussian in $\R^d$ truncated by the ball of radius $B = poly(d,p,\log(1/\epsilon))$. Then, we calculate the empirical average.
-
+  We first bound the generalization error of each $\Phi$. Notice that
+  our approximation to $\Phi$ is done by first drawing $n$
+  i.i.d. samples $x_i \sim \mathcal{D}_B$, where $\mathcal{D}_B$ is
+  the Gaussian in $\R^d$ truncated by the ball of radius
+  $B = poly(d,p,\log(1/\epsilon))$. Then, we calculate the empirical
+  average.
+%
 \[\widehat{\Phi}(\theta,w) = \frac{1}{n}\sum_{i=1}^n \sigma(x_i^T\theta)\sigma(x_i^Tw) \]
 
 Since $|x_i^T\theta|\leq B$, we conclude that $\sigma, \sigma'$ is bounded by $poly(B^p)$. Therefore, by our error bound theorems and by simple union bounds over the $poly(k) = poly(d)$ sum of $\Phi$, we conclude that with probability $1-\zeta$, if we choose $n = poly(d^p,1/\epsilon, \log(1/\zeta))$, we have 
-
-\[|E_{X\sim \mathcal{D}_B}[\sigma(X^Tw)\sigma(X^T\theta)] - \widehat{\Phi}(\theta^Tw)| \leq \epsilon/2\]
-
-for all $\theta, w \in \mathcal{M}$. And combining with Lemma \ref{choppedLem}, we conclude that $|\widehat{\Phi}(\theta,w) - \Phi(\theta,w)|\leq \epsilon$. We proceed with the same proof for the first and second derivatives and use a union bound to derive our claim.
+%
+\[|E_{X\sim \mathcal{D}_B}[\sigma(X^Tw)\sigma(X^T\theta)] -
+\widehat{\Phi}(\theta^Tw)| \leq \epsilon/2,\]
+for all $\theta, w \in \mathcal{M}$. And combining with Lemma
+\ref{choppedLem}, we conclude that
+$|\widehat{\Phi}(\theta,w) - \Phi(\theta,w)|\leq \epsilon$. We proceed
+with the same proof for the first and second derivatives and use a
+union bound to derive our claim.
 \end{proof}
 
 \subsection{Infinite Iteration Bounds} 
 \label{InfIter}
 
 
-\begin{theorem}\cite{lee2016gradient}\cite{PanageasP16}\label{convStrict}
-Let $f :\Omega \to \R$ be a twice differentiable function such that $\sup_{x \in \Omega} \|\nabla^2 f\| \leq L$. Let $\mathcal{S} \subseteq \Omega$ be the set of critical points of $f$ that are not local minima. Also, if $g(x) = x - \frac{1}{2L} \nabla f(x)$, then $g(\Omega) \subseteq \Omega$. 
+\begin{theorem}\cite{lee2016gradient, PanageasP16}\label{convStrict}
+  Let $f :\Omega \to \R$ be a twice differentiable function such that
+  $\sup_{x \in \Omega} \|\nabla^2 f\| \leq L$. Let
+  $\mathcal{S} \subseteq \Omega$ be the set of critical points of $f$
+  that are not local minima. Also, if
+  $g(x) = x - \frac{1}{2L} \nabla f(x)$, then
+  $g(\Omega) \subseteq \Omega$.
 
-Then, running Algorithm \ref{GD} with gradient input $\nabla f$ and stepsize $\alpha = 1/(2L)$, as the iteration  $T \to\infty$, will converge to a point $x_\infty$ outside of $S$ almost surely over randomly chosen initial points $x_0$. 
+  Then, running Algorithm \ref{GD} with gradient input $\nabla f$ and
+  stepsize $\alpha = 1/(2L)$, as the iteration $T \to\infty$, will
+  converge to a point $x_\infty$ outside of $S$ almost surely over
+  randomly chosen initial points $x_0$.
 \end{theorem}
 
 \begin{corollary}
@@ -861,9 +925,8 @@ Assume all the assumptions of Theorem \ref{convStrict} and let $f$ admit a globa
 \end{corollary}
 
 \subsection{Finite Iteration Bounds} 
-
 To derive a finite iteration bound, we will apply stochastic gradient descent to our objective function and use standard martingale techniques for analysis. We will need to slightly alter the main result in \cite{GeHJY15} because we lack strong convexity assumptions. Also, we will accordingly alter the stochastic gradient descent algorithm to terminate upon finding a critical point that is $\gamma$-strict, for small $\gamma$.
-
+%
 \begin{algorithm}[hb]
  \caption{$x = SGD(\widehat{L}, x_0, T,\alpha,\epsilon)$}
    \label{SGD}
@@ -872,7 +935,7 @@ To derive a finite iteration bound, we will apply stochastic gradient descent to
    \vspace{.1in}
    \STATE {\bf Initialize} $x = x_0$
    \FOR{$i=1$ {\bfseries to} $T$}
-   \STATE $x = x - \alpha(\nabla \widehat{L} (x)+n)$
+   \STATE $x = x - \alpha(\nabla \widehat{L} (x)+n)$ \Snote{What is $n$?}
    \STATE $x = \Pi_\mathcal{M} x$
    \IF{$\|\nabla\widehat{L}(x)\|\leq 2\epsilon/3$ {\bf and} $\lambda_{min}(\nabla^2\widehat{L}(x)) \geq -2\epsilon/3$}
    \STATE {\bf return} $x$
@@ -895,8 +958,18 @@ Then, we can choose stepsize $\eta = 1/poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))
 \begin{proof}
 If Algorithm \ref{SGD} succeeds, then by triangle inequality and our error bounds on the stochastic function $\widehat{L}$ and its derivatives, we know that $x \in \mathcal{M}_\epsilon$. So, it suffices to argue that our algorithm succeeds with high probability.
 
-By \cite{GeHJY15} Lemma 7 and 9, we see that if $x_i \not \in\mathcal{M}_{\epsilon/3}$ for all the iterations, then in expectation, our objective function decreases by $poly(\eta)$ and by using Azuma's inequality, this occurs with probability $1-\zeta$. Since our objective function is bounded by $poly(d,B)$, we conclude that stochastic gradient descent must have encountered a point $x_i$ such that $x_i \in \mathcal{M}_{\epsilon/3}$ after at most $poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. Then, by our bounds on $\widehat{L}$ and $L$, we conclude that both $\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and $\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our algorithm succeeds with probability $1-\zeta$.
-
+By \cite{GeHJY15} Lemma 7 and 9, we see that if
+$x_i \not \in\mathcal{M}_{\epsilon/3}$ for all the iterations, then in
+expectation, our objective function decreases by $poly(\eta)$ and by
+using Azuma's inequality, this occurs with probability
+$1-\zeta$. Since our objective function is bounded by $poly(d,B)$, we
+conclude that stochastic gradient descent must have encountered a
+point $x_i$ such that $x_i \in \mathcal{M}_{\epsilon/3}$ after at most
+$poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. Then, by our
+bounds on $\widehat{L}$ and $L$, we conclude that both
+$\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and
+$\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our
+algorithm succeeds with probability $1-\zeta$.
 \end{proof}
 
 
@@ -905,7 +978,12 @@ By \cite{GeHJY15} Lemma 7 and 9, we see that if $x_i \not \in\mathcal{M}_{\epsil
 
 For concreteness, we will focus on a specific potential function with this property: the Gaussian kernel $\Phi(\theta, w) = \exp(-\|\theta - w\|^2/2)$. In $\R^d$, the Laplacian is $\Delta \Phi = ( \|\theta - w\|^2 -d ) \exp(-\|\theta - w\|^2/2)$, which becomes positive when $\|\theta - w \|^2 \geq d$. Thus, $\Phi$ is strictly subharmonic outside a ball of radius $\sqrt{d}$. This informally implies that $\theta_1$ converges to a $\sqrt{d}$-ball around some $w_j$. 
 
-When $a$ is fixed under Assumption \ref{outputFixed}, the node-wise SGD algorithm is given by Algorithm \ref{GDNode}. For the Gaussian, we are only able to derive exponential time bounds on the runtime due to the fast decay of the potentials. Note that Gaussian potential restricted to $S^{d-1}$ gives rise to the exponential activation function, so we can show convergence similarly.
+When $a$ is fixed under Assumption \ref{outputFixed}, the node-wise
+SGD algorithm is given by Algorithm \ref{GDNode}. For the Gaussian, we
+are only able to derive exponential time bounds on the runtime due to
+the fast decay of the potentials. Note that Gaussian potential
+restricted to $S^{d-1}$ gives rise to the exponential activation
+function, so we can show convergence similarly.
 
 \begin{algorithm}[hb]
  \caption{Node-wise SGD Algorithm}
@@ -928,18 +1006,19 @@ When $a$ is fixed under Assumption \ref{outputFixed}, the node-wise SGD algorith
 Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-\|a-b\|^2/2}$ and Assumption \ref{outputFixed} holds. If $2d < \|\theta_i - w_j\|^2 < O(d)$ for all $i, j$, then $\theta = (\theta_1,...,\theta_k)$ is a $e^{-O(d)}$-strict point of our simplified loss \eqref{errFixed}.
 
 Let $w_1,...,w_k$ are randomly initialized according to $\mathcal{N}(0, c*{\bf I}_{d\times d})$, for some constant $c > 2$ such that $kc^2e^{-c} \leq e^{-2d}$. Then, with high probability, running Algorithm \ref{GDNode} initialized with $\theta = 0$, and error  $\delta = e^{-O(d)}$, and stepsize $\alpha = e^{-O(d)}$ returns a point $\theta$ that is within $e^{-O(d)}$ of the global minima in $T = e^{O(d)}$ number of iterations.
-
 \end{restatable}
 
 \begin{proof}
 Consider again a correlated movement, where each $\theta_i$ are moved along the same direction $v$. As before, this drops the pairwise $\theta_i$ terms, so since $O(d) > \|\theta_i -w_j\|^2 > 2d$, we see that $\Delta_{\theta_i} \Phi = (\|\theta_i -w_j\|^2 - d)\Phi(\theta_i,w_j) > e^{-O(d)}$. 
-
+%
 \[\Tr(\nabla^2 L) = -2\sum_{i=1}^k \sum_{j=1}^k \Delta_{\theta_i}\Phi(\theta_i, w_j) < -e^{-O(d)}\]
 
-Therefore, $\nabla^2 L$ must admit a strictly negative eigenvalue that is less than $e^{-c_3 d}$, which implies our claim (we drop the $poly(d,k)$ terms).\\
+Therefore, $\nabla^2 L$ must admit a strictly negative eigenvalue that
+is less than $e^{-c_3 d}$, which implies our claim (we drop the
+$poly(d,k)$ terms).
 
 Now, we proceed with the convergence proof. Consider the gradient descent output of the first node $\theta_1$. The loss function is given by:
-
+%
 \[L(\theta_1) =  - 2\sum_{j=1}^k \Phi(\theta_1,w_j)\]
 
 By standard Chernoff bounds, we have $\|w_i\|^2 < 3cd$ for all $i$ and $\|w_i -w_j\|^2 \in (1.5cd, 2.5cd)$ for all $i, j$ with high probability as $k = poly(d)$. We just need to consider $\Omega = \{ x \in \R^d | \|x \|^2 < 3cd\}$ since the convex hull of $w_i$ is contained in $\Omega$ and so the gradient operator $g$ satisfy $g(\Omega) \subseteq \Omega$ (the gradient outside the convex hull points towards the convex hull).  
@@ -949,17 +1028,17 @@ To use Thm \ref{strongConverge}, we check the regularity conditions: note that w
 WLOG, $w_1$ be a closest point to $\theta_1$. Since  $\lambda_{min}(\nabla^2L(\theta_1)) > -e^{-O(d)}$, by the first part of our claim, $\|w_1 - \theta_1\|^2 < 1.1d$ and from triangle inequality, $\|w_i - \theta_1 \|^2 > c*d$ for all $i \neq 1$. 
 
 Next, we calculate the gradient value at $\theta_1$, 
+\begin{align*}
+\|\nabla L(\theta_1)\| & = \|2\sum_{j=1}^k
+                         \nabla_{\theta_1}\Phi(\theta_1,w_j)\| \\
+& \geq \|\nabla_{\theta_1} \Phi(\theta_1,w_1) \| - \|\sum_{j>1}
+  \nabla_{\theta_1}\Phi(\theta_1,w_j)\| \\
+& \geq \|\theta_1-w_1\|e^{-1.1d} - kc^2e^{-cd} \geq e^{-O(d)} 
+\end{align*}
 
-\[\|\nabla L(\theta_1)\| = \|2\sum_{j=1}^k \nabla_{\theta_1}\Phi(\theta_1,w_j)\|\]
-
-\[ \geq \|\nabla_{\theta_1} \Phi(\theta_1,w_1) \| - \|\sum_{j>1} \nabla_{\theta_1}\Phi(\theta_1,w_j)\|\]
-
-\[\geq \|\theta_1-w_1\|e^{-1.1d} - kc^2e^{-cd} \geq e^{-O(d)}\]
-
-Therefore, $\epsilon = e^{-O(d)}$ can be chosen small enough to ensure that $\|\theta_1 - w_1\| = e^{-O(d)}$. \\
+Therefore, $\epsilon = e^{-O(d)}$ can be chosen small enough to ensure that $\|\theta_1 - w_1\| = e^{-O(d)}$. 
 
 Finally, we proceed by induction. Since $\theta_1, w_1$ are paired to high accuracy, we note that we can treat it as if $w_1, \theta_1$ are removed from our loss equation. Therefore, we conclude that for all $\theta_i$, it will match with some $w_{\pi(i)}$ for some permutation $\pi$, with error $e^{-O(d)}$. 
-
 \end{proof}
 
 
@@ -975,7 +1054,13 @@ $\Phi(\theta, w)$ is almost $(\lambda,m)$-Harmonic on $S^{d-1}$ if for all $\the
 When the output weights are variable, notice that our convergence results often rely on the optimality of the output weights. For this reason, we will optimize the output weights at every gradient descent step, by carefully choosing the stepsize. As our loss function \eqref{errLoss} is quadratic in $a$, we know that gradient descent will find $a^*$ efficiently. 
 %
 \begin{theorem}\cite{nesterov2013introductory}\label{quadConverge}
-Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq poly(d)\}$ and let $L(x) = x^TAx + b^Tx$ be a quadratic loss, where $A$ is a positive semi-definite matrix with maximum eigenvalue $\beta$. Then, running Algorithm \ref{GD} on $L$ with stepsize $\alpha = 1/\beta$ converges to $x_T$ such that \[L(x_T) - \min_{x \in \Omega} L(x) \leq \epsilon\] in $T = poly(d, \beta, 1/\epsilon)$ iterations. 
+  Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq poly(d)\}$ and let
+  $L(x) = x^TAx + b^Tx$ be a quadratic loss, where $A$ is a positive
+  semi-definite matrix with maximum eigenvalue $\beta$. Then, running
+  Algorithm \ref{GD} on $L$ with stepsize $\alpha = 1/\beta$ converges
+  to $x_T$ such that
+  \[L(x_T) - \min_{x \in \Omega} L(x) \leq \epsilon\]
+  in $T = poly(d, \beta, 1/\epsilon)$ iterations.
 \end{theorem} 
 
 \noindent The pseudocode is given in Algorithm \ref{NodeGDOpt}. 
@@ -1000,7 +1085,7 @@ Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq poly(d)\}$ and let $L(x) = x^T
 \end{algorithm}
 
 First, we need some control on the size of the squares of variable charges, $a_i^2$. Node-wise gradient descent allows us to maintain that control.
-
+%
 \begin{theorem}\label{nonDecrease}
   Let $\Phi(\theta, w)$ be $poly(d)$-Lipschitz in $\theta$,
   $|\Phi| \leq poly(d)$ on $\mathcal{M}$, and $\sum_{j \neq i} |a_j| + \sum_j |b_j| \leq poly(d)$. Also, assume that if $\theta_i$ is drawn uniformly on $\mathcal{M}$,
@@ -1018,12 +1103,13 @@ We want to show that $a_i^2 = \Omega(\epsilon)$. First, we analyze the random dr
 By assumption, we know that $\expt[C(\theta_i)^2] \geq
 \epsilon$.
 Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, then $C(\theta_i)$ is
-$poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}C(\theta_i)^2 \geq \epsilon/2$, where $\hat{\expt}$ denotes the empirical average. Therefore, we must have found some $\theta_i$ such that $C(\theta_i)^2 \geq \epsilon/2$. \Snote{I don’t think Hoeffding’s bounds apply here. If \Phi is always bounded, you can just apply a Markov argument here}.
+$poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}C(\theta_i)^2 \geq \epsilon/2$, where $\hat{\expt}$ denotes the empirical average. Therefore, we must have found some $\theta_i$ such that $C(\theta_i)^2 \geq \epsilon/2$. \Snote{I don’t think Hoeffding’s bounds apply here. If $\Phi$ is always bounded, you can just apply a Markov argument here}.
 
 
-Next, notice that $\hat{L}$ is a quadratic in $a_i$, which is a scalar. Therefore, the gradient
-step on $a_i$ is chosen with the exact stepsize that will optimize
-$a_i = a_i^*(\theta_i)$.  By optimality of $a^*$, 
+Next, notice that $\hat{L}$ is a quadratic in $a_i$, which is a
+scalar. Therefore, the gradient step on $a_i$ is chosen with the exact
+stepsize that will optimize $a_i = a_i^*(\theta_i)$.  By optimality of
+$a^*$,
 %
 \begin{equation}
 0 = 2a_i \widehat{\Phi}(\theta_i,\theta_i) + 2\sum_{j\neq i} a_j \widehat{\Phi}(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \widehat{\Phi}(\theta_i,w_j)
@@ -1040,7 +1126,7 @@ Therefore,
 
 By our generalization bounds \Snote{Give a ref to the theorem}, in $poly(d,1/\epsilon)$ samples, we can
 find $\theta_i$ such that $\widehat{C}(\theta_i)^2 \geq \epsilon/4$
-(notice $\Phi(\theta_i,\theta_i) = 1$ \Snote{but the above expression has $\widehat{\Phi}$). As $a_i$ is initially $0$ when sampling $\theta_i$, we conclude
+(notice $\Phi(\theta_i,\theta_i) = 1$ \Snote{but the above expression has $\widehat{\Phi}$}). As $a_i$ is initially $0$ when sampling $\theta_i$, we conclude
 that we can find $\theta_i$ such that
 %
 \[ \left( \pd{\hat{L}}{a_i} \right)^2 = 4 \widehat{C}(\theta_i)^2 \geq \epsilon.\]
@@ -1129,20 +1215,21 @@ This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contrad
 \begin{theorem}
 Let  $0 < \epsilon < 1/2$. We can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{NodeGDOpt} on \eqref{errLoss} with error $\delta = poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/poly(d,1/\epsilon)$ converges in $T = poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that either  $\theta$ is within $\epsilon$-neighborhood of the global minima or there exists $i$ such that if $\theta_i$ is picked uniformly in $\mathcal{M}$
 %
-\[ E\left[\left( \sum_{j < i} a_j \Phi(\theta_i,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\]
+\[ \expt\left[\left( \sum_{j < i} a_j \Phi(\theta_i,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\]
 
 The sample complexity is $d^{poly(d,1/\epsilon)}$.
 \end{theorem}
 
 \begin{proof}
-
 Let $\Phi_m$ be the $(1,m)$-Harmonic potential in Theorem \ref{eigConv} with $m = poly(d,1/\epsilon)$ and $m$ odd. We first consider the algorithm on node $\theta_1$ and claim that it will merge with some $w_j$ and then we will proceed with induction. 
 
 If
 %
-\[ E\left[\left( \sum_{j < 1} a_j \Phi(\theta_i,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\]
-
-then we are done. Otherwise, with high probability, Theorem \ref{nonDecrease} allows us to deduce that throughout the SGD algorithm applied on $\theta_1$, $a_1^2 = \Omega(\epsilon)$. 
+\[ \expt\left[\left( \sum_{j < 1} a_j \Phi(\theta_i,\theta_j) +
+    \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon,\]
+then we are done. Otherwise, with high probability, Theorem
+\ref{nonDecrease} allows us to deduce that throughout the SGD
+algorithm applied on $\theta_1$, $a_1^2 = \Omega(\epsilon)$.
 
 Now we want to apply Theorem \ref{strongConverge}, so we check the regularity conditions. Since $\mathcal{M} = S^{d-1}$, then we can choose $B, L, \rho$ to be $poly(d)$ since $\Phi$ and the second and third partials of $\Phi$ are all bounded by $poly(d)$. Furthermore, by our construction, our activation function $\sigma(x)$ and its derivatives are $O(|x|^{poly(d,1/\epsilon)})$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $poly(\epsilon,1/d)$ error with sample complexity $d^{poly(d,1/\epsilon)}$.
 
@@ -1171,9 +1258,13 @@ By applying this logic to all $\theta_i$ through induction, we deduce that $\the
 \section{Convergence of Polynomial Potentials}
 
 
-For realistic potentials, we can deduce finite time convergence results for polynomial activations, excluding the simple cases of linear and quadratic activations. For the sign activation, no such convergence results exist because of its non-smoothness. However, we believe that Lipschitz approximations to the sign activation should enjoy some related convergence guarantees.
-
-
+For realistic potentials, we can deduce finite time convergence
+results for polynomial activations, excluding the simple cases of
+linear and quadratic activations. For the sign activation, no such
+convergence results exist because of its non-smoothness. However, we
+believe that Lipschitz approximations to the sign activation should
+enjoy some related convergence guarantees.
+%
 \begin{restatable}{theorem}{polyConv}
 \label{PolyConv}
 Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_d$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Furthermore, $1 \leq |b_i|\leq poly(d)$. 
@@ -1247,7 +1338,7 @@ WLOG let $w_1 = e_1$. Notice that our loss can be bounded below by Jensen's:
 \geq \expt_{X_1} \left[ \left( \EE{X_2...X_d}{\left[ \sum_{i=1}^k a_i \sigma(\theta_i^TX) \right]}- \sigma(X_1)\right)^2 \right],
 \end{align*}
 where $X$ is a standard Gaussian in $\R^d$. 
-
+%
 \begin{align*}
 E_{X_2,..,X_d} \left[  \sum_{i=1}^k a_i \sigma(\theta_i^TX) \right] &= \sum_{i=1}^k a_i E_{X_2,...X_d}\left[  \sigma(\theta_{i1}X_1 + \sum_{j >1} \theta_{ij}X_{j})  \right]\\
 &= \sum_{i=1}^k E_{Y} \left[   \sigma(\theta_{i1}X_1 + \sqrt{1-\theta_{i1}^2}Y)  \right]  \\
