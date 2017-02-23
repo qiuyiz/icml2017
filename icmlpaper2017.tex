@@ -509,14 +509,12 @@ L(\theta) =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i,\theta_j) - 2\sum_{i=1}^k\s
 \end{equation}
 %
 \begin{theorem}\label{subStrict}
-  Let $\Phi$ be a symmetric strictly subharmonic potential on
-  $\mathcal{M}$. Let Assumption \ref{outputFixed} hold and let $L$ be
-  as in \eqref{errFixed}. Then, $L$ admits no differentiable local
-  minima.
+
+Let $\Phi$ be a symmetric strictly subharmonic potential on $\mathcal{M}$ with $\Phi(\theta,\theta) = \infty$. Let Assumption \ref{outputFixed} hold and let $L$ be as in \eqref{errFixed}. Then, $L$ admits no local minima, except when $\theta_i = w_j$ for some $i, j$.
 \end{theorem}
 %
 \begin{proof}
-First, let $\Phi$ be translationally invariant and $\mathcal{M} = \R^d$. Let $\boldsymbol{\theta}$ be a critical point. Assume, for sake of contradiction, that for all $i, j$, $\theta_i \neq w_j$. 
+First, let $\Phi$ be translationally invariant and $\mathcal{M} = \R^d$. Let $\boldsymbol{\theta}$ be a critical point. Assume, for sake of contradiction, that for all $i, j$, $\theta_i \neq w_j$. If $\theta_i = \theta_j$ for some $i,j$, then separating them shows that we are not at a local minima since $\Phi(\theta_i,\theta_j) = \infty$ and finite elsewhere. 
 
 The main technical detail is to remove interaction terms between pairwise $\theta_i$ by considering a correlated movement, where each $\theta_i$ are moved along the same direction $v$. In this case, notice that our objective, as a function of $v$, is simply
 \[H(v) = L(\theta_1+ v, \theta_2 + v, ...,\theta_k + v)\]
@@ -524,20 +522,10 @@ The main technical detail is to remove interaction terms between pairwise $\thet
 
 Note that the first term is constant as a function of $v$, by translation invariance. Therefore,
 \[\nabla^2 H = -2\sum_{i=1}^k \sum_{j=1}^k \nabla^2\Phi(\theta_i, w_j)\]
-By the subharmonic condition, $tr(\nabla^2H) = -2\sum_{i=1}^k\sum_{j=1}^k \Delta_{\theta_i}\Phi(\theta_i,w_j) < 0$. Therefore, we conclude that $\theta$ is not a local minima of $H$ and $L$.
+By the subharmonic condition, $tr(\nabla^2H) = -2\sum_{i=1}^k\sum_{j=1}^k \Delta_{\theta_i}\Phi(\theta_i,w_j) < 0$. Therefore, we conclude that $\theta$ is not a local minima of $H$ and $L$.  We conclude that $\theta_i = w_j$ for some $i, j$. The above technique generalizes to $\Phi$ being rotationally invariant case by working in spherical coordinates and correlated translations are simply rotations, with full details in the supplementary material.
 \end{proof}
 %
 
-\begin{corollary}
-GD causes merging: There exists $i$ such that $\theta_i = w_j$.
-\end{corollary}
-\begin{proof}
-
-WLOG, let's say $\theta_1 = w_1$. If $\Phi(\theta, w)$ is not differentiable when $\theta = w$, then we are done. Otherwise, simply realize that we can write $L$ with $\theta_1,w_1$ terms cancelled out. We reduce to the case where we have $k-1$ variable charges and $k-1$ fixed charges, so by induction, we conclude that $\theta_i = w_{\pi(i)}$ for some permutation $\pi$. The above technique generalizes to $\Phi$ being rotationally invariant case by working in spherical coordinates and correlated translations are simply rotations, with full details in the supplementary material.
-
-\end{proof}
-
-Note that there cannot be a stable config with isolated collections of 1 or more merged electrons. If a pair of electrons are merged, then
 \subsubsection{$\lambda$-Harmonic Potentials}
 
 When we drop Assumption \ref{outputFixed} and allow the output weights to be variable and possibly negative, then our techniques above will fail. So, how do we generalize harmonic potentials to give us convergence properties in this more general case? In order to relate our loss function with its Laplacian, we consider potentials that are non-negative eigenfunctions of the Laplacian operator. Since the zero eigenvalue case simply gives rise to harmonic potentials, we restrict our attention to positive eigenfunctions.
@@ -546,14 +534,14 @@ When we drop Assumption \ref{outputFixed} and allow the output weights to be var
 A potential $\Phi$ is {\bf$\lambda$-harmonic} on $\Omega$ if there exists $\lambda > 0$ such that for every $\theta \in \Omega$, $\Delta_\theta \Phi(\theta, w) = \lambda \Phi(\theta,w) $, except possibly at $\theta \neq w$.
 \end{definition}
 %
-We note that there are realizable versions of these potentials; for example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$. In Section 4, we show that a realizable approximation of these $\lambda$-harmonic potentials retains good convergence behavior.
+We note that there are realizable versions of these potentials; for example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$. In Section 4, we construct a realizable approximation of these $\lambda$-harmonic potentials on $S^{d-1}$ that retains good convergence behavior.
 %
 \begin{restatable}{theorem}{eigStrict}
 \label{EigStrict}
-Let $\Phi$ be $\lambda$-harmonic and $L$ be as in \ref{errLoss}. Then, $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except $L = 0$ or there exists $i$ such that $\theta_i = w_j$ for some $j$. 
+Let $\Phi$ be $\lambda$-harmonic and $L$ be as in \ref{errLoss}. Then, $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except when $\hat{f} = 0$ or $\theta_i = w_j$ for some $i,j$. 
 \end{restatable}
 \begin{proof}
-Let $(\boldsymbol{a,\theta})$ be a critical point of $L$ and all $\theta_i$ are distinct and there exists $\theta_i \neq w_j$. Now, $a_i^*$ being optimal implies
+Let $(\boldsymbol{a,\theta})$ be a critical point of $L$ and all $\theta_i$ are distinct and there exists $\theta_i \neq w_j$. Now, $a_i$ being optimal implies
 \[0 = \pd{L}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j)\]
 Computing the Laplacian with respect to $\theta_i$ gives
 \begin{align*}
@@ -561,7 +549,7 @@ Computing the Laplacian with respect to $\theta_i$ gives
 &= \lambda a_i\left(2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k  b_j \Phi(\theta_i,w_j)\right) \\
 &= -2\lambda a_i^2
 \end{align*}
-If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative. Thus all local minima of $L$ satisfy ${\bf a} = 0$. 
+If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
 
 Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct and $\theta_1 \neq w_j$ for any $j$. Again, we consider the correlated movement:
 
@@ -569,15 +557,20 @@ Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct and $
 
 The optimality conditions on ${\bf a}$ are unchanged, we must have
 %
-\[\Delta_v H = \sum_{i=1}^l a_i \left(\sum_{j=1}^k b_j \Phi(\theta_i^Tw_j) + \sum_{j=l+1}^k a_j \Phi(\theta_i^T\theta_j)\right)\]
+\[\Delta_v H = \lambda\sum_{i=1}^l a_i \left(\sum_{j=1}^k b_j \Phi(\theta_i^Tw_j) + \sum_{j=l+1}^k a_j \Phi(\theta_i^T\theta_j)\right)\]
 %
-\[ = \sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i^T\theta_i) - 2 \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i^T\theta_j)\right)\]
+\[ = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i^T\theta_i) - 2 \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i^T\theta_j)\right)\]
 %
-\[ = -2\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i^T\theta_i) +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i^T\theta_j)\right)\]
+\[ = -2\lambda\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i^T\theta_i) +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i^T\theta_j)\right)\]
 %
-\[ = -2 \expt\left[ \left(\sum_{i=1}^l a_i \sigma(\theta_i, X)\right)^2\right] = -2 \left(\sum_{i=1}^l a_i\right)^2\]
+\[ = -2 \lambda\expt\left[ \left(\sum_{i=1}^l a_i \sigma(\theta_i, X)\right)^2\right] = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2\]
+
+If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum. Therefore, if does not exist $\theta_i = w_j$ for some $i,j$, then we partition $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$ for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, $\hat{f} = 0$.
 \end{proof} 
 
+\begin{observation}
+Notice that upon initialization, we have $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ for most $\theta$ since ${\bf a}$ can be optimized to make the loss strictly smaller. Therefore, when running gradient descent on $\lambda$-harmonic functions, we will never have $\hat{f} = 0$ since the loss function is non-increasing.
+\end{observation}
 
 \section{Runtime Bounds with Stochastic Gradients}
 
@@ -661,24 +654,27 @@ Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2
 Where $k_N = N^2 + (d-2)N + 1$. Notice that $f(x)$ has non-negative Taylor coefficients and is a bounded polynomial, so $f$ is a realizable potential function by Theorem \ref{thm:rotReal}. We can also choose $N$ to be odd by setting $c_0 = 0, c_1 = 1$. Therefore, we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$.
 \end{proof}
 
-\begin{restatable}{theorem}{eigConv}
+\begin{lemma}\label{bounded}
+Let $L$ be as in \eqref{errLoss} and let $b_1,...,b_k$ be reals bounded by $poly(d)$ and $|\Phi|\leq poly(d)$ on $\mathcal{M}$. Let $\mathcal{A}$ be a gradient-type algorithm such that $\mathcal{A}(L)$ enforces that $L$ is non-increasing with high probability. Then, for $\lambda \geq 0$, $\mathcal{A}(L+ \lambda \|{\bf a}\|^2)$ initialized at ${\bf a} = 0$ will enforce $\|a\| \leq poly(d)/\lambda$.
+\end{lemma}
+
+\begin{proof}
+Notice that $L({\bf a}, 0) \leq poly(d)$ and by the properties of $\mathcal{A}$, with high probability, $L + \lambda \|{\bf a}\|^2 \leq poly(d)$. Since $L \geq 0$, our claim follows.
+\end{proof}
+
+\begin{restatable}{lemma}{eigConv}
 \label{eigConv}
-Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $L$ as in \eqref{errLoss} with potential $\Phi_m$. Then, for all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$ and $\|a\| \leq poly(d)$, then each $(a_i, \theta_i)$ must satisfy at least one of the following conditions:
+Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $G$ as in \eqref{errLoss} with potential $\Phi_m$ and let $L = G + \|a\|^2$. Then, for all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$, then each $(a_i, \theta_i)$ must satisfy at least one of the following conditions:
 
 There exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or there exists $S \subset [k]$ such that $i \in S$ and
 
-\[\expt_X\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] < \epsilon^2/k\]
+\[\expt_X\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] < \epsilon^2/k^2\]
 \end{restatable}
 %
 \begin{proof}
-  We first show a weaker result: each $(a_i,\theta_i)$ must satisfy
-  (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or
-  (ii) $|a_i| < \epsilon$, or (iv) there exists $j\neq i$ such that
-  $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that
-  $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we
-  have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iv). Then,
+We first show a weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$, or  (iii) there exists $j\neq i$ such that $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/d}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iii). Then,
 %
-\[|\pd{L}{a_i}| = |2\sum_{j=1}^k  b_j  \Phi(\theta_i^T w_j) +  2\sum_{j\neq i} a_j \Phi(\theta_i^T\theta_j)  + 2a_i\Phi(1)| \leq \epsilon \] 
+\[|\pd{L}{a_i}| = |2\sum_{j=1}^k  b_j  \Phi(\theta_i^T w_j) +  2\sum_{j\neq i} a_j \Phi(\theta_i^T\theta_j)  + (2\Phi(1) + 2)a_i| \leq \epsilon \] 
 
 And, 
 %
@@ -687,33 +683,33 @@ And,
 
 Therefore,
 %
-\[|\Delta_{\theta_i}L + 2a_i^2\Phi(1)| \leq \epsilon |a_i| \]
+\[|\Delta_{\theta_i}L + (2\Phi(1) + 2)a_i^2| \leq \epsilon |a_i| \]
 \[+  2|a_i| k_m|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m|\]
 
-Since (i), (iv) does not hold and $\|a\| \leq poly(d)$, we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
+Since (i), (iii) does not hold and $\|a\| \leq poly(d)$ by Lemma \ref{bounded}, we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
 %
 \[ 2k_m |\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m| \leq  2poly(d,k,m)e^{-\epsilon m} \]
-\[\leq \epsilon/2\] 
+\[\leq \epsilon\] 
 
-Therefore, by (ii) and $\Phi(1) > 1$,
+Therefore, by (ii) and $\Phi(1) = 1$ and previous two inequalities,
 %
-\[\Delta_{\theta_i} L \leq -2a_i^2 \Phi(1) +\epsilon |a_i|+(\epsilon/2)|a_i| \leq |a_i|(-2\epsilon \Phi(1) + 3\epsilon/2) \]
-\[\leq -\epsilon^2/4\]
+\[\Delta_{\theta_i} L \leq -(2\Phi(1) + 2)a_i^2 +\epsilon |a_i|+ \epsilon|a_i| \leq |a_i|(-4\epsilon + 2\epsilon) \]
+\[\leq -\epsilon^2\]
 
-This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. 
+Since $\Delta_{\theta_i}L$ is a sum of $d$ eigenvalues, this implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/d$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/d}$. 
 
-Now, consider all $\theta_i$ such that only condition (iv) holds. WLOG, assume that these are $\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$. Then, consider a correlated rotation on the sphere, which is a correlated translation in spherical coordinates $\widetilde{\theta_1},...,\widetilde{\theta_l}$. So, consider the loss function
+Now, consider all $\theta_i$ such that only condition (iii) holds. WLOG, assume that these are $\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$. Then, consider a correlated rotation on the sphere, which is a correlated translation in spherical coordinates. So, consider the loss function
 
 \[ H({\bf a, v}) = L({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
-Therefore, Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iii). Then, the optimality conditions on ${\bf a}$ are unchanged, we must have
+Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$. Then, the optimality conditions on ${\bf a}$ are unchanged, we must have
 %
 \[\Delta_{{\bf v}} H =  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
 \[+ k_N(\theta_i^Tw_j)^N) +  2\sum_{i=1}^l\sum_{j= l+1}^k a_i a_j(-\Phi(\theta_i^T\theta_j) + k_N(\theta_i^T\theta_j)^N)\]
 
 Therefore, from our optimality conditions
 %
-\[|\Delta_{{\bf v}}H + \sum_{i=1}^l 2a_i^2\Phi(\theta_i^T\theta_i) + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \epsilon |a_i| \]
+\[|\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \epsilon |a_i| \]
 \[+  2|a_i| k_N\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^N|\]
 
 Again, since these inner products are assumed to be less than $1-\epsilon$, we can choose $N = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
@@ -722,24 +718,43 @@ Again, since these inner products are assumed to be less than $1-\epsilon$, we c
 
 \[ \leq  2poly(d,k,N)e^{-\epsilon N} \leq \epsilon/2\] 
 
-Finally, we can rewrite that inequality in (iii) as 
+Finally, consider the following expression
 %
 \[D = \expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] \]
 %
 \[=\sum_{i=1}^l a_i^2\Phi(\theta_i^T\theta_i) + \sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)\]
 %
-So, if (iii) does not hold, $D > \epsilon^2$ and combined with the fact that (ii) does not hold,
+So, if $D > \epsilon^2$ and combined with the fact that (ii) does not hold,
 %
-\[\Delta_{\theta_i} L \leq -2D +\epsilon |a_i|+(\epsilon/2)|a_i| \]
+\[\Delta_{\theta_i} L \leq -2D -2a_i^2 +\epsilon |a_i|+(\epsilon/2)|a_i| \]
 
 \[\leq -2\epsilon^2 + |a_i|(-2\epsilon \Phi(1) + 3\epsilon/2) \leq -\epsilon^2/4\]
 
 This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. \\
 
-Finally, there exists $\theta_{j_1},...\theta_{j_l}$ such that $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and $|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore, $|\theta_i^Tw_j| > 1- (l+1)\sqrt{\epsilon}$. By choosing $\epsilon' = \epsilon/poly(d)$, we get our claim. 
+Finally, there exists $\theta_{j_1},...\theta_{j_l}$ such that $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and $|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore, $|\theta_i^Tw_j| > 1- (l+1)\sqrt{\epsilon}$. By choosing $\epsilon' = \epsilon/k$, we get our claim. 
 \end{proof}
+
+\begin{theorem}\label{eigRes}
+Assume the conditions of \ref{eigConv}. If $\sqrt{L({\bf a, \boldsymbol{\theta}})} < \sqrt{L(0,\boldsymbol{\theta})} - \epsilon$ and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2}$, then there exists some $i, j$ such that $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$.
+\end{theorem}
  
- In the end, we can combine Theorem \ref{eigConv} with Algorithm \ref{GDReset} to derive a convergence result.
+ \begin{proof}
+By Lemma \ref{eigConv}, the only case that there does not exists $i, j$ such that $|w_j^T\theta_i| >  1-\epsilon$ is if for all $\theta_i$, we have a partition of $[k]$ into $S_1,..,S_l$ such that 
+
+\[E_{X} \left[ \left( \sum_{i \in S_j} a_i \sigma(\theta_i,X) \right)^2 \right] < \epsilon^2 / k^2\]
+
+holds for all $j$. We notice that for a integrable function $f(x)$, $\| f\|_X = \sqrt{E_X[f(X)^2]}$ is a norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true target function, we conclude that by triangle inequality
+
+\[\sqrt{L(\boldsymbol{a,\theta})} = \|\sum_{j}\sum_{i \in S_j} a_i \sigma(\theta_i,x) - f(x)\|_X \]
+
+\[\geq \|f(x)\|_X\ - \sum_{j} \|\sum_{i\in S_j}a_i\sigma(\theta_i,x) \|_X \geq \sqrt{L(0,\boldsymbol{\theta})} - \epsilon\]
+
+This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $\theta_j$.
+ \end{proof}
+ 
+ 
+ In the end, we can combine Theorem \ref{eigRes} with Algorithm \ref{GDReset} to derive a convergence result.
  
  \begin{algorithm}[tb]
  \caption{SGD Algorithm with Resets}
