@@ -192,10 +192,9 @@
   is a lack of theoretical guarantees that explains the practical
   utility of deep learning. We focus on two-layer neural networks with
   a linear activation on the output node. We show that under some mild
-  assumptions and certain classes of activation functions, gradient
-  descent does learn the parameters of the neural network and
-  converges to the global minima. Using a node-wise gradient descent
-  algorithm, we show that learning can be done in finite, sometimes
+  assumptions and certain classes of activation functions, if the target function can also be represented by such a network then gradient descent does learn at least one hidden unit of the network -- the incoming edge weight vector for at least one hidden node coincides with that of the true network for the target function %we show that every upon convergence 
+  %every hidden unit in our trained network coincides with some %hidden unit in the original network. 
+  Further this convergence happens in
   $poly(d,1/\epsilon)$, time and sample complexity.
 \end{abstract} 
 
@@ -233,12 +232,12 @@ there is no robust local minima.
 
 In this work, we ask the question: Can we use neural networks to learn neural networks with gradient descent methods? That is, if the function to be learnt is a neural network, and we try to learn it with a network of the same shape and randomly initialized edge weights, then will the gradient descent converge to the right function? Our experimental simulations show that for different widths and heights functions represented by neural networks with random edge weights can be learnt by stochastic gradient descent (see section~\ref{experiments}).
 
-Next, we provide a theoretical justification with simplifying assumptions: specifically we will focus on learning depth two networks with a linear activation on the output node. If the neural network takes inputs  $x \in \R^d$ (say from some distribution $\mathcal{D}$) then the output $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$ is a sum over $k = poly(d)$ hidden units scaled by output weights $b_i \in \R$ where $\sigma(x,w):\R^d \times \R^d\to \R$ is the activation function that takes in a hidden weight vector $w \in \R^d$ and the input vector $x \in \R^d$.
-given by the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Under some assumptions, we will show that gradient descent can learn the underlying weight parameters $b, w_i's$ of the target network for certain activation functions. The algorithm will try to learn a guess $\widehat{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$ and then running gradient descent over the parameters $a_i, \theta_i$ will move them to $b_i, w_i$. 
+Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions. We show that upon convergence hidden units input edge weights coincides with that of one of the true hidden units. Thus while we do not get that the learn't hidden units are a permutation of the true hidden units (that would be sufficent to get $0$ error) we prove that we may end up in a many to one mapping across the hidden units of the learn't and the true network instead of a bijection. Specifically we will focus on learning depth two networks with a linear activation on the output node. If the neural network takes inputs  $x \in \R^d$ (say from some distribution $\mathcal{D}$) then the output $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$ is a sum over $k = poly(d)$ hidden units scaled by output weights $b_i \in \R$ where $\sigma(x,w):\R^d \times \R^d\to \R$ is the activation function that takes in a hidden weight vector $w \in \R^d$ and the input vector $x \in \R^d$.
+given by the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Under some assumptions, we will show that gradient descent can learn at least one of the  $w_i's$ of the target network for certain activation functions. The algorithm will try to learn a guess $\widehat{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$ and then running gradient descent over the parameters $a_i, \theta_i$ will move them to $b_i, w_i$. We will prove that at convergence at least one $\theta_i$ is equal to (or close to) some $w_j$. 
 
 \subsubsection{Electron-Proton Dynamics}
 
-Our main observation is that the gradient descent dynamics of learning such to layer networks is equivalent to the dynamics of a set of proton-electron charges under a certain electrical attraction force function. Assume for now that the coefficients $b_i$ and $a_i$ are $1$. Thus we are only gradienting over $\theta_i$ to minimize the expected square loss of $f-\widehat{f}$.
+Our main observation is that the gradient descent dynamics of learning such to layer networks is equivalent to the dynamics of a set of proton-electron charges under a certain electrical attraction force function. Assume for now that the coefficients $b_i$ and $a_i$ are $1$. Thus we are only perform gradient descent over $\theta_i$ to minimize the expected square loss of $f-\widehat{f}$.
 
 \begin{theorem}(informal statement of Theorem~\ref{EPDyn})
 The gradient descent process for learning $f$ is equivalent to the motion of k electrons in the presence of k fixed protons where the force between any pair of charges is given by a potential function that depends on $\sigma$.
@@ -250,7 +249,17 @@ The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. Th
 
 Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known that the electrons must converge with the protons, by Earnshaw's Theorem. However, there is no activation function $\sigma$ corresponding to this $\Phi$. 
 
-We derive some sufficient conditions that characterize potentials that arise from activation functions $\sigma$. The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}. Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn these weights in exponential time. Finally and most surprisingly, we are able to construct a complicated activation function, which we call $\lambda$-harmonic, for which convergence of the charges can be proven with no additional assumptions, and we can learn the function $f$ in $poly(d,1/\epsilon)$ iterations of a SGD algorithm.
+We derive some sufficient conditions that characterize potentials that arise from activation functions $\sigma$. The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}.
+First we are show how to construct a complicated activation function, which we call $\lambda$-harmonic, for which we show that at convergence in at most $poly(d,1/\epsilon)$ iterations of the SGD algorithm at least some $\theta_i$ coincides with some $w_j$.
+
+\begin{theorem}(informal statement of Theorem~\ref{almostlamdaharmonic})
+For some carefully chosen potential function with the SGD algorithm, at convergence, at least one of the $\theta_i$'s will coincide with some $w_i$. and further this happens in at most $poly(d,1/\epsilon)$ iterations and sample complexity.
+\end{theorem}
+
+We also show some weaker results for other more practical activation functions.
+Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability \Rnote{under what random coin tosses?}. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn at least one of the $w_i$'s. 
+
+
 
 
 
@@ -361,7 +370,7 @@ other meaningful bound.
 \end{algorithm}
 
 \subsection{Activation-Potential Correspondence}
-We restrict our attention to potential (and activation) functions with some natural symmetry, so they are either {\it translationally or rotationally invariant}. Specifically, we may write $\Phi= h(\theta-w)$ for some function $h(x)$  in the first case, with $\theta, w \in \R^d$. In the second case, $\Phi = h(\theta^Tw)$ and we enforce $\theta, w \in S^{d-1}$. Such potentials are called {\bf natural}. Our results focus on rotationally invariant potentials, as they correspond to classical neural networks.
+We restrict our attention to potential (and activation) functions with some natural symmetry, so they are either {\it translationally or rotationally invariant}. Specifically, we may write $\Phi= h(\theta-w)$ for some function $h(x)$  in the first case, with $\theta, w \in \R^d$. In the second case, $\Phi = h(\theta^Tw)$ and we enforce $\theta, w \in S^{d-1}$. Such potentials are called {\bf symmetric}. Our results focus on rotationally invariant potentials, as they correspond to classical neural networks.
 
 {\bf Remark}: Natural potentials satisfy $\Phi(\theta,\theta)$ {\it is a positive constant and we will also normalize $\Phi(\theta,\theta) = 1$ for the rest of the paper.} 
 
@@ -435,11 +444,13 @@ $\Phi(\theta,w)$ is a {\bf harmonic} potential on $\Omega$ if $\Delta_\theta \Ph
 \end{definition}
 
 \begin{definition}
-Let $\Omega \subseteq \R^d$ and consider a function $f:\Omega \to \R$. A critical point $x^* \in \Omega$ is a {\bf local minimum} if it is differentiable and $\lambda_{min}(\nabla^2 f(x^*)) \geq 0$ and it is a {\bf strict local minimum}  if also $\lambda_{min}(\nabla^2 f(x^*)) > 0$.
+Let $\Omega \subseteq \R^d$ and consider a function $f:\Omega \to \R$. A critical point $x^* \in \Omega$ is a {\bf local minimum} if there exists $\epsilon > 0$ such that $f(x^*+v) \geq f(x^*)$ for all $\|v\|\leq \epsilon$. It is a {\bf local minimum} if the inequality is strict.
+
+If $f$ is differentiable at $x^*$, then  if $\lambda_{min}(\nabla^2 f(x^*)) \geq 0$ and it is a {\bf strict local minimum}  if also $\lambda_{min}(\nabla^2 f(x^*)) > 0$.
 \end{definition}
 
 \begin{theorem}\label{Earnshaw} \cite{arnold1985mathematical}[Earnshaw]
-Let $\mathcal{M} = \R^d$ and let $\Phi$ be harmonic and $L$ be as in $\eqref{errSimp}$. Then, $L$ admits no strict local minima. 
+Let $\mathcal{M} = \R^d$ and let $\Phi$ be harmonic and $L$ be as in $\eqref{errSimp}$. Then, $L$ admits no strict differentiable local minima. 
 \end{theorem}
 
 \begin{proof}
@@ -492,7 +503,7 @@ L(\theta) =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i,\theta_j) - 2\sum_{i=1}^k\s
 \end{equation}
 %
 \begin{theorem}\label{subStrict}
-Let $\Phi$ be a natural strictly subharmonic potential on $\mathcal{M}$. Let Assumption \ref{outputFixed} hold and let $L$ be as in \eqref{errFixed}. Then, $L$ admits no local minima. 
+Let $\Phi$ be a symmetric strictly subharmonic potential on $\mathcal{M}$. Let Assumption \ref{outputFixed} hold and let $L$ be as in \eqref{errFixed}. Then, $L$ admits no differentiable local minima.
 \end{theorem}
 %
 \begin{proof}
@@ -505,10 +516,19 @@ The main technical detail is to remove interaction terms between pairwise $\thet
 Note that the first term is constant as a function of $v$, by translation invariance. Therefore,
 \[\nabla^2 H = -2\sum_{i=1}^k \sum_{j=1}^k \nabla^2\Phi(\theta_i, w_j)\]
 By the subharmonic condition, $tr(\nabla^2H) = -2\sum_{i=1}^k\sum_{j=1}^k \Delta_{\theta_i}\Phi(\theta_i,w_j) < 0$. Therefore, we conclude that $\theta$ is not a local minima of $H$ and $L$.
-
-WLOG, let's say $\theta_1 = w_1$. If $\Phi(\theta, w)$ is not differentiable when $\theta = w$, then we are done. Otherwise, simply realize that we can write $L$ with $\theta_1,w_1$ terms cancelled out. We reduce to the case where we have $k-1$ variable charges and $k-1$ fixed charges, so by induction, we conclude that $\theta_i = w_{\pi(i)}$ for some permutation $\pi$. The above technique generalizes to $\Phi$ being rotationally invariant case by working in spherical coordinates and correlated translations are simply rotations, with full details in the supplementary material.
 \end{proof}
 %
+
+\begin{corollary}
+GD causes merging: There exists $i$ such that $\theta_i = w_j$.
+\end{corollary}
+\begin{proof}
+
+WLOG, let's say $\theta_1 = w_1$. If $\Phi(\theta, w)$ is not differentiable when $\theta = w$, then we are done. Otherwise, simply realize that we can write $L$ with $\theta_1,w_1$ terms cancelled out. We reduce to the case where we have $k-1$ variable charges and $k-1$ fixed charges, so by induction, we conclude that $\theta_i = w_{\pi(i)}$ for some permutation $\pi$. The above technique generalizes to $\Phi$ being rotationally invariant case by working in spherical coordinates and correlated translations are simply rotations, with full details in the supplementary material.
+
+\end{proof}
+
+Note that there cannot be a stable config with isolated collections of 1 or more merged electrons. If a pair of electrons are merged, then
 \subsubsection{$\lambda$-Harmonic Potentials}
 
 When we drop Assumption \ref{outputFixed} and allow the output weights to be variable and possibly negative, then our techniques above will fail. So, how do we generalize harmonic potentials to give us convergence properties in this more general case? In order to relate our loss function with its Laplacian, we consider potentials that are non-negative eigenfunctions of the Laplacian operator. Since the zero eigenvalue case simply gives rise to harmonic potentials, we restrict our attention to positive eigenfunctions.
@@ -517,11 +537,11 @@ When we drop Assumption \ref{outputFixed} and allow the output weights to be var
 A potential $\Phi$ is {\bf$\lambda$-harmonic} on $\Omega$ if there exists $\lambda > 0$ such that for every $\theta \in \Omega$, $\Delta_\theta \Phi(\theta, w) = \lambda \Phi(\theta,w) $, except possibly at $\theta \neq w$.
 \end{definition}
 %
-We note that there are realizable versions of these potentials; for example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$. In Section 4, we show that approximations of these potentials are robust and retain good convergence behavior.
+We note that there are realizable versions of these potentials; for example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$. In Section 4, we show that a realizable approximation of these $\lambda$-harmonic potentials retains good convergence behavior.
 %
 \begin{restatable}{theorem}{eigStrict}
 \label{EigStrict}
-Let $\Phi$ be $\lambda$-harmonic and $L$ be as in \ref{errLoss}. Then, $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except possibly when $\boldsymbol{a}=  0$ or $\theta_i = w_j$ for some $j$.
+Let $\Phi$ be $\lambda$-harmonic and $L$ be as in \ref{errLoss}. Then, $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except $L = 0$ or there exists $i$ such that $\theta_i = w_j$ for some $j$. 
 \end{restatable}
 \begin{proof}
 Let $(\boldsymbol{a,\theta})$ be a critical point of $L$ and all $\theta_i$ are distinct and there exists $\theta_i \neq w_j$. Now, $a_i^*$ being optimal implies
@@ -587,29 +607,17 @@ material
 In addition, we remark that node-wise SGD allows us to learn the value of $k$, the number of hidden nodes in the target function. This may suggest that node-wise SGD serves as a good initialization algorithm for training neural networks. A similar claim was also made in \cite{WuM16}. 
 \fi
 
-We discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{rotReal}.
+We discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
 
 \begin{definition}
 $\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for all $\theta, w\in \Omega$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq |\theta^Tw|^m$ 
 \end{definition}
 \Rnote{Not sure if there is a nice general definition to be honest...to be discussed}
 
+\begin{lemma}
+For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Phi_m$. 
+\end{lemma}
 
-\begin{restatable}{theorem}{eigConv}
-\label{eigConv}
-Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Phi_m$. 
-
-Furthermore, let $L$ as in \eqref{errLoss} with potential $\Phi_m$. Then, for all $ 1 > \epsilon > 0$, we can choose $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$ and $\|a\| \leq poly(d)$, then each $(a_i, \theta_i)$ must satisfy at least one of the following conditions:
-
-There exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ 
-
-{\bf or} $|a_i| < poly(\epsilon,1/d)$
-
-{\bf or} There exists $S \subset [k]$ such that $i \in S$ and
-
-\[\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] < poly(\epsilon,1/d)\]
-\end{restatable}
-%
 \begin{proof}
 We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
 Using the Laplacian formula on $S^{d-1}$ gives:
@@ -630,24 +638,35 @@ Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2
 \end{align*}
 
 Where $k_N = N^2 + (d-2)N + 1$. Notice that $f(x)$ has non-negative Taylor coefficients and is a bounded polynomial, so $f$ is a realizable potential function by Theorem \ref{thm:rotReal}. We can also choose $N$ to be odd by setting $c_0 = 0, c_1 = 1$. Therefore, we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$.
+\end{proof}
 
-We show our result under this potential function $\Phi = f$ and then we can normalize later. We first show a weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$, or (iv) there exists $j\neq i$ such that $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iv). Then,
+\begin{restatable}{theorem}{eigConv}
+\label{eigConv}
+Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $L$ as in \eqref{errLoss} with potential $\Phi_m$. Then, for all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$ and $\|a\| \leq poly(d)$, then each $(a_i, \theta_i)$ must satisfy at least one of the following conditions:
+
+There exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or there exists $S \subset [k]$ such that $i \in S$ and
+
+\[\expt_X\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] < \epsilon^2/k\]
+\end{restatable}
+%
+\begin{proof}
+We first show a weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$, or (iv) there exists $j\neq i$ such that $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iv). Then,
 %
 \[|\pd{L}{a_i}| = |2\sum_{j=1}^k  b_j  \Phi(\theta_i^T w_j) +  2\sum_{j\neq i} a_j \Phi(\theta_i^T\theta_j)  + 2a_i\Phi(1)| \leq \epsilon \] 
 
 And, 
 %
 \[\Delta_{\theta_i} L =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
-\[+ k_N(\theta_i^Tw_j)^N) +  2\sum_{j\neq i} a_i a_j(-\Phi(\theta_i^T\theta_j) + k_N(\theta_i^T\theta_j)^N)\]
+\[+ k_m(\theta_i^Tw_j)^m) +  2\sum_{j\neq i} a_i a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)\]
 
 Therefore,
 %
 \[|\Delta_{\theta_i}L + 2a_i^2\Phi(1)| \leq \epsilon |a_i| \]
-\[+  2|a_i| k_N|\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^N|\]
+\[+  2|a_i| k_m|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m|\]
 
-Since (i), (iv) does not hold and $\|a\| \leq poly(d)$, we can choose $N = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
+Since (i), (iv) does not hold and $\|a\| \leq poly(d)$, we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
 %
-\[ 2k_N |\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^N| \leq  2poly(d,k,N)e^{-\epsilon N} \]
+\[ 2k_m |\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m| \leq  2poly(d,k,m)e^{-\epsilon m} \]
 \[\leq \epsilon/2\] 
 
 Therefore, by (ii) and $\Phi(1) > 1$,
@@ -657,7 +676,7 @@ Therefore, by (ii) and $\Phi(1) > 1$,
 
 This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. 
 
-Now, consider all $\theta_i$ such that only condition (iv) holds. WLOG, assume that these are $\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$. Then, consider a correlated rotation on the sphere, which is a correlated translation in spherical coordinates $\widetilde{\theta_1},...,\widetilde{\theta_l}$. Now, consider the loss function
+Now, consider all $\theta_i$ such that only condition (iv) holds. WLOG, assume that these are $\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$. Then, consider a correlated rotation on the sphere, which is a correlated translation in spherical coordinates $\widetilde{\theta_1},...,\widetilde{\theta_l}$. So, consider the loss function
 
 \[ H({\bf a, v}) = L({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
