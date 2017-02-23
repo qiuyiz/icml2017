@@ -310,15 +310,15 @@ The target concept class $\mathcal{C}_{\sigma,k}$ of our learning procedure is t
 We would rather work with the true loss directly:
 $L(\boldsymbol{a,\theta}) = \expt[\widehat{L}]$. To further simplify $L$, let us
 re-parametrize $a$ with $-a$ and expand.
-\begin{equation*}
-L(\boldsymbol{a,\theta})  = \expt_{X\sim D}\left[ \left(  \sum_{i=1}^k a_i \sigma(X,\theta_i) + \sum_{i=1}^k b_i\sigma(X,w_i)\right)^2\right]
-\end{equation*}
+\begin{align}
+& L(\boldsymbol{a,\theta})  = \expt_{X\sim D}\left[ \left(
+  \sum_{i=1}^k a_i \sigma(X,\theta_i) + \sum_{i=1}^k
+  b_i\sigma(X,w_i)\right)^2\right] \nonumber \\
 %
-\begin{equation}\label{errLoss}
-= \sum_{i=1}^k \sum_{j=1}^k a_i a_j \Phi(\theta_i,\theta_j)+ 2 a_ib_j \Phi(\theta_i,w_j)+ b_i b_j \Phi(w_i,w_j)   
-\end{equation}
+& = \sum_{i=1}^k \sum_{j=1}^k a_i a_j \Phi(\theta_i,\theta_j)+ 2 a_ib_j \Phi(\theta_i,w_j)+ b_i b_j \Phi(w_i,w_j),   \label{errLoss}
+\end{align}
 %
-Where $\Phi(\theta, w) = \expt_{X\sim D}[ \sigma(X,\theta) \sigma(X,w)]$ is
+where $\Phi(\theta, w) = \expt_{X\sim D}[ \sigma(X,\theta) \sigma(X,w)]$ is
 the {\bf potential function} {\it corresponding to the activation function} $\sigma$. Although our loss is jointly non-convex but is quadratic in $\boldsymbol{a}$, so we have convergence guarantees to $\boldsymbol{a^*(\theta)}$, the optimal set of output weights of a given $\boldsymbol{\theta}$. 
 
 We will optimize over the familiar $\mathcal{M}= \R^d$ but often over $\mathcal{M} = S^{d-1}$. Let $\Pi_\mathcal{M}$ be the projection operator on $\mathcal{M}$. On $\R^d$, the gradient and Hessian $\nabla_{\R^d} f, \nabla_{\R^d}^2 f$ is defined as standard and the Laplacian is simply $\Delta_{\R^d} f = \Tr(\nabla_{\R^d}^2 f)$. The simplest way to define these terms on $S^{d-1}$ is $\nabla_{S^{d-1}} f(x) = \nabla_{\R^d} f(x/\|x\|)$, where $\| \cdot \|$ denotes the $l_2$ norm and $x \in S^{d-1}$. The Hessian and Laplacian are analogously defined and the subscripts are usually dropped where clear from context. If $f$ is multivariate with variable $x_i$, then let $f_{x_i}$ be a
@@ -450,20 +450,25 @@ Let $x^*$ be a critical point of a function $f :
   $\lambda_{min}(\nabla^2 f(x^*)) \geq 0$ and it is a strict local
   minimum iff $\lambda_{min}(\nabla^2 f(x^*)) > 0$.
 \end{fact}
-
+%
 \begin{theorem}[Earnshaw's Theorem. See~\cite{arnold1985mathematical}]
 \label{Earnshaw} 
 Let $\mathcal{M} = \R^d$ and let $\Phi$ be harmonic and $\overline{L}$
 be as in $\eqref{errSimp}$. Then, $\overline{L}$ admits no
 differentiable strict local minima.
 \end{theorem}
-
+%
 \begin{proof}
-If $(\boldsymbol{a,\theta})$ is a strict local minima, we must have
-\[\nabla_{\theta_1} L = 0, \text{ and }  \Tr(\nabla^2_{\theta_i}L) > 0\]
-But since $\Phi$ is harmonic,
-\[ \Tr(\nabla^2_{\theta_i}L(q_1,...,q_n)) = \Delta_{\theta_i} L\]
-\[ =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j) + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0\]
+  If $(\boldsymbol{a,\theta})$ is a differentiable strict local
+  minima, then for any $i,$ we must have
+\[\nabla_{\theta_{i}} L = 0, \text{ and }  \Tr(\nabla^2_{\theta_i}L) > 0.\]
+Since $\Phi$ is harmonic, we also have
+\begin{align*}
+&  \Tr(\nabla^2_{\theta_i}L(q_1,...,q_n)) = \Delta_{\theta_i} L \\
+&  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
+  + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
+\end{align*}
+which is a contradiction.
 \end{proof}
 
 \if{1}
@@ -472,7 +477,14 @@ Let $\mathcal{M} = \R^d$, $\Phi(\theta,w) = \|\theta-w\|^{2-d}$, and $L$ be as i
 \end{corollary}
 \fi
 
-Intuitively, the trace of the Hessian being 0 implies every differentiable critical point has a direction of negative curvative (unless the Hessian is the zero matrix altogether, in which case some complex analysis still finds a direction of negative change \cite{arnold1985mathematical}). Therefore, at convergence, we should expect $\theta_i = w_{\pi(i)}$ for some permutation $\pi$, as long as $\theta_i$ are all distinct. 
+Intuitively, the trace of the Hessian being 0 implies every
+differentiable critical point has a direction of negative curvative
+(unless the Hessian is the zero matrix altogether, in which case some
+complex analysis still finds a direction of negative change
+\cite{arnold1985mathematical}). Therefore, at convergence, we should
+expect $\theta_i = w_{\pi(i)}$ for some permutation $\pi$, as long as
+$\theta_i$ are all distinct. \Snote{Need to fix the zero hessian case,
+  and the claim for the permutation.}
 
 Such a result is desired but we run into two main problems. First, the singularity of the natural harmonic potentials at $0$ disqualifies them from being a realizable potential. Furthermore, harmonic potentials are not robust to approximation and statistical error as the convergence guarantees hinge on $\Delta_\theta\Phi$ being exactly 0. 
 
@@ -487,13 +499,18 @@ descent with small stepsize converges to the global minima.
 \subsection{Alternative Notions of Harmonic Potentials}
 
 \subsubsection{Strictly Subharmonic Potentials}
-
-The first alternative to harmonic potentials is the natural consideration of strictly subharmonic potentials, which have a positive Laplacian value almost everywhere. Subharmonic potentials are also difficult to realize; however their convergence properties are more robust than harmonic potentials. In section 4, we will develop convergence properties of approximations of strictly subharmonic potentials.
+%
+The first alternative to harmonic potentials is the natural
+consideration of strictly subharmonic potentials, which have a
+positive Laplacian value almost everywhere. Subharmonic potentials are
+also difficult to realize; however their convergence properties are
+more robust than harmonic potentials. In section 4, we will develop
+convergence properties of approximations of strictly subharmonic
+potentials.
 %
 \begin{definition}
 $\Phi(\theta,w)$ is a {\bf strictly subharmonic} potential on $\Omega$ if $\Delta_\theta \Phi(\theta,w) > 0$ for all $\theta \in \Omega$, except possibly at $\theta = w$.
-\end{definition}
-
+\end{definition} \Snote{Has to include a differentiability assumption.}
 
 An example of such a potential is $\Phi(\theta, w) = \|\theta -w \|^{2-d-\epsilon}$ for any $\epsilon > 0$. In this case, the sign of the output weights $a_i, b_i$ matter in determining the sign of the Laplacian of our loss function. Therefore, we need to make suitable assumptions in this framework.
 %
@@ -501,7 +518,7 @@ An example of such a potential is $\Phi(\theta, w) = \|\theta -w \|^{2-d-\epsilo
 \label{outputFixed}
 All output weights $b_i = 1$ and therefore the output weights  $a_i = - b_i = -1$ are fixed throughout the learning algorithm. 
 \end{assumption}
-%
+
 Under Assumption \ref{outputFixed}, we are working with an even
 simpler loss function:
 \begin{equation}\label{errFixed}
@@ -509,20 +526,33 @@ L(\theta) =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i,\theta_j) - 2\sum_{i=1}^k\s
 \end{equation}
 %
 \begin{theorem}\label{subStrict}
-
 Let $\Phi$ be a symmetric strictly subharmonic potential on $\mathcal{M}$ with $\Phi(\theta,\theta) = \infty$. Let Assumption \ref{outputFixed} hold and let $L$ be as in \eqref{errFixed}. Then, $L$ admits no local minima, except when $\theta_i = w_j$ for some $i, j$.
 \end{theorem}
 %
 \begin{proof}
 First, let $\Phi$ be translationally invariant and $\mathcal{M} = \R^d$. Let $\boldsymbol{\theta}$ be a critical point. Assume, for sake of contradiction, that for all $i, j$, $\theta_i \neq w_j$. If $\theta_i = \theta_j$ for some $i,j$, then separating them shows that we are not at a local minima since $\Phi(\theta_i,\theta_j) = \infty$ and finite elsewhere. 
 
-The main technical detail is to remove interaction terms between pairwise $\theta_i$ by considering a correlated movement, where each $\theta_i$ are moved along the same direction $v$. In this case, notice that our objective, as a function of $v$, is simply
-\[H(v) = L(\theta_1+ v, \theta_2 + v, ...,\theta_k + v)\]
-\[ =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i+v,\theta_j+v) - 2\sum_{i=1}^k\sum_{j=1}^k \Phi(\theta_i+v,w_j)\]
+The main technical detail is to remove interaction terms between
+pairwise $\theta_i$ by considering a correlated movement, where each
+$\theta_i$ are moved along the same direction $v$. In this case,
+notice that our objective, as a function of $v$, is simply
+\begin{align*}
+& H(v) = L(\theta_1+ v, \theta_2 + v, ...,\theta_k + v) \\
+& =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i+v,\theta_j+v) -
+  2\sum_{i=1}^k\sum_{j=1}^k \Phi(\theta_i+v,w_j)
+\end{align*}
 
-Note that the first term is constant as a function of $v$, by translation invariance. Therefore,
-\[\nabla^2 H = -2\sum_{i=1}^k \sum_{j=1}^k \nabla^2\Phi(\theta_i, w_j)\]
-By the subharmonic condition, $tr(\nabla^2H) = -2\sum_{i=1}^k\sum_{j=1}^k \Delta_{\theta_i}\Phi(\theta_i,w_j) < 0$. Therefore, we conclude that $\theta$ is not a local minima of $H$ and $L$.  We conclude that $\theta_i = w_j$ for some $i, j$. The above technique generalizes to $\Phi$ being rotationally invariant case by working in spherical coordinates and correlated translations are simply rotations, with full details in the supplementary material.
+Note that the first term is constant as a function of $v$, by
+translational invariance. Therefore,
+\[\nabla_{v}^2 H = -2\sum_{i=1}^k \sum_{j=1}^k \nabla^2\Phi(\theta_i, w_j)\]
+By the subharmonic condition,
+$\Tr(\nabla_{v}^2H) = -2\sum_{i=1}^k\sum_{j=1}^k
+\Delta_{\theta_i}\Phi(\theta_i,w_j) < 0$.
+Therefore, we conclude that $\theta$ is not a local minima of $H$ and
+$L$.  We conclude that $\theta_i = w_j$ for some $i, j$. The above
+technique generalizes to $\Phi$ being rotationally invariant case by
+working in spherical coordinates and correlated translations are
+simply rotations, with full details in the supplementary material.
 \end{proof}
 %
 
