@@ -530,7 +530,13 @@ Let $\Phi$ be a symmetric strictly subharmonic potential on $\mathcal{M}$ with $
 \end{theorem}
 %
 \begin{proof}
-First, let $\Phi$ be translationally invariant and $\mathcal{M} = \R^d$. Let $\boldsymbol{\theta}$ be a critical point. Assume, for sake of contradiction, that for all $i, j$, $\theta_i \neq w_j$. If $\theta_i = \theta_j$ for some $i,j$, then separating them shows that we are not at a local minima since $\Phi(\theta_i,\theta_j) = \infty$ and finite elsewhere. 
+First, let $\Phi$ be translationally invariant and $\mathcal{M} =
+\R^d$. Let $\boldsymbol{\theta}$ be a critical point. Assume, for sake
+of contradiction, that for all $i, j$, $\theta_i \neq w_j$. If
+$\theta_i = \theta_j$ for some $i,j$, then separating them shows that
+we are not at a local minima since $\Phi(\theta_i,\theta_j) = \infty$
+and finite elsewhere. \Snote{This claim needs to be fixed, there might
+  be other pairs that coincide. We have to separate all the pairs.}
 
 The main technical detail is to remove interaction terms between
 pairwise $\theta_i$ by considering a correlated movement, where each
@@ -549,10 +555,13 @@ By the subharmonic condition,
 $\Tr(\nabla_{v}^2H) = -2\sum_{i=1}^k\sum_{j=1}^k
 \Delta_{\theta_i}\Phi(\theta_i,w_j) < 0$.
 Therefore, we conclude that $\theta$ is not a local minima of $H$ and
-$L$.  We conclude that $\theta_i = w_j$ for some $i, j$. The above
+$L$.  We conclude that $\theta_i = w_j$ for some $i, j$.
+
+The above
 technique generalizes to $\Phi$ being rotationally invariant case by
 working in spherical coordinates and correlated translations are
-simply rotations, with full details in the supplementary material.
+simply rotations, with full details in the supplementary
+material. \Snote{Where is the proof of the rotationally invariant case?}
 \end{proof}
 %
 
