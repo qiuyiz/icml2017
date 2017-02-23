@@ -404,7 +404,10 @@ Let $\Phi$ be a natural potential. Running continuous gradient descent on \eqref
 %
 \begin{proof}
 The initial values are the same. Notice that continuous gradient descent on $\frac{1}{2}L(\boldsymbol{a,\theta})$ with respect to $\theta$ produces dynamics given by $\frac{d\theta_i(t)}{dt} = -\nabla_{\theta_i}L(\boldsymbol{a,\theta})$. Therefore,
-\[\frac{d\theta_i(t)}{dt} = -\sum_{j \neq i} a_i a_j \nabla_{\theta_i}\Phi(\theta_i,\theta_j) - \sum_{j=1}^k a_ib_j\nabla_{\theta_i} \Phi(\theta_i,w_j)\]
+\[\frac{d\theta_i(t)}{dt} = -\sum_{j \neq i} a_i a_j
+\nabla_{\theta_i}\Phi(\theta_i,\theta_j) - \sum_{j=1}^k
+a_ib_j\nabla_{\theta_i} \Phi(\theta_i,w_j)\] \Snote{Isn't there a 2 in
+  the second term?}
 And gradient descent does not move $w_i$. By definition, the dynamics corresponds to Electron-Proton Dynamics as claimed.
 \end{proof}
 
@@ -468,7 +471,8 @@ Since $\Phi$ is harmonic, we also have
 &  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
   + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
 \end{align*}
-which is a contradiction.
+which is a contradiction. \Snote{I think there's no 2 in the first
+  term since you include all $i \neq j$}
 \end{proof}
 
 \if{1}
@@ -566,16 +570,18 @@ material. \Snote{Where is the proof of the rotationally invariant case?}
 %
 \begin{corollary}
 Assume the conditions of Theorem \ref{subStrict} and $\Phi(\theta,\theta) < \infty$. Then, $L$ admits no local minima, except at the global minima.
-\end{corollary}
+\end{corollary} \Snote{This is not obvious. You have to handle the
+  case that $\theta_i = \theta_j$ for some $i,j.$ A bigger question :
+  Is there ANY such potential? forget even a realizeable one.}
 
 \subsubsection{$\lambda$-Harmonic Potentials}
-
+%
 When we drop Assumption \ref{outputFixed} and allow the output weights to be variable and possibly negative, then our techniques above will fail. So, how do we generalize harmonic potentials to give us convergence properties in this more general case? In order to relate our loss function with its Laplacian, we consider potentials that are non-negative eigenfunctions of the Laplacian operator. Since the zero eigenvalue case simply gives rise to harmonic potentials, we restrict our attention to positive eigenfunctions.
 %
 \begin{definition}
-A potential $\Phi$ is {\bf$\lambda$-harmonic} on $\Omega$ if there exists $\lambda > 0$ such that for every $\theta \in \Omega$, $\Delta_\theta \Phi(\theta, w) = \lambda \Phi(\theta,w) $, except possibly at $\theta \neq w$.
+A potential $\Phi$ is {\bf$\lambda$-harmonic} on $\Omega$ if there exists $\lambda > 0$ such that for every $\theta \in \Omega$, $\Delta_\theta \Phi(\theta, w) = \lambda \Phi(\theta,w) $, except possibly at $\theta = w$.
 \end{definition}
-%
+
 We note that there are realizable versions of these potentials; for example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$. In Section 4, we construct a realizable approximation of these $\lambda$-harmonic potentials on $S^{d-1}$ that retains good convergence behavior.
 %
 \begin{restatable}{theorem}{eigStrict}
@@ -583,29 +589,49 @@ We note that there are realizable versions of these potentials; for example $\Ph
 Let $\Phi$ be $\lambda$-harmonic and $L$ be as in \ref{errLoss}. Then, $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except when $\hat{f} = 0$ or $\theta_i = w_j$ for some $i,j$. 
 \end{restatable}
 \begin{proof}
-Let $(\boldsymbol{a,\theta})$ be a critical point of $L$ and all $\theta_i$ are distinct and there exists $\theta_i \neq w_j$. Now, $a_i$ being optimal implies
-\[0 = \pd{L}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j)\]
+  Let $(\boldsymbol{a,\theta})$ be a critical point of $L.$ First
+  assume that all $\theta_i$ are distinct and there exists
+  $\theta_i \neq w_j$. Now, $a_i$ being optimal implies
+\begin{align*}
+0 = \pd{L}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j)
+  + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
+\end{align*}
 Computing the Laplacian with respect to $\theta_i$ gives
 \begin{align*}
 \Delta_{\theta_i}L &= 2\sum_{j\neq i} a_i a_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k a_i b_j \Delta_{\theta_i}\Phi(\theta_i,w_j) \\
 &= \lambda a_i\left(2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k  b_j \Phi(\theta_i,w_j)\right) \\
 &= -2\lambda a_i^2
 \end{align*}
-If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
+\Snote{I think the definition of $\Delta L$ is incorrect. There is no
+  2 in the first term.}
+If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly
+negative, so we are not at a local minimum. \Snote{ How are we
+  handling the case $a_i = 0$?}
 
-Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct and $\theta_1 \neq w_j$ for any $j$. Again, we consider the correlated movement:
-
-\[H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v,\theta_{l+1},...,\theta_k)\]
+Otherwise, if all $\theta_i$ are not distinct, let
+$\theta_1 = \theta_2 =... = \theta_l$ be identical and
+$\theta_1 \neq w_j$ for any $j$. \Snote{Aren't we assuming that
+  $\theta_j \neq \theta_1$ for $j > l$?} We consider changing all
+$\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
+%
+\[H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
+\ldots, \theta_k).\]
 
 The optimality conditions on ${\bf a}$ are unchanged, we must have
+\begin{align*}
+\Delta_v H & = \lambda\sum_{i=1}^l a_i \left(\sum_{j=1}^k b_j
+  \Phi(\theta_i^Tw_j) + \sum_{j=l+1}^k a_j
+  \Phi(\theta_i^T\theta_j)\right) \\
 %
-\[\Delta_v H = \lambda\sum_{i=1}^l a_i \left(\sum_{j=1}^k b_j \Phi(\theta_i^Tw_j) + \sum_{j=l+1}^k a_j \Phi(\theta_i^T\theta_j)\right)\]
+& = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i^T\theta_i) - 2
+  \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i^T\theta_j)\right) \\
 %
-\[ = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i^T\theta_i) - 2 \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i^T\theta_j)\right)\]
+& = -2\lambda\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i^T\theta_i)
+  +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i^T\theta_j)\right) \\
 %
-\[ = -2\lambda\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i^T\theta_i) +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i^T\theta_j)\right)\]
-%
-\[ = -2 \lambda\expt\left[ \left(\sum_{i=1}^l a_i \sigma(\theta_i, X)\right)^2\right] = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2\]
+& = -2 \lambda\expt\left[ \left(\sum_{i=1}^l a_i \sigma(\theta_i,
+  X)\right)^2\right] = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
+\end{align*}
 
 If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum. Therefore, if does not exist $\theta_i = w_j$ for some $i,j$, then we partition $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$ for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, $\hat{f} = 0$.
 \end{proof} 
