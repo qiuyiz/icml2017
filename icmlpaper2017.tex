@@ -100,33 +100,15 @@
 \newcommand{\pd}[2]{\frac{\partial#1}{\partial#2}}
 
 
-%%%%%%%%%%%%%% Author notes %%%%%%%%%%%%%
 \def\showauthornotes{1}
 
-\definecolor{Mygray}{gray}{0.8}
-
- \ifcsname ifcommentflag\endcsname\else
-  \expandafter\let\csname ifcommentflag\expandafter\endcsname
-                  \csname iffalse\endcsname
-\fi
-
-\ifnum\showauthornotes=1
-\newcommand{\todo}[1]{\colorbox{Mygray}{\color{red}#1}}
-\else
-\newcommand{\todo}[1]{#1}
-\fi
-
-\ifnum\showauthornotes=1
-\newcommand{\Authornote}[2]{{\sf\color{red}{[#1: #2]}}}
-\else
-\newcommand{\Authornote}[2]{}
-\fi
+\input{macros}
 
 \newcommand{\Anote}{\Authornote{A}}
 \newcommand{\Qnote}{\Authornote{Q}}
 \newcommand{\Rnote}{\Authornote{R}}
 \newcommand{\Snote}{\Authornote{S}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
@@ -429,7 +411,14 @@ And gradient descent does not move $w_i$. By definition, the dynamics correspond
 
 \section{Main Results} 
 
-When running gradient descent on non-convex loss functions, we often can and do get stuck at a local minima. In this section, we use second-order information to deduce the non-existence of such local minima for potentials with unique properties. These properties often lead to non-smooth and un-realizable potentials. However, in later section, we can show that gradient-type algorithms can globally optimize approximations of these potentials.   (summarize more later)
+When running gradient descent on non-convex loss functions, we often
+can and do get stuck at a local minima. In this section, we use
+second-order information to deduce the non-existence of such local
+minima for potentials with unique properties. These properties often
+lead to non-smooth and un-realizable potentials. However, in later
+section, we can show that gradient-type algorithms can globally
+optimize approximations of these potentials.   (summarize more later)
+\Snote{Needs to be re-written.}
 
 \subsection{Earnshaw's Theorem}
 
@@ -444,13 +433,29 @@ $\Phi(\theta,w)$ is a {\bf harmonic} potential on $\Omega$ if $\Delta_\theta \Ph
 \end{definition}
 
 \begin{definition}
-Let $\Omega \subseteq \R^d$ and consider a function $f:\Omega \to \R$. A critical point $x^* \in \Omega$ is a {\bf local minimum} if there exists $\epsilon > 0$ such that $f(x^*+v) \geq f(x^*)$ for all $\|v\|\leq \epsilon$. It is a {\bf local minimum} if the inequality is strict.
+  Let $\Omega \subseteq \R^d$ and consider a function
+  $f:\Omega \to \R$. A critical point $x^* \in \Omega$ is a {\bf local
+    minimum} if there exists $\epsilon > 0$ such that
+  $f(x^*+v) \geq f(x^*)$ for all $\|v\|\leq \epsilon$. It is a {\bf
+    strict local minimum} if the inequality is strict for all
+  $\norm{v} \le \epsilon.$
+\end{definition} \Snote{Define a critical point.}
 
-If $f$ is differentiable at $x^*$, then  if $\lambda_{min}(\nabla^2 f(x^*)) \geq 0$ and it is a {\bf strict local minimum}  if also $\lambda_{min}(\nabla^2 f(x^*)) > 0$.
-\end{definition}
+\begin{fact}
+  % Let $\Omega \subseteq \R^d$ and consider a function
+  % $f:\Omega \to \R$.  
+Let $x^*$ be a critical point of a function $f :
+  \Omega \to \R$ such that
+  $f$ is differentiable at $x^*.$ Then, $x^*$ is a local minima iff
+  $\lambda_{min}(\nabla^2 f(x^*)) \geq 0$ and it is a strict local
+  minimum iff $\lambda_{min}(\nabla^2 f(x^*)) > 0$.
+\end{fact}
 
-\begin{theorem}\label{Earnshaw} \cite{arnold1985mathematical}[Earnshaw]
-Let $\mathcal{M} = \R^d$ and let $\Phi$ be harmonic and $L$ be as in $\eqref{errSimp}$. Then, $L$ admits no strict differentiable local minima. 
+\begin{theorem}[Earnshaw's Theorem. See~\cite{arnold1985mathematical}]
+\label{Earnshaw} 
+Let $\mathcal{M} = \R^d$ and let $\Phi$ be harmonic and $\overline{L}$
+be as in $\eqref{errSimp}$. Then, $\overline{L}$ admits no
+differentiable strict local minima.
 \end{theorem}
 
 \begin{proof}
@@ -497,13 +502,17 @@ An example of such a potential is $\Phi(\theta, w) = \|\theta -w \|^{2-d-\epsilo
 All output weights $b_i = 1$ and therefore the output weights  $a_i = - b_i = -1$ are fixed throughout the learning algorithm. 
 \end{assumption}
 %
-Under Assumption \ref{outputFixed}, we are working with an even simpler loss function:
+Under Assumption \ref{outputFixed}, we are working with an even
+simpler loss function:
 \begin{equation}\label{errFixed}
 L(\theta) =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i,\theta_j) - 2\sum_{i=1}^k\sum_{j=1}^k\Phi(\theta_i,w_j)
 \end{equation}
 %
 \begin{theorem}\label{subStrict}
-Let $\Phi$ be a symmetric strictly subharmonic potential on $\mathcal{M}$. Let Assumption \ref{outputFixed} hold and let $L$ be as in \eqref{errFixed}. Then, $L$ admits no differentiable local minima.
+  Let $\Phi$ be a symmetric strictly subharmonic potential on
+  $\mathcal{M}$. Let Assumption \ref{outputFixed} hold and let $L$ be
+  as in \eqref{errFixed}. Then, $L$ admits no differentiable local
+  minima.
 \end{theorem}
 %
 \begin{proof}
@@ -572,7 +581,18 @@ The optimality conditions on ${\bf a}$ are unchanged, we must have
 
 \section{Runtime Bounds with Stochastic Gradients}
 
-The gradient descent convergence results in the previous sections lay the foundation for reasoning about the convergence of stochastic gradient descent (SGD) in standard backpropagation. To derive finite runtime bounds, we need to address three technical details: 1) realizable potentials are only approximately strict subharmonic or $\lambda$-harmonic, 2) the variance of the stochastic gradient and 3) SGD should escape local minima in a bounded (hopefully polynomial) amount of time. The second and third detail are analyzed with standard techniques in optimization and statistics: the former requires generalization bounds for neural networks and the latter requires a lower bound on the negative curvature, which leads to the follow definition.
+The gradient descent convergence results in the previous sections lay
+the foundation for reasoning about the convergence of stochastic
+gradient descent (SGD) in standard backpropagation. To derive finite
+runtime bounds, we need to address three technical details: 1)
+realizable potentials are only approximately strict subharmonic or
+$\lambda$-harmonic, 2) the variance of the stochastic gradient and 3)
+SGD should escape local minima in a bounded (hopefully polynomial)
+amount of time. The second and third detail are analyzed with standard
+techniques in optimization and statistics: the former requires
+generalization bounds for neural networks and the latter requires a
+lower bound on the negative curvature, which leads to the follow
+definition.
 %
 \begin{definition} 
 Let $\Omega \subseteq \R^d$. A point $x^*$ is a
@@ -608,7 +628,7 @@ In addition, we remark that node-wise SGD allows us to learn the value of $k$, t
 \fi
 
 We discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
-
+%
 \begin{definition}
 $\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for all $\theta, w\in \Omega$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq |\theta^Tw|^m$ 
 \end{definition}
@@ -620,7 +640,8 @@ For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Ph
 
 \begin{proof}
 We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
-Using the Laplacian formula on $S^{d-1}$ gives:
+Using the Laplacian formula on $S^{d-1}$ gives \Snote{Give a reference
+  for this formula}:
 \begin{align*}
 \Delta f & = (\sin \theta)^{2-d} \frac{\partial}{\partial \theta}\left[ (\sin \theta)^{d-2} \frac{\partial f(\cos \theta)}{\partial \theta}\right] \\
 & = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta)
@@ -650,7 +671,12 @@ There exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or there exists $S \s
 \end{restatable}
 %
 \begin{proof}
-We first show a weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$, or (iv) there exists $j\neq i$ such that $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iv). Then,
+  We first show a weaker result: each $(a_i,\theta_i)$ must satisfy
+  (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or
+  (ii) $|a_i| < \epsilon$, or (iv) there exists $j\neq i$ such that
+  $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that
+  $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we
+  have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iv). Then,
 %
 \[|\pd{L}{a_i}| = |2\sum_{j=1}^k  b_j  \Phi(\theta_i^T w_j) +  2\sum_{j\neq i} a_j \Phi(\theta_i^T\theta_j)  + 2a_i\Phi(1)| \leq \epsilon \] 
 
