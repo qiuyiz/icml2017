@@ -569,6 +569,7 @@ to a point in $\mathcal{M}_\epsilon$, where
 
 Intuitively, this means that SGD will converge to points with small gradient and small negative curvature. The full proofs of all these claims are found in supplementary material. 
 
+\if{1}
 Because of the errors, we cannot simply analyze the convergence of SGD
 on all $\theta_i$ simultaneously since as before, the pairwise
 interaction terms between the $\theta_i$ present complications. To
@@ -584,9 +585,153 @@ mentioned in Table~\ref{table1}, is given in the supplementary
 material
 
 In addition, we remark that node-wise SGD allows us to learn the value of $k$, the number of hidden nodes in the target function. This may suggest that node-wise SGD serves as a good initialization algorithm for training neural networks. A similar claim was also made in \cite{WuM16}. 
+\fi
 
-\todo{Will add algorithms and theorem statements here once fully verified}
+We discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{rotReal}.
+
+\begin{definition}
+$\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for all $\theta, w\in \Omega$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq |\theta^Tw|^m$ 
+\end{definition}
+\Rnote{Not sure if there is a nice general definition to be honest...to be discussed}
+
+
+\begin{restatable}{theorem}{eigConv}
+\label{eigConv}
+Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Phi_m$. 
+
+Furthermore, let $L$ as in \eqref{errLoss} with potential $\Phi_m$. Then, for all $ 1 > \epsilon > 0$, we can choose $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$ and $\|a\| \leq poly(d)$, then each $(a_i, \theta_i)$ must satisfy at least one of the following conditions:
+
+There exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ 
+
+{\bf or} $|a_i| < poly(\epsilon,1/d)$
+
+{\bf or} There exists $S \subset [k]$ such that $i \in S$ and
+
+\[\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] < poly(\epsilon,1/d)\]
+\end{restatable}
+%
+\begin{proof}
+We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
+Using the Laplacian formula on $S^{d-1}$ gives:
+\begin{align*}
+\Delta f & = (\sin \theta)^{2-d} \frac{\partial}{\partial \theta}\left[ (\sin \theta)^{d-2} \frac{\partial f(\cos \theta)}{\partial \theta}\right] \\
+& = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta)
+\end{align*}
+
+We want $f$ to be approximately $1$-harmonic, so we want to approximately solve:
+%
+\[f''(x)(1-x^2) - (d-1)xf'(x) =  f(x) \]
+
+Let us construct our approximate function $f$ as follows. Let $c_n$ are the Taylor coefficients of $f(x)$, then we want to solve the equation:
+Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 1, c_1 = 0$, then we run this recurrence holds $n=0,...,N-2$ for some $N$ even and set $c_{N+i} = 0$ for $i > 0$, then
+\begin{align*}
+\Delta f & = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta) \\
+&= f(\cos(x)) + k_N(\cos\theta)^N
+\end{align*}
+
+Where $k_N = N^2 + (d-2)N + 1$. Notice that $f(x)$ has non-negative Taylor coefficients and is a bounded polynomial, so $f$ is a realizable potential function by Theorem \ref{thm:rotReal}. We can also choose $N$ to be odd by setting $c_0 = 0, c_1 = 1$. Therefore, we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$.
+
+We show our result under this potential function $\Phi = f$ and then we can normalize later. We first show a weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$, or (iv) there exists $j\neq i$ such that $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iv). Then,
+%
+\[|\pd{L}{a_i}| = |2\sum_{j=1}^k  b_j  \Phi(\theta_i^T w_j) +  2\sum_{j\neq i} a_j \Phi(\theta_i^T\theta_j)  + 2a_i\Phi(1)| \leq \epsilon \] 
+
+And, 
+%
+\[\Delta_{\theta_i} L =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
+\[+ k_N(\theta_i^Tw_j)^N) +  2\sum_{j\neq i} a_i a_j(-\Phi(\theta_i^T\theta_j) + k_N(\theta_i^T\theta_j)^N)\]
+
+Therefore,
+%
+\[|\Delta_{\theta_i}L + 2a_i^2\Phi(1)| \leq \epsilon |a_i| \]
+\[+  2|a_i| k_N|\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^N|\]
+
+Since (i), (iv) does not hold and $\|a\| \leq poly(d)$, we can choose $N = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
+%
+\[ 2k_N |\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^N| \leq  2poly(d,k,N)e^{-\epsilon N} \]
+\[\leq \epsilon/2\] 
+
+Therefore, by (ii) and $\Phi(1) > 1$,
+%
+\[\Delta_{\theta_i} L \leq -2a_i^2 \Phi(1) +\epsilon |a_i|+(\epsilon/2)|a_i| \leq |a_i|(-2\epsilon \Phi(1) + 3\epsilon/2) \]
+\[\leq -\epsilon^2/4\]
+
+This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. 
+
+Now, consider all $\theta_i$ such that only condition (iv) holds. WLOG, assume that these are $\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$. Then, consider a correlated rotation on the sphere, which is a correlated translation in spherical coordinates $\widetilde{\theta_1},...,\widetilde{\theta_l}$. Now, consider the loss function
+
+\[ H({\bf a, v}) = L({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
+
+Therefore, Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iii). Then, the optimality conditions on ${\bf a}$ are unchanged, we must have
+%
+\[\Delta_{{\bf v}} H =  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
+\[+ k_N(\theta_i^Tw_j)^N) +  2\sum_{i=1}^l\sum_{j= l+1}^k a_i a_j(-\Phi(\theta_i^T\theta_j) + k_N(\theta_i^T\theta_j)^N)\]
+
+Therefore, from our optimality conditions
+%
+\[|\Delta_{{\bf v}}H + \sum_{i=1}^l 2a_i^2\Phi(\theta_i^T\theta_i) + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \epsilon |a_i| \]
+\[+  2|a_i| k_N\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^N|\]
+
+Again, since these inner products are assumed to be less than $1-\epsilon$, we can choose $N = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
+%
+\[ 2|a_i| k_N\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^N|\]
+
+\[ \leq  2poly(d,k,N)e^{-\epsilon N} \leq \epsilon/2\] 
+
+Finally, we can rewrite that inequality in (iii) as 
+%
+\[D = \expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] \]
+%
+\[=\sum_{i=1}^l a_i^2\Phi(\theta_i^T\theta_i) + \sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)\]
+%
+So, if (iii) does not hold, $D > \epsilon^2$ and combined with the fact that (ii) does not hold,
+%
+\[\Delta_{\theta_i} L \leq -2D +\epsilon |a_i|+(\epsilon/2)|a_i| \]
+
+\[\leq -2\epsilon^2 + |a_i|(-2\epsilon \Phi(1) + 3\epsilon/2) \leq -\epsilon^2/4\]
+
+This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. \\
+
+Finally, there exists $\theta_{j_1},...\theta_{j_l}$ such that $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and $|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore, $|\theta_i^Tw_j| > 1- (l+1)\sqrt{\epsilon}$. By choosing $\epsilon' = \epsilon/poly(d)$, we get our claim. 
+\end{proof}
  
+ In the end, we can combine Theorem \ref{eigConv} with Algorithm \ref{GDReset} to derive a convergence result.
+ 
+ \begin{algorithm}[tb]
+ \caption{SGD Algorithm with Resets}
+   \label{GDReset}
+\begin{algorithmic}
+  \STATE {\bfseries Input:}
+  $(\boldsymbol{a,\theta}) = (a_1,...,a_k,\theta_1,...,\theta_k), a_i
+  \in\R, \theta_i\in\mathcal{M}$;
+  $T\in \N$; $\widehat{L}$; $\alpha\in \R$; $\delta \in \R$;
+  $\gamma \in R$; $S \in \R$ \vspace{0.1in} 
+  \FOR{$i=1$ {\bfseries to} $S$} 
+  \STATE $(\boldsymbol{a},\boldsymbol{\theta}) = SGD \left(\widehat{L}, (\boldsymbol{a},\boldsymbol{\theta}),T, \alpha,\delta \right)$
+  \IF{(ii) or (iii)}
+    \STATE remove clump
+    \REPEAT \STATE Sample $\theta_i$
+  uniformly from $\mathcal{M}$
+  \UNTIL{$\left (\frac{\partial
+        \widehat{L}(\boldsymbol{a,\theta})}{\partial a_i} \right)^2
+    \geq \gamma$}
+    \ELSE \STATE  {\bf return} $(\boldsymbol{a}, \boldsymbol{\theta}) $
+      \ENDIF
+    \ENDFOR
+   \STATE {\bf return} $(\boldsymbol{a}, \boldsymbol{\theta}) $
+   \end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}
+For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{GDReset} on \eqref{errLoss} with error $\delta = poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/poly(d,1/\epsilon)$ converges in $T = poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that each $\theta_i$ is within $\epsilon$-neighborhood of some $w_j$ or there exists $i$ such that if $\theta_i$ is picked uniformly in $\mathcal{M}$
+%
+\[ \expt\left[\left( \sum_{j < i} a_j \Phi(\theta_i,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\]
+\end{theorem}
+
+\begin{proof}
+
+
+\end{proof}
+
 \section{Experiments}
 \label{experiments}
 For our experiments, our training data is given by $(x_i, f(x_i))$, where $x_i$ are randomly chosen from a standard Gaussian in $\R^d$ and $f$ is a randomly generated neural network with weights chosen from a standard Gaussian. We run gradient descent (Algorithm \ref{GD}) on the empirical loss, with stepsize around $\alpha = 10^{-5}$, for $T = 10^6$ iterations. Our experiments show that for depth-2 neural networks, even with non-linear outputs, the training error diminishes quickly to a small constant. This seems to hold even when the width, the number of hidden nodes, is substantially increased (even up to 125 nodes), but depth is held constant; although as the number of nodes increases, the rate of decrease is slower. This substantiates our claim that depth-2 neural networks are learnable.
@@ -1086,7 +1231,8 @@ When the output weights are variable, notice that our convergence results often 
   \in\R, \theta_i\in\mathcal{M}$;
   $T\in \N$; $\widehat{L}$; $\alpha\in \R$; $\delta \in \R$;
   $\gamma \in R$; \vspace{0.1in} \STATE{\bf Initialize} $a = 0$
-  \FOR{$i=1$ {\bfseries to} $k$} \REPEAT \STATE Sample $\theta_i$
+  \FOR{$i=1$ {\bfseries to} $k$} 
+  \REPEAT \STATE Sample $\theta_i$
   uniformly from $\mathcal{M}$
   \UNTIL{$\left (\frac{\partial
         \widehat{L}(\boldsymbol{a,\theta})}{\partial a_i} \right)^2
@@ -1145,9 +1291,7 @@ Therefore,
 \Snote{ Is $\widehat{\Phi}$ computable efficiently? What about $\widehat{C}$?}
 
 
-By our generalization bounds \Snote{Give a ref to the theorem}, in $poly(d,1/\epsilon)$ samples, we can
-find $\theta_i$ such that $\widehat{C}(\theta_i)^2 \geq \epsilon/4$
-(notice $\Phi(\theta_i,\theta_i) = 1$ \Snote{but the above expression has $\widehat{\Phi}$}). As $a_i$ is initially $0$ when sampling $\theta_i$, we conclude that we can find $\theta_i$ such that
+As $a_i$ is initially $0$ when sampling $\theta_i$, we conclude that we can find $\theta_i$ such that
 %
 \[ \left( \pd{\hat{L}}{a_i} \right)^2 = 4 \widehat{C}(\theta_i)^2 \geq \epsilon.\]
 Therefore, after $poly(d,1/\epsilon)$ samples, our sampling algorithm will, with high probability, return $\theta_i$  such that $a_i^2 = a_i^*(\theta_i)^2 \geq \epsilon /4$. 
@@ -1184,20 +1328,7 @@ $\Phi(\theta, w)$ is $(\lambda,m)$-Harmonic on $S^{d-1}$ if for all $\theta, w\i
 \Rnote{Not sure if there is a nice general definition to be honest...to be discussed}
 
 
-\begin{restatable}{theorem}{eigConv}
-\label{eigConv}
-Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. For any $m$, we can construct a realizable $(1,m)$-Harmonic potential, $\Phi_m$. 
-
-Furthermore, let $L$ as in \eqref{errLoss} with potential $\Phi_m$. Then, for all $ 1 > \epsilon > 0$, we can choose $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and $\|a\| \leq poly(d)$, then each $(a_i, \theta_i)$ must satisfy at least one of the following conditions:
-
-There exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ 
-
-{\bf or} $|a_i| < poly(\epsilon,1/d)$
-
-{\bf or} There exists $S \subset [k]$ such that $i \in S$ and
-
-\[\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] < poly(\epsilon,1/d)\]
-\end{restatable}
+\eigConv*
 %
 \begin{proof}
 We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
