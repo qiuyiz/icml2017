@@ -439,7 +439,7 @@ $\Phi(\theta,w)$ is a {\bf harmonic} potential on $\Omega$ if $\Delta_\theta \Ph
   $f(x^*+v) \geq f(x^*)$ for all $\|v\|\leq \epsilon$. It is a {\bf
     strict local minimum} if the inequality is strict for all
   $\norm{v} \le \epsilon.$
-\end{definition} \Snote{Define a critical point.}
+\end{definition} \Snote{Define a critical point.}\Rnote{Defined in the beginning}
 
 \begin{fact}
   % Let $\Omega \subseteq \R^d$ and consider a function
@@ -453,8 +453,8 @@ Let $x^*$ be a critical point of a function $f :
 %
 \begin{theorem}[Earnshaw's Theorem. See~\cite{arnold1985mathematical}]
 \label{Earnshaw} 
-Let $\mathcal{M} = \R^d$ and let $\Phi$ be harmonic and $\overline{L}$
-be as in $\eqref{errSimp}$. Then, $\overline{L}$ admits no
+Let $\mathcal{M} = \R^d$ and let $\Phi$ be harmonic and $L$
+be as in $\eqref{errSimp}$. Then, $L$ admits no
 differentiable strict local minima.
 \end{theorem}
 %
@@ -468,7 +468,7 @@ Since $\Phi$ is harmonic, we also have
 &  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
   + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
 \end{align*}
-which is a contradiction.
+which is a contradiction. In the first line, there is a factor of 2 by symmetry.
 \end{proof}
 
 \if{1}
@@ -481,12 +481,9 @@ Intuitively, the trace of the Hessian being 0 implies every
 differentiable critical point has a direction of negative curvative
 (unless the Hessian is the zero matrix altogether, in which case some
 complex analysis still finds a direction of negative change
-\cite{arnold1985mathematical}). Therefore, at convergence, we should
-expect $\theta_i = w_{\pi(i)}$ for some permutation $\pi$, as long as
-$\theta_i$ are all distinct. \Snote{Need to fix the zero hessian case,
-  and the claim for the permutation.}
+\cite{arnold1985mathematical}). 
 
-Such a result is desired but we run into two main problems. First, the singularity of the natural harmonic potentials at $0$ disqualifies them from being a realizable potential. Furthermore, harmonic potentials are not robust to approximation and statistical error as the convergence guarantees hinge on $\Delta_\theta\Phi$ being exactly 0. 
+Such a convergence result is desired but we run into two main problems. First, the singularity of the natural harmonic potentials at $0$ disqualifies them from being a realizable potential. Furthermore, harmonic potentials are not robust to approximation and statistical error as the convergence guarantees hinge on $\Delta_\theta\Phi$ being exactly 0. 
 
 Second, the lack of strict local minima {\it does not} imply
 convergence to the global minima under gradient descent. Notice that
@@ -509,10 +506,10 @@ convergence properties of approximations of strictly subharmonic
 potentials.
 %
 \begin{definition}
-$\Phi(\theta,w)$ is a {\bf strictly subharmonic} potential on $\Omega$ if $\Delta_\theta \Phi(\theta,w) > 0$ for all $\theta \in \Omega$, except possibly at $\theta = w$.
-\end{definition} \Snote{Has to include a differentiability assumption.}
+$\Phi(\theta,w)$ is a {\bf strictly subharmonic} potential on $\Omega$ if it is differentiable and $\Delta_\theta \Phi(\theta,w) > 0$ for all $\theta \in \Omega$, except possibly at $\theta = w$.
+\end{definition}
 
-An example of such a potential is $\Phi(\theta, w) = \|\theta -w \|^{2-d-\epsilon}$ for any $\epsilon > 0$. Note that although this potential is unbounded for most $d$, it is bounded when $d = 1$. Furthermore, the sign of the output weights $a_i, b_i$ matter in determining the sign of the Laplacian of our loss function. Therefore, we need to make suitable assumptions in this framework.
+An example of such a potential is $\Phi(\theta, w) = \|\theta -w \|^{2-d-\epsilon}$ for any $\epsilon > 0$. Although this potential is unbounded for most $d$, it is bounded when $d = 1$. Furthermore, the sign of the output weights $a_i, b_i$ matter in determining the sign of the Laplacian of our loss function. Therefore, we need to make suitable assumptions in this framework.
 %
 \begin{assumption}
 \label{outputFixed}
@@ -559,6 +556,10 @@ simply rotations, with full details in the supplementary material.
 Assume the conditions of Theorem \ref{subStrict} and $\Phi(\theta,\theta) < \infty$. Then, $L$ admits no local minima, except at the global minima.
 \end{corollary}
 
+\begin{proof}
+From the same proof from theorem \ref{subStrict}, we conclude that there must exists $i, j$ such that $\theta_i = w_j$. Then, since $\Phi(\theta,\theta) < \infty$, notice that $\theta_i, w_j$ cancels each other out and by drop $\theta_i, w_j$ from the loss function, we have a new loss function $L$ with $k-1$ variables. Then, using induction, we see that $\theta_i = w_{\pi(i)}$ at the local minima for some permutation $\pi$.
+\end{proof}
+
 \subsubsection{$\lambda$-Harmonic Potentials}
 
 When we drop Assumption \ref{outputFixed} and allow the output weights to be variable and possibly negative, then our techniques above will fail. So, how do we generalize harmonic potentials to give us convergence properties in this more general case? In order to relate our loss function with its Laplacian, we consider potentials that are non-negative eigenfunctions of the Laplacian operator. Since the zero eigenvalue case simply gives rise to harmonic potentials, we restrict our attention to positive eigenfunctions.
@@ -582,7 +583,7 @@ Computing the Laplacian with respect to $\theta_i$ gives
 &= \lambda a_i\left(2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k  b_j \Phi(\theta_i,w_j)\right) \\
 &= -2\lambda a_i^2
 \end{align*}
-If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
+In the first line, there is a factor of 2 by symmetry. $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
 
 Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct and $\theta_1 \neq w_j$ for any $j$. Again, we consider the correlated movement:
 
@@ -590,7 +591,7 @@ Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct and $
 
 The optimality conditions on ${\bf a}$ are unchanged, we must have
 %
-\[\Delta_v H = \lambda\sum_{i=1}^l a_i \left(\sum_{j=1}^k b_j \Phi(\theta_i^Tw_j) + \sum_{j=l+1}^k a_j \Phi(\theta_i^T\theta_j)\right)\]
+\[\Delta_v H = 2\lambda\sum_{i=1}^l a_i \left(\sum_{j=1}^k b_j \Phi(\theta_i^Tw_j) + \sum_{j=l+1}^k a_j \Phi(\theta_i^T\theta_j)\right)\]
 %
 \[ = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i^T\theta_i) - 2 \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i^T\theta_j)\right)\]
 %
@@ -666,8 +667,7 @@ For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Ph
 
 \begin{proof}
 We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
-Using the Laplacian formula on $S^{d-1}$ gives \Snote{Give a reference
-  for this formula}:
+Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
 \begin{align*}
 \Delta f & = (\sin \theta)^{2-d} \frac{\partial}{\partial \theta}\left[ (\sin \theta)^{d-2} \frac{\partial f(\cos \theta)}{\partial \theta}\right] \\
 & = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta)
@@ -787,10 +787,25 @@ This is a contradiction, so we conclude that there must exist $i, j$ such that $
  \end{proof}
  
  \begin{observation}
-\[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\] 
+If $\theta$ is chosen uniformly from $\mathcal{M}$ and 
+
+\[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] > 3\epsilon\sqrt{L(0,0)}\] 
+
+Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{L({\bf a, \boldsymbol{\theta}})} < \sqrt{L(0,\boldsymbol{\theta})} - \epsilon$ with high probability.
  \end{observation}
  
+ \begin{proof}
+ Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then optimizing $a_1$. Notice that the expected loss decrease is:
+ %
+ \[ \expt[ L(a_1,\theta_1)] - L(0,0) = \expt\left [\min_{a_1} a_1^2 + 2\sum_{j=1}^k a_1 b_j\Phi(\theta_1,w_j)\right]\] 
+ %
+ \[ = \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] \]
  
+Let $g(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}g(\theta)^2 \geq 2\epsilon\sqrt{L(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $g(\theta)^2 \geq \epsilon \sqrt{L(0,0)}$. Therefore, $L(\boldsymbol{a,\theta}) - L(0,0) \leq 2\epsilon \sqrt{L(0,0)}$ and so $\sqrt{L(\boldsymbol{a,\theta})} \leq \sqrt{L(\boldsymbol{0,\theta})} - \epsilon$.
+ \end{proof}
+ 
+ 
+ \if{1}
  In the end, we can combine Theorem \ref{eigRes} with Algorithm \ref{GDReset} to derive a convergence result.
  
  \begin{algorithm}[tb]
@@ -828,6 +843,7 @@ For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such 
 
 
 \end{proof}
+\fi
 
 \section{Realistic Potentials}
 

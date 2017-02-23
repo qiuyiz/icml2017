@@ -1,4 +1,4 @@
-\begin{thebibliography}{30}
+\begin{thebibliography}{31}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -191,6 +191,12 @@ Sun, Ju, Qu, Qing, and Wright, John.
 \newblock A geometric analysis of phase retrieval.
 \newblock \emph{CoRR}, abs/1602.06664, 2016.
 \newblock URL \url{http://arxiv.org/abs/1602.06664}.
+
+\bibitem[Weisstein()]{Laplacian}
+Weisstein, Eric~W.
+\newblock Laplace's equation--spherical coordinates.
+\newblock
+  \url{http://mathworld.wolfram.com/LaplacesEquationSphericalCoordinates.html}.
 
 \bibitem[Zhang et~al.(2015{\natexlab{a}})Zhang, Lee, and Jordan]{ZhangLJ15}
 Zhang, Yuchen, Lee, Jason~D., and Jordan, Michael~I.
