@@ -559,7 +559,7 @@ simply rotations. Note that we can change to spherical coordinates (without the 
 We will consider a correlated translation in the spherical coordinate space, which are simply rotations on the sphere. Let $v$ be a vector in $\R^{d-1}$ and our objective is simply
 \[ H(v) = L( \widetilde{\theta_1}+v,...,\widetilde{\theta_{k}} +v)\]
 
-Then, we apply the same proof since $\Phi( \widetilde{\theta_i}+v, \widetilde{\theta_j}+v,)$ is constant as a function of $v$ by rotationally invariance.
+Then, we apply the same proof since $\Phi( \widetilde{\theta_i}+v, \widetilde{\theta_j}+v)$ is constant as a function of $v$ by rotationally invariance.
 \end{proof}
 %
 \begin{corollary}
@@ -588,41 +588,28 @@ $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except when
 $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$ or $\theta_i = w_j$ for some $i,j$. 
 \end{restatable}
 \begin{proof}
-  Let $(\boldsymbol{a,\theta})$ be a critical point of $L.$ First
-  assume that all $\theta_i$ are distinct and there exists
-  $\theta_i \neq w_j$. Now, $a_i$ being optimal implies
-\Anote{it looks like you assume here $\Phi(w,w)=c$. this is not obviously required by your definition of $\lambda$-harmonic. if it is, you should prove it. if it is assumed, you should make the assumption explicit in either the definition of $\lambda$-harmonic or the theorem statement.}
-\begin{align*}
-0 = \pd{L}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j)
-  + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
-\end{align*}
-Computing the Laplacian with respect to $\theta_i$ gives
-\begin{align*}
-\Delta_{\theta_i}L &= 2\sum_{j\neq i} a_i a_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k a_i b_j \Delta_{\theta_i}\Phi(\theta_i,w_j) \\
-&= \lambda a_i\left(2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k  b_j \Phi(\theta_i,w_j)\right) \\
-&= -2\lambda a_i^2
-\end{align*}
-
-In the first line, there is a factor of 2 by symmetry. If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
-\Anote{it's worth making explicit here that the substitution of $\Delta \Phi\to \lambda \Phi$ goes through when the arguments of $\Phi$ are distinct, per the definition of $\lambda$-harmonic, and that now we have to handle the case when some of these arguments are equal.}
-
-Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct (with $l$ maximal) and $\theta_1 \neq w_j$ for any $j$. We consider changing all
+  Let $(\boldsymbol{a,\theta})$ be a critical point of $L$. WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct (with $l$ maximal) and $\theta_1 \neq w_j$ for any $j$. We consider changing all
 $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
 %
 \[H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
 \ldots, \theta_k).\]
 
-The optimality conditions on ${\bf a}$ are unchanged, we must have
-\Anote{you seem to have replace $\Phi(\theta,w)$ with $\Phi(\theta^T w)$ in the following block}
+The optimality conditions on ${\bf a}$ are 
+\begin{align*}
+0 = \pd{L}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j)
+  + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
+\end{align*}
+%
+Next, by $\lambda$-harmonic definition, we may compute the Laplacian as 
 \begin{align*}
 \Delta_v H & = \lambda\sum_{i=1}^l a_i \left(2\sum_{j=1}^k b_j
-  \Phi(\theta_i^Tw_j) + 2\sum_{j=l+1}^k a_j
-  \Phi(\theta_i^T\theta_j)\right) \\
-& = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i^T\theta_i) - 2
-  \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i^T\theta_j)\right) \\
+  \Phi(\theta_i, w_j) + 2\sum_{j=l+1}^k a_j
+  \Phi(\theta_i, \theta_j)\right) \\
+& = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i, \theta_i) - 2
+  \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i,\theta_j)\right) \\
 %
-& = -2\lambda\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i^T\theta_i)
-  +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i^T\theta_j)\right) \\
+& = -2\lambda\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i, \theta_i)
+  +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i, \theta_j)\right) \\
 %
 & = -2\lambda\left(\sum_{i=1}^l a_i^2
   +\sum_{i \neq j}^l a_i a_j \right) = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
@@ -631,8 +618,7 @@ The optimality conditions on ${\bf a}$ are unchanged, we must have
 If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is
 strictly negative, so we are not at a local minimum. 
 
-Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition \Anote{the word "partition" means that the union of $S_1\ldots S_r = [k]$, but in fact, $S_1\ldots S_r \subset [k]$ is sufficient, right? if so, fix.}
-$[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
+Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
 for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, since $\sum_{i=1}^k a_i \sigma(\theta_i,x) = 0$, $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$. 
 \end{proof} 
 
@@ -1257,10 +1243,10 @@ Then, in $poly(d^p, C, 1/\epsilon, \log(1/\zeta))$ samples, we can compute $\hat
 Since $|x_i^T\theta|\leq B$, we conclude that $\sigma, \sigma'$ is bounded by $C*poly(B^p)$. Therefore, by Theorem \ref{rademacher}, \ref{complexity} and by simple union bounds over the $poly(k) = poly(d)$ sum of $\Phi$, we conclude that with probability $1-\zeta$, if we choose $n = poly(d^p, C,1/\epsilon, \log(1/\zeta))$, we have 
 %
 \[|E_{X\sim \mathcal{D}_B}[\sigma(X^Tw)\sigma(X^T\theta)] -
-\widehat{\Phi}(\theta^Tw)| \leq \epsilon/2,\]
+\widehat{\Phi}(\theta^Tw)| \leq \epsilon/poly(d),\]
 for all $\theta, w \in \mathcal{M}$. And combining with Lemma
 \ref{choppedLem}, we conclude that
-$|\widehat{\Phi}(\theta,w) - \Phi(\theta,w)|\leq \epsilon$. We proceed
+$|\widehat{\Phi}(\theta,w) - \Phi(\theta,w)|\leq \epsilon/poly(d)$. We proceed
 with the same proof for the first and second derivatives and use a
 union bound to derive our claim.
 \end{proof}
