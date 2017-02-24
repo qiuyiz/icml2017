@@ -661,18 +661,14 @@ For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, 
 \end{restatable}
 %
 %
-\begin{lemma}\label{bounded}
+\begin{restatable}{lemma}{bounded}
   Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals
   bounded by $\poly(d)$ and $|\Phi|\leq 1$ on $\mathcal{M}$. Let
   $G = L + \beta\|a\|^2$. Then, if
   $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then
   $\|a\| \leq \poly(d)/\beta$.
-\end{lemma}
+\end{restatable}
 %
-\begin{proof}
-Notice that $G(0, \bold{\theta}) = L(0,\bold{\theta}) \leq \poly(d)$ and so, $G(\boldsymbol{a,\theta}) = L(\boldsymbol{a,\theta}) + \beta \|{\bf a}\|^2 \leq
-\poly(d)$. Since $L \geq 0$, our claim follows. 
-\end{proof}
 %
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
@@ -820,19 +816,21 @@ $h(\theta)^2 \geq 2\delta \sqrt{G(0,0)}$. Therefore,
 $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$.
 \end{proof}
  
- \begin{lemma} For  the almost $\lambda$ harmonic function, for random $\theta$ on $S^{d-1}$, $E[\Phi(w,\theta)^2] \geq \Omega((1/m)^d)$.
+ \begin{lemma} 
+   For the almost $\lambda$ harmonic function $\Phi_m$, for random
+   $\theta$ on $S^{d-1}$,
+   $E[\Phi_m(w,\theta)^2] \geq \left(\Omega(1/m)\right)^d$.
 
-If $w_1,..,w_k$ are random $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] \geq \|b\|_2^2 \Omega((1/m)^d)$
+Thus, if $w_1,..,w_k$ are random $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] \geq \|b\|_2^2 \left(\Omega(1/m)\right)^d.$
 \end{lemma}
-
+%
 \begin{proof}
-
 Note that $\Phi$ is a degree $m$ polynomial with positive coefficients over $\cos \alpha$ where $\alpha$ is the angle between $w$ and $\theta$ and has value $1$ for $\alpha = 0$. So even when $\alpha$ is small, specifically  $O(1/m)$, $\Phi$ is $\Omega(1)$. And with probability $(\Omega(1/m))^d$ $\alpha$ is  $O(1/m)$. So
 $E[\Phi(w,\theta)^2] \geq  (\Omega(1/m))^d$ .   
 
 For the second part, note that if $w_1,..,w_k$  are random  when we expand the square in the expectation the cross terms will disappear as the $w_i$'s are independent and because  $E[\Phi(w_i,\theta)]=0$,
- \[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] \ge k\Omega((1/m)^d)\]
-
+ \[ \expt\left[\left(  \sum_{j=1}^k b_j
+     \Phi(\theta,w_j)\right)^2\right] \ge k \left(\Omega(1/m)\right)^d\]
 \end{proof}
 
  \if{1}
@@ -1408,6 +1406,11 @@ $\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have
 Furthermore, since $\Phi$ is a polynomial with non-negative coefficients, $|\Phi(\theta^Tw)| \leq \Phi(|\theta^Tw|) \leq \Phi(1) = 1$. Thus we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$ odd with our desired properties. Finally, a $m$-almost $\lambda$-harmonic potential is also $m-1$-almost $\lambda$-harmonic, so our claim follows for all $m$.
  \end{proof}
 
+\bounded*
+\begin{proof}
+Notice that $G(0, \bold{\theta}) = L(0,\bold{\theta}) \leq \poly(d)$ and so, $G(\boldsymbol{a,\theta}) = L(\boldsymbol{a,\theta}) + \beta \|{\bf a}\|^2 \leq
+\poly(d)$. Since $L \geq 0$, our claim follows. 
+\end{proof}
 \if{1}
 \begin{theorem}
 For any $\epsilon < 1/\poly(d)$, we can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{NodeGDOpt} on \eqref{errLoss} with error $\delta = \poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/\poly(d,1/\epsilon)$ converges in $T = \poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that either  $\theta$ is within $\epsilon$-neighborhood of the global minima or there exists $i$ such that if $\theta_i$ is picked uniformly in $\mathcal{M}$
