@@ -246,7 +246,7 @@ We also show some weaker results for other more practical activation functions.
 Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $\poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation and our constructed $\lambda$-harmonic activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn at least one of the $w_i$'s. 
 %
 \begin{table}[tb]
-\caption{Potentials and Convergence Results Summary. \Anote{ this caption is a fine title, but it doesn't explain the content of the table. again, keep in mind that my reading pattern is to read the theorems, tables, and then i read the text. i actually think this table does the paper a disservice. it has a "yes" without a rate, some rates that are exponential but not lower bounds. it has some non-informative text like "complicated". you could either fix this table, which will not happen by tomorrow, or you could get rid of it. }}
+\caption{Activation, Potentials, and Convergence Results Summary}
 \label{table1}
 \noindent
 \vskip 0.1in
@@ -259,13 +259,11 @@ Specifically, for the sign activation, we show that if we consider the loss func
   |p{\dimexpr.33\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 3
   }
    \hline 
-        Name of Activation&  Potential  ($\Phi(\theta,w)$)    & GD Convergence? \\ \hline 
-        Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes \\ 
+        Name of Activation&  Potential  ($\Phi(\theta,w)$)    & Convergence? \\ \hline 
+        Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes d = 2, \ref{signConv}\\ 
         Polynomial  & $(\theta^Tw)^m$       & Yes, $\poly(d,\frac{1}{\epsilon})$  \\        
-        Exponential       & $e^{\theta^Tw-1}$       & Yes, $e^{\poly(d)}$  \\ 
-        $\lambda$-harmonic  & Complicated  & Yes, $\poly(d,\frac{1}{\epsilon})$ \\
-        Gaussian  &  $e^{-\|\theta-w\|_2^2/2}$       & Yes, $e^{O(d)}$ \\
-        Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
+        Almost   $\lambda$-harmonic  & Complicated  & Yes, $\poly(d,\frac{1}{\epsilon})$ \\
+         % Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
         \hline
 \end{tabular}
 \end{sc}
@@ -481,89 +479,16 @@ local minima. However, if our loss function admits no local minima
 (other than the global minima), then we can guarantee that gradient
 descent with small stepsize converges to the global minima.
 
-\subsection{Alternative Notions of Harmonic Potentials}
+\subsection{$\lambda$-Harmonic Potentials}
 
-\subsubsection{Strictly Subharmonic Potentials}
-%
 The first alternative to harmonic potentials is the natural
 consideration of strictly subharmonic potentials, which have a
 positive Laplacian value almost everywhere. Subharmonic potentials are
 also difficult to realize; however their convergence properties are
-more robust than harmonic potentials. In section 4, we will develop
-convergence properties of approximations of strictly subharmonic
-potentials.
+more robust than harmonic potentials and are discussed in supplementary material. 
+
 %
-\begin{definition}
-$\Phi(\theta,w)$ is a {\bf strictly subharmonic} potential on $\Omega$ if it is differentiable and $\Delta_\theta \Phi(\theta,w) > 0$ for all $\theta \in \Omega$, except possibly at $\theta = w$.
-\end{definition}
-
-An example of such a potential is $\Phi(\theta, w) = \|\theta -w \|^{2-d-\epsilon}$ for any $\epsilon > 0$. Although this potential is unbounded at $\theta = w$ for most $d$, we remark that it is bounded when $d = 1$. Furthermore, the sign of the output weights $a_i, b_i$ matter in determining the sign of the Laplacian of our loss function. Therefore, we need to make suitable assumptions in this framework.
-\Anote{having this assumption anywhere in this paper makes it look central. in fact, you only use it for theorem 3.6, which i strongly believe should be canned. get rid of this assumption so that it doesn't detract from the much more significant result that you show later.}
-%
-\begin{assumption}
-\label{outputFixed}
-All output weights $b_i = 1$ and therefore the output weights  $a_i = - b_i = -1$ are fixed throughout the learning algorithm. 
-\end{assumption}
-
-Under Assumption \ref{outputFixed}, we are working with an even
-simpler loss function:
-\begin{equation}\label{errFixed}
-L(\theta) =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i,\theta_j) - 2\sum_{i=1}^k\sum_{j=1}^k\Phi(\theta_i,w_j)
-\end{equation}
-%
-\Anote{i don't think you should show this theorem. you ahve more significant results, and this distracts from them. plus it doesn't refer to any realistic learning setup. it's an intermediate warmup illustration for yourself, not for the reader.}
-\begin{theorem}\label{subStrict}
-Let $\Phi$ be a symmetric strictly subharmonic potential on $\mathcal{M}$ with $\Phi(\theta,\theta) = \infty$. Let Assumption \ref{outputFixed} hold and let $L$ be as in \eqref{errFixed}. Then, $L$ admits no local minima, except when $\theta_i = w_j$ for some $i, j$.
-\end{theorem}
-%
-\begin{proof}
-First, let $\Phi$ be translationally invariant and $\mathcal{M} =
-\R^d$. Let $\boldsymbol{\theta}$ be a critical point. Assume, for sake
-of contradiction, that for all $i, j$, $\theta_i \neq w_j$. If
-$\theta_i$ are not distinct, separating them shows that
-we are not at a local minima since $\Phi(\theta_i,\theta_j) = \infty$
-and finite elsewhere. 
-
-The main technical detail is to remove interaction terms between
-pairwise $\theta_i$ by considering a correlated movement, where each
-$\theta_i$ are moved along the same direction $v$. In this case,
-notice that our objective, as a function of $v$, is simply
-\begin{align*}
-& H(v) = L(\theta_1+ v, \theta_2 + v, ...,\theta_k + v) \\
-& =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i+v,\theta_j+v) -
-  2\sum_{i=1}^k\sum_{j=1}^k \Phi(\theta_i+v,w_j)
-\end{align*}
-
-Note that the first term is constant as a function of $v$, by
-translational invariance. Therefore,
-\[\nabla_{v}^2 H = -2\sum_{i=1}^k \sum_{j=1}^k \nabla^2\Phi(\theta_i, w_j)\]
-By the subharmonic condition,
-$\Tr(\nabla_{v}^2H) = -2\sum_{i=1}^k\sum_{j=1}^k
-\Delta_{\theta_i}\Phi(\theta_i,w_j) < 0$.
-Therefore, we conclude that $\theta$ is not a local minima of $H$ and
-$L$.  We conclude that $\theta_i = w_j$ for some $i, j$.
-
-The above technique generalizes to $\Phi$ being rotationally invariant case by
-working in spherical coordinates and correlated translations are
-simply rotations. Note that we can change to spherical coordinates (without the radius parameter) and let $\widetilde{\theta_1},...,\widetilde{\theta_{k}}$ be the standard spherical representation of $\theta_1,...,\theta_k$. 
-
-We will consider a correlated translation in the spherical coordinate space, which are simply rotations on the sphere. Let $v$ be a vector in $\R^{d-1}$ and our objective is simply
-\[ H(v) = L( \widetilde{\theta_1}+v,...,\widetilde{\theta_{k}} +v)\]
-
-Then, we apply the same proof since $\Phi( \widetilde{\theta_i}+v, \widetilde{\theta_j}+v)$ is constant as a function of $v$ by rotationally invariance.
-\end{proof}
-%
-\begin{corollary}
-Assume the conditions of Theorem \ref{subStrict} and $\Phi(\theta,\theta) < \infty$. Then, $L$ admits no local minima, except at the global minima.
-\end{corollary} 
-
-\begin{proof}
-From the same proof from theorem \ref{subStrict}, we conclude that there must exists $i, j$ such that $\theta_i = w_j$. Then, since $\Phi(\theta,\theta) < \infty$, notice that $\theta_i, w_j$ cancels each other out and by drop $\theta_i, w_j$ from the loss function, we have a new loss function $L$ with $k-1$ variables. Then, using induction, we see that $\theta_i = w_{\pi(i)}$ at the local minima for some permutation $\pi$.
-\end{proof}
-
-\subsubsection{$\lambda$-Harmonic Potentials}
-%
-When we drop Assumption \ref{outputFixed} and allow the output weights to be variable and possibly negative, then our techniques above will fail. So, how do we generalize harmonic potentials to give us convergence properties in this more general case? In order to relate our loss function with its Laplacian, we consider potentials that are non-negative eigenfunctions of the Laplacian operator. Since the zero eigenvalue case simply gives rise to harmonic potentials, we restrict our attention to positive eigenfunctions.
+In order to relate our loss function with its Laplacian, we consider potentials that are non-negative eigenfunctions of the Laplacian operator. Since the zero eigenvalue case simply gives rise to harmonic potentials, we restrict our attention to positive eigenfunctions.
 %
 \begin{definition}
 A potential $\Phi$ is {\bf$\lambda$-harmonic} on $\Omega$ if there exists $\lambda > 0$ such that for every $\theta \in \Omega$, $\Delta_\theta \Phi(\theta, w) = \lambda \Phi(\theta,w) $, except possibly at $\theta = w$.
@@ -878,6 +803,11 @@ For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such 
 \section{Other Potentials}
 First, we consider the sign activation function. Under restrictions on the size of the input dimension or the number of hidden units, we can prove convergence results under the sign activation function. 
 \Anote{ythis theorem is about $\theta\in R$, which is not of any practical interest. you should remove it.}
+\begin{assumption}
+\label{outputFixed}
+All output weights $b_i = 1$ and therefore the output weights  $a_i = - b_i = -1$ are fixed throughout the learning algorithm. 
+\end{assumption}
+
 \begin{theorem}
 Let $\mathcal{M} = S^1$ and let Assumption \ref{outputFixed} hold. Let $L$ be as in \eqref{errSimp} and $\sigma$ is the sign activation function. Then $L$ admits no strict local minima, except at the global minima.
 \end{theorem}
@@ -1303,6 +1233,73 @@ algorithm succeeds with probability $1-\zeta$.
 
 
 \section{Convergence of Almost Strictly Subharmonic Potentials}\label{App:Subharm}
+
+
+%
+%
+\begin{definition}
+$\Phi(\theta,w)$ is a {\bf strictly subharmonic} potential on $\Omega$ if it is differentiable and $\Delta_\theta \Phi(\theta,w) > 0$ for all $\theta \in \Omega$, except possibly at $\theta = w$.
+\end{definition}
+
+An example of such a potential is $\Phi(\theta, w) = \|\theta -w \|^{2-d-\epsilon}$ for any $\epsilon > 0$. Although this potential is unbounded at $\theta = w$ for most $d$, we remark that it is bounded when $d = 1$. Furthermore, the sign of the output weights $a_i, b_i$ matter in determining the sign of the Laplacian of our loss function. Therefore, we need to make suitable assumptions in this framework.
+
+%
+
+Under Assumption \ref{outputFixed}, we are working with an even
+simpler loss function:
+\begin{equation}\label{errFixed}
+L(\theta) =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i,\theta_j) - 2\sum_{i=1}^k\sum_{j=1}^k\Phi(\theta_i,w_j)
+\end{equation}
+%
+\Anote{i don't think you should show this theorem. you ahve more significant results, and this distracts from them. plus it doesn't refer to any realistic learning setup. it's an intermediate warmup illustration for yourself, not for the reader.}
+\begin{theorem}\label{subStrict}
+Let $\Phi$ be a symmetric strictly subharmonic potential on $\mathcal{M}$ with $\Phi(\theta,\theta) = \infty$. Let Assumption \ref{outputFixed} hold and let $L$ be as in \eqref{errFixed}. Then, $L$ admits no local minima, except when $\theta_i = w_j$ for some $i, j$.
+\end{theorem}
+%
+\begin{proof}
+First, let $\Phi$ be translationally invariant and $\mathcal{M} =
+\R^d$. Let $\boldsymbol{\theta}$ be a critical point. Assume, for sake
+of contradiction, that for all $i, j$, $\theta_i \neq w_j$. If
+$\theta_i$ are not distinct, separating them shows that
+we are not at a local minima since $\Phi(\theta_i,\theta_j) = \infty$
+and finite elsewhere. 
+
+The main technical detail is to remove interaction terms between
+pairwise $\theta_i$ by considering a correlated movement, where each
+$\theta_i$ are moved along the same direction $v$. In this case,
+notice that our objective, as a function of $v$, is simply
+\begin{align*}
+& H(v) = L(\theta_1+ v, \theta_2 + v, ...,\theta_k + v) \\
+& =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i+v,\theta_j+v) -
+  2\sum_{i=1}^k\sum_{j=1}^k \Phi(\theta_i+v,w_j)
+\end{align*}
+
+Note that the first term is constant as a function of $v$, by
+translational invariance. Therefore,
+\[\nabla_{v}^2 H = -2\sum_{i=1}^k \sum_{j=1}^k \nabla^2\Phi(\theta_i, w_j)\]
+By the subharmonic condition,
+$\Tr(\nabla_{v}^2H) = -2\sum_{i=1}^k\sum_{j=1}^k
+\Delta_{\theta_i}\Phi(\theta_i,w_j) < 0$.
+Therefore, we conclude that $\theta$ is not a local minima of $H$ and
+$L$.  We conclude that $\theta_i = w_j$ for some $i, j$.
+
+The above technique generalizes to $\Phi$ being rotationally invariant case by
+working in spherical coordinates and correlated translations are
+simply rotations. Note that we can change to spherical coordinates (without the radius parameter) and let $\widetilde{\theta_1},...,\widetilde{\theta_{k}}$ be the standard spherical representation of $\theta_1,...,\theta_k$. 
+
+We will consider a correlated translation in the spherical coordinate space, which are simply rotations on the sphere. Let $v$ be a vector in $\R^{d-1}$ and our objective is simply
+\[ H(v) = L( \widetilde{\theta_1}+v,...,\widetilde{\theta_{k}} +v)\]
+
+Then, we apply the same proof since $\Phi( \widetilde{\theta_i}+v, \widetilde{\theta_j}+v)$ is constant as a function of $v$ by rotationally invariance.
+\end{proof}
+%
+\begin{corollary}
+Assume the conditions of Theorem \ref{subStrict} and $\Phi(\theta,\theta) < \infty$. Then, $L$ admits no local minima, except at the global minima.
+\end{corollary} 
+
+\begin{proof}
+From the same proof from theorem \ref{subStrict}, we conclude that there must exists $i, j$ such that $\theta_i = w_j$. Then, since $\Phi(\theta,\theta) < \infty$, notice that $\theta_i, w_j$ cancels each other out and by drop $\theta_i, w_j$ from the loss function, we have a new loss function $L$ with $k-1$ variables. Then, using induction, we see that $\theta_i = w_{\pi(i)}$ at the local minima for some permutation $\pi$.
+\end{proof}
 
 For concreteness, we will focus on a specific potential function with this property: the Gaussian kernel $\Phi(\theta, w) = \exp(-\|\theta - w\|^2/2)$. In $\R^d$, the Laplacian is $\Delta \Phi = ( \|\theta - w\|^2 -d ) \exp(-\|\theta - w\|^2/2)$, which becomes positive when $\|\theta - w \|^2 \geq d$. Thus, $\Phi$ is strictly subharmonic outside a ball of radius $\sqrt{d}$. This informally implies that $\theta_1$ converges to a $\sqrt{d}$-ball around some $w_j$. 
 
