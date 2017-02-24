@@ -226,7 +226,15 @@ Our main observation is that the gradient descent dynamics of learning such to l
 %
 \Anote{If you're going to have an informal theorem statement, they should be understandable without reading the main text. That's because a reader like me will ignore your intro text and just look at the theorem statements to gauge your paper. If the theorems look interesting, then they'll read the paper. This theorem refers to f, which is undefined. it also doesn't explain at all in what way the electrons and protons correspond to f. You should either make this explicit in the informal theorem's statement, or you should just blend this informal theorem into the rest of the section.}
 \begin{theorem}(informal statement of Theorem~\ref{EPDyn})
-The gradient descent process for learning our neural network $f$ is equivalent to the motion of k electrons in the presence of k fixed protons where the force between any pair of charges is given by a potential function that depends on $\sigma$.
+Applying gradient descent for learning the output of a neural network
+with one hidden layer and a linear activation function at the output
+node, under the squared loss, 
+% two layer
+% neural network 
+% The gradient descent process for learning our neural network $f$ 
+is equivalent to the motion of k electrons in the presence of k fixed
+protons where the force between any pair of charges is given by a
+potential function that depends on $\sigma$.
 \end{theorem}
 %
 The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. The electrons are at positions $\theta_1,..,\theta_k$ and can move: the total force on each charge is the sum of the pairwise forces, determined by the gradient of the potential function $\Phi(\theta, w) = \expt_{X\sim \mathcal{D}}[ \sigma(X,\theta) \sigma(X,w)]$.  
@@ -977,7 +985,7 @@ which is a contradiction. In the first line, there is a factor of 2 by symmetry.
 \end{proof}
 \section{Section 2 Proofs}
 
-\epdyn
+\epdyn*
 
 \begin{proof}
 The initial values are the same. Notice that continuous gradient descent on $L(\boldsymbol{a,\theta})$ with respect to $\theta$ produces dynamics given by $\frac{d\theta_i(t)}{dt} = -\nabla_{\theta_i}L(\boldsymbol{a,\theta})$. Therefore,
