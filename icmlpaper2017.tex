@@ -218,18 +218,18 @@ there is no robust local minima.
 In this work, we ask the question: Can we use neural networks to learn neural networks with gradient descent methods? That is, if the function to be learnt is a neural network, and we try to learn it with a network of the same shape and randomly initialized edge weights, then will the gradient descent converge to the right function? Our experimental simulations show that for different widths and heights functions represented by neural networks with random edge weights can be learnt by stochastic gradient descent (see section~\ref{experiments}).
 
 Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions. We will focus on learning depth two networks with a linear activation on the output node. If the neural network takes inputs  $x \in \R^d$ (say from some distribution $\mathcal{D}$) then the output $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$ is a sum over $k = \poly(d)$ hidden units scaled by output weights $b_i \in \R$ where $\sigma(x,w):\R^d \times \R^d\to \R$ is the activation function that takes in a hidden weight vector $w \in \R^d$ and the input vector $x \in \R^d$.
-given by the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Under some assumptions, we will show that gradient descent can learn at least one of the  $w_i's$ of the target network for certain activation functions. The algorithm will try to learn a guess $\widehat{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$ and then running gradient descent over the parameters $a_i, \theta_i$ will move them to $b_i, w_i$. We will prove that at convergence, at least one $\theta_i$ is equal to (or close to) some $w_j$. Note that we may end up with a many to one mapping of the learned hidden weights to the true hidden weights, instead of a bijection.
+given by the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Under some assumptions, we will show that gradient descent can learn at least one of the  $w_i's$ of the target network for certain activation functions. The algorithm will try to learn a guess $\widetilde{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$ and then running gradient descent over the parameters $a_i, \theta_i$ will move them to $b_i, w_i$. We will prove that at convergence, at least one $\theta_i$ is equal to (or close to) some $w_j$. Note that we may end up with a many to one mapping of the learned hidden weights to the true hidden weights, instead of a bijection.
 
 \subsubsection{Electron-Proton Dynamics}
 %
-Our main observation is that the gradient descent dynamics of learning such to layer networks is equivalent to the dynamics of a set of proton-electron charges under a certain electrical attraction force function. Assume for now that the coefficients $b_i$ and $a_i$ are $1$. Thus we are only perform gradient descent over $\theta_i$ to minimize the expected square loss of $f-\widehat{f}$.
+Our main observation is that the gradient descent dynamics of learning such to layer networks is equivalent to the dynamics of a set of proton-electron charges under a certain electrical attraction force function. Assume for now that the coefficients $b_i$ and $a_i$ are $1$. Thus we are only perform gradient descent over $\theta_i$ to minimize the expected square loss of $f-\widetilde{f}$.
 %
 \Anote{If you're going to have an informal theorem statement, they should be understandable without reading the main text. That's because a reader like me will ignore your intro text and just look at the theorem statements to gauge your paper. If the theorems look interesting, then they'll read the paper. This theorem refers to f, which is undefined. it also doesn't explain at all in what way the electrons and protons correspond to f. You should either make this explicit in the informal theorem's statement, or you should just blend this informal theorem into the rest of the section.}
 \begin{theorem}(informal statement of Theorem~\ref{EPDyn})
 The gradient descent process for learning our neural network $f$ is equivalent to the motion of k electrons in the presence of k fixed protons where the force between any pair of charges is given by a potential function that depends on $\sigma$.
 \end{theorem}
 %
-The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. The electrons are at positions $\theta_1,..,\theta_k$ and can move: the total force on each charge is the sum of the pairwise forces, determined by the gradient of the potential function $\Phi(\theta, w) = E_{X\sim \mathcal{D}}[ \sigma(X,\theta) \sigma(X,w)]$.  
+The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. The electrons are at positions $\theta_1,..,\theta_k$ and can move: the total force on each charge is the sum of the pairwise forces, determined by the gradient of the potential function $\Phi(\theta, w) = \expt_{X\sim \mathcal{D}}[ \sigma(X,\theta) \sigma(X,w)]$.  
 
 \subsubsection{Convergence Analysis}
 %
@@ -239,8 +239,16 @@ We derive some sufficient conditions that characterize potentials that arise fro
 First we are show how to construct a complicated activation function, which we call almost $\lambda$-harmonic, for which we show that at convergence of the gradient descent, at least some $\theta_i$ coincides with some $w_j$.
 %
 \Anote{same problem as the other informal theorem. i don't know what a $\theta$ is. it has only been defined in the text. furthermore, it's far too informal. instead of "carefully" it should give this notion a name. again, better to just blend this content in the rest of the text without calling it an informal theorem.}
-\begin{theorem}(informal statement of Theorem~\ref{eigConv})
-For some carefully chosen activation function, with regularization, at convergence of running the SGD algorithm, we learn at least one of the hidden weights of the target neural network.
+\begin{theorem}(informal statement of Theorem~\ref{eigConv}) 
+There is
+  a polynomial activation function such that upon running gradient
+  descent for minimizing the squared loss along with $\ell_2$
+  regularization, at convergence, 
+% For some
+%   carefully chosen activation function, with regularization, at
+%   convergence of running the SGD algorithm, 
+we learn at least one of
+  the hidden weights of the target neural network.
 \end{theorem}
 %
 We also show some weaker results for other more practical activation functions.
@@ -320,7 +328,7 @@ in all the optimization procedures to minimize the empirical
 loss. Given $\mathcal{D}$, the training data, and the activation
 function $\sigma$, we attempt to show that there exists a gradient-based
 algorithm that optimizes $\widehat{L}$ on $\mathcal{M}$ and finds
-$\widehat{f} \in \mathcal{C}_{\sigma, k}$ such that with high probability, $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$ for some (or all) $i, j$ in time $\poly(d,1/\epsilon)$ or some
+$\widetilde{f} \in \mathcal{C}_{\sigma, k}$ such that with high probability, $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$ for some (or all) $i, j$ in time $\poly(d,1/\epsilon)$ or some
 other meaningful bound.
 
 \begin{algorithm}[hb]
