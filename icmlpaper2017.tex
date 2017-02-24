@@ -581,9 +581,7 @@ example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$ as in Table~\ref{table1}. In Sect
 \label{EigStrict}
 Let $\Phi$ be $\lambda$-harmonic and $L$ be as in \ref{errLoss}. Then,
 $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except when
-$\hat{f} = 0$ or $\theta_i = w_j$ for some $i,j$. \Snote{What is
-  $\hat{f}$? If you mean the current estimate of $f,$ use $\tilde{f}$
-  maybe, $\hat{f}$ operator is overloaded.}
+$L(\boldsymbol{a,\theta}) = L(\boldsymbol{0,\theta})$ or $\theta_i = w_j$ for some $i,j$. 
 \end{restatable}
 \begin{proof}
   Let $(\boldsymbol{a,\theta})$ be a critical point of $L.$ First
@@ -624,11 +622,11 @@ The optimality conditions on ${\bf a}$ are unchanged, we must have
 \end{align*} 
 
 If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is
-strictly negative, so we are not at a local minimum. Therefore, if
-does not exist $\theta_i = w_j$ for some $i,j$, then we partition
+strictly negative, so we are not at a local minimum. 
+
+Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition
 $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
-for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case,
-$\hat{f} = 0$. \Snote{This part needs to be written better.}
+for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, since $\sum_{i=1}^k a_i \sigma(\theta_i,x) = 0$, $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$. 
 \end{proof} 
 
 \begin{observation}
@@ -663,77 +661,66 @@ Let $\Omega \subseteq \R^d$. A point $x^*$ is a
 \end{definition}
 
 Note that if a critical point is not a local minimum, then it is
-$0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD can avoid all points that are $\epsilon$-strict in $poly(1/\epsilon)$ iterations and will converge
-to a point in $\mathcal{M}_\epsilon$, where 
+$0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are $\epsilon$-strict in $poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_\epsilon$, where 
 %
 \[\mathcal{M}_\epsilon = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
   \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq
   -\epsilon\right\}\]
-\Snote{This is not what the theorem states. There are lots of
-  assumptions on $L$ that don't factor into the claim here. Try to
-  write a formal version of the theorem.}
 
-Intuitively, this means that SGD will converge to points with small gradient and small negative curvature. The full proofs of all these claims are found in supplementary material. 
+\begin{theorem}\label{strongConverge}
+Let $L :\Omega \to \R$ be a twice differentiable function such that $|L(x)| \leq B, \|\nabla^2 L(x)\| \leq C,\|\nabla^2L(x) -\nabla^2L(y)\| \leq \rho\|x - y\|$ for all $x,y\in\Omega$. Also, assume that we access to stochastic function $\widehat{L}$ such that $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) = L(x)\|, \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$ for all $x\in \Omega$.
+
+Then, we can choose stepsize $\eta = 1/poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_\epsilon$ after at most $poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
+\end{theorem}
+
+
 
 For concreteness, we will focus on a specific potential function with
 this property: the Gaussian kernel $\Phi(\theta, w) = \exp(-c\|\theta
-- w\|^2/2)$. In $\R^d$, the Laplacian is $\Delta \Phi = ( c\|\theta -
-w\|^2 -d ) \exp(-c\|\theta - w\|^2/2)$, which becomes positive when
+- w\|^2/2)$, which corresponds to a Gaussian activation. In $\R^d$, the Laplacian is $\Delta \Phi = ( c\|\theta - w\|^2 -d ) \exp(-c\|\theta - w\|^2/2)$, which becomes positive when
 $\|\theta - w \|^2 \geq d/c$. Thus, $\Phi$ is strictly subharmonic
-outside a ball of radius $\sqrt{d/c}$.  \Snote{Is it realizeable? What
-  is the $\sigma$? Please focus on the $\sigma$}
-
-When $a$ is fixed under Assumption \ref{outputFixed}, the node-wise
-SGD algorithm is given by Algorithm \ref{GDNode}. For the Gaussian, we
-are only able to derive exponential time bounds on the runtime due to
-the fast decay of the potentials. Note that Gaussian potential
+outside a ball of radius $\sqrt{d/c}$. Note that Gaussian potential
 restricted to $S^{d-1}$ gives rise to the exponential activation
-function, so we can show convergence similarly. \Snote{This paragraph
-  also seems completely out of place.}
+function, so we can show convergence similarly.  
 %
 \begin{theorem}\label{gaussStrict}
 \label{GaussStrict}
-Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|a-b\|^2/2}$
-\Snote{what are a,b ? } and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed}, then if $c = d/\epsilon$ and $\boldsymbol{a,\theta} \in \mathcal{M}_{e^{-poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
+Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|\theta-w\|^2/2}$ and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed}, then if $c = d/\epsilon$ and $\boldsymbol{a,\theta} \in \mathcal{M}_{e^{-poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
 \end{theorem}
-\Snote{Does this theorem need to be here?}
+\Snote{Does this theorem need to be here?}\Rnote{Right im not sure if we should include this theorem at all? or where to put}
 
 We discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
 %
 \begin{definition}
 $\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
-all $\theta, w\in \Omega$, \Snote{What is $\Omega$?} $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq |\theta^Tw|^m$ 
+all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq |\theta^Tw|^m$ 
 \end{definition}
-\Rnote{Not sure if there is a nice general definition to be honest...to be discussed}
+
 
 \begin{lemma}
-For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Phi_m$. 
-\end{lemma} \Snote{The focus should be $\sigma$ everywhere in the
-  section. We should say here e.g. there exists a bounded sigma on the
-  sphere such that the corresponding potential is $m$-almost
-  1-harmonic ... }
+For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a polynomial $\sigma$.
+\end{lemma}
 
 \begin{proof}
-We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
+We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $h(u^Tv) = h(\cos(\alpha))$, where $\alpha \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
 Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
 \begin{align*}
-\Delta f & = (\sin \theta)^{2-d} \frac{\partial}{\partial \theta}\left[ (\sin \theta)^{d-2} \frac{\partial f(\cos \theta)}{\partial \theta}\right] \\
-& = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta)
+\Delta h & = (\sin \alpha)^{2-d} \frac{\partial}{\partial \alpha}\left[ (\sin \alpha)^{d-2} \frac{\partial f(\cos \alpha)}{\partial \alpha}\right] \\
+& = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha)
 \end{align*}
-\Snote{$f$ and $\theta$ are overloaded here}
-
-We want $f$ to be approximately $1$-harmonic, so we want to approximately solve:
 %
-\[f''(x)(1-x^2) - (d-1)xf'(x) =  f(x) \]
+We want $b$ to be approximately $1$-harmonic, so we want to approximately solve:
+%
+\[h''(x)(1-x^2) - (d-1)xh'(x) =  h(x) \]
 
-Let us construct our approximate function $f$ as follows. Let $c_n$ are the Taylor coefficients of $f(x)$, then we want to solve the equation:
-Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 1, c_1 = 0$, then we run this recurrence holds $n=0,...,N-2$ for some $N$ even and set $c_{N+i} = 0$ for $i > 0$, then
+Let us construct our approximate function $h$ as follows. Let $c_n$ are the Taylor coefficients of $h(x)$, then we want to solve the equation:
+Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 1, c_1 = 0$, then we run this recurrence holds $n=0,...,m-2$ for some $m$ even and set $c_{m+i} = 0$ for $i > 0$, then
 \begin{align*}
-\Delta f & = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta) \\
-&= f(\cos(x)) + k_N(\cos\theta)^N
+\Delta f & = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha) \\
+&= h(\cos(x)) + k_m(\cos\alpha)^m
 \end{align*}
 
-Where $k_N = N^2 + (d-2)N + 1$. Notice that $f(x)$ has non-negative Taylor coefficients and is a bounded polynomial, so $f$ is a realizable potential function by Theorem \ref{thm:rotReal}. We can also choose $N$ to be odd by setting $c_0 = 0, c_1 = 1$. Therefore, we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$.
+Where $k_m = m^2 + (d-2)m + 1$. Notice that $f(x)$ has non-negative Taylor coefficients and is a bounded polynomial, so $f$ is a realizable potential function by Theorem \ref{thm:rotReal}, with corresponding $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$ is the i-th normalized Hermite polynomial. We can also choose $m$ to be odd by setting $c_0 = 0, c_1 = 1$. Now, by normalizing $\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$.
 \end{proof}
 
 \begin{lemma}\label{bounded}
