@@ -749,11 +749,15 @@ $|w_j^T\theta_i| > 1- \epsilon,$ or $|a_i| < \delta$.
 \end{restatable}
 %
 \begin{proof}
-The proof is similar to Theorem \ref{EigStrict}. Consider all $\theta_i$ such that $|a_i| > \delta$ and $|w_j^T\theta_i| \leq 1-\epsilon$. WLOG, let these be
-$\theta_1,...,\theta_l$, for some $l \leq k$. Assume for now that furthermore,  $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$.
-Then, consider a correlated rotation on the sphere, which is a
-correlated translation in spherical coordinates. So, consider the loss
-function
+  The proof is similar to Theorem \ref{EigStrict}. Consider all
+  $\theta_i$ such that the corresponding $|a_i| > \delta$ and for all
+  $j,$ we have $|w_j^T\theta_i| \leq 1-\epsilon$. WLOG, let these be
+  $\theta_1,...,\theta_l$, for some $l \leq k$. 
+Assume for now that
+  furthermore, $|\theta_i^T\theta_j| \leq 1-\epsilon$ for
+  $i \leq l, j\geq l+1$.  Then, consider a correlated rotation on the
+  sphere, which is a correlated translation in spherical
+  coordinates. So, consider the loss function
 %
 \[ H({\bf a, v}) = G({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
@@ -814,7 +818,7 @@ Since $D \geq 0$ and combined with the fact that $|a_i| > \delta$,
 & \leq   \sum_{i=1}^l  |a_i|(-2\delta + 3\delta/2) < -l\delta^2/4
 \end{align*}
 
-Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-l\delta^2/(4d) > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l \,{\text  times}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -l\delta^2/4d$. Since $w$ has $\|w\|^2 = l$, we conclude that $(\boldsymbol{a,\theta})$ is $\delta^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\delta^2/(4d)}$. 
+Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-l\delta^2/(4d) > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l {\textrm{ times}}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -l\delta^2/4d$. Since $w$ has $\|w\|^2 = l$, we conclude that $(\boldsymbol{a,\theta})$ is $\delta^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\delta^2/(4d)}$. 
 
 Finally, it must be the case that there exists $\theta_{j_1},...\theta_{j_l}$ such that
 $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and
