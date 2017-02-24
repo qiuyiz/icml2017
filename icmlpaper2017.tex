@@ -456,7 +456,6 @@ Since $\Phi$ is harmonic, we also have
 &  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
   + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
 \end{align*}
-\Anote{in this sequence, why does trace of $\nabla^2$ equal the divergence? specify.}
 which is a contradiction. In the first line, there is a factor of 2 by symmetry.
 \end{proof}
 
@@ -485,7 +484,6 @@ descent with small stepsize converges to the global minima.
 \subsection{Alternative Notions of Harmonic Potentials}
 
 \subsubsection{Strictly Subharmonic Potentials}
-\Anote{i don't see the purpose of this section. you have much stronger results. nor does this exposition help explain or introduce the stronger results. i think you should eliminate this section wholesale.}
 %
 The first alternative to harmonic potentials is the natural
 consideration of strictly subharmonic potentials, which have a
@@ -614,8 +612,6 @@ strictly negative, so we are not at a local minimum.
 Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
 for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, since $\sum_{i=1}^k a_i \sigma(\theta_i,x) = 0$, $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$. 
 \end{proof} 
-
-\Anote{this doesn't seem rigorously stated. what are the conditions on $\Phi$? specify. also, i don't think you should bother to make this claim since these $\lambda$-potentials are not realizable, and therefore not worth running descent on.}
 %
 \begin{observation}
 We can initialize $\boldsymbol{a,\theta}$ such that $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ and continuous gradient descent will enforce the inequality as the $L$ is non-increasing. Initialization details are expounded in Observation~\ref{initialize}.
@@ -649,15 +645,10 @@ $0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD (with nois
 \[\mathcal{M}_\epsilon = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
   \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq
   -\epsilon\right\}\]
-
-\begin{theorem}\label{strongConverge}
-Let $L :\Omega \to \R$ be a twice differentiable function such that $|L(x)| \leq B, \|\nabla^2 L(x)\| \leq C,\|\nabla^2L(x) -\nabla^2L(y)\| \leq \rho\|x - y\|$ for all $x,y\in\Omega$. Also, assume that we access to stochastic function $\widehat{L}$ such that \Anote{are you asking for all three quantities to be less than $\epsilon/3$? the first two quantities have no conditions imposed on them.} $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) = L(x)\|, \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$ for all $x\in \Omega$. \Anote{are you asking for this almost surely? if so, it's worth specifying.}
-
-\Anote{you reference Algorithm \ref{SGD}, but this algorithm is only defined in the appendix only. bring it into this section.} 
-Then, we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_\epsilon$ after at most $\poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
-\end{theorem}
 %
-We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is possible. We now discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
+We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is possible. The full description and proof of our SGD algorithm is given in the supplementary material. 
+
+We now discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
 %
 \begin{definition}
 $\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
@@ -665,42 +656,10 @@ all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\th
 \end{definition}
 
 
-\begin{lemma}
+\begin{restatable}{lemma}{almostHarmonic}
 For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$.
-\end{lemma}
-\Snote{Why do we only look at rotationally invariant potentials? Do we
-prove it's invariant, or do we assume so (I don't see it written) ?}
-\begin{proof}
-We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $h(u^Tv) = h(\cos(\alpha))$, where $\alpha \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
-Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
-\begin{align*}
-\Delta h & = (\sin \alpha)^{2-d} \frac{\partial}{\partial \alpha}\left[ (\sin \alpha)^{d-2} \frac{\partial f(\cos \alpha)}{\partial \alpha}\right] \\
-& = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha)
-\end{align*}
-
-\Snote{IMP: Rina, can you please check that this Laplacian is equal to
-  the trace of the hessian?}
-
-We want $h$ to be approximately $1$-harmonic, so we want to approximately solve:
+\end{restatable}
 %
-\[h''(x)(1-x^2) - (d-1)xh'(x) =  h(x) \]
-%
-Let us construct our approximate function $h$ as follows. Let $c_n$ are the Taylor coefficients of $h(x)$, then we want to solve the equation:
-Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 0, c_1 = 1$, then let the recurrence hold for $n=0,...,m-2$ for some $m$ odd. For $i > m$, we let $c_i = 0$. 
-\begin{align*}
-\Delta_\alpha h & = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha) \\
-&= h(\cos(\alpha)) + k_mc_m(\cos\alpha)^m
-\end{align*}
-Where $k_m = m^2 + (d-2)m + 1$. Notice that $h(x)$ has non-negative
-Taylor coefficients and is a bounded polynomial, so it is a
-realizable potential function by Theorem \ref{thm:rotReal}, with
-corresponding activation $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$
-is the i-th normalized Hermite polynomial. Now, by normalizing
-$\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have
-%
-\[|\Delta_\theta \Phi_m(\theta ,w) - \Phi_m(\theta,w) | \leq \frac{k_mc_m}{h(1)} |\theta^Tw|^m \leq k_m|\theta^Tw|^m\]
-Furthermore, since $\Phi$ is a polynomial with non-negative coefficients, $|\Phi(\theta^Tw)| \leq \Phi(|\theta^Tw|) \leq \Phi(1) = 1$. Thus we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$ odd with our desired properties. Finally, a $m$-almost $\lambda$-harmonic potential is also $m-1$-almost $\lambda$-harmonic, so our claim follows for all $m$.
- \end{proof}
 %
 \begin{lemma}\label{bounded}
   Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals
@@ -1415,6 +1374,39 @@ Finally, we proceed by induction. Since $\theta_1, w_1$ are paired to high accur
 
 \section{Convergence of Almost $\lambda$-Harmonic Potentials}\label{App:EigenFunc}
 
+\almostHarmonic*
+
+\begin{proof}
+We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $h(u^Tv) = h(\cos(\alpha))$, where $\alpha \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
+Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
+\begin{align*}
+\Delta h & = (\sin \alpha)^{2-d} \frac{\partial}{\partial \alpha}\left[ (\sin \alpha)^{d-2} \frac{\partial f(\cos \alpha)}{\partial \alpha}\right] \\
+& = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha)
+\end{align*}
+
+\Snote{IMP: Rina, can you please check that this Laplacian is equal to
+  the trace of the hessian?}
+
+We want $h$ to be approximately $1$-harmonic, so we want to approximately solve:
+%
+\[h''(x)(1-x^2) - (d-1)xh'(x) =  h(x) \]
+%
+Let us construct our approximate function $h$ as follows. Let $c_n$ are the Taylor coefficients of $h(x)$, then we want to solve the equation:
+Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 0, c_1 = 1$, then let the recurrence hold for $n=0,...,m-2$ for some $m$ odd. For $i > m$, we let $c_i = 0$. 
+\begin{align*}
+\Delta_\alpha h & = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha) \\
+&= h(\cos(\alpha)) + k_mc_m(\cos\alpha)^m
+\end{align*}
+Where $k_m = m^2 + (d-2)m + 1$. Notice that $h(x)$ has non-negative
+Taylor coefficients and is a bounded polynomial, so it is a
+realizable potential function by Theorem \ref{thm:rotReal}, with
+corresponding activation $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$
+is the i-th normalized Hermite polynomial. Now, by normalizing
+$\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have
+%
+\[|\Delta_\theta \Phi_m(\theta ,w) - \Phi_m(\theta,w) | \leq \frac{k_mc_m}{h(1)} |\theta^Tw|^m \leq k_m|\theta^Tw|^m\]
+Furthermore, since $\Phi$ is a polynomial with non-negative coefficients, $|\Phi(\theta^Tw)| \leq \Phi(|\theta^Tw|) \leq \Phi(1) = 1$. Thus we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$ odd with our desired properties. Finally, a $m$-almost $\lambda$-harmonic potential is also $m-1$-almost $\lambda$-harmonic, so our claim follows for all $m$.
+ \end{proof}
 
 \if{1}
 \begin{theorem}
