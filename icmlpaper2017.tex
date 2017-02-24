@@ -670,11 +670,22 @@ Note that if a critical point is not a local minimum, then it is
 $0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD can avoid all points that are $\epsilon$-strict in $poly(1/\epsilon)$ iterations and will converge
 to a point in $\mathcal{M}_\epsilon$, where 
 %
-\[\mathcal{M}_\epsilon = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\| \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq -\epsilon\right\}\]
+\[\mathcal{M}_\epsilon = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
+  \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq
+  -\epsilon\right\}\]
+\Snote{This is not what the theorem states. There are lots of
+  assumptions on $L$ that don't factor into the claim here. Try to
+  write a formal version of the theorem.}
 
 Intuitively, this means that SGD will converge to points with small gradient and small negative curvature. The full proofs of all these claims are found in supplementary material. 
 
-For concreteness, we will focus on a specific potential function with this property: the Gaussian kernel $\Phi(\theta, w) = \exp(-c\|\theta - w\|^2/2)$. In $\R^d$, the Laplacian is $\Delta \Phi = ( c\|\theta - w\|^2 -d ) \exp(-c\|\theta - w\|^2/2)$, which becomes positive when $\|\theta - w \|^2 \geq d/c$. Thus, $\Phi$ is strictly subharmonic outside a ball of radius $\sqrt{d/c}$. 
+For concreteness, we will focus on a specific potential function with
+this property: the Gaussian kernel $\Phi(\theta, w) = \exp(-c\|\theta
+- w\|^2/2)$. In $\R^d$, the Laplacian is $\Delta \Phi = ( c\|\theta -
+w\|^2 -d ) \exp(-c\|\theta - w\|^2/2)$, which becomes positive when
+$\|\theta - w \|^2 \geq d/c$. Thus, $\Phi$ is strictly subharmonic
+outside a ball of radius $\sqrt{d/c}$.  \Snote{Is it realizeable? What
+  is the $\sigma$? Please focus on the $\sigma$}
 
 When $a$ is fixed under Assumption \ref{outputFixed}, the node-wise
 SGD algorithm is given by Algorithm \ref{GDNode}. For the Gaussian, we
@@ -682,11 +693,13 @@ are only able to derive exponential time bounds on the runtime due to
 the fast decay of the potentials. Note that Gaussian potential
 restricted to $S^{d-1}$ gives rise to the exponential activation
 function, so we can show convergence similarly.
-
+%
 \begin{theorem}\label{gaussStrict}
 \label{GaussStrict}
-Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|a-b\|^2/2}$ and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed}, then if $c = d/\epsilon$ and $\boldsymbol{a,\theta} \in \mathcal{M}_{e^{-poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
+Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|a-b\|^2/2}$
+\Snote{what are a,b ? } and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed}, then if $c = d/\epsilon$ and $\boldsymbol{a,\theta} \in \mathcal{M}_{e^{-poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
 \end{theorem}
+\Snote{Does this theorem need to be here?}
 
 We discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
 %
@@ -706,6 +719,7 @@ Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
 \Delta f & = (\sin \theta)^{2-d} \frac{\partial}{\partial \theta}\left[ (\sin \theta)^{d-2} \frac{\partial f(\cos \theta)}{\partial \theta}\right] \\
 & = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta)
 \end{align*}
+\Snote{$\theta$ is overloaded here}
 
 We want $f$ to be approximately $1$-harmonic, so we want to approximately solve:
 %
@@ -1496,6 +1510,7 @@ Using the Laplacian formula on $S^{d-1}$ gives:
 \Delta f & = (\sin \theta)^{2-d} \frac{\partial}{\partial \theta}\left[ (\sin \theta)^{d-2} \frac{\partial f(\cos \theta)}{\partial \theta}\right] \\
 & = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta)
 \end{align*}
+\Snote{$\theta$ is overloaded here.}
 
 We want $f$ to be approximately $1$-harmonic, so we want to approximately solve:
 %
