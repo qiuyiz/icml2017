@@ -99,7 +99,8 @@
 \newcommand{\xor}{\oplus}
 \newcommand{\conj}[1]{{\overline {#1}}} %% conjugate
 \newcommand{\pd}[2]{\frac{\partial#1}{\partial#2}}
-
+\newif\ifshort
+\shorttrue
 
 \def\showauthornotes{1}
 
@@ -383,24 +384,21 @@ charges in $\R^d$ and $\theta_i$ are moving point charges in $\R^d$
 that are trying to find $w_i$. We note that standard electron-proton dynamics interprets the force between particles as an acceleration vector; in our case, it is more accurately interpreted as a velocity vector. 
 %
 \begin{definition}\label{EPDef}
-\Anote{Since you only use the case where some of the $\theta$'s are fixed, i suggest you write this explicitly in terms of some floating electrons and corresponding fixed particles. right now, you introduce the case you actually care about at the end of this definition. the first part is never actually used anywhere, so you should toss it.}
   Given a potential $\Phi : \mathcal{M} \times \mathcal{M} \to \R$ and
   particle locations $\theta_1,...,\theta_k \in \mathcal{M}$ along
   with their respective charges $a_1,...,a_k \in \R$. We define {\bf
-    Electron-Proton Dynamics} under $\Phi$ to be the solution
-  $(\theta_1(t),...,\theta_k(t))$ to the following system of
+    Electron-Proton Dynamics} under $\Phi$ with some subset $S \subseteq [k]$ of fixed particles to be the solution $(\theta_1(t),...,\theta_k(t))$ to the following system of
   differential equations: For each pair $(\theta_i,\theta_j)$, there
   is a force from $\theta_j$ exerted on $\theta_i$ that is given by
   ${\bf F}_{i}(\theta_j) = a_ia_j\nabla_{\theta_i}
   \Phi(\theta_i,\theta_j)$ and
 \[-\frac{d\theta_i}{dt} =  \sum_{ j \neq i} {\bf F}_{i}(\theta_j)\]
-for $i \in [k]$, with $\theta_i(0) = \theta_i$. If some subset $S \subseteq [k]$ of particles are fixed, then for $i\in S$, we have instead $\theta_i(t) = \theta_i$ for $t \geq 0$.
+for all $i \not \in S$, with $\theta_i(0) = \theta_i$. For $i \in S$, $\theta_i(t) =  \theta_i$.
 \end{definition}
 %
-\Anote{you don't need this theorem anywhere. you don't build on it. it's an overly formal illustration of why eletron-proton dynamics relate to networks. you can make that point in two sentences without the formality. the presence of this theorem just means i have to read more to reach the meat of the paper.}
-\begin{theorem}\label{EPDyn}
+\begin{restatable}{theorem}\label{EPDyn}
 Let $\Phi$ be a symmetric potential. Running continuous gradient descent on \eqref{errLoss} with respect to $\theta$, initialized at $(\theta_1,...,\theta_k)$ produces the same dynamics as Electron-Proton Dynamics under $2\Phi$ with fixed particles at $w_1,...,w_k$ with respective charges $b_1,..,b_k$ and moving particles at $\theta_1,...,\theta_k$ with respective charges $a_1,...,a_k$.
-\end{theorem}
+\end{restatable}
 %
 \begin{proof}
 The initial values are the same. Notice that continuous gradient descent on $L(\boldsymbol{a,\theta})$ with respect to $\theta$ produces dynamics given by $\frac{d\theta_i(t)}{dt} = -\nabla_{\theta_i}L(\boldsymbol{a,\theta})$. Therefore,
@@ -415,7 +413,7 @@ And gradient descent does not move $w_i$. By definition, the dynamics correspond
 When running gradient descent on non-convex loss functions, we often
 can and do get stuck at a local minima. In this section, we use
 second-order information to deduce that the local
-minima for these certain classes of potentials occur only when certain convergence statements hold. These potentials are often non-smooth, unbounded and un-realizable. However, in the later sections, we can show that approximations of these potentials can lead to similar convergence results. 
+minima for these certain classes of potentials occur only when certain convergence statements hold. In these section, these potentials are often {\it non-smooth, unbounded and un-realizable}. However, in the later sections, we apply insights developed here to derive similar convergence results for approximations of these potentials.
 %
 \subsection{Earnshaw's Theorem}
 %
@@ -863,7 +861,21 @@ $h(\theta)^2 \geq 2\delta \sqrt{G(0,0)}$. Therefore,
 $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$.
 \end{proof}
  
- 
+ \begin{lemma} For  the almost $\lambda$ harmonic function, for random $\theta$ on $S^{d-1}$, $E[\Phi(w,\theta)^2] \geq \Omega((1/m)^d)$.
+
+If $w_1,..,w_k$ are random $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] \geq \|b\|_2^2 \Omega((1/m)^d)$
+\end{lemma}
+
+\begin{proof}
+
+Note that $\Phi$ is a degree $m$ polynomial with positive coefficients over $\cos \alpha$ where $\alpha$ is the angle between $w$ and $\theta$ and has value $1$ for $\alpha = 0$. So even when $\alpha$ is small, specifically  $O(1/m)$, $\Phi$ is $\Omega(1)$. And with probability $(\Omega(1/m))^d$ $\alpha$ is  $O(1/m)$. So
+$E[\Phi(w,\theta)^2] \geq  (\Omega(1/m))^d$ .   
+
+For the second part, note that if $w_1,..,w_k$  are random  when we expand the square in the expectation the cross terms will disappear as the $w_i$'s are independent and because  $E[\Phi(w_i,\theta)]=0$,
+ \[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] \ge k\Omega((1/m)^d)\]
+
+\end{proof}
+
  \if{1}
  In the end, we can combine Theorem \ref{eigRes} with Algorithm \ref{GDReset} to derive a convergence result.
  
@@ -993,7 +1005,7 @@ For the polynomial activation, we also can show convergence under orthogonality 
 
 \begin{theorem}
 \label{PolyStrict}
-Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_k$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Let $L$ be as in \eqref{errLossUnit}. Then, all critical points of $L$ are not local minima, except at the global minima. 
+Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_k$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Let $L$ be as in \eqref{errLossUnit}. Then, all critical points of $L$ are not local minima, except when $\theta_1 = w_j$ for some $j$.   
 \end{theorem}
 \begin{proof}
 WLOG, we can consider $w_1,...,w_d$ to be the basis vectors $e_1,...,e_d$. Note that this is a manifold optimization problem, so our optimality conditions are given by introducing a Lagrange multiplier $\lambda$, as in \cite{GeHJY15}.
@@ -1001,12 +1013,12 @@ WLOG, we can consider $w_1,...,w_d$ to be the basis vectors $e_1,...,e_d$. Note 
 \[ (\nabla_\theta L)_i = 2ab_il(\theta_i)^{l-1}  -2\lambda \theta_i = 0 \]
 where $\lambda$ is chosen that minimizes 
 \[\lambda = \arg \min_\lambda \sum_i (ab_i l (\theta_i)^{l-1} - \lambda\theta_i)^2 = \sum ab_i l (\theta_i)^l \]
-Therefore, either $\theta_i = 0$ or $b_i (\theta_i)^{l-2} = \lambda/(al)$. Note also that the spherical Hessian can be viewed as a diagonal matrix with diagonal entry: 
+Therefore, either $\theta_i = 0$ or $b_i (\theta_i)^{l-2} = \lambda/(al)$. From \cite{GeHJY15}, we consider the constrained Hessian, which is a diagonal matrix with diagonal entry: 
 \[(\nabla^2 L)_{ii} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
-Note that the equality only holds in the tangent space at $\theta$. Assume that there exists $\theta_i, \theta_j \neq 0$, then we claim that $\theta$ is not a local minima.  First, our optimality conditions imply $b_i(\theta_i)^{l-2} = b_j (\theta_j)^{l-2} = \lambda/(al)$. So,
+Assume that there exists $\theta_i, \theta_j \neq 0$, then we claim that $\theta$ is not a local minima. First, our optimality conditions imply $b_i(\theta_i)^{l-2} = b_j (\theta_j)^{l-2} = \lambda/(al)$. So,
 \[(\nabla^2 L)_{ii} = (\nabla^2L)_{jj} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
 \[ = 2(l-2)\lambda = -2(l-2)la^2\]
-Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i,j$ and $v^T\theta = 0$, so $v$ is in the tangent space at $\theta$. Finally, $v^T(\nabla^2 L) v  = -2(l-2)l a^2 < 0$, implying $\theta$ is not a local minima when $a \neq 0$. Note that $a = 0$ occurs with probability 0 since our objective function is non-increasing throughout the gradient descent algorithm and is almost surely initialized to be negative with $a$ optimized upon initialization.
+Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i,j$ and $v^T\theta = 0$, so $v$ is in the tangent space at $\theta$. Finally, $v^T(\nabla^2 L) v  = -2(l-2)l a^2 < 0$, implying $\theta$ is not a local minima when $a \neq 0$. Note that $a = 0$ occurs with probability 0 since our objective function is non-increasing throughout the gradient descent algorithm and is almost surely initialized to be negative with $a$ optimized upon initialization, as by observed before.
 \end{proof}
 
 Under a node-wise GD algorithm, we can show convergence to global minima under orthogonality assumptions on $w_j$.
