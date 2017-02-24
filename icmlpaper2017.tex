@@ -28,6 +28,7 @@
 % \usepackage[nohyperref]{icml2017} above.
 \usepackage{hyperref}
 
+
 % Packages hyperref and algorithmic misbehave sometimes.  We can fix
 % this with the following command.
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
@@ -111,7 +112,7 @@
 \newcommand{\Rnote}{\Authornote{R}}
 \newcommand{\Snote}{\Authornote{S}}
 
-
+\allowdisplaybreaks[3]
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
 \icmltitlerunning{Convergence of Electron-Proton Dynamics}
@@ -437,25 +438,15 @@ $\Phi(\theta,w)$ is a {\bf harmonic} potential on $\Omega$ if $\Delta_\theta \Ph
   $\lambda_{min}(\nabla^2 f(x^*)) > 0,$ then $x^*$ is a strict local minimum.
 \end{fact}
 %
-\begin{theorem}[Earnshaw's Theorem. See~\cite{arnold1985mathematical}]
+\begin{restatable}{theorem}{earnshaw}
+[Earnshaw's Theorem. See~\cite{arnold1985mathematical}]
 \label{Earnshaw} 
 Let $\mathcal{M} = \R^d$ and let $\Phi$ be harmonic and $L$
 be as in $\eqref{errSimp}$. Then, $L$ admits no
 differentiable strict local minima.
-\end{theorem}
+\end{restatable}
 %
-\begin{proof}
-  If $(\boldsymbol{a,\theta})$ is a differentiable strict local
-  minima, then for any $i,$ we must have
-\[\nabla_{\theta_{i}} L = 0, \text{ and }  \Tr(\nabla^2_{\theta_i}L) > 0.\]
-Since $\Phi$ is harmonic, we also have
-\begin{align*}
-&  \Tr(\nabla^2_{\theta_i}L(\theta_1,...,\theta_n)) = \Delta_{\theta_i} L \\
-&  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
-  + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
-\end{align*}
-which is a contradiction. In the first line, there is a factor of 2 by symmetry.
-\end{proof}
+
 
 \if{1}
 \begin{corollary}
@@ -984,6 +975,21 @@ However, we believe that convergence results for depth-2 neural networks can be 
 \newpage
 \appendix
 
+\section{Earnshaw's Theorem}
+
+\earnshaw*
+\begin{proof}
+  If $(\boldsymbol{a,\theta})$ is a differentiable strict local
+  minima, then for any $i,$ we must have
+\[\nabla_{\theta_{i}} L = 0, \text{ and }  \Tr(\nabla^2_{\theta_i}L) > 0.\]
+Since $\Phi$ is harmonic, we also have
+\begin{align*}
+&  \Tr(\nabla^2_{\theta_i}L(\theta_1,...,\theta_n)) = \Delta_{\theta_i} L \\
+&  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
+  + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
+\end{align*}
+which is a contradiction. In the first line, there is a factor of 2 by symmetry.
+\end{proof}
 \section{Section 2 Proofs}
 
 \epdyn
@@ -995,6 +1001,8 @@ The initial values are the same. Notice that continuous gradient descent on $L(\
 a_ib_j\nabla_{\theta_i} \Phi(\theta_i,w_j)\] 
 And gradient descent does not move $w_i$. By definition, the dynamics corresponds to Electron-Proton Dynamics as claimed.
 \end{proof}
+
+
 \section{Realizable Potentials}
 \label{realizable}
 
@@ -1041,7 +1049,6 @@ it suffices to check the following 1-dimensional identities.
 
 
 The last equality follows by Fourier uniqueness and taking the Fourier transform of both sides, which are both equality $\sqrt{2/\pi}(\omega^2+1)^{-1}$. 
-
 
 
 \subsection{Characterization Theorems}
