@@ -758,12 +758,18 @@ For the second part, note that if $w_1,..,w_k$  are random  when we expand the s
 \end{proof}
 
 \begin{theorem}
-Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be  such that $||b||_2$ is $\Omega(1)$ and $O(poly(d))$, and
-$w_1,..,w_k$ are randomly chosen from $\mathcal{M}$. Then 
-there exists an $m$ (that depends on $d$) so that for the potential $\Phi_m$ the following holds: we can chose an initial point $(a,\theta)$ so that with high probability after running Gradient Descent (Algorithm 1) with the regularized objective $G(\boldsymbol{a,\theta})$ if 
-$(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$ then there exists an
-$i, j$ such that
-$|w_j^T\theta_i| > 1- k^2\epsilon,$
+  Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be such that
+  $||b||_2$ is $\Omega(1)$ and $O(poly(d))$, and $w_1,..,w_k$ are
+  randomly chosen from $\mathcal{M}$. Then for all
+  $\epsilon \in (0,1),$ there exists $m, \delta$ (that depends on $d$)
+  such that for the potential $\Phi_m$ the following holds: we can chose
+  an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if
+  after running gradient descent on the regularized objective
+  $G(\boldsymbol{a,\theta}),$ we have
+% with high
+%   probability after running Gradient Descent (Algorithm 1) 
+  $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)},$ then there
+  exists an $i, j$ such that $|w_j^T\theta_i| > 1- k^2\epsilon,$
 \end{theorem}
 
 
