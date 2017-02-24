@@ -278,8 +278,8 @@ Specifically, for the sign activation, we show that if we consider the loss func
    \hline 
         Name of Activation&  Potential  ($\Phi(\theta,w)$)    & Convergence? \\ \hline 
         Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes d = 2, \ref{signCon} \ref{SignConv}\\ 
-        Polynomial  & $(\theta^Tw)^m$       & Yes, $\poly(d,\frac{1}{\epsilon})\ref{polyConv}$  \\        
-        Almost   $\lambda$-harmonic  & Polynomial, see \ref{almostHarmonic}  & Yes, $\poly(d,\frac{1}{\epsilon})$ \\
+        Polynomial  & $(\theta^Tw)^m$       & Yes, $\poly(d,\frac{1}{\epsilon}) \ref{PolyConv}$  \\        
+        Almost   $\lambda$-harmonic  & Poly($\theta^Tw$), \ref{AlmostHarmonic}  & Yes, $\poly(d,\frac{1}{\epsilon})$ \\
          % Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
         \hline
 \end{tabular}
@@ -578,7 +578,7 @@ all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\th
 \end{definition}
 
 
-\begin{restatable}{lemma}{almostHarmonic}
+\begin{restatable}{lemma}{almostHarmonic}\label{AlmostHarmonic}
 For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$.
 \end{restatable}
 %
@@ -762,20 +762,16 @@ For the second part, note that if $w_1,..,w_k$  are random  when we expand the s
   $||b||_2$ is $\Omega(1)$ and $O(poly(d))$, and $w_1,..,w_k$ are
   randomly chosen from $\mathcal{M}$. Then for all
   $\epsilon \in (0,1),$ there exists $m, \delta$ (that depends on $d$)
-  such that for the potential $\Phi_m$ the following holds: we can chose
-  an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if
-  after running gradient descent on the regularized objective
+  such that for the $m$-almost $1$-harmonic potential $\Phi_m$ the
+  following holds: we can chose an initial point
+  $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running
+  gradient descent on the regularized objective
   $G(\boldsymbol{a,\theta}),$ we have
 % with high
 %   probability after running Gradient Descent (Algorithm 1) 
   $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)},$ then there
   exists an $i, j$ such that $|w_j^T\theta_i| > 1- k^2\epsilon,$
 \end{theorem}
-
-
-
-
-
 
 
  \if{1}
@@ -818,7 +814,7 @@ For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such 
 \end{proof}
 \fi
 
-\section{Other Potentials}
+\section{Common Activations}
 First, we consider the sign activation function. Under restrictions on the size of the input dimension or the number of hidden units, we can prove convergence results under the sign activation function. 
 
 \Anote{ythis theorem is about $\theta\in R$, which is not of any practical interest. you should remove it.}
@@ -853,34 +849,19 @@ L(a_1,\theta_1) =  a_1^2 \Phi(\theta_1,\theta_1)  + 2\sum_{j=1}^k a_1b_j \Phi(\t
 \end{equation}
 
 
-%\Anote{this theorem is about $\theta \in R$. it is not of practical relevance. you should remove it.}
 \begin{restatable}{theorem}{signconv}
 \label{SignConv}
 Let $\mathcal{M} = S^1$ and $L$ be as in \eqref{errLossUnit} and $\sigma$ is the sign activation function. Then, almost surely over random choices of $b_1,...,b_k$, all local minima of $L$ are at $\pm w_j$. 
 \end{restatable}
 %
-For the polynomial activation, we also can show convergence under orthogonality assumptions on $w_j$.
+For the polynomial activation and potential functions, we also can show convergence under orthogonality assumptions on $w_j$. 
 
-\Anote{ in terms of the corresponding activation function instead of the potential. }
-\begin{theorem}
+\begin{restatable}{theorem}{polystrict}
 \label{PolyStrict}
 Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_k$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Let $L$ be as in \eqref{errLossUnit}. Then, all critical points of $L$ are not local minima, except when $\theta_1 = w_j$ for some $j$.   
-\end{theorem}
-\begin{proof}
-WLOG, we can consider $w_1,...,w_d$ to be the basis vectors $e_1,...,e_d$. Note that this is a manifold optimization problem, so our optimality conditions are given by introducing a Lagrange multiplier $\lambda$, as in \cite{GeHJY15}.
-\[\pd{L}{a} = 2\sum_{i=1}^d ab_i (\theta_i)^l + 2a = 0\]
-\[ (\nabla_\theta L)_i = 2ab_il(\theta_i)^{l-1}  -2\lambda \theta_i = 0 \]
-where $\lambda$ is chosen that minimizes 
-\[\lambda = \arg \min_\lambda \sum_i (ab_i l (\theta_i)^{l-1} - \lambda\theta_i)^2 = \sum ab_i l (\theta_i)^l \]
-Therefore, either $\theta_i = 0$ or $b_i (\theta_i)^{l-2} = \lambda/(al)$. From \cite{GeHJY15}, we consider the constrained Hessian, which is a diagonal matrix with diagonal entry: 
-\[(\nabla^2 L)_{ii} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
-Assume that there exists $\theta_i, \theta_j \neq 0$, then we claim that $\theta$ is not a local minima. First, our optimality conditions imply $b_i(\theta_i)^{l-2} = b_j (\theta_j)^{l-2} = \lambda/(al)$. So,
-\[(\nabla^2 L)_{ii} = (\nabla^2L)_{jj} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
-\[ = 2(l-2)\lambda = -2(l-2)la^2\]
-Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i,j$ and $v^T\theta = 0$, so $v$ is in the tangent space at $\theta$. Finally, $v^T(\nabla^2 L) v  = -2(l-2)l a^2 < 0$, implying $\theta$ is not a local minima when $a \neq 0$. Note that $a = 0$ occurs with probability 0 since our objective function is non-increasing throughout the gradient descent algorithm and is almost surely initialized to be negative with $a$ optimized upon initialization, as by observed before.
-\end{proof}
+\end{restatable}
 
-Under a node-wise GD algorithm, we can show convergence to global minima under orthogonality assumptions on $w_j$.
+Under a node-wise SGD algorithm, we can show efficient convergence to global minima under orthogonality assumptions on $w_j$ for these polynomial activations/potentials.
 
 \begin{restatable}{theorem}{polyConv}
 \label{PolyConv}
@@ -953,22 +934,7 @@ However, we believe that convergence results for depth-2 neural networks can be 
 \newpage
 \appendix
 
-\section{Earnshaw's Theorem}
-
-\earnshaw*
-\begin{proof}
-  If $(\boldsymbol{a,\theta})$ is a differentiable strict local
-  minima, then for any $i,$ we must have
-\[\nabla_{\theta_{i}} L = 0, \text{ and }  \Tr(\nabla^2_{\theta_i}L) > 0.\]
-Since $\Phi$ is harmonic, we also have
-\begin{align*}
-&  \Tr(\nabla^2_{\theta_i}L(\theta_1,...,\theta_n)) = \Delta_{\theta_i} L \\
-&  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
-  + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
-\end{align*}
-which is a contradiction. In the first line, there is a factor of 2 by symmetry.
-\end{proof}
-\section{Section 2 Proofs}
+\section{Electron-Proton Dynamics}
 
 \epdyn*
 
@@ -1059,9 +1025,21 @@ By \ref{rotLem} and due to the orthogonality of hermite polynomials, if $f = \su
 Therefore, any function with non-negative taylor coefficients is a valid potential function, with the corresponding activation function determined by the sum of hermite polynomials, and the sum is bounded almost everywhere by assumption.
 \end{proof}
 
+\section{Earnshaw's Theorem}
 
-
-
+\earnshaw*
+\begin{proof}
+  If $(\boldsymbol{a,\theta})$ is a differentiable strict local
+  minima, then for any $i,$ we must have
+\[\nabla_{\theta_{i}} L = 0, \text{ and }  \Tr(\nabla^2_{\theta_i}L) > 0.\]
+Since $\Phi$ is harmonic, we also have
+\begin{align*}
+&  \Tr(\nabla^2_{\theta_i}L(\theta_1,...,\theta_n)) = \Delta_{\theta_i} L \\
+&  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
+  + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
+\end{align*}
+which is a contradiction. In the first line, there is a factor of 2 by symmetry.
+\end{proof}
 
 \section{Generalization Error and Iteration Bounds}
 \label{finite}
@@ -1445,8 +1423,25 @@ Since $\Phi$ is a linear function of the angle between $\theta, w_j$, each $w_j$
 
 \section{Convergence of Polynomial Potentials}
 
+\polystrict*
 
-When the output weights are variable, notice that our convergence results often rely on the optimality of the output weights. For this reason, we will optimize the output weights at every gradient descent step, by carefully choosing the stepsize. As our loss function \eqref{errLoss} is quadratic in $a$, we know that gradient descent will find the optimal $a$ efficiently. 
+\begin{proof}
+WLOG, we can consider $w_1,...,w_d$ to be the basis vectors $e_1,...,e_d$. Note that this is a manifold optimization problem, so our optimality conditions are given by introducing a Lagrange multiplier $\lambda$, as in \cite{GeHJY15}.
+\[\pd{L}{a} = 2\sum_{i=1}^d ab_i (\theta_i)^l + 2a = 0\]
+\[ (\nabla_\theta L)_i = 2ab_il(\theta_i)^{l-1}  -2\lambda \theta_i = 0 \]
+where $\lambda$ is chosen that minimizes 
+\[\lambda = \arg \min_\lambda \sum_i (ab_i l (\theta_i)^{l-1} - \lambda\theta_i)^2 = \sum ab_i l (\theta_i)^l \]
+Therefore, either $\theta_i = 0$ or $b_i (\theta_i)^{l-2} = \lambda/(al)$. From \cite{GeHJY15}, we consider the constrained Hessian, which is a diagonal matrix with diagonal entry: 
+\[(\nabla^2 L)_{ii} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
+Assume that there exists $\theta_i, \theta_j \neq 0$, then we claim that $\theta$ is not a local minima. First, our optimality conditions imply $b_i(\theta_i)^{l-2} = b_j (\theta_j)^{l-2} = \lambda/(al)$. So,
+\[(\nabla^2 L)_{ii} = (\nabla^2L)_{jj} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
+\[ = 2(l-2)\lambda = -2(l-2)la^2\]
+Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i,j$ and $v^T\theta = 0$, so $v$ is in the tangent space at $\theta$. Finally, $v^T(\nabla^2 L) v  = -2(l-2)l a^2 < 0$, implying $\theta$ is not a local minima when $a \neq 0$. Note that $a = 0$ occurs with probability 0 since our objective function is non-increasing throughout the gradient descent algorithm and is almost surely initialized to be negative with $a$ optimized upon initialization, as by observed before.
+\end{proof}
+
+When the output weights are variable, notice that our convergence results often rely on the optimality of the output weights. For this reason, we will optimize the output weights at every gradient descent step, by carefully choosing the stepsize. As our loss function \eqref{errLoss} is quadratic in $a$, we know that gradient descent will find the optimal $a$ efficiently. The pseudocode of our SGD algorithm is given in Algorithm \ref{NodeGDOpt}. 
+
+
 %
 \begin{theorem}\cite{nesterov2013introductory}\label{quadConverge}
   Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq \poly(d)\}$ and let
@@ -1458,7 +1453,6 @@ When the output weights are variable, notice that our convergence results often 
   in $T = \poly(d, \beta, 1/\epsilon)$ iterations.
 \end{theorem} 
 
-\noindent The pseudocode is given in Algorithm \ref{NodeGDOpt}. 
 %
 \begin{algorithm}[tb]
  \caption{Node-wise Gradient Descent Algorithm with Output Weights Optimization}
@@ -1507,8 +1501,7 @@ We want to show that $a_i^2 = \Omega(\epsilon)$. First, we analyze the random dr
 %
 
 By assumption, we know that $\expt[\widehat{C}(\theta_i)^2] \geq
-\epsilon$. Since $a_i,b_i, \widehat{\Phi}$ is $\poly(d)$-bounded, then $\widehat{C}(\theta_i)$ is $\poly(d)$-bounded. From Hoeffding bounds, we see that after $\poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}\widehat{C}(\theta_i)^2 \geq \epsilon/2$, where $\hat{\expt}$ denotes the empirical average over $\theta_i$. Therefore, we must have found some $\theta_i$ such that $\widehat{C}(\theta_i)^2 \geq \epsilon/2$. \Snote{I don€™t think Hoeffding€™s bounds apply here. If Phi is always bounded, you can just apply a Markov argument here}.\Rnote{Direct Markov goes the wrong direction. Hoeffding applies to bounded variables so I believe this works?}
-
+\epsilon$. Since $a_i,b_i, \widehat{\Phi}$ is $\poly(d)$-bounded, then $\widehat{C}(\theta_i)$ is $\poly(d)$-bounded. From Hoeffding bounds, we see that after $\poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}\widehat{C}(\theta_i)^2 \geq \epsilon/2$, where $\hat{\expt}$ denotes the empirical average over $\theta_i$. Therefore, we must have found some $\theta_i$ such that $\widehat{C}(\theta_i)^2 \geq \epsilon/2$.
 
 Next, notice that $\hat{L}$ is a quadratic in $a_i$, which is a
 scalar. Therefore, the gradient step on $a_i$ is chosen with the exact
@@ -1526,15 +1519,12 @@ Therefore,
 & = -\frac{1}{\widehat{\Phi}(\theta_i,\theta_i)}\widehat{C}(\theta_i) 
 \end{align*}
 
-\Snote{ Is $\widehat{\Phi}$ computable efficiently? What about $\widehat{C}$?}
-
 
 As $a_i$ is initially $0$ when sampling $\theta_i$, we conclude that we can find $\theta_i$ such that
 %
 \[ \left( \pd{\hat{L}}{a_i} \right)^2 = 4 \widehat{C}(\theta_i)^2 \geq \epsilon.\]
 Therefore, after $\poly(d,1/\epsilon)$ samples, our sampling algorithm will, with high probability, return $\theta_i$  such that $a_i^2 = a_i^*(\theta_i)^2 \geq \epsilon /4$. 
-\Snote{ Is computable efficiently? What about $\widehat{C}$?}
-\Rnote{Depends on how many samples you choose. It is true that the sample complexity of this algorithm  going to be superpolynomial for $\lambda$-harmonic. Iteration complexity is poly. For the polynomial activation, everything is poly}
+
 Next, we examine the SGD steps. Note
 %
 \begin{align*}
@@ -1624,6 +1614,7 @@ Therefore, it suffices to show that $|L(a_1+a_2,\theta_1) - L(a_1,\theta_1,a_2,\
 
 By applying this logic to all $\theta_i$ through induction, we deduce that $\theta$ is within $\epsilon$ of the global minima.
 \end{proof}
+
 
 
 \section{Proof of Sign Uniqueness}
