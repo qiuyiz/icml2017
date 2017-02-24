@@ -435,8 +435,8 @@ $\Phi(\theta,w)$ is a {\bf harmonic} potential on $\Omega$ if $\Delta_\theta \Ph
   $f(x^*+v) \geq f(x^*)$ for all $\|v\|\leq \epsilon$. It is a {\bf
     strict local minimum} if the inequality is strict for all
   $\norm{v} \le \epsilon.$
-\end{definition} \Snote{Define a critical point.}\Rnote{Defined in the beginning}
-
+\end{definition} 
+%
 \begin{fact}
   % Let $\Omega \subseteq \R^d$ and consider a function
   % $f:\Omega \to \R$.  
@@ -720,9 +720,9 @@ poly(d)$. Since $L \geq 0$, our claim follows.
 %
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
-Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $L$ be as in \eqref{errLoss} with potential $\Phi_m$ and let $G = L + \|a\|^2$. 
+Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $L$ be as in \eqref{errLoss} with a $m$-almost $\lambda$-harmonic potential $\Phi_m$ and let $G = L + \|a\|^2$. 
 
-For all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$ and $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all $i$, either there exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or $|a_i| < \epsilon/k$. 
+For all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$ and $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all $i$, either there exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or $|a_i| < \delta/k$. 
 \end{restatable}
 %
 \begin{proof}
@@ -740,7 +740,7 @@ Therefore,
 \[|\Delta_{\theta_i}G + (2\Phi(1) + 2)a_i^2| \leq \epsilon |a_i| \]
 \[+  2|a_i| k_m|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m|\]
 
-Since (i), (iii) does not hold and $\|a\| \leq poly(d)$ by Lemma \ref{bounded}, we can choose $m = O(\frac{1}{\epsilon}\log(d))m$ large enough such that 
+Since (i), (iii) does not hold and $\|a\| \leq poly(d)$ by Lemma \ref{bounded}, we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
 %
 \[ 2k_m |\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m| \leq  2poly(d,k,m)e^{-\epsilon m} \]
 \[\leq \epsilon\] 
@@ -763,8 +763,8 @@ Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$. Then, the optim
 
 Therefore, from our optimality conditions
 %
-\[|\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \epsilon |a_i| \]
-\[+  2|a_i| k_m\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|\]
+\[|\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \sum_{i=1}^l\epsilon |a_i| \]
+\[+  \sum_{i=1}^l 2|a_i| k_m|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|\]
 
 Again, since these inner products are assumed to be less than $1-\epsilon$, we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
 %
@@ -959,12 +959,12 @@ WLOG, we can consider $w_1,...,w_d$ to be the basis vectors $e_1,...,e_d$. Note 
 \[ (\nabla_\theta L)_i = 2ab_il(\theta_i)^{l-1}  -2\lambda \theta_i = 0 \]
 where $\lambda$ is chosen that minimizes 
 \[\lambda = \arg \min_\lambda \sum_i (ab_i l (\theta_i)^{l-1} - \lambda\theta_i)^2 = \sum ab_i l (\theta_i)^l \]
-Therefore, either $\theta_i = 0$ or $b_i (\theta_i)^{l-2} = \lambda/(al)$. Note also that the manifold Hessian is a diagonal matrix with diagonal entry: 
+Therefore, either $\theta_i = 0$ or $b_i (\theta_i)^{l-2} = \lambda/(al)$. Note also that the spherical Hessian can be viewed as a diagonal matrix with diagonal entry: 
 \[(\nabla^2 L)_{ii} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
-Assume that there exists $\theta_i, \theta_j \neq 0$, then we claim that $\theta$ is not a local minima.  First, our optimality conditions imply $b_i(\theta_i)^{l-2} = b_j (\theta_j)^{l-2} = \lambda/(al)$. So,
+Note that the equality only holds in the tangent space at $\theta$. Assume that there exists $\theta_i, \theta_j \neq 0$, then we claim that $\theta$ is not a local minima.  First, our optimality conditions imply $b_i(\theta_i)^{l-2} = b_j (\theta_j)^{l-2} = \lambda/(al)$. So,
 \[(\nabla^2 L)_{ii} = (\nabla^2L)_{jj} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
 \[ = 2(l-2)\lambda = -2(l-2)la^2\]
-Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i,j$ and $v^T\theta = 0$, so $v$ is in the tangent space at $\theta$. Finally, $v^T(\nabla^2 L) v  = -2(l-2)l a^2 < 0$, implying our claim when $a \neq 0$. Note that $a = 0$ occurs with probability 0 since our objective function is non-increasing throughout the gradient descent algorithm and is almost surely initialized to be negative with $a$ optimized upon initialization.
+Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i,j$ and $v^T\theta = 0$, so $v$ is in the tangent space at $\theta$. Finally, $v^T(\nabla^2 L) v  = -2(l-2)l a^2 < 0$, implying $\theta$ is not a local minima when $a \neq 0$. Note that $a = 0$ occurs with probability 0 since our objective function is non-increasing throughout the gradient descent algorithm and is almost surely initialized to be negative with $a$ optimized upon initialization.
 \end{proof}
 
 Under a node-wise GD algorithm, we can show convergence to global minima under orthogonality assumptions on $w_j$.
@@ -1119,17 +1119,7 @@ By \ref{rotLem} and due to the orthogonality of hermite polynomials, if $f = \su
 Therefore, any function with non-negative taylor coefficients is a valid potential function, with the corresponding activation function determined by the sum of hermite polynomials, and the sum is bounded almost everywhere by assumption.
 \end{proof}
 
-\section{Extra Stuff in section 3}
-\todo{Clean this up later}
 
-
-
-
-
-
-\begin{conjecture}
- Let $\mathcal{M} = S^{d-1}$ and $L$ be as in \eqref{errLoss} and $\sigma$ is the sign activation function. Then, almost surely over random choices of $b_1,...,b_k$, all critical points $(\boldsymbol{a,\theta})$ of $L$ with $a \neq 0$ are not local minima, except at the global minima. 
-\end{conjecture}
 
 
 
