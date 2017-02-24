@@ -852,13 +852,13 @@ Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \bold
    optimizing $a_1$. Notice that the expected loss decrease is:
 %
 \begin{align*}
-  \expt[ G(a_1,\theta_1)] - G(0,0) & = \expt\left [\min_{a_1} a_1^2 +
+  \expt[ G(a_1,\theta_1)] - G(0,0) & = \expt\left [\min_{a_1} 2a_1^2 +
   2\sum_{j=1}^k a_1 b_j\Phi(\theta_1,w_j)\right] \\
  %
- & = \expt\left[\left(  \sum_{j=1}^k b_j
+ & = -\frac{1}{2}\expt\left[\left(  \sum_{j=1}^k b_j
    \Phi(\theta,w_j)\right)^2\right] 
 \end{align*}
-\Snote{Is there a missing minus sign in the last line?}  Let
+Let
 $h(\theta) = \sum_i b_i \Phi(\theta, w_i)$. Since $a_i,b_i, \Phi$ are
 $poly(d)$-bounded, our random variable $h(\theta)$ is
 $poly(d)$-bounded. From Hoeffding bounds, we see that after
