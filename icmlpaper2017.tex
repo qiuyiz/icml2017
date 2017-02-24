@@ -261,8 +261,8 @@ Specifically, for the sign activation, we show that if we consider the loss func
   }
    \hline 
         Name of Activation&  Potential  ($\Phi(\theta,w)$)    & Convergence? \\ \hline 
-        Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes d = 2, \ref{signConv}\\ 
-        Polynomial  & $(\theta^Tw)^m$       & Yes, $\poly(d,\frac{1}{\epsilon})$  \\        
+        Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes d = 2, \ref{signCon} \ref{SignConv}\\ 
+        Polynomial  & $(\theta^Tw)^m$       & Yes, $\poly(d,\frac{1}{\epsilon})\ref{polyConv}$  \\        
         Almost   $\lambda$-harmonic  & Complicated  & Yes, $\poly(d,\frac{1}{\epsilon})$ \\
          % Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
         \hline
@@ -797,7 +797,7 @@ First, we consider the sign activation function. Under restrictions on the size 
 All output weights $b_i = 1$ and therefore the output weights  $a_i = - b_i = -1$ are fixed throughout the learning algorithm. 
 \end{assumption}
 
-\begin{theorem}
+\begin{theorem}\label{signCon}
 Let $\mathcal{M} = S^1$ and let Assumption \ref{outputFixed} hold. Let $L$ be as in \eqref{errSimp} and $\sigma$ is the sign activation function. Then $L$ admits no strict local minima, except at the global minima.
 \end{theorem}
 
@@ -831,7 +831,6 @@ outside a ball of radius $\sqrt{d/c}$. Note that Gaussian potential
 restricted to $S^{d-1}$ gives rise to the exponential activation
 function, so we can show convergence similarly.  
 %
-\Anote{this theorem requires assumption 1, which is not of practical relevance to the paper. you should remove this theorem.}
 \begin{theorem}\label{gaussStrict}
 \label{GaussStrict}
 Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|\theta-w\|^2/2}$ and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed}, then if $c = d/\epsilon$ and $\boldsymbol{a,\theta} \in \mathcal{M}_{e^{-\poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
