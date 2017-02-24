@@ -754,9 +754,16 @@ Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals bounded by $
 \end{lemma}
 
 \begin{proof}
-Notice that $L({\bf a}, 0) \leq poly(d)$ and by the properties of $\mathcal{A}$, with high probability, $L + \lambda \|{\bf a}\|^2 \leq poly(d)$. Since $L \geq 0$, our claim follows.
+Notice that $L({\bf a}, 0) \leq poly(d)$ \Snote{Not sure you mean
+  (a,0), and why is this true?} and by the properties of
+$\mathcal{A}$, with high probability, $L + \lambda \|{\bf a}\|^2 \leq
+poly(d)$. Since $L \geq 0$, our claim follows. \Snote{We're applying
+  the claim to $L + \lambda \norm {a}^2$ but the assumption is about
+  $L.$ Just assume that the algorithm never increases (any) loss
+  function with high probability.}
 \end{proof}
 
+\Snote{Why is $\Phi(u, v)$ bounded by $\poly(d)$ for all $u,v$?.}
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
 Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $G$ as in \eqref{errLoss} with potential $\Phi_m$ and let $G = L + \|a\|^2$. Then, for all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$, then each $(a_i, \theta_i)$ must satisfy at least one of the following conditions:
