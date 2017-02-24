@@ -734,23 +734,23 @@ For all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if
   by $\Phi_m$ whenever we're talking of the specific potential.}
 %
 \begin{proof}
-<<<<<<< HEAD
-  The proof is similar to Theorem \ref{EigStrict}. We first show a
-  weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists
-  $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii)
-  $|a_i| < \epsilon$, or (iii) there exists $j\neq i$ such that
-  $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that
-  $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/d}$ and we have
-  a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iii). Then,
+The proof is similar to Theorem \ref{EigStrict}. We first show a
+weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$
+such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$,
+or (iii) there exists $j\neq i$ such that $|\theta_j^T\theta_i| >
+1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in
+\mathcal{M}_{\epsilon^2/d}$ and we have a $(a_i,\theta_i)$ that does
+not satisfy (i), (ii), (iii). Then,
 %
   \[ \abs{\pd{G}{a_i}} = \abs{2\sum_{j=1}^k b_j \Phi(\theta_i^T w_j) +
     2\sum_{j: j\neq i} a_j \Phi(\theta_i^T\theta_j) + (2\Phi(1) +
     2)a_i} \leq \epsilon.\]
 
+
 And, 
 %
 \begin{align*}
-\Delta_{\theta_i} L & =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j)  
+\Delta_{\theta_i} G & =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j)  
 + k_m(\theta_i^Tw_j)^m)  \\
 & \qquad +  2\sum_{j: j\neq i} a_i
   a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)
@@ -760,25 +760,10 @@ And,
 Therefore,
 %
 \begin{align*}
-& |\Delta_{\theta_i}L + (2\Phi(1) + 2)a_i^2| \leq \epsilon |a_i|  \\
+& |\Delta_{\theta_i}G + (2\Phi(1) + 2)a_i^2| \leq \epsilon |a_i|  \\
 & \qquad +  2  k_m|a_i| \abs{\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
   \sum_{j: j\neq i}  a_j(\theta_i^T\theta_j)^m}
 \end{align*}
-=======
-The proof is similar to Theorem \ref{EigStrict}. We first show a weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$, or  (iii) there exists $j\neq i$ such that $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/d}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iii). Then,
-%
-\[|\pd{G}{a_i}| = |2\sum_{j=1}^k  b_j  \Phi(\theta_i^T w_j) +  2\sum_{j\neq i} a_j \Phi(\theta_i^T\theta_j)  + (2\Phi(1) + 2)a_i| \leq \epsilon \] 
-
-And, 
-%
-\[\Delta_{\theta_i} G =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
-\[+ k_m(\theta_i^Tw_j)^m) +  2\sum_{j\neq i} a_i a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)\]
-
-Therefore,
-%
-\[|\Delta_{\theta_i}G + (2\Phi(1) + 2)a_i^2| \leq \epsilon |a_i| \]
-\[+  2|a_i| k_m|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m|\]
->>>>>>> e5b39aa6db9b3b7ca40f0b98d888bc8e4929b648
 
 Since (i), (iii) does not hold and $\|a\| \leq poly(d)$ by Lemma
 \ref{bounded}, \Snote{Needs to be updated once we have a updated
