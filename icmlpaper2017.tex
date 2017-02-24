@@ -21,6 +21,7 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
+
 % As of 2011, we use the hyperref package to produce hyperlinks in the
 % resulting PDF.  If this breaks your system, please commend out the
 % following usepackage line and replace \usepackage{icml2017} with
@@ -758,9 +759,10 @@ Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$. Then,
 the optimality conditions on ${\bf a}$ are as usual:
 %
 \begin{align*}
-   \abs{\pd{H}{a_i}} & = \abs{2\sum_{j=1}^k b_j \Phi_m(\theta_i^T w_j) +
-    2\sum_{j: j\neq i} a_j \Phi_m(\theta_i^T\theta_j) + (2\Phi_m(1) +
-    2)a_i} \\
+   \abs{\pd{H}{a_i}} & = \lvert 2\sum_{j=1}^k b_j \Phi_m(\theta_i^T w_j) +
+    2\sum_{j: j\neq i} a_j \Phi_m(\theta_i^T\theta_j) \\
+& \qquad \qquad \qquad + (2\Phi_m(1) +
+    2)a_i \rvert \\
 & \leq \delta 
 \end{align*}
 %
