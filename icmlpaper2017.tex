@@ -620,7 +620,7 @@ The optimality conditions on ${\bf a}$ are unchanged, we must have
 & = -2\lambda\left(\sum_{i=1}^l a_i^2
   +\sum_{i \neq j}^l a_i a_j \right) = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
 \end{align*} 
-
+%
 If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is
 strictly negative, so we are not at a local minimum. 
 
@@ -628,14 +628,11 @@ Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition
 $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
 for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, since $\sum_{i=1}^k a_i \sigma(\theta_i,x) = 0$, $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$. 
 \end{proof} 
-
+%
 \begin{observation}
-We can initialize $\boldsymbol{a,\theta}$ such that $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ and continuous gradient descent will enforce the inequality as the $L$ is non-increasing.
+We can initialize $\boldsymbol{a,\theta}$ such that $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ and continuous gradient descent will enforce the inequality as the $L$ is non-increasing. Initialization details are expounded in Observation~\ref{initialize}.
 \end{observation}
-
-\begin{proof}
- \ref{initialize}
-\end{proof}
+%
 \section{Runtime Bounds with Stochastic Gradients}
 
 The gradient descent convergence results in the previous sections lay
@@ -682,7 +679,6 @@ all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\th
 For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m-2$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$.
 \end{lemma}
 
-\Snote{We should generalize this proof to almost $\lambda$-harmonic?}
 \begin{proof}
 We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $h(u^Tv) = h(\cos(\alpha))$, where $\alpha \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
 Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
@@ -732,9 +728,8 @@ For all $1> \epsilon > 0$, there exists $m = O(poly(d)\log(1/\delta)/\epsilon)$ 
 \end{restatable}
 %
 \begin{proof}
-The proof is similar to Theorem \ref{EigStrict}. Consider all $\theta_i$ such that $|a_i| > \delta$ and $|w_j^T\theta_i| \leq 1-\epsilon$. WLOG, assume that these are
-$\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that
-$|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$.
+The proof is similar to Theorem \ref{EigStrict}. Consider all $\theta_i$ such that $|a_i| > \delta$ and $|w_j^T\theta_i| \leq 1-\epsilon$. WLOG, let these be
+$\theta_1,...,\theta_l$, for some $l \leq k$. Assume for now that furthermore,  $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$.
 Then, consider a correlated rotation on the sphere, which is a
 correlated translation in spherical coordinates. So, consider the loss
 function
@@ -751,11 +746,11 @@ the optimality conditions on ${\bf a}$ are as usual:
 & \leq \delta 
 \end{align*}
 %
-And we have,
+And from $m$-almost $\lambda$-harmonic, we have,
 %
 \begin{align*}
-\Delta_{{\bf v}} H  =&   2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  (-\Phi_m(\theta_i^T w_j)  + (\theta_i^Tw_j)^m) \\
-& + 2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j(-\Phi_m(\theta_i^T\theta_j) + (\theta_i^T\theta_j)^m)
+& \abs{\Delta_{{\bf v}} H -  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  \Phi_m(\theta_i^Tw_j) - 2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j(-\Phi_m(\theta_i^T\theta_j))} \\
+& \qquad \leq   2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  |\theta_i^Tw_j|^m+2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j|\theta_i^T\theta_j|^m
 \end{align*}
 %
 Together, we get
@@ -810,18 +805,19 @@ $\epsilon' = \epsilon/k^2$, we get our claim.
 \end{theorem}
  
  \begin{proof}
-By Lemma \ref{eigConv}, if there does not exists $i, j$ such that
-$|w_j^T\theta_i| >  1-\epsilon$ is if for all $\theta_i$, then $|a_i|
-< \delta/poly(d)$ for all $i$. Now, for a integrable function $f(x)$, $\|
-f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a norm. Therefore, if $f(x) = \sum_i
-b_i \sigma(w_i,x)$ be our true target function, we conclude that by
-triangle inequality
+   By Lemma \ref{eigConv}, if there does not exists $i, j$ such that
+   $|w_j^T\theta_i| > 1-\epsilon$ is if for all $\theta_i$, then
+   $|a_i| < \delta/poly(d)$ for all $i$. Now, for a integrable
+   function $f(x)$, $\| f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a
+   norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
+   target function, we conclude that by triangle inequality
 \begin{align*}
-\sqrt{G(\boldsymbol{a,\theta})}  & = \|\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)\|_X \\
-&\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \geq
+\sqrt{G(\boldsymbol{a,\theta})}  & \geq \norm{\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)}_X \\
+&\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \\
+& \geq
   \sqrt{G(0,\boldsymbol{\theta})} - \delta
 \end{align*}
-This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $\theta_j$.
+This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $w_j$.
  \end{proof}
  
  \begin{observation}\label{initialize}
@@ -832,8 +828,8 @@ Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \bold
  \end{observation}
  
  \begin{proof}
- Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then
- optimizing $a_1$. Notice that the expected loss decrease is:
+   Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then
+   optimizing $a_1$. Notice that the expected loss decrease is:
 %
 \begin{align*}
   \expt[ G(a_1,\theta_1)] - G(0,0) & = \expt\left [\min_{a_1} a_1^2 +
@@ -842,8 +838,18 @@ Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \bold
  & = \expt\left[\left(  \sum_{j=1}^k b_j
    \Phi(\theta,w_j)\right)^2\right] 
 \end{align*}
- 
-Let $h(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\delta)$ samples, we know that $\hat{\expt}h(\theta)^2 \geq 2\delta\sqrt{G(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $h(\theta)^2 \geq 2\delta \sqrt{G(0,0)}$. Therefore, $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ and so $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G(\boldsymbol{0,\theta})} - \delta$.
+\Snote{Is there a missing minus sign in the last line?}  Let
+$h(\theta) = \sum_i b_i \Phi(\theta, w_i)$. Since $a_i,b_i, \Phi$ are
+$poly(d)$-bounded, our random variable $h(\theta)$ is
+$poly(d)$-bounded. From Hoeffding bounds, we see that after
+$poly(d,1/\delta)$ samples, we know that
+$\hat{\expt}h(\theta)^2 \geq 2\delta\sqrt{G(0,0)}$, where
+$\hat{\expt}$ denotes the empirical average over $\theta$. Therefore,
+we must have found some $\theta$ such that
+$h(\theta)^2 \geq 2\delta \sqrt{G(0,0)}$. Therefore,
+$G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ and so
+$\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G(\boldsymbol{0,\theta})}
+- \delta$.
  \end{proof}
  
  
