@@ -221,6 +221,7 @@ given by the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Under some assumptions
 %
 Our main observation is that the gradient descent dynamics of learning such to layer networks is equivalent to the dynamics of a set of proton-electron charges under a certain electrical attraction force function. Assume for now that the coefficients $b_i$ and $a_i$ are $1$. Thus we are only perform gradient descent over $\theta_i$ to minimize the expected square loss of $f-\widehat{f}$.
 %
+\Anote{If you're going to have an informal theorem statement, they should be understandable without reading the main text. That's because a reader like me will ignore your intro text and just look at the theorem statements to gauge your paper. If the theorems look interesting, then they'll read the paper. This theorem refers to f, which is undefined. it also doesn't explain at all in what way the electrons and protons correspond to f. You should either make this explicit in the informal theorem's statement, or you should just blend this informal theorem into the rest of the section.}
 \begin{theorem}(informal statement of Theorem~\ref{EPDyn})
 The gradient descent process for learning $f$ is equivalent to the motion of k electrons in the presence of k fixed protons where the force between any pair of charges is given by a potential function that depends on $\sigma$.
 \end{theorem}
@@ -234,6 +235,7 @@ Note that for the standard electric potential function given by $\Phi = 1/r$ whe
 We derive some sufficient conditions that characterize potentials that arise from activation functions $\sigma$. The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}.
 First we are show how to construct a complicated activation function, which we call $\lambda$-harmonic, for which we show that at convergence in at most $poly(d,1/\epsilon)$ iterations of the SGD algorithm at least some $\theta_i$ coincides with some $w_j$.
 %
+\Anote{same problem as the other informal theorem. i don't know what a $\theta$ is. it has only been defined in the text. furthermore, it's far too informal. instead of "carefully" it should give this notion a name. again, better to just blend this content in the rest of the text without calling it an informal theorem.}
 \begin{theorem}(informal statement of Theorem~\ref{eigConv})
 For some carefully chosen potential function with the SGD algorithm, at convergence, at least one of the $\theta_i$'s will coincide with some $w_i$. and further this happens in at most $poly(d,1/\epsilon)$ iterations and sample complexity.
 \end{theorem}
@@ -242,7 +244,7 @@ We also show some weaker results for other more practical activation functions.
 Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation and our constructed $\lambda$-harmonic activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn at least one of the $w_i$'s. 
 %
 \begin{table}[tb]
-\caption{Potentials and Convergence Results Summary}
+\caption{Potentials and Convergence Results Summary. \Anote{ this caption is a fine title, but it doesn't explain the content of the table. again, keep in mind that my reading pattern is to read the theorems, tables, and then i read the text. i actually think this table does the paper a disservice. it has a "yes" without a rate, some rates that are exponential but not lower bounds. it has some non-informative text like "complicated". you could either fix this table, which will not happen by tomorrow, or you could get rid of it. }}
 \label{table1}
 \noindent
 \vskip 0.1in
@@ -360,15 +362,18 @@ We call a potential function {\bf realizable} if it corresponds to some activati
 %
 \begin{restatable}{theorem}{tranReal}
 \label{thm:tranReal}
+\Anote{it's worth writing down the corresponding form of the activation in the theorem statement.}
 Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = f(\theta - w)$. Then, $\Phi$ is realizable if $\mathfrak{F}(f)(\omega) \geq 0$ and $\mathfrak{F}^{-1}(\sqrt{\mathfrak{F}(f)})$ is bounded almost everywhere, where $\mathfrak{F}$ is the standard fourier transform in $\R^d$
 \end{restatable}
 %
 \begin{restatable}{theorem}{rotReal}
 \label{thm:rotReal}
+\Anote{show the corresponding activation function explicitly.}
 Let $\mathcal{M} = S^{d-1}$ and $\Phi(\theta,w) = f(\theta^Tw)$. Then, $\Phi$ is realizable if $f$ has non-negative Taylor coefficients, $c_i \geq 0$ , and 
 \[h(x) = \sum_{i=1}^\infty \sqrt{c_i} h_i(x)\]
 converges almost everywhere, where $h_i(x)$ is the i-th Hermite polynomial.
 \end{restatable}
+\Anote{give examples of phi's and corresponding sigmas in in a paragraph.}
 %
 \subsection{Electron-Proton Dynamics}
 
@@ -379,6 +384,7 @@ charges in $\R^d$ and $\theta_i$ are moving point charges in $\R^d$
 that are trying to find $w_i$. We note that standard electron-proton dynamics interprets the force between particles as an acceleration vector; in our case, it is more accurately interpreted as a velocity vector. 
 %
 \begin{definition}\label{EPDef}
+\Anote{Since you only use the case where some of the $\theta$'s are fixed, i suggest you write this explicitly in terms of some floating electrons and corresponding fixed particles. right now, you introduce the case you actually care about at the end of this definition. the first part is never actually used anywhere, so you should toss it.}
   Given a potential $\Phi : \mathcal{M} \times \mathcal{M} \to \R$ and
   particle locations $\theta_1,...,\theta_k \in \mathcal{M}$ along
   with their respective charges $a_1,...,a_k \in \R$. We define {\bf
@@ -392,6 +398,7 @@ that are trying to find $w_i$. We note that standard electron-proton dynamics in
 for $i \in [k]$, with $\theta_i(0) = \theta_i$. If some subset $S \subseteq [k]$ of particles are fixed, then for $i\in S$, we have instead $\theta_i(t) = \theta_i$ for $t \geq 0$.
 \end{definition}
 %
+\Anote{you don't need this theorem anywhere. you don't build on it. it's an overly formal illustration of why eletron-proton dynamics relate to networks. you can make that point in two sentences without the formality. the presence of this theorem just means i have to read more to reach the meat of the paper.}
 \begin{theorem}\label{EPDyn}
 Let $\Phi$ be a symmetric potential. Running continuous gradient descent on \eqref{errLoss} with respect to $\theta$, initialized at $(\theta_1,...,\theta_k)$ produces the same dynamics as Electron-Proton Dynamics under $2\Phi$ with fixed particles at $w_1,...,w_k$ with respective charges $b_1,..,b_k$ and moving particles at $\theta_1,...,\theta_k$ with respective charges $a_1,...,a_k$.
 \end{theorem}
@@ -438,6 +445,7 @@ $\Phi(\theta,w)$ is a {\bf harmonic} potential on $\Omega$ if $\Delta_\theta \Ph
 \end{definition} 
 %
 \begin{fact}
+\Anote{you require that $f$ be differentiable but you don't require it to be twice differentiable!}
   % Let $\Omega \subseteq \R^d$ and consider a function
   % $f:\Omega \to \R$.  
   Let $x^*$ be a critical point of a function $f : \Omega \to \R$ such
@@ -458,11 +466,13 @@ differentiable strict local minima.
   minima, then for any $i,$ we must have
 \[\nabla_{\theta_{i}} L = 0, \text{ and }  \Tr(\nabla^2_{\theta_i}L) > 0.\]
 Since $\Phi$ is harmonic, we also have
+\Anote{You use $q_i$ here but you haven't defined them. introduce it or change to $\theta$.}
 \begin{align*}
 &  \Tr(\nabla^2_{\theta_i}L(q_1,...,q_n)) = \Delta_{\theta_i} L \\
 &  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
   + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
 \end{align*}
+\Anote{in this sequence, why does trace of $\nabla^2$ equal the divergence? specify.}
 which is a contradiction. In the first line, there is a factor of 2 by symmetry.
 \end{proof}
 
@@ -491,6 +501,7 @@ descent with small stepsize converges to the global minima.
 \subsection{Alternative Notions of Harmonic Potentials}
 
 \subsubsection{Strictly Subharmonic Potentials}
+\Anote{i don't see the purpose of this section. you have much stronger results. nor does this exposition help explain or introduce the stronger results. i think you should eliminate this section wholesale.}
 %
 The first alternative to harmonic potentials is the natural
 consideration of strictly subharmonic potentials, which have a
@@ -505,6 +516,7 @@ $\Phi(\theta,w)$ is a {\bf strictly subharmonic} potential on $\Omega$ if it is 
 \end{definition}
 
 An example of such a potential is $\Phi(\theta, w) = \|\theta -w \|^{2-d-\epsilon}$ for any $\epsilon > 0$. Although this potential is unbounded at $\theta = w$ for most $d$, we remark that it is bounded when $d = 1$. Furthermore, the sign of the output weights $a_i, b_i$ matter in determining the sign of the Laplacian of our loss function. Therefore, we need to make suitable assumptions in this framework.
+\Anote{having this assumption anywhere in this paper makes it look central. in fact, you only use it for theorem 3.6, which i strongly believe should be canned. get rid of this assumption so that it doesn't detract from the much more significant result that you show later.}
 %
 \begin{assumption}
 \label{outputFixed}
@@ -517,6 +529,7 @@ simpler loss function:
 L(\theta) =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i,\theta_j) - 2\sum_{i=1}^k\sum_{j=1}^k\Phi(\theta_i,w_j)
 \end{equation}
 %
+\Anote{i don't think you should show this theorem. you ahve more significant results, and this distracts from them. plus it doesn't refer to any realistic learning setup. it's an intermediate warmup illustration for yourself, not for the reader.}
 \begin{theorem}\label{subStrict}
 Let $\Phi$ be a symmetric strictly subharmonic potential on $\mathcal{M}$ with $\Phi(\theta,\theta) = \infty$. Let Assumption \ref{outputFixed} hold and let $L$ be as in \eqref{errFixed}. Then, $L$ admits no local minima, except when $\theta_i = w_j$ for some $i, j$.
 \end{theorem}
@@ -587,6 +600,7 @@ $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$ or $\theta_i = w_j$ for so
   Let $(\boldsymbol{a,\theta})$ be a critical point of $L.$ First
   assume that all $\theta_i$ are distinct and there exists
   $\theta_i \neq w_j$. Now, $a_i$ being optimal implies
+\Anote{it looks like you assume here $\Phi(w,w)=c$. this is not obviously required by your definition of $\lambda$-harmonic. if it is, you should prove it. if it is assumed, you should make the assumption explicit in either the definition of $\lambda$-harmonic or the theorem statement.}
 \begin{align*}
 0 = \pd{L}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j)
   + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
@@ -599,6 +613,7 @@ Computing the Laplacian with respect to $\theta_i$ gives
 \end{align*}
 
 In the first line, there is a factor of 2 by symmetry. If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
+\Anote{it's worth making explicit here that the substitution of $\Delta \Phi\to \lambda \Phi$ goes through when the arguments of $\Phi$ are distinct, per the definition of $\lambda$-harmonic, and that now we have to handle the case when some of these arguments are equal.}
 
 Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct (with $l$ maximal) and $\theta_1 \neq w_j$ for any $j$. We consider changing all
 $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
@@ -607,6 +622,7 @@ $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define
 \ldots, \theta_k).\]
 
 The optimality conditions on ${\bf a}$ are unchanged, we must have
+\Anote{you seem to have replace $\Phi(\theta,w)$ with $\Phi(\theta^T w)$ in the following block}
 \begin{align*}
 \Delta_v H & = \lambda\sum_{i=1}^l a_i \left(2\sum_{j=1}^k b_j
   \Phi(\theta_i^Tw_j) + 2\sum_{j=l+1}^k a_j
@@ -624,10 +640,12 @@ The optimality conditions on ${\bf a}$ are unchanged, we must have
 If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is
 strictly negative, so we are not at a local minimum. 
 
-Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition
+Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition \Anote{the word "partition" means that the union of $S_1\ldots S_r = [k]$, but in fact, $S_1\ldots S_r \subset [k]$ is sufficient, right? if so, fix.}
 $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
 for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, since $\sum_{i=1}^k a_i \sigma(\theta_i,x) = 0$, $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$. 
 \end{proof} 
+
+\Anote{this doesn't seem rigorously stated. what are the conditions on $\Phi$? specify. also, i don't think you should bother to make this claim since these $\lambda$-potentials are not realizable, and therefore not worth running descent on.}
 %
 \begin{observation}
 We can initialize $\boldsymbol{a,\theta}$ such that $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ and continuous gradient descent will enforce the inequality as the $L$ is non-increasing. Initialization details are expounded in Observation~\ref{initialize}.
