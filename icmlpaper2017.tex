@@ -723,7 +723,14 @@ Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2
 \Delta_\alpha h & = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha) \\
 &= h(\cos(\alpha)) + k_m(\cos\alpha)^m
 \end{align*}
-Where $k_m = m^2 + (d-2)m + 1$. Notice that $f(x)$ has non-negative Taylor coefficients and is a bounded polynomial, so $f$ is a realizable potential function by Theorem \ref{thm:rotReal}, with corresponding $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$ is the i-th normalized Hermite polynomial. We can also choose $m$ to be odd by setting $c_0 = 0, c_1 = 1$. Now, by normalizing $\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have 
+Where $k_m = m^2 + (d-2)m + 1$. Notice that $f(x)$ has \Snote{This is
+  not $f$ anymore} non-negative Taylor coefficients and is a bounded
+polynomial, so $f$ is a realizable potential function by Theorem
+\ref{thm:rotReal}, with corresponding
+$\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$ is the i-th
+normalized Hermite polynomial. We can also choose $m$ to be odd by
+setting $c_0 = 0, c_1 = 1$. Now, by normalizing
+$\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have
 \[|\Delta_\theta \Phi_m(\theta ,w) - \Phi_m(\theta,w) | \leq \frac{k_m}{h(1)} |\theta^Tw|^m \leq |\theta^Tw|^m\]
 Thus, can construct a realizable $m$-almost $1$-Harmonic potential for any $m$.
  \end{proof}
@@ -748,69 +755,121 @@ use something other than $\lambda,$ maybe $\beta$}
 \label{eigConv}
 Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $L$ be as in \eqref{errLoss} with potential $\Phi_m$ and let $G = L + \|a\|^2$. Then, for all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$, then for all $i$, either there exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or $|a_i| < \epsilon/k$. 
 \end{restatable}
+\Snote{In this theorem, and everywhere below, can you replace $\Phi$
+  by $\Phi_m$ whenever we're talking of the specific potential.}
 %
 \begin{proof}
-The proof is similar to Theorem \ref{EigStrict}. We first show a weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$, or  (iii) there exists $j\neq i$ such that $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/d}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iii). Then,
+  The proof is similar to Theorem \ref{EigStrict}. We first show a
+  weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists
+  $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii)
+  $|a_i| < \epsilon$, or (iii) there exists $j\neq i$ such that
+  $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that
+  $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/d}$ and we have
+  a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iii). Then,
 %
-\[|\pd{L}{a_i}| = |2\sum_{j=1}^k  b_j  \Phi(\theta_i^T w_j) +  2\sum_{j\neq i} a_j \Phi(\theta_i^T\theta_j)  + (2\Phi(1) + 2)a_i| \leq \epsilon \] 
+  \[ \abs{\pd{G}{a_i}} = \abs{2\sum_{j=1}^k b_j \Phi(\theta_i^T w_j) +
+    2\sum_{j: j\neq i} a_j \Phi(\theta_i^T\theta_j) + (2\Phi(1) +
+    2)a_i} \leq \epsilon.\]
 
 And, 
 %
-\[\Delta_{\theta_i} L =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
-\[+ k_m(\theta_i^Tw_j)^m) +  2\sum_{j\neq i} a_i a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)\]
+\begin{align*}
+\Delta_{\theta_i} L & =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j)  
++ k_m(\theta_i^Tw_j)^m)  \\
+& \qquad +  2\sum_{j: j\neq i} a_i
+  a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)
+\end{align*}
+\Snote{Why do we have a $k_m$ here?}
 
 Therefore,
 %
-\[|\Delta_{\theta_i}L + (2\Phi(1) + 2)a_i^2| \leq \epsilon |a_i| \]
-\[+  2|a_i| k_m|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m|\]
+\begin{align*}
+& |\Delta_{\theta_i}L + (2\Phi(1) + 2)a_i^2| \leq \epsilon |a_i|  \\
+& \qquad +  2  k_m|a_i| \abs{\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
+  \sum_{j: j\neq i}  a_j(\theta_i^T\theta_j)^m}
+\end{align*}
 
-Since (i), (iii) does not hold and $\|a\| \leq poly(d)$ by Lemma \ref{bounded}, we can choose $m = O(\frac{1}{\epsilon}\log(d))m$ large enough such that 
+Since (i), (iii) does not hold and $\|a\| \leq poly(d)$ by Lemma
+\ref{bounded}, \Snote{Needs to be updated once we have a updated
+  lemma, depends on $k, m,$ and needs to reference the lemma about $\Phi$} we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
 %
-\[ 2k_m |\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m| \leq  2poly(d,k,m)e^{-\epsilon m} \]
-\[\leq \epsilon\] 
+\begin{align*}
+ 2k_m |\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}
+  a_j(\theta_i^T\theta_j)^m| & \leq  2poly(d,k,m)e^{-\epsilon m} \\
+& \leq \epsilon
+\end{align*}
 
 Therefore, by (ii) and $\Phi(1) = 1$ and previous two inequalities,
 %
-\[\Delta_{\theta_i} L \leq -(2\Phi(1) + 2)a_i^2 +\epsilon |a_i|+ \epsilon|a_i| \leq |a_i|(-4\epsilon + 2\epsilon) \]
-\[\leq -\epsilon^2\]
+\begin{align*}
+\Delta_{\theta_i} L \leq -(2\Phi(1) + 2)a_i^2 +\epsilon |a_i|+
+  \epsilon|a_i| & \leq |a_i|(-4\epsilon + 2\epsilon)  \\
+& \leq -\epsilon^2.
+\end{align*}
 
-Since $\Delta_{\theta_i}L$ is a sum of $d$ eigenvalues, this implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/d$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/d}$. 
+Since $\Delta_{\theta_i}L$ is a sum of $d$ eigenvalues, this implies
+that $(\boldsymbol{a,\theta})$ is $\epsilon^2/d$-strict, contradicting
+that it is in $\mathcal{M}_{\epsilon^2/d}$.  
 
-Now, consider all $\theta_i$ such that only condition (iii) holds. WLOG, assume that these are $\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$. Then, consider a correlated rotation on the sphere, which is a correlated translation in spherical coordinates. So, consider the loss function
+Now, consider all $\theta_i$ such that only condition (iii) holds
+\Snote{Do you mean to say all $\theta_i$ such that iii holds, but i
+  and ii don't? If yes, make that clear}. WLOG, assume that these are
+$\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that
+$|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$.
+Then, consider a correlated rotation on the sphere, which is a
+correlated translation in spherical coordinates. So, consider the loss
+function
 %
 \[ H({\bf a, v}) = L({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
 Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$. Then, the optimality conditions on ${\bf a}$ are unchanged, we must have
 %
-\[\Delta_{{\bf v}} H =  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
-\[+ k_m(\theta_i^Tw_j)^m) +  2\sum_{i=1}^l\sum_{j= l+1}^k a_i a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)\]
+\begin{align*}
+\Delta_{{\bf v}} H & =  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \\
+& + k_m(\theta_i^Tw_j)^m) + 2\sum_{i=1}^l\sum_{j= l+1}^k a_i
+a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)
+\end{align*}
 
 Therefore, from our optimality conditions
 %
-\[|\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \epsilon |a_i| \]
-\[+  2|a_i| k_m\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|\]
+\begin{align*}
+& |\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \epsilon |a_i| \\
+& \qquad +  2|a_i| k_m\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m
+  +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|
+\end{align*}
 
 Again, since these inner products are assumed to be less than $1-\epsilon$, we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
 %
-\[ 2|a_i| k_m\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|\]
-
-\[ \leq  2poly(d,k,m)e^{-\epsilon m} \leq \epsilon/2\] 
+\begin{align*}
+ 2|a_i| k_m\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
+  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m| \\
+ \leq  2poly(d,k,m)e^{-\epsilon m} \leq \epsilon/2
+\end{align*}
 
 Finally, consider the following expression
 %
-\[D = \expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] \]
+\begin{align*}
+D & = \expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] \\
 %
-\[=\sum_{i=1}^l a_i^2\Phi(\theta_i^T\theta_i) + \sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)\]
+& =\sum_{i=1}^l a_i^2\Phi(\theta_i^T\theta_i) + \sum_{i \neq j}^l
+  a_ia_j\Phi(\theta_i^T\theta_j)
+\end{align*}
 %
 Since $D \geq 0$ and combined with the fact that (ii) does not hold,
 %
-\[\Delta_{\theta_i} L \leq -2a_i^2 +\epsilon |a_i|+(\epsilon/2)|a_i| \]
+\begin{align*}
+\Delta_{\theta_i} L & \leq -2a_i^2 +\epsilon |a_i|+(\epsilon/2)|a_i| \\
+& \leq  |a_i|(-2\epsilon + 3\epsilon/2) \leq -\epsilon^2/4
+\end{align*}
 
-\[\leq  |a_i|(-2\epsilon + 3\epsilon/2) \leq -\epsilon^2/4\]
+This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. 
 
-This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. \\
-
-Finally, there exists $\theta_{j_1},...\theta_{j_l}$ such that $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and $|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore, $|\theta_i^Tw_j| > 1- (l+1)\sqrt{\epsilon}$. By choosing $\epsilon' = \epsilon/k$, we get our claim. 
+Finally, there exists $\theta_{j_1},...\theta_{j_l}$ such that
+$|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and
+$|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and
+$|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore,
+$|\theta_i^Tw_j| > 1- (l+1)\sqrt{\epsilon}$. By choosing
+$\epsilon' = \epsilon/k$, we get our claim.
 \end{proof}
 
 \begin{theorem}\label{eigRes}
@@ -819,32 +878,39 @@ Assume the conditions of \ref{eigConv}. If $\sqrt{L({\bf a, \boldsymbol{\theta}}
  
  \begin{proof}
 By Lemma \ref{eigConv}, the only case that there does not exists $i, j$ such that $|w_j^T\theta_i| >  1-\epsilon$ is if for all $\theta_i$, we have a partition of $[k]$ into $S_1,..,S_l$ such that 
-
+%
 \[E_{X} \left[ \left( \sum_{i \in S_j} a_i \sigma(\theta_i,X) \right)^2 \right] < \epsilon^2 / k^2\]
 
-holds for all $j$. We notice that for a integrable function $f(x)$, $\| f\|_X = \sqrt{E_X[f(X)^2]}$ is a norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true target function, we conclude that by triangle inequality
-
-\[\sqrt{L(\boldsymbol{a,\theta})} = \|\sum_{j}\sum_{i \in S_j} a_i \sigma(\theta_i,x) - f(x)\|_X \]
-
-\[\geq \|f(x)\|_X\ - \sum_{j} \|\sum_{i\in S_j}a_i\sigma(\theta_i,x) \|_X \geq \sqrt{L(0,\boldsymbol{\theta})} - \epsilon\]
+holds for all $j$. We notice that for a integrable function $f(x)$, $\| f\|_X = \sqrt{E_X[f(X)^2]}$ is a norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true target function, we conclude that by triangle inequality,
+%
+\begin{align*}
+\sqrt{L(\boldsymbol{a,\theta})} & = \|\sum_{j}\sum_{i \in S_j} a_i \sigma(\theta_i,x) - f(x)\|_X \\
+& \geq \|f(x)\|_X\ - \sum_{j} \|\sum_{i\in S_j}a_i\sigma(\theta_i,x)
+  \|_X \geq \sqrt{L(0,\boldsymbol{\theta})} - \epsilon
+\end{align*}
 
 This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $\theta_j$.
  \end{proof}
  
  \begin{observation}\label{initialize}
 If $\theta$ is chosen uniformly from $\mathcal{M}$ and 
-
+%
 \[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] > 3\epsilon\sqrt{L(0,0)}\] 
 
 Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{L({\bf a, \boldsymbol{\theta}})} < \sqrt{L(0,\boldsymbol{\theta})} - \epsilon$ with high probability.
  \end{observation}
  
  \begin{proof}
- Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then optimizing $a_1$. Notice that the expected loss decrease is:
+ Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then
+ optimizing $a_1$. Notice that the expected loss decrease is:
+\begin{align*}
  %
- \[ \expt[ L(a_1,\theta_1)] - L(0,0) = \expt\left [\min_{a_1} a_1^2 + 2\sum_{j=1}^k a_1 b_j\Phi(\theta_1,w_j)\right]\] 
+  \expt[ L(a_1,\theta_1)] - L(0,0) & = \expt\left [\min_{a_1} a_1^2 +
+  2\sum_{j=1}^k a_1 b_j\Phi(\theta_1,w_j)\right] \\
  %
- \[ = \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] \]
+ & = \expt\left[\left(  \sum_{j=1}^k b_j
+   \Phi(\theta,w_j)\right)^2\right] 
+\end{align*}
  
 Let $g(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}g(\theta)^2 \geq 2\epsilon\sqrt{L(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $g(\theta)^2 \geq 2\epsilon \sqrt{L(0,0)}$. Therefore, $L(\boldsymbol{a,\theta}) - L(0,0) \leq 2\epsilon \sqrt{L(0,0)}$ and so $\sqrt{L(\boldsymbol{a,\theta})} \leq \sqrt{L(\boldsymbol{0,\theta})} - \epsilon$.
  \end{proof}
