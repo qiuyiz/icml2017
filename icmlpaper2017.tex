@@ -754,17 +754,21 @@ function
 %
 \[ H({\bf a, v}) = G({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
-Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$. Then, the optimality conditions on ${\bf a}$ are as usual:
+Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$. Then,
+the optimality conditions on ${\bf a}$ are as usual:
 %
-  \[ \abs{\pd{H}{a_i}} = \abs{2\sum_{j=1}^k b_j \Phi_m(\theta_i^T w_j) +
+\begin{align*}
+   \abs{\pd{H}{a_i}} & = \abs{2\sum_{j=1}^k b_j \Phi_m(\theta_i^T w_j) +
     2\sum_{j: j\neq i} a_j \Phi_m(\theta_i^T\theta_j) + (2\Phi_m(1) +
-    2)a_i} \leq \delta \]
+    2)a_i} \\
+& \leq \delta 
+\end{align*}
 %
 And from $m$-almost $\lambda$-harmonic, we have,
 %
 \begin{align*}
-&|\Delta_{{\bf v}} H -  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  \Phi_m(\theta_i^Tw_j) - 2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j(-\Phi_m(\theta_i^T\theta_j)| \\
-& \leq   2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  |\theta_i^Tw_j|^m+2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j|\theta_i^T\theta_j|^m
+& \abs{\Delta_{{\bf v}} H -  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  \Phi_m(\theta_i^Tw_j) - 2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j(-\Phi_m(\theta_i^T\theta_j))} \\
+& \qquad \leq   2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  |\theta_i^Tw_j|^m+2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j|\theta_i^T\theta_j|^m
 \end{align*}
 %
 Together, we get
@@ -772,7 +776,10 @@ Together, we get
 \[|\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi_m(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi_m(\theta_i^T\theta_j)| \]
 \[\leq \sum_{i=1}^l\delta |a_i| +\sum_{i=1}^l 2|a_i||\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|\]
 
-Again, since these inner products are assumed to be less than $1-\epsilon$ and  and $\|a\| \leq poly(d)$ by Lemma \ref{bounded}, we can choose $m = O(\frac{1}{\epsilon}\log(d)\log(1/\delta))$ large enough such that 
+Again, since these inner products are assumed to be less than
+$1-\epsilon$ and and $\|a\| \leq poly(d)$ by Lemma \ref{bounded}, we
+can choose $m = O(\frac{1}{\epsilon}\log(d)\log(1/\delta))$ large
+enough such that
 %
 \begin{align*}
  2\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
@@ -807,22 +814,28 @@ $\epsilon' = \epsilon/k^2$, we get our claim.
 \end{proof}
 
 \begin{theorem}\label{eigRes}
-Assume the conditions of \ref{eigConv}. If $\sqrt{G({\bf a, \boldsymbol{\theta}})} < \sqrt{G(0,\boldsymbol{\theta})} - \delta$ and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4poly(d))}$, then there exists some $i, j$ such that $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$.
+  Assume the conditions of Theorem~\ref{eigConv}. If
+  $\sqrt{G({\bf a, \boldsymbol{\theta}})} <
+  \sqrt{G(0,\boldsymbol{\theta})} - \delta$
+  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4poly(d))}$,
+  then there exists some $i, j$ such that $\theta_i$ is in an
+  $\epsilon$-neighborhood of $w_j$.
 \end{theorem}
  
  \begin{proof}
-By Lemma \ref{eigConv}, if there does not exists $i, j$ such that
-$|w_j^T\theta_i| >  1-\epsilon$ is if for all $\theta_i$, then $|a_i|
-< \delta/poly(d)$ for all $i$. Now, for a integrable function $f(x)$, $\|
-f\|_X = \sqrt{E_X[f(X)^2]}$ is a norm. Therefore, if $f(x) = \sum_i
-b_i \sigma(w_i,x)$ be our true target function, we conclude that by
-triangle inequality
+   By Lemma \ref{eigConv}, if there does not exists $i, j$ such that
+   $|w_j^T\theta_i| > 1-\epsilon$ is if for all $\theta_i$, then
+   $|a_i| < \delta/poly(d)$ for all $i$. Now, for a integrable
+   function $f(x)$, $\| f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a
+   norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
+   target function, we conclude that by triangle inequality
 \begin{align*}
-&\sqrt{G(\boldsymbol{a,\theta})}  \geq \|\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)\|_X \\
-&\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \geq
+\sqrt{G(\boldsymbol{a,\theta})}  & \geq \norm{\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)}_X \\
+&\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \\
+& \geq
   \sqrt{G(0,\boldsymbol{\theta})} - \delta
 \end{align*}
-This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $\theta_j$.
+This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $w_j$.
  \end{proof}
  
  \begin{observation}\label{initialize}
@@ -833,8 +846,8 @@ Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \bold
  \end{observation}
  
  \begin{proof}
- Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then
- optimizing $a_1$. Notice that the expected loss decrease is:
+   Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then
+   optimizing $a_1$. Notice that the expected loss decrease is:
 %
 \begin{align*}
   \expt[ G(a_1,\theta_1)] - G(0,0) & = \expt\left [\min_{a_1} a_1^2 +
@@ -843,8 +856,18 @@ Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \bold
  & = \expt\left[\left(  \sum_{j=1}^k b_j
    \Phi(\theta,w_j)\right)^2\right] 
 \end{align*}
- 
-Let $h(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\delta)$ samples, we know that $\hat{\expt}h(\theta)^2 \geq 2\delta\sqrt{G(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $h(\theta)^2 \geq 2\delta \sqrt{G(0,0)}$. Therefore, $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ and so $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G(\boldsymbol{0,\theta})} - \delta$.
+\Snote{Is there a missing minus sign in the last line?}  Let
+$h(\theta) = \sum_i b_i \Phi(\theta, w_i)$. Since $a_i,b_i, \Phi$ are
+$poly(d)$-bounded, our random variable $h(\theta)$ is
+$poly(d)$-bounded. From Hoeffding bounds, we see that after
+$poly(d,1/\delta)$ samples, we know that
+$\hat{\expt}h(\theta)^2 \geq 2\delta\sqrt{G(0,0)}$, where
+$\hat{\expt}$ denotes the empirical average over $\theta$. Therefore,
+we must have found some $\theta$ such that
+$h(\theta)^2 \geq 2\delta \sqrt{G(0,0)}$. Therefore,
+$G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ and so
+$\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G(\boldsymbol{0,\theta})}
+- \delta$.
  \end{proof}
  
  
