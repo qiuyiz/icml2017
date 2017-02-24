@@ -178,7 +178,7 @@
   assumptions and certain classes of activation functions, if the target function can also be represented by such a network then gradient descent does learn at least one hidden unit of the network -- the incoming edge weight vector for at least one hidden node coincides with that of the true network for the target function %we show that every upon convergence 
   %every hidden unit in our trained network coincides with some %hidden unit in the original network. 
   Further this convergence happens in
-  $poly(d,1/\epsilon)$, time and sample complexity.
+  $\poly(d,1/\epsilon)$, time and sample complexity.
 \end{abstract} 
 
 \section{Introduction}
@@ -215,7 +215,7 @@ there is no robust local minima.
 
 In this work, we ask the question: Can we use neural networks to learn neural networks with gradient descent methods? That is, if the function to be learnt is a neural network, and we try to learn it with a network of the same shape and randomly initialized edge weights, then will the gradient descent converge to the right function? Our experimental simulations show that for different widths and heights functions represented by neural networks with random edge weights can be learnt by stochastic gradient descent (see section~\ref{experiments}).
 
-Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions. We will focus on learning depth two networks with a linear activation on the output node. If the neural network takes inputs  $x \in \R^d$ (say from some distribution $\mathcal{D}$) then the output $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$ is a sum over $k = poly(d)$ hidden units scaled by output weights $b_i \in \R$ where $\sigma(x,w):\R^d \times \R^d\to \R$ is the activation function that takes in a hidden weight vector $w \in \R^d$ and the input vector $x \in \R^d$.
+Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions. We will focus on learning depth two networks with a linear activation on the output node. If the neural network takes inputs  $x \in \R^d$ (say from some distribution $\mathcal{D}$) then the output $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$ is a sum over $k = \poly(d)$ hidden units scaled by output weights $b_i \in \R$ where $\sigma(x,w):\R^d \times \R^d\to \R$ is the activation function that takes in a hidden weight vector $w \in \R^d$ and the input vector $x \in \R^d$.
 given by the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Under some assumptions, we will show that gradient descent can learn at least one of the  $w_i's$ of the target network for certain activation functions. The algorithm will try to learn a guess $\widehat{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$ and then running gradient descent over the parameters $a_i, \theta_i$ will move them to $b_i, w_i$. We will prove that at convergence, at least one $\theta_i$ is equal to (or close to) some $w_j$. Note that we may end up with a many to one mapping of the learned hidden weights to the true hidden weights, instead of a bijection.
 
 \subsubsection{Electron-Proton Dynamics}
@@ -234,15 +234,15 @@ The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. Th
 Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known that the electrons must converge with the protons, by Earnshaw's Theorem. However, there is no activation function $\sigma$ corresponding to this $\Phi$. 
 %
 We derive some sufficient conditions that characterize potentials that arise from activation functions $\sigma$. The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}.
-First we are show how to construct a complicated activation function, which we call $\lambda$-harmonic, for which we show that at convergence in at most $poly(d,1/\epsilon)$ iterations of the SGD algorithm at least some $\theta_i$ coincides with some $w_j$.
+First we are show how to construct a complicated activation function, which we call $\lambda$-harmonic, for which we show that at convergence in at most $\poly(d,1/\epsilon)$ iterations of the SGD algorithm at least some $\theta_i$ coincides with some $w_j$.
 %
 \Anote{same problem as the other informal theorem. i don't know what a $\theta$ is. it has only been defined in the text. furthermore, it's far too informal. instead of "carefully" it should give this notion a name. again, better to just blend this content in the rest of the text without calling it an informal theorem.}
 \begin{theorem}(informal statement of Theorem~\ref{eigConv})
-For some carefully chosen potential function with regularization, at convergence of running the SGD algorithm, we learn at least one of the hidden weights of the target neural network in at most $poly(d,1/\epsilon)$ iterations.
+For some carefully chosen potential function with regularization, at convergence of running the SGD algorithm, we learn at least one of the hidden weights of the target neural network in at most $\poly(d,1/\epsilon)$ iterations.
 \end{theorem}
 %
 We also show some weaker results for other more practical activation functions.
-Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation and our constructed $\lambda$-harmonic activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn at least one of the $w_i$'s. 
+Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $\poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation and our constructed $\lambda$-harmonic activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn at least one of the $w_i$'s. 
 %
 \begin{table}[tb]
 \caption{Potentials and Convergence Results Summary. \Anote{ this caption is a fine title, but it doesn't explain the content of the table. again, keep in mind that my reading pattern is to read the theorems, tables, and then i read the text. i actually think this table does the paper a disservice. it has a "yes" without a rate, some rates that are exponential but not lower bounds. it has some non-informative text like "complicated". you could either fix this table, which will not happen by tomorrow, or you could get rid of it. }}
@@ -260,9 +260,9 @@ Specifically, for the sign activation, we show that if we consider the loss func
    \hline 
         Name of Activation&  Potential  ($\Phi(\theta,w)$)    & GD Convergence? \\ \hline 
         Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes \\ 
-        Polynomial  & $(\theta^Tw)^m$       & Yes, $poly(d,\frac{1}{\epsilon})$  \\        
-        Exponential       & $e^{\theta^Tw-1}$       & Yes, $e^{poly(d)}$  \\ 
-        $\lambda$-harmonic  & Complicated  & Yes, $poly(d,\frac{1}{\epsilon})$ \\
+        Polynomial  & $(\theta^Tw)^m$       & Yes, $\poly(d,\frac{1}{\epsilon})$  \\        
+        Exponential       & $e^{\theta^Tw-1}$       & Yes, $e^{\poly(d)}$  \\ 
+        $\lambda$-harmonic  & Complicated  & Yes, $\poly(d,\frac{1}{\epsilon})$ \\
         Gaussian  &  $e^{-\|\theta-w\|_2^2/2}$       & Yes, $e^{O(d)}$ \\
         Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
         \hline
@@ -330,7 +330,7 @@ in all the optimization procedures to minimize the empirical
 loss. Given $\mathcal{D}$, the training data, and the activation
 function $\sigma$, we attempt to show that there exists a gradient-based
 algorithm that optimizes $\widehat{L}$ on $\mathcal{M}$ and finds
-$\widehat{f} \in \mathcal{C}_{\sigma, k}$ such that with high probability, $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$ for some (or all) $i, j$ in time $poly(d,1/\epsilon)$ or some
+$\widehat{f} \in \mathcal{C}_{\sigma, k}$ such that with high probability, $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$ for some (or all) $i, j$ in time $\poly(d,1/\epsilon)$ or some
 other meaningful bound.
 
 \begin{algorithm}[hb]
@@ -562,7 +562,7 @@ simply rotations. Note that we can change to spherical coordinates (without the 
 We will consider a correlated translation in the spherical coordinate space, which are simply rotations on the sphere. Let $v$ be a vector in $\R^{d-1}$ and our objective is simply
 \[ H(v) = L( \widetilde{\theta_1}+v,...,\widetilde{\theta_{k}} +v)\]
 
-Then, we apply the same proof since $\Phi( \widetilde{\theta_i}+v, \widetilde{\theta_j}+v,)$ is constant as a function of $v$ by rotationally invariance.
+Then, we apply the same proof since $\Phi( \widetilde{\theta_i}+v, \widetilde{\theta_j}+v)$ is constant as a function of $v$ by rotationally invariance.
 \end{proof}
 %
 \begin{corollary}
@@ -591,41 +591,28 @@ $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except when
 $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$ or $\theta_i = w_j$ for some $i,j$. 
 \end{restatable}
 \begin{proof}
-  Let $(\boldsymbol{a,\theta})$ be a critical point of $L.$ First
-  assume that all $\theta_i$ are distinct and there exists
-  $\theta_i \neq w_j$. Now, $a_i$ being optimal implies
-\Anote{it looks like you assume here $\Phi(w,w)=c$. this is not obviously required by your definition of $\lambda$-harmonic. if it is, you should prove it. if it is assumed, you should make the assumption explicit in either the definition of $\lambda$-harmonic or the theorem statement.}
-\begin{align*}
-0 = \pd{L}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j)
-  + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
-\end{align*}
-Computing the Laplacian with respect to $\theta_i$ gives
-\begin{align*}
-\Delta_{\theta_i}L &= 2\sum_{j\neq i} a_i a_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k a_i b_j \Delta_{\theta_i}\Phi(\theta_i,w_j) \\
-&= \lambda a_i\left(2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k  b_j \Phi(\theta_i,w_j)\right) \\
-&= -2\lambda a_i^2
-\end{align*}
-
-In the first line, there is a factor of 2 by symmetry. If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
-\Anote{it's worth making explicit here that the substitution of $\Delta \Phi\to \lambda \Phi$ goes through when the arguments of $\Phi$ are distinct, per the definition of $\lambda$-harmonic, and that now we have to handle the case when some of these arguments are equal.}
-
-Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct (with $l$ maximal) and $\theta_1 \neq w_j$ for any $j$. We consider changing all
+  Let $(\boldsymbol{a,\theta})$ be a critical point of $L$. WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct (with $l$ maximal) and $\theta_1 \neq w_j$ for any $j$. We consider changing all
 $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
 %
 \[H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
 \ldots, \theta_k).\]
 
-The optimality conditions on ${\bf a}$ are unchanged, we must have
-\Anote{you seem to have replace $\Phi(\theta,w)$ with $\Phi(\theta^T w)$ in the following block}
+The optimality conditions on ${\bf a}$ are 
+\begin{align*}
+0 = \pd{L}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j)
+  + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
+\end{align*}
+%
+Next, by $\lambda$-harmonic definition, we may compute the Laplacian as 
 \begin{align*}
 \Delta_v H & = \lambda\sum_{i=1}^l a_i \left(2\sum_{j=1}^k b_j
-  \Phi(\theta_i^Tw_j) + 2\sum_{j=l+1}^k a_j
-  \Phi(\theta_i^T\theta_j)\right) \\
-& = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i^T\theta_i) - 2
-  \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i^T\theta_j)\right) \\
+  \Phi(\theta_i, w_j) + 2\sum_{j=l+1}^k a_j
+  \Phi(\theta_i, \theta_j)\right) \\
+& = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i, \theta_i) - 2
+  \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i,\theta_j)\right) \\
 %
-& = -2\lambda\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i^T\theta_i)
-  +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i^T\theta_j)\right) \\
+& = -2\lambda\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i, \theta_i)
+  +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i, \theta_j)\right) \\
 %
 & = -2\lambda\left(\sum_{i=1}^l a_i^2
   +\sum_{i \neq j}^l a_i a_j \right) = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
@@ -634,8 +621,7 @@ The optimality conditions on ${\bf a}$ are unchanged, we must have
 If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is
 strictly negative, so we are not at a local minimum. 
 
-Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition \Anote{the word "partition" means that the union of $S_1\ldots S_r = [k]$, but in fact, $S_1\ldots S_r \subset [k]$ is sufficient, right? if so, fix.}
-$[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
+Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
 for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, since $\sum_{i=1}^k a_i \sigma(\theta_i,x) = 0$, $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$. 
 \end{proof} 
 
@@ -667,7 +653,7 @@ Let $\Omega \subseteq \R^d$. A point $x^*$ is a
 \end{definition}
 
 Note that if a critical point is not a local minimum, then it is
-$0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are $\epsilon$-strict in $poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_\epsilon$, where 
+$0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are $\epsilon$-strict in $\poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_\epsilon$, where 
 %
 \[\mathcal{M}_\epsilon = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
   \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq
@@ -677,19 +663,19 @@ $0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD (with nois
 Let $L :\Omega \to \R$ be a twice differentiable function such that $|L(x)| \leq B, \|\nabla^2 L(x)\| \leq C,\|\nabla^2L(x) -\nabla^2L(y)\| \leq \rho\|x - y\|$ for all $x,y\in\Omega$. Also, assume that we access to stochastic function $\widehat{L}$ such that \Anote{are you asking for all three quantities to be less than $\epsilon/3$? the first two quantities have no conditions imposed on them.} $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) = L(x)\|, \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$ for all $x\in \Omega$. \Anote{are you asking for this almost surely? if so, it's worth specifying.}
 
 \Anote{you reference Algorithm \ref{SGD}, but this algorithm is only defined in the appendix only. bring it into this section.} 
-Then, we can choose stepsize $\eta = 1/poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_\epsilon$ after at most $poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
+Then, we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_\epsilon$ after at most $\poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
 \end{theorem}
 %
 We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is possible. We now discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
 %
 \begin{definition}
 $\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
-all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq |\theta^Tw|^m$ 
+all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq \poly(m)|\theta^Tw|^m$ 
 \end{definition}
 
 
 \begin{lemma}
-For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m-2$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$.
+For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$.
 \end{lemma}
 \Snote{Why do we only look at rotationally invariant potentials? Do we
 prove it's invariant, or do we assume so (I don't see it written) ?}
@@ -712,7 +698,7 @@ Let us construct our approximate function $h$ as follows. Let $c_n$ are the Tayl
 Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 0, c_1 = 1$, then let the recurrence hold for $n=0,...,m-2$ for some $m$ odd. For $i > m$, we let $c_i = 0$. 
 \begin{align*}
 \Delta_\alpha h & = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha) \\
-&= h(\cos(\alpha)) + k_m(\cos\alpha)^m
+&= h(\cos(\alpha)) + k_mc_m(\cos\alpha)^m
 \end{align*}
 Where $k_m = m^2 + (d-2)m + 1$. Notice that $h(x)$ has non-negative
 Taylor coefficients and is a bounded polynomial, so it is a
@@ -721,43 +707,46 @@ corresponding activation $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)
 is the i-th normalized Hermite polynomial. Now, by normalizing
 $\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have
 %
-\[|\Delta_\theta \Phi_m(\theta ,w) - \Phi_m(\theta,w) | \leq \frac{k_m}{h(1)} |\theta^Tw|^m \leq |\theta^Tw|^m\]
+\[|\Delta_\theta \Phi_m(\theta ,w) - \Phi_m(\theta,w) | \leq \frac{k_mc_m}{h(1)} |\theta^Tw|^m \leq k_m|\theta^Tw|^m\]
 Furthermore, since $\Phi$ is a polynomial with non-negative coefficients, $|\Phi(\theta^Tw)| \leq \Phi(|\theta^Tw|) \leq \Phi(1) = 1$. Thus we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$ odd with our desired properties. Finally, a $m$-almost $\lambda$-harmonic potential is also $m-1$-almost $\lambda$-harmonic, so our claim follows for all $m$.
  \end{proof}
 %
 \begin{lemma}\label{bounded}
   Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals
-  bounded by $poly(d)$ and $|\Phi|\leq 1$ on $\mathcal{M}$. Let
+  bounded by $\poly(d)$ and $|\Phi|\leq 1$ on $\mathcal{M}$. Let
   $G = L + \beta\|a\|^2$. Then, if
   $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then
-  $\|a\| \leq poly(d)/\beta$.
+  $\|a\| \leq \poly(d)/\beta$.
 \end{lemma}
 %
 \begin{proof}
-Notice that $G(0, \bold{\theta}) = L(0,\bold{\theta}) \leq poly(d)$ and so, $G(\boldsymbol{a,\theta}) = L(\boldsymbol{a,\theta}) + \beta \|{\bf a}\|^2 \leq
-poly(d)$. Since $L \geq 0$, our claim follows. 
+Notice that $G(0, \bold{\theta}) = L(0,\bold{\theta}) \leq \poly(d)$ and so, $G(\boldsymbol{a,\theta}) = L(\boldsymbol{a,\theta}) + \beta \|{\bf a}\|^2 \leq
+\poly(d)$. Since $L \geq 0$, our claim follows. 
 \end{proof}
 %
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
 Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by
-$poly(d)$. For all $\epsilon \in (0,1),$ we can pick
-$m = O(poly(d)\log(1/\delta)/\epsilon)$ such that the following holds:
+$\poly(d)$. For all $\epsilon \in (0,1),$ we can pick
+$m = O(\poly(d)\log(1/\delta)/\epsilon)$ such that the following holds:
 
 Let $L$ be as in \eqref{errLoss} with an $m$-almost 1-harmonic
 potential $\Phi_m$ and let $G = L + \|a\|^2$.  If
 $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$ and
 $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all
 $i$, either there exists $j$ such that
-$|w_j^T\theta_i| > 1- \epsilon,$ or $|a_i| < \delta$.
+$|w_j^T\theta_i| > 1- k^2\epsilon,$ or $|a_i| < \delta$.
 \end{restatable}
 %
 \begin{proof}
-The proof is similar to Theorem \ref{EigStrict}. Consider all $\theta_i$ such that $|a_i| > \delta$ and $|w_j^T\theta_i| \leq 1-\epsilon$. WLOG, let these be
-$\theta_1,...,\theta_l$, for some $l \leq k$. Assume for now that furthermore,  $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$.
-Then, consider a correlated rotation on the sphere, which is a
-correlated translation in spherical coordinates. So, consider the loss
-function
+  The proof is similar to Theorem \ref{EigStrict}. Consider all
+  $\theta_i$ such that $|a_i| > \delta$ and
+  $|w_j^T\theta_i| \leq 1-\epsilon$ for all $j$. WLOG, let these be
+  $\theta_1,...,\theta_l$, for some $l \leq k$. Assume for now that
+  furthermore, $|\theta_i^T\theta_j| \leq 1-\epsilon$ for
+  $i \leq l, j\geq l+1$.  Then, consider a correlated rotation on the
+  sphere, which is a correlated translation in spherical
+  coordinates. So, consider the loss function 
 %
 \[ H({\bf a, v}) = G({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
@@ -779,27 +768,27 @@ Since $\Phi_m$ is $m$-almost 1-harmonic, we get,
     \Phi_m(\theta_i^Tw_j) \right. \\
 & \qquad \qquad \qquad \left.- 2\sum_{i=1}^l\sum_{j= l+1}^k
   a_ia_j(-\Phi_m(\theta_i^T\theta_j)) \right| \\
-  & \qquad \leq   2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  |\theta_i^Tw_j|^m+2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j|\theta_i^T\theta_j|^m
+  & \leq   2\poly(m)\left(\sum_{i=1}^l\sum_{j=1}^k a_i b_j  |\theta_i^Tw_j|^m+\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j|\theta_i^T\theta_j|^m\right)
 \end{align*}
 %
 Together, we get
 %
 \begin{align*}
 & |\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi_m(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi_m(\theta_i^T\theta_j)| \\
-& \leq \sum_{i=1}^l\delta |a_i| +\sum_{i=1}^l 2|a_i||\sum_{j=1}^k b_j
+& \leq \sum_{i=1}^l\delta |a_i| +\sum_{i=1}^l 2|a_i|\poly(m)|\sum_{j=1}^k b_j
   (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|
 \\
 \end{align*}
 
 Again, since these inner products are assumed to be less than
-$1-\epsilon$ and and $\|a\| \leq poly(d)$ by Lemma \ref{bounded}, we
+$1-\epsilon$ and and $\|a\| \leq \poly(d)$ by $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$ and Lemma \ref{bounded}, we
 can choose $m = O(\frac{1}{\epsilon}\log(d)\log(1/\delta))$ large
 enough such that
 %
 \begin{align*}
- 2\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
+ 2\poly(m)\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
   \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m| \\
- \leq  2poly(d,k)e^{-\epsilon m} \leq \delta/2
+ \leq  2\poly(d,k,m)e^{-\epsilon m} \leq \delta/2
 \end{align*}
 
 Finally, consider the following expression
@@ -818,21 +807,19 @@ Since $D \geq 0$ and combined with the fact that $|a_i| > \delta$,
 & \leq   \sum_{i=1}^l  |a_i|(-2\delta + 3\delta/2) < -l\delta^2/4
 \end{align*}
 
-Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-l\delta^2/(4d) > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l \,{\text  times}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -l\delta^2/4d$. Since $w$ has $\|w\|^2 = l$, we conclude that $(\boldsymbol{a,\theta})$ is $\delta^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\delta^2/(4d)}$. 
+Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-l\delta^2/(4d) > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l {\textrm{ times}}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -l\delta^2/4d$. Since $w$ has $\|w\|^2 = l$, we conclude that $(\boldsymbol{a,\theta})$ is $\delta^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\delta^2/(4d)}$. 
 
 Finally, it must be the case that there exists $\theta_{j_1},...\theta_{j_l}$ such that
 $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and
 $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and
 $|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore,
-$|\theta_i^Tw_j| > 1- k^2\epsilon$. By choosing
-$\epsilon' = \epsilon/k^2$, we get our claim.
+$|\theta_i^Tw_j| > 1- k^2\epsilon$. 
 \end{proof}
 
 \begin{theorem}\label{eigRes}
   Assume the conditions of Theorem~\ref{eigConv}. If
-  $\sqrt{G({\bf a, \boldsymbol{\theta}})} <
-  \sqrt{G(0,\boldsymbol{\theta})} - \delta$
-  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4poly(d))}$,
+$G({\bf a, \boldsymbol{\theta}}) \leq G(0,\boldsymbol{\theta}) - 2\delta\sqrt{G(0,\boldsymbol{\theta})}$
+  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4\poly(d))}$,
   then there exists some $i, j$ such that $\theta_i$ is in an
   $\epsilon$-neighborhood of $w_j$.
 \end{theorem}
@@ -840,7 +827,7 @@ $\epsilon' = \epsilon/k^2$, we get our claim.
  \begin{proof}
    By Lemma \ref{eigConv}, if there does not exists $i, j$ such that
    $|w_j^T\theta_i| > 1-\epsilon$ is if for all $\theta_i$, then
-   $|a_i| < \delta/poly(d)$ for all $i$. Now, for a integrable
+   $|a_i| < \delta/\poly(d)$ for all $i$. Now, for a integrable
    function $f(x)$, $\| f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a
    norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
    target function, we conclude that by triangle inequality
@@ -850,14 +837,14 @@ $\epsilon' = \epsilon/k^2$, we get our claim.
 & \geq
   \sqrt{G(0,\boldsymbol{\theta})} - \delta
 \end{align*}
-This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $w_j$.
+Squaring gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $w_j$.
  \end{proof}
  
  \begin{observation}\label{initialize}
-If $\theta$ is chosen uniformly from $\mathcal{M}$ and 
-\[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] > 5\delta\sqrt{L(0,0)}\] 
+Let $\theta_1$ be chosen uniformly from $\mathcal{M}$ and assume
+\[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta_1,w_j)\right)^2\right] > 5\delta\sqrt{L(0,0)}\] 
 
-Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \boldsymbol{\theta}})} < \sqrt{G(0,\boldsymbol{\theta})} - \delta$ with high probability.
+Then, we can initialize $\boldsymbol{a,\theta}$ such that $G({\bf a, \boldsymbol{\theta}}) \leq G(0,\boldsymbol{\theta}) - 2\delta\sqrt{G(0,\boldsymbol{\theta})}$ with high probability.
  \end{observation}
  
  \begin{proof}
@@ -873,17 +860,15 @@ Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \bold
 \end{align*}
 Let
 $h(\theta) = \sum_i b_i \Phi(\theta, w_i)$. Since $a_i,b_i, \Phi$ are
-$poly(d)$-bounded, our random variable $h(\theta)$ is
-$poly(d)$-bounded. From Hoeffding bounds, we see that after
-$poly(d,1/\delta)$ samples, we know that
+$\poly(d)$-bounded, our random variable $h(\theta)$ is
+$\poly(d)$-bounded. From Hoeffding bounds, we see that after
+$\poly(d,1/\delta)$ samples, we know that
 $\hat{\expt}h(\theta)^2 \geq 2\delta\sqrt{G(0,0)}$, where
 $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore,
 we must have found some $\theta$ such that
 $h(\theta)^2 \geq 2\delta \sqrt{G(0,0)}$. Therefore,
-$G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ and so
-$\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G(\boldsymbol{0,\theta})}
-- \delta$.
- \end{proof}
+$G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$.
+\end{proof}
  
  
  \if{1}
@@ -915,7 +900,7 @@ $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G(\boldsymbol{0,\theta})}
 \end{algorithm}
 
 \begin{theorem}
-For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{GDReset} on \eqref{errLoss} with error $\delta = poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/poly(d,1/\epsilon)$ converges in $T = poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that each $\theta_i$ is within $\epsilon$-neighborhood of some $w_j$ or there exists $i$ such that if $\theta_i$ is picked uniformly in $\mathcal{M}$
+For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{GDReset} on \eqref{errLoss} with error $\delta = \poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/\poly(d,1/\epsilon)$ converges in $T = \poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that each $\theta_i$ is within $\epsilon$-neighborhood of some $w_j$ or there exists $i$ such that if $\theta_i$ is picked uniformly in $\mathcal{M}$
 %
 \[ \expt\left[\left( \sum_{j < i} a_j \Phi(\theta_i,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\]
 \end{theorem}
@@ -965,7 +950,7 @@ function, so we can show convergence similarly.
 %
 \begin{theorem}\label{gaussStrict}
 \label{GaussStrict}
-Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|\theta-w\|^2/2}$ and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed}, then if $c = d/\epsilon$ and $\boldsymbol{a,\theta} \in \mathcal{M}_{e^{-poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
+Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|\theta-w\|^2/2}$ and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed}, then if $c = d/\epsilon$ and $\boldsymbol{a,\theta} \in \mathcal{M}_{e^{-\poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
 \end{theorem}
 
 
@@ -1035,9 +1020,9 @@ Under a node-wise GD algorithm, we can show convergence to global minima under o
 
 \begin{restatable}{theorem}{polyConv}
 \label{PolyConv}
-Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_d$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Furthermore, $1 \leq |b_i|\leq poly(d)$. 
+Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_d$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Furthermore, $1 \leq |b_i|\leq \poly(d)$. 
 
-Then, with high probability, running Algorithm \ref{NodeGDOpt} on \eqref{errLoss} converges to an $\epsilon$-neighborhood of the global minima in $poly(d,1/\epsilon)$ time. The sample complexity is $poly(d,1/\epsilon)$.
+Then, with high probability, running Algorithm \ref{NodeGDOpt} on \eqref{errLoss} converges to an $\epsilon$-neighborhood of the global minima in $\poly(d,1/\epsilon)$ time. The sample complexity is $\poly(d,1/\epsilon)$.
 \end{restatable}
 
 
@@ -1200,7 +1185,7 @@ $Y$ follows a truncated Gaussian distribution at $B$ in $\R^d$ if $Y = X | ( \|X
 %
 \begin{lemma}
 \label{choppedLem}
-Let $f : \R^d \to \R$ be a function such that $|f(x)| \leq c\|x\|^p$. Let $X$ be a standard Gaussian in $\R^d$ and let $Y$ be a truncated Gaussian at $B$. Then, there exists $B = poly(d,p,\log(1/\epsilon))$ such that 
+Let $f : \R^d \to \R$ be a function such that $|f(x)| \leq c\|x\|^p$. Let $X$ be a standard Gaussian in $\R^d$ and let $Y$ be a truncated Gaussian at $B$. Then, there exists $B = \poly(d,p,\log(1/\epsilon))$ such that 
 \[ \left|\expt[f(X)] - \expt[f(Y)] \right| \leq \epsilon\]
 \end{lemma}
 
@@ -1214,7 +1199,7 @@ By standard concentration bounds and analysis,
 \end{align*}
 
 
-Taking $B = poly(d,p,\log(1/\epsilon))$ will make the second term $< \epsilon/2$, then the first term is also bounded by:
+Taking $B = \poly(d,p,\log(1/\epsilon))$ will make the second term $< \epsilon/2$, then the first term is also bounded by:
 \begin{align*}
   E[|f(X)|{\bf 1}_{\|X\|>B}] &\leq (2\pi)^d \int_B^\infty cr^pe^{-r^2/2}r^{d-1}\,dr \\
                              &\leq C(2\pi)^dB^{p+d}e^{-B^2/2} < \epsilon/2
@@ -1261,9 +1246,9 @@ Since $2\sigma_1(x^T\theta)\sigma_2(x^Tw) = (\sigma_1(x^T\theta)+\sigma_2(x^Tw))
 
 \begin{theorem}
 \label{genErrBound}
-Let $\mathcal{M} = S^{d-1}$ and $L$ be as in \ref{errLoss} with potential function $\Phi$ corresponding to activation $\sigma$. Assume $a_1,...,a_k,b_1,...,b_k$ are $poly(d)$-bounded. Assume that $|\sigma(x)|, |\sigma'(x)|,|\sigma''(x)|, |\sigma'''(x)|$ are all bounded by $C|x|^p$ for some $p$.  
+Let $\mathcal{M} = S^{d-1}$ and $L$ be as in \ref{errLoss} with potential function $\Phi$ corresponding to activation $\sigma$. Assume $a_1,...,a_k,b_1,...,b_k$ are $\poly(d)$-bounded. Assume that $|\sigma(x)|, |\sigma'(x)|,|\sigma''(x)|, |\sigma'''(x)|$ are all bounded by $O(|x|^p)$  
 
-Then, in $poly(d^p, C, 1/\epsilon, \log(1/\zeta))$ samples, we can compute $\hat{L}$ such that with probability $1-\zeta$, we have simultaneously $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) = L(x)\|, \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon$ for all $x\in \Omega$.
+Then, in $\poly(d^p, 1/\epsilon, \log(1/\zeta))$ samples, we can compute $\hat{L}$ such that with probability $1-\zeta$, we have simultaneously $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) = L(x)\|, \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon$ for all $x\in \Omega$.
 \end{theorem}
 
 \begin{proof}
@@ -1271,18 +1256,18 @@ Then, in $poly(d^p, C, 1/\epsilon, \log(1/\zeta))$ samples, we can compute $\hat
   our approximation to $\Phi$ is done by first drawing $n$
   i.i.d. samples $x_i \sim \mathcal{D}_B$, where $\mathcal{D}_B$ is
   the Gaussian in $\R^d$ truncated by the ball of radius
-  $B = poly(d,p,\log(1/\epsilon))$. Then, we calculate the empirical
+  $B = \poly(d,p,\log(1/\epsilon))$. Then, we calculate the empirical
   average.
 %
 \[\widehat{\Phi}(\theta,w) = \frac{1}{n}\sum_{i=1}^n \sigma(x_i^T\theta)\sigma(x_i^Tw) \]
 
-Since $|x_i^T\theta|\leq B$, we conclude that $\sigma, \sigma'$ is bounded by $C*poly(B^p)$. Therefore, by Theorem \ref{rademacher}, \ref{complexity} and by simple union bounds over the $poly(k) = poly(d)$ sum of $\Phi$, we conclude that with probability $1-\zeta$, if we choose $n = poly(d^p, C,1/\epsilon, \log(1/\zeta))$, we have 
+Since $|x_i^T\theta|\leq B$, we conclude that $\sigma, \sigma'$ is bounded by $\poly(B^p)$. Therefore, by Theorem \ref{rademacher}, \ref{complexity} and by simple union bounds over the $\poly(k) = \poly(d)$ sum of $\Phi$, we conclude that with probability $1-\zeta$, if we choose $n = \poly(d^p,1/\epsilon, \log(1/\zeta))$, we have 
 %
 \[|E_{X\sim \mathcal{D}_B}[\sigma(X^Tw)\sigma(X^T\theta)] -
-\widehat{\Phi}(\theta^Tw)| \leq \epsilon/2,\]
+\widehat{\Phi}(\theta^Tw)| \leq \epsilon/\poly(d),\]
 for all $\theta, w \in \mathcal{M}$. And combining with Lemma
 \ref{choppedLem}, we conclude that
-$|\widehat{\Phi}(\theta,w) - \Phi(\theta,w)|\leq \epsilon$. We proceed
+$|\widehat{\Phi}(\theta,w) - \Phi(\theta,w)|\leq \epsilon/\poly(d)$. We proceed
 with the same proof for the first and second derivatives and use a
 union bound to derive our claim.
 \end{proof}
@@ -1317,7 +1302,7 @@ To derive a finite iteration bound, we will apply stochastic gradient descent to
 \begin{theorem}\label{strongConverge}
 Let $L :\Omega \to \R$ be a twice differentiable function such that $|L(x)| \leq B, \|\nabla^2 L(x)\| \leq C,\|\nabla^2L(x) -\nabla^2L(y)\| \leq \rho\|x - y\|$ for all $x,y\in\Omega$. Also, assume that we access to stochastic function $\widehat{L}$ such that $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) = L(x)\|, \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$ for all $x\in \Omega$.
 
-Then, we can choose stepsize $\eta = 1/poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_\epsilon$ after at most $poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
+Then, we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_\epsilon$ after at most $\poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
 \end{theorem}
 
 \begin{proof}
@@ -1325,12 +1310,12 @@ If Algorithm \ref{SGD} succeeds, then by triangle inequality and our error bound
 
 By \cite{GeHJY15} Lemma 7 and 9, we see that if
 $x_i \not \in\mathcal{M}_{\epsilon/3}$ for all the iterations, then in
-expectation, our objective function decreases by $poly(\eta)$ and by
+expectation, our objective function decreases by $\poly(\eta)$ and by
 using Azuma's inequality, this occurs with probability
-$1-\zeta$. Since our objective function is bounded by $poly(d,B)$, we
+$1-\zeta$. Since our objective function is bounded by $\poly(d,B)$, we
 conclude that stochastic gradient descent must have encountered a
 point $x_i$ such that $x_i \in \mathcal{M}_{\epsilon/3}$ after at most
-$poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. Then, by our
+$\poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. Then, by our
 bounds on $\widehat{L}$ and $L$, we conclude that both
 $\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and
 $\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our
@@ -1365,7 +1350,7 @@ function, so we can show convergence similarly.
 \end{algorithmic}
 \end{algorithm}
 %\gaussStrict*
-
+\if{1}
 \begin{restatable}{theorem}{gaussStrict}
 \label{GaussStrict}
 Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-\|a-b\|^2/2}$ and Assumption \ref{outputFixed} holds. If $2d < \|\theta_i - w_j\|^2 < O(d)$ for all $i, j$, then $\theta = (\theta_1,...,\theta_k)$ is a $e^{-O(d)}$-strict point of our simplified loss \eqref{errFixed}.
@@ -1380,15 +1365,15 @@ Consider again a correlated movement, where each $\theta_i$ are moved along the 
 
 Therefore, $\nabla^2 L$ must admit a strictly negative eigenvalue that
 is less than $e^{-c_3 d}$, which implies our claim (we drop the
-$poly(d,k)$ terms).
+$\poly(d,k)$ terms).
 
 Now, we proceed with the convergence proof. Consider the gradient descent output of the first node $\theta_1$. The loss function is given by:
 %
 \[L(\theta_1) =  - 2\sum_{j=1}^k \Phi(\theta_1,w_j)\]
 
-By standard Chernoff bounds, we have $\|w_i\|^2 < 3cd$ for all $i$ and $\|w_i -w_j\|^2 \in (1.5cd, 2.5cd)$ for all $i, j$ with high probability as $k = poly(d)$. We just need to consider $\Omega = \{ x \in \R^d | \|x \|^2 < 3cd\}$ since the convex hull of $w_i$ is contained in $\Omega$ and so the gradient operator $g$ satisfy $g(\Omega) \subseteq \Omega$ (the gradient outside the convex hull points towards the convex hull).  
+By standard Chernoff bounds, we have $\|w_i\|^2 < 3cd$ for all $i$ and $\|w_i -w_j\|^2 \in (1.5cd, 2.5cd)$ for all $i, j$ with high probability as $k = \poly(d)$. We just need to consider $\Omega = \{ x \in \R^d | \|x \|^2 < 3cd\}$ since the convex hull of $w_i$ is contained in $\Omega$ and so the gradient operator $g$ satisfy $g(\Omega) \subseteq \Omega$ (the gradient outside the convex hull points towards the convex hull).  
 
-To use Thm \ref{strongConverge}, we check the regularity conditions: note that we can choose $L, B, \rho$ to be $poly(d)$ since the first, second and third partials of $\Phi$ are all bounded by $poly(d)$. Now, by choosing $\epsilon = e^{-O(d)}$ for some $c$, we know that with high probability, running SGD in $T = e^{O(d)}$ iterations will output $\theta_1$ such that 1) $\|\nabla L (\theta_1)\| < e^{-O(d)}$ and 2) $\lambda_{min}(\nabla^2L(\theta_1)) > -e^{-O(d)}$.
+To use Thm \ref{strongConverge}, we check the regularity conditions: note that we can choose $L, B, \rho$ to be $\poly(d)$ since the first, second and third partials of $\Phi$ are all bounded by $\poly(d)$. Now, by choosing $\epsilon = e^{-O(d)}$ for some $c$, we know that with high probability, running SGD in $T = e^{O(d)}$ iterations will output $\theta_1$ such that 1) $\|\nabla L (\theta_1)\| < e^{-O(d)}$ and 2) $\lambda_{min}(\nabla^2L(\theta_1)) > -e^{-O(d)}$.
 
 WLOG, $w_1$ be a closest point to $\theta_1$. Since  $\lambda_{min}(\nabla^2L(\theta_1)) > -e^{-O(d)}$, by the first part of our claim, $\|w_1 - \theta_1\|^2 < 1.1d$ and from triangle inequality, $\|w_i - \theta_1 \|^2 > c*d$ for all $i \neq 1$. 
 
@@ -1405,23 +1390,71 @@ Therefore, $\epsilon = e^{-O(d)}$ can be chosen small enough to ensure that $\|\
 
 Finally, we proceed by induction. Since $\theta_1, w_1$ are paired to high accuracy, we note that we can treat it as if $w_1, \theta_1$ are removed from our loss equation. Therefore, we conclude that for all $\theta_i$, it will match with some $w_{\pi(i)}$ for some permutation $\pi$, with error $e^{-O(d)}$. 
 \end{proof}
-
+\fi
 
 
 
 \section{Convergence of Almost $\lambda$-Harmonic Potentials}\label{App:EigenFunc}
 
 
+\if{1}
+\begin{theorem}
+For any $\epsilon < 1/\poly(d)$, we can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{NodeGDOpt} on \eqref{errLoss} with error $\delta = \poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/\poly(d,1/\epsilon)$ converges in $T = \poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that either  $\theta$ is within $\epsilon$-neighborhood of the global minima or there exists $i$ such that if $\theta_i$ is picked uniformly in $\mathcal{M}$
+%
+\[ \expt\left[\left( \sum_{j < i} a_j \Phi(\theta_i,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\]
+
+The sample complexity is $d^{O(\log(d)/\epsilon)}$.
+\end{theorem}
+
+\begin{proof}
+Let $\Phi_m$ be the $(1,m)$-Harmonic potential in Theorem \ref{eigConv} with $m = \poly(d,1/\epsilon)$ and $m$ odd. We first consider the algorithm on node $\theta_1$ and claim that it will merge with some $w_j$ and then we will proceed with induction. 
+
+
+If
+%
+\[ \expt\left[\left( \sum_{j < 1} a_j \Phi(\theta_i,\theta_j) +
+    \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon,\]
+then we are done. Otherwise, with high probability, Theorem
+\ref{nonDecrease} allows us to deduce that throughout the SGD
+algorithm applied on $\theta_1$, $a_1^2 = \Omega(\epsilon)$.
+
+Now we want to apply Theorem \ref{strongConverge}, so we check the regularity conditions. Since $\mathcal{M} = S^{d-1}$, then we can choose $B, L, \rho$ to be $\poly(d)$ since $\Phi$ and the second and third partials of $\Phi$ are all bounded by $\poly(d)$. Furthermore, by our construction, our activation function $\sigma(x)$ and its derivatives are $O(|x|^{\poly(d,1/\epsilon)})$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\poly(\epsilon,1/d)$ error with sample complexity $d^{\poly(d,1/\epsilon)}$.
+
+
+Therefore, by Theorem \ref{strongConverge} we conclude that we converge to $\theta_1 \in \mathcal{M}_{\poly(\epsilon,1/d)}$. By Theorem \ref{eigConv}, since $|a_i| = \Omega(\sqrt{\epsilon})$, this implies that it is in an $\poly(\epsilon,1/d)$-neighborhood of some $w_{i}$ in $\poly(d,1/\epsilon)$ time. Note that $\theta_1$ will close to with $\pm w_j$ for some $j$ but since $\Phi_m$ is odd, WLOG, it is close to $w_j$. 
+
+Furthermore, note that $|a_1| \leq \poly(d)$ by using the explicit formula. And lastly, by Theorem \ref{quadConverge}, since the maximum eigenvalue of our matrix $A$ is bounded by \poly(d), our gradient descent steps on the quadratic loss $L_{a_1}$ will converge to the optimum in $\Omega = \{a \in \R^n | \|a\| \leq \poly(d)\}$ with $O(\epsilon)$ error in $T$ iterations.
+
+Now, we proceed with induction and repeat the same argument on $\theta_2$. We can simply treat $\theta_1$ as $w_{k+1}$ and so applying the same argument tells us that $\theta_2$ is close to some $w_j$ for some $j$. The issue is that $\theta_2$ could be in a $\poly(\epsilon,1/d)$-neighborhood of $w_{k+1} = \theta_1$ or $w_i$. We claim that this will not occur. First, since $w_i, w_{k+1}$ are in a $\poly(\epsilon,1/d)$-neighborhood of each other, we will assume WLOG that $\theta_2$ is close to $\theta_1$.
+
+Now, by the optimality of $a_1$, we know that $L(a_1,\theta_1) \leq \min_{a \in \Omega} L(a,\theta_1) + O(\epsilon)$. We claim that if $\theta_2$ is close to $\theta_1$, then $L(a_1+a_2,\theta_1) \leq L(a_1,\theta_1) - \Omega(\epsilon)$. This, combined with the fact that $a_1 + a_2$ is bounded by \poly(d), would lead to a contradiction.
+
+First, notice that since $a_2$ is always optimal, we have
+\begin{align*}
+& L(a_1,\theta_1) - L(a_1,\theta_1,a_2,\theta_2) \\
+& \qquad \qquad = a_2^2 + 2a_2 (\sum_{j < 2} \Phi(\theta_2,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_2,w_j)) \\
+& \qquad \qquad = -a_2^2 = \Omega(\epsilon)
+\end{align*}
+
+Therefore, it suffices to show that $|L(a_1+a_2,\theta_1) - L(a_1,\theta_1,a_2,\theta_2) | \leq O(\epsilon)$. Since $L(a_1+a_2,\theta) = L(a_1,\theta_1,a_2,\theta_1)$, this follows immediately from the $\poly(d)$-Lipschitz of $\Phi$ and the fact that $\theta_2$ is in a $\poly(d,1/\epsilon)$-neighborhood of $\theta_1$. We conclude that $\theta_2$ cannot be in a $\poly(\epsilon,1/d)$-neighborhood of $\theta_1$ but converges to a point close to $w_{j}$, $j\neq i,k+1$. Therefore, the no two $\theta_i$ are matched to one $w_j$. 
+
+By applying this logic to all $\theta_i$ through induction, we deduce that $\theta$ is within $\epsilon$ of the global minima.
+\end{proof}
+\fi
+
+\section{Convergence of Polynomial Potentials}
+
+
 When the output weights are variable, notice that our convergence results often rely on the optimality of the output weights. For this reason, we will optimize the output weights at every gradient descent step, by carefully choosing the stepsize. As our loss function \eqref{errLoss} is quadratic in $a$, we know that gradient descent will find the optimal $a$ efficiently. 
 %
 \begin{theorem}\cite{nesterov2013introductory}\label{quadConverge}
-  Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq poly(d)\}$ and let
+  Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq \poly(d)\}$ and let
   $L(x) = x^TAx + b^Tx$ be a quadratic loss, where $A$ is a positive
   semi-definite matrix with maximum eigenvalue $\beta$. Then, running
   Algorithm \ref{GD} on $L$ with stepsize $\alpha = 1/\beta$ converges
   to $x_T$ such that
   \[L(x_T) - \min_{x \in \Omega} L(x) \leq \epsilon\]
-  in $T = poly(d, \beta, 1/\epsilon)$ iterations.
+  in $T = \poly(d, \beta, 1/\epsilon)$ iterations.
 \end{theorem} 
 
 \noindent The pseudocode is given in Algorithm \ref{NodeGDOpt}. 
@@ -1455,15 +1488,15 @@ When the output weights are variable, notice that our convergence results often 
 \end{algorithm}
 
 
-First, we need some control on the size of the squares of variable charges, $a_i^2$. Node-wise gradient descent allows us to maintain that control. We will work with \eqref{errEmp} and let $\widehat{Phi}$ be the empirical potential function.
+First, we need some control on the size of the squares of variable charges, $a_i^2$. Node-wise gradient descent allows us to maintain that control. We will work with \eqref{errEmp} and let $\widehat{\Phi}$ be the empirical potential function.
 
 \begin{theorem}\label{nonDecrease}
-  Let $\widehat{\Phi}(\theta, w)$ be $poly(d)$-Lipschitz in $\theta$,
-  $|\widehat{\Phi}| \leq poly(d)$ on $\mathcal{M}$, and $\sum_{j \neq i} |a_j| + \sum_j |b_j| \leq poly(d)$. Also, assume that if $\theta_i$ is drawn uniformly on $\mathcal{M}$,
+  Let $\widehat{\Phi}(\theta, w)$ be $\poly(d)$-Lipschitz in $\theta$,
+  $|\widehat{\Phi}| \leq \poly(d)$ on $\mathcal{M}$, and $\sum_{j \neq i} |a_j| + \sum_j |b_j| \leq \poly(d)$. Also, assume that if $\theta_i$ is drawn uniformly on $\mathcal{M}$,
 %
 \[\expt_{\theta_i}\left[\left(  \sum_{j\neq i} a_j \widehat{\Phi}(\theta_i,\theta_j) + \sum_{j=1}^k b_j \widehat{\Phi}(\theta_i,w_j)\right)^2\right] \geq \epsilon \]
 %
-Then, with high probability, running Algorithm \ref{NodeGDOpt} on $\widehat{L}$ with stepsize at most $\alpha = 1/poly(d)$ and $\gamma = \epsilon$ will enforce that $a_i^2 = \Omega(\epsilon)$ when running SGD on $\theta_i$. The sample complexity is $poly(d,1/\epsilon)$
+Then, with high probability, running Algorithm \ref{NodeGDOpt} on $\widehat{L}$ with stepsize at most $\alpha = 1/\poly(d)$ and $\gamma = \epsilon$ will enforce that $a_i^2 = \Omega(\epsilon)$ when running SGD on $\theta_i$. The sample complexity is $\poly(d,1/\epsilon)$
 \end{theorem}
 
 \begin{proof}
@@ -1473,7 +1506,7 @@ We want to show that $a_i^2 = \Omega(\epsilon)$. First, we analyze the random dr
 %
 
 By assumption, we know that $\expt[\widehat{C}(\theta_i)^2] \geq
-\epsilon$. Since $a_i,b_i, \widehat{\Phi}$ is $poly(d)$-bounded, then $\widehat{C}(\theta_i)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}\widehat{C}(\theta_i)^2 \geq \epsilon/2$, where $\hat{\expt}$ denotes the empirical average over $\theta_i$. Therefore, we must have found some $\theta_i$ such that $\widehat{C}(\theta_i)^2 \geq \epsilon/2$. \Snote{I don€™t think Hoeffding€™s bounds apply here. If Phi is always bounded, you can just apply a Markov argument here}.\Rnote{Direct Markov goes the wrong direction. Hoeffding applies to bounded variables so I believe this works?}
+\epsilon$. Since $a_i,b_i, \widehat{\Phi}$ is $\poly(d)$-bounded, then $\widehat{C}(\theta_i)$ is $\poly(d)$-bounded. From Hoeffding bounds, we see that after $\poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}\widehat{C}(\theta_i)^2 \geq \epsilon/2$, where $\hat{\expt}$ denotes the empirical average over $\theta_i$. Therefore, we must have found some $\theta_i$ such that $\widehat{C}(\theta_i)^2 \geq \epsilon/2$. \Snote{I don€™t think Hoeffding€™s bounds apply here. If Phi is always bounded, you can just apply a Markov argument here}.\Rnote{Direct Markov goes the wrong direction. Hoeffding applies to bounded variables so I believe this works?}
 
 
 Next, notice that $\hat{L}$ is a quadratic in $a_i$, which is a
@@ -1498,7 +1531,7 @@ Therefore,
 As $a_i$ is initially $0$ when sampling $\theta_i$, we conclude that we can find $\theta_i$ such that
 %
 \[ \left( \pd{\hat{L}}{a_i} \right)^2 = 4 \widehat{C}(\theta_i)^2 \geq \epsilon.\]
-Therefore, after $poly(d,1/\epsilon)$ samples, our sampling algorithm will, with high probability, return $\theta_i$  such that $a_i^2 = a_i^*(\theta_i)^2 \geq \epsilon /4$. 
+Therefore, after $\poly(d,1/\epsilon)$ samples, our sampling algorithm will, with high probability, return $\theta_i$  such that $a_i^2 = a_i^*(\theta_i)^2 \geq \epsilon /4$. 
 \Snote{ Is computable efficiently? What about $\widehat{C}$?}
 \Rnote{Depends on how many samples you choose. It is true that the sample complexity of this algorithm  going to be superpolynomial for $\lambda$-harmonic. Iteration complexity is poly. For the polynomial activation, everything is poly}
 Next, we examine the SGD steps. Note
@@ -1514,165 +1547,18 @@ Now, we calculate the following gradient:
 \nabla_{\theta_i} (a_i^*)^2 = 2a_i^*\frac{-1}{\widehat{\Phi}(\theta_i,\theta_i)} \nabla_{\theta_i} \widehat{C}(\theta_i) = \frac{1}{\widehat{\Phi}(\theta_i,\theta_i)} (-\nabla_{\theta_i} \widehat{L})
 \end{equation}
 
-Therefore, let $\theta_{i}^{(j)}$ be the value of $\theta_i$ in the $j$-th iteration of SGD with stepsize $\alpha$. Since $\theta_i$ moves in the direction of the gradient of $(a_i^*)^2$ in expectation and $(a_i^*)^2$ is $poly(d)$-Lipschitz in $\theta_i$, so we conclude by a standard analysis of SGD with stepsize $\alpha = 1/poly(d)$ that $(a_i^*)^2$ is a supermartingale with a bounded difference of $1/poly(d)$. Specifically, let $\widetilde{\nabla}_{\theta_i}\hat{L}$ be the stochastic gradient with $E[\widetilde{\nabla}_{\theta_i}\hat{L}] = \nabla_{\theta_i}\hat{L}$.
+Therefore, let $\theta_{i}^{(j)}$ be the value of $\theta_i$ in the $j$-th iteration of SGD with stepsize $\alpha$. Since $\theta_i$ moves in the direction of the gradient of $(a_i^*)^2$ in expectation and $(a_i^*)^2$ is $\poly(d)$-Lipschitz in $\theta_i$, so we conclude by a standard analysis of SGD with stepsize $\alpha = 1/\poly(d)$ that $(a_i^*)^2$ is a supermartingale with a bounded difference of $1/\poly(d)$. Specifically, let $\widetilde{\nabla}_{\theta_i}\hat{L}$ be the stochastic gradient with $E[\widetilde{\nabla}_{\theta_i}\hat{L}] = \nabla_{\theta_i}\hat{L}$.
 %
 \[E[a_i^*(\theta_i^{(j+1)})^2 | \theta_{i}^{(j)}] = E[a_i^*(\theta_i^{(j)} - \alpha \widetilde{\nabla}_{\theta_i} \hat{L})^2 |\theta_{i}^{(j)}] \]
 \[\geq a_i^*(\theta_i^{(j)})^2 - \alpha E[(\nabla_{\theta_i}(a_i^*)^2)^T\widetilde{\nabla}_{\theta_i}\hat{L}]\]
 %
-\[+ poly(d)\alpha^2E[\|\widetilde{\nabla}_{\theta_i}\hat{L} - \nabla_{\theta_i}\hat{L}\|^2 - \|\nabla_{\theta_i}\hat{L}\|^2]\]
+\[+ \poly(d)\alpha^2E[\|\widetilde{\nabla}_{\theta_i}\hat{L} - \nabla_{\theta_i}\hat{L}\|^2 - \|\nabla_{\theta_i}\hat{L}\|^2]\]
 %
 \[\geq a_i^*(\theta_i^{(j)})^2 + \alpha \|\nabla_{\theta_i}\hat{L}\|^2 - (\alpha/2) \|\nabla_{\theta_i}\hat{L}\|^2 \geq a_i^*(\theta_i^{(j)})^2  \]
 
-Therefore, $X_j = a_i^*(\theta_i^{(j)})^2$ is a supermartingale and by Azuma's, that in $poly(1/\epsilon,d,\log(1/\zeta))$ iterations, $(a_i^*)^2 = \Omega(\epsilon)$ with probability $1-\zeta$. By choosing $\zeta$ to be exponentially small, we may union bound over the $poly(d,1/\epsilon)$ iterations of SGD to derive our conclusion.
+Therefore, $X_j = a_i^*(\theta_i^{(j)})^2$ is a supermartingale and by Azuma's, that in $\poly(1/\epsilon,d,\log(1/\zeta))$ iterations, $(a_i^*)^2 = \Omega(\epsilon)$ with probability $1-\zeta$. By choosing $\zeta$ to be exponentially small, we may union bound over the $\poly(d,1/\epsilon)$ iterations of SGD to derive our conclusion.
 \end{proof}
 
-\begin{definition}
-$\Phi(\theta, w)$ is $(\lambda,m)$-Harmonic on $S^{d-1}$ if for all $\theta, w\in \Omega$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq |\theta^Tw|^m$ 
-\end{definition}
-\Rnote{Not sure if there is a nice general definition to be honest...to be discussed}
-
-
-\eigConv*
-%
-\begin{proof}
-We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
-Using the Laplacian formula on $S^{d-1}$ gives:
-\begin{align*}
-\Delta f & = (\sin \theta)^{2-d} \frac{\partial}{\partial \theta}\left[ (\sin \theta)^{d-2} \frac{\partial f(\cos \theta)}{\partial \theta}\right] \\
-& = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta)
-\end{align*}
-\Snote{$\theta$ is overloaded here.}
-
-We want $f$ to be approximately $1$-harmonic, so we want to approximately solve:
-%
-\[f''(x)(1-x^2) - (d-1)xf'(x) =  f(x) \]
-
-Let us construct our approximate function $f$ as follows. Let $c_n$ are the Taylor coefficients of $f(x)$, then we want to solve the equation:
-Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 1, c_1 = 0$, then we run this recurrence holds $n=0,...,N-2$ for some $N$ even and set $c_{N+i} = 0$ for $i > 0$, then
-\begin{align*}
-\Delta f & = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta) \\
-&= f(\cos(x)) + k_N(\cos\theta)^N
-\end{align*}
-
-Where $k_N = N^2 + (d-2)N + 1$. Notice that $f(x)$ has non-negative Taylor coefficients and is a bounded polynomial, so $f$ is a realizable potential function by Theorem \ref{thm:rotReal}. We can also choose $N$ to be odd by setting $c_0 = 0, c_1 = 1$. Therefore, we can construct a realizable $(1, m)$-Harmonic potential for any $m$.
-
-We show our result under this potential function $\Phi = f$ and then we can normalize later. We first show a weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$, or (iv) there exists $j\neq i$ such that $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iv). Then,
-%
-\[|\pd{L}{a_i}| = |2\sum_{j=1}^k  b_j  \Phi(\theta_i^T w_j) +  2\sum_{j\neq i} a_j \Phi(\theta_i^T\theta_j)  + 2a_i\Phi(1)| \leq \epsilon \] 
-
-And, 
-%
-\[\Delta_{\theta_i} L =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
-\[+ k_N(\theta_i^Tw_j)^N) +  2\sum_{j\neq i} a_i a_j(-\Phi(\theta_i^T\theta_j) + k_N(\theta_i^T\theta_j)^N)\]
-
-Therefore,
-%
-\[|\Delta_{\theta_i}L + 2a_i^2\Phi(1)| \leq \epsilon |a_i| \]
-\[+  2|a_i| k_N|\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^N|\]
-
-Since (i), (iv) does not hold and $\|a\| \leq poly(d)$, we can choose $N = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
-%
-\[ 2k_N |\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^N| \leq  2poly(d,k,N)e^{-\epsilon N} \]
-\[\leq \epsilon/2\] 
-
-Therefore, by (ii) and $\Phi(1) > 1$,
-%
-\[\Delta_{\theta_i} L \leq -2a_i^2 \Phi(1) +\epsilon |a_i|+(\epsilon/2)|a_i| \leq |a_i|(-2\epsilon \Phi(1) + 3\epsilon/2) \]
-\[\leq -\epsilon^2/4\]
-
-This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. 
-
-Now, consider all $\theta_i$ such that only condition (iv) holds. WLOG, assume that these are $\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$. Then, consider a correlated rotation on the sphere, which is a correlated translation in spherical coordinates $\widetilde{\theta_1},...,\widetilde{\theta_l}$. Now, consider the loss function
-
-\[ H({\bf a, v}) = L({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
-
-Therefore, Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iii). Then, the optimality conditions on ${\bf a}$ are unchanged, we must have
-%
-\[\Delta_{{\bf v}} H =  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
-\[+ k_N(\theta_i^Tw_j)^N) +  2\sum_{i=1}^l\sum_{j= l+1}^k a_i a_j(-\Phi(\theta_i^T\theta_j) + k_N(\theta_i^T\theta_j)^N)\]
-
-Therefore, from our optimality conditions
-%
-\[|\Delta_{{\bf v}}H + \sum_{i=1}^l 2a_i^2\Phi(\theta_i^T\theta_i) + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \epsilon |a_i| \]
-\[+  2|a_i| k_N\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^N|\]
-
-Again, since these inner products are assumed to be less than $1-\epsilon$, we can choose $N = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
-%
-\[ 2|a_i| k_N\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^N +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^N|\]
-
-\[ \leq  2poly(d,k,N)e^{-\epsilon N} \leq \epsilon/2\] 
-
-Finally, we can rewrite that inequality in (iii) as 
-%
-\[D = \expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] \]
-%
-\[=\sum_{i=1}^l a_i^2\Phi(\theta_i^T\theta_i) + \sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)\]
-%
-So, if (iii) does not hold, $D > \epsilon^2$ and combined with the fact that (ii) does not hold,
-%
-\[\Delta_{\theta_i} L \leq -2D +\epsilon |a_i|+(\epsilon/2)|a_i| \]
-
-\[\leq -2\epsilon^2 + |a_i|(-2\epsilon \Phi(1) + 3\epsilon/2) \leq -\epsilon^2/4\]
-
-This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. \\
-
-Finally, there exists $\theta_{j_1},...\theta_{j_l}$ such that $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and $|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore, $|\theta_i^Tw_j| > 1- (l+1)\sqrt{\epsilon}$. By choosing $\epsilon' = \epsilon/poly(d)$, we get our claim. 
-\end{proof}
-
-
-\begin{theorem}
-For any $\epsilon < 1/poly(d)$, we can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{NodeGDOpt} on \eqref{errLoss} with error $\delta = poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/poly(d,1/\epsilon)$ converges in $T = poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that either  $\theta$ is within $\epsilon$-neighborhood of the global minima or there exists $i$ such that if $\theta_i$ is picked uniformly in $\mathcal{M}$
-%
-\[ \expt\left[\left( \sum_{j < i} a_j \Phi(\theta_i,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\]
-
-The sample complexity is $d^{O(\log(d)/\epsilon)}$.
-\end{theorem}
-
-\begin{proof}
-Let $\Phi_m$ be the $(1,m)$-Harmonic potential in Theorem \ref{eigConv} with $m = poly(d,1/\epsilon)$ and $m$ odd. We first consider the algorithm on node $\theta_1$ and claim that it will merge with some $w_j$ and then we will proceed with induction. 
-
-
-If
-%
-\[ \expt\left[\left( \sum_{j < 1} a_j \Phi(\theta_i,\theta_j) +
-    \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon,\]
-then we are done. Otherwise, with high probability, Theorem
-\ref{nonDecrease} allows us to deduce that throughout the SGD
-algorithm applied on $\theta_1$, $a_1^2 = \Omega(\epsilon)$.
-
-Now we want to apply Theorem \ref{strongConverge}, so we check the regularity conditions. Since $\mathcal{M} = S^{d-1}$, then we can choose $B, L, \rho$ to be $poly(d)$ since $\Phi$ and the second and third partials of $\Phi$ are all bounded by $poly(d)$. Furthermore, by our construction, our activation function $\sigma(x)$ and its derivatives are $O(|x|^{poly(d,1/\epsilon)})$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $poly(\epsilon,1/d)$ error with sample complexity $d^{poly(d,1/\epsilon)}$.
-
-
-Therefore, by Theorem \ref{strongConverge} we conclude that we converge to $\theta_1 \in \mathcal{M}_{poly(\epsilon,1/d)}$. By Theorem \ref{eigConv}, since $|a_i| = \Omega(\sqrt{\epsilon})$, this implies that it is in an $poly(\epsilon,1/d)$-neighborhood of some $w_{i}$ in $poly(d,1/\epsilon)$ time. Note that $\theta_1$ will close to with $\pm w_j$ for some $j$ but since $\Phi_m$ is odd, WLOG, it is close to $w_j$. 
-
-Furthermore, note that $|a_1| \leq poly(d)$ by using the explicit formula. And lastly, by Theorem \ref{quadConverge}, since the maximum eigenvalue of our matrix $A$ is bounded by poly(d), our gradient descent steps on the quadratic loss $L_{a_1}$ will converge to the optimum in $\Omega = \{a \in \R^n | \|a\| \leq poly(d)\}$ with $O(\epsilon)$ error in $T$ iterations.
-
-Now, we proceed with induction and repeat the same argument on $\theta_2$. We can simply treat $\theta_1$ as $w_{k+1}$ and so applying the same argument tells us that $\theta_2$ is close to some $w_j$ for some $j$. The issue is that $\theta_2$ could be in a $poly(\epsilon,1/d)$-neighborhood of $w_{k+1} = \theta_1$ or $w_i$. We claim that this will not occur. First, since $w_i, w_{k+1}$ are in a $poly(\epsilon,1/d)$-neighborhood of each other, we will assume WLOG that $\theta_2$ is close to $\theta_1$.
-
-Now, by the optimality of $a_1$, we know that $L(a_1,\theta_1) \leq \min_{a \in \Omega} L(a,\theta_1) + O(\epsilon)$. We claim that if $\theta_2$ is close to $\theta_1$, then $L(a_1+a_2,\theta_1) \leq L(a_1,\theta_1) - \Omega(\epsilon)$. This, combined with the fact that $a_1 + a_2$ is bounded by poly(d), would lead to a contradiction.
-
-First, notice that since $a_2$ is always optimal, we have
-\begin{align*}
-& L(a_1,\theta_1) - L(a_1,\theta_1,a_2,\theta_2) \\
-& \qquad \qquad = a_2^2 + 2a_2 (\sum_{j < 2} \Phi(\theta_2,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_2,w_j)) \\
-& \qquad \qquad = -a_2^2 = \Omega(\epsilon)
-\end{align*}
-
-Therefore, it suffices to show that $|L(a_1+a_2,\theta_1) - L(a_1,\theta_1,a_2,\theta_2) | \leq O(\epsilon)$. Since $L(a_1+a_2,\theta) = L(a_1,\theta_1,a_2,\theta_1)$, this follows immediately from the $poly(d)$-Lipschitz of $\Phi$ and the fact that $\theta_2$ is in a $poly(d,1/\epsilon)$-neighborhood of $\theta_1$. We conclude that $\theta_2$ cannot be in a $poly(\epsilon,1/d)$-neighborhood of $\theta_1$ but converges to a point close to $w_{j}$, $j\neq i,k+1$. Therefore, the no two $\theta_i$ are matched to one $w_j$. 
-
-By applying this logic to all $\theta_i$ through induction, we deduce that $\theta$ is within $\epsilon$ of the global minima.
-\end{proof}
-
-
-\section{Convergence of Polynomial Potentials}
-
-
-For realistic potentials, we can deduce finite time convergence
-results for polynomial activations, excluding the simple cases of
-linear and quadratic activations. For the sign activation, no such
-convergence results exist because of its non-smoothness. However, we
-believe that Lipschitz approximations to the sign activation should
-enjoy some related convergence guarantees.
 %
 
 
@@ -1685,46 +1571,46 @@ First, consider the initialization of $\theta$, notice that upon initialization 
 %
 \[\expt[C(\theta)^2] = \expt\left[\left(\sum_{i=1}^k  b_i (\theta_i)^l\right)^2\right] = \sum_{i=1}^k b_i^2 \expt[\theta_i^{2l}]\]
 
-There must exists $j$ such that $|b_j|\geq 1$ and since drawing $\theta_i$ uniformly on $S^{d-1}$ is just a $poly(d)$ rescaling of a Gaussian, we conclude that $E[a^2]\geq1/poly(d)$. By Theorem \ref{nonDecrease}, we conclude that $E[a^2] \geq 1/poly(d)$ throughout the gradient descent algorithm. Next, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $poly(d)$ since $\Phi$ and the second and third partials of $\Phi$ are all bounded by $poly(d)$ in $\Omega$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $|x|^{l}$, where $l$ is fixed. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon$ error with sample complexity $poly(d,1/\epsilon)$.
+There must exists $j$ such that $|b_j|\geq 1$ and since drawing $\theta_i$ uniformly on $S^{d-1}$ is just a $\poly(d)$ rescaling of a Gaussian, we conclude that $E[a^2]\geq1/\poly(d)$. By Theorem \ref{nonDecrease}, we conclude that $E[a^2] \geq 1/\poly(d)$ throughout the gradient descent algorithm. Next, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d)$ since $\Phi$ and the second and third partials of $\Phi$ are all bounded by $\poly(d)$ in $\Omega$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $O(|x|^{l})$, where $l$ is fixed. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon$ error with sample complexity $\poly(d,1/\epsilon)$.
 
 
-Therefore, we conclude that we converge to $\theta \in \mathcal{M}_{poly(\epsilon,1/d)}$ in $poly(d,1/\epsilon)$ iterations. Note that this is a constrained optimization problem, so by introducing a Lagrange multiplier $\lambda$, the optimality conditions are:
+Therefore, we conclude that we converge to $\theta \in \mathcal{M}_{\poly(\epsilon,1/d)}$ in $\poly(d,1/\epsilon)$ iterations. Note that this is a constrained optimization problem, so by introducing a Lagrange multiplier $\lambda$, the optimality conditions are:
 %
 \begin{align*}
-|\pd{L}{a}| & = |2\sum_{i=1}^k b_i (\theta_i)^l + 2a| \leq poly(\epsilon,1/d), \textrm{ and } \\
+|\pd{L}{a}| & = |2\sum_{i=1}^k b_i (\theta_i)^l + 2a| \leq \poly(\epsilon,1/d), \textrm{ and } \\
 %
- |(\nabla_\theta L)_i| & = |\theta_i||2ab_il(\theta_i)^{l-2}  -2\lambda| \leq poly(\epsilon,1/d) ,
+ |(\nabla_\theta L)_i| & = |\theta_i||2ab_il(\theta_i)^{l-2}  -2\lambda| \leq \poly(\epsilon,1/d) ,
 \end{align*}
 where $\lambda$ is chosen to minimize
-\[\lambda = \arg \min_\lambda \sum_i (ab_i l (\theta_i)^{l-1} - \lambda\theta_i)^2 = \sum_i ab_i l (\theta_i)^l = -la^2 + poly(\epsilon,1/d) \]
+\[\lambda = \arg \min_\lambda \sum_i (ab_i l (\theta_i)^{l-1} - \lambda\theta_i)^2 = \sum_i ab_i l (\theta_i)^l = -la^2 + \poly(\epsilon,1/d) \]
 
-Therefore, either $|\theta_i| \leq poly(\epsilon,1/d)$ or $|2ab_il(\theta_i)^{l-2} - 2 \lambda |\leq poly(\epsilon,1/d)$. Next, the projected Hessian is a diagonal matrix with diagonal entry: 
+Therefore, either $|\theta_i| \leq \poly(\epsilon,1/d)$ or $|2ab_il(\theta_i)^{l-2} - 2 \lambda |\leq \poly(\epsilon,1/d)$. Next, the projected Hessian is a diagonal matrix with diagonal entry: 
 %
 \[(\nabla^2 L)_{ii} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
 
-Assume that there exists $\theta_i, \theta_j$ such that $|\theta_i|,|\theta_j| \geq poly(\epsilon,1/d)$, then we conclude that the other inequality must hold for coordinates $i, j$. So,
+Assume that there exists $\theta_i, \theta_j$ such that $|\theta_i|,|\theta_j| \geq \poly(\epsilon,1/d)$, then we conclude that the other inequality must hold for coordinates $i, j$. So,
 %
 \begin{align*}
 (\nabla^2 L)_{ii} & = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda \\
 & \leq
   2(l-2)\lambda + (l-1)\epsilon \\
-&  \leq -2(l-2)la^2 + poly(\epsilon,1/d)
+&  \leq -2(l-2)la^2 + \poly(\epsilon,1/d)
 \end{align*}
 %
-Since $l-2 \geq 1$ and $a^2 \geq 1/poly(d)$, we conclude that there
+Since $l-2 \geq 1$ and $a^2 \geq 1/\poly(d)$, we conclude that there
 exists a vector with $v_k = 0$ for all $k\neq i, j$ such that
 $v^T\theta = 0$ (in the tangent space) and
-$v^T(\nabla^2 L) v = -2(l-2)l a^2 + poly(\epsilon,1/d) <
--poly(\epsilon,1/d)$.
-This contradicts $\theta \in \mathcal{M}_{poly(\epsilon,1/d)}$, so
+$v^T(\nabla^2 L) v = -2(l-2)l a^2 + \poly(\epsilon,1/d) <
+-\poly(\epsilon,1/d)$.
+This contradicts $\theta \in \mathcal{M}_{\poly(\epsilon,1/d)}$, so
 $\theta$ is in some $\epsilon$ neighborhood of some
-$w_j$. Furthermore, note that $|a_1| \leq poly(d)$ and there exists
+$w_j$. Furthermore, note that $|a_1| \leq \poly(d)$ and there exists
 $b_j$ such that $|b_j| \geq 1$ as some $w_i$ has not yet been paired
 with a $\theta$.
 
-Now, we proceed with induction and repeat the same argument on $\theta_2$. We can simply treat $\theta_1$ as $w_{k+1}$ and so applying the same argument tells us that $\theta_2$ is close to some $w_j$ for some $j$. The issue is that $\theta_2$ could be in a $poly(\epsilon,1/d)$-neighborhood of $w_{k+1} = \theta_1$ or $w_i$. We claim that this will not occur. First, since $w_i, w_{k+1}$ are in a $poly(\epsilon,1/d)$-neighborhood of each other, we will assume WLOG that $\theta_2$ is close to $\theta_1$.
+Now, we proceed with induction and repeat the same argument on $\theta_2$. We can simply treat $\theta_1$ as $w_{k+1}$ and so applying the same argument tells us that $\theta_2$ is close to some $w_j$ for some $j$. The issue is that $\theta_2$ could be in a $\poly(\epsilon,1/d)$-neighborhood of $w_{k+1} = \theta_1$ or $w_i$. We claim that this will not occur. First, since $w_i, w_{k+1}$ are in a $\poly(\epsilon,1/d)$-neighborhood of each other, we will assume WLOG that $\theta_2$ is close to $\theta_1$.
 
-Now, by the optimality of $a_1$, we know that $L(a_1,\theta_1) \leq \min_{a \in \Omega} L(a,\theta_1) + O(\epsilon)$. We claim that if $\theta_2$ is close to $\theta_1$, then $L(a_1+a_2,\theta_1) \leq L(a_1,\theta_1) - \Omega(\epsilon)$. This, combined with the fact that $a_1 + a_2$ is bounded by poly(d), would lead to a contradiction.
+Now, by the optimality of $a_1$, we know that $L(a_1,\theta_1) \leq \min_{a \in \Omega} L(a,\theta_1) + O(\epsilon)$. We claim that if $\theta_2$ is close to $\theta_1$, then $L(a_1+a_2,\theta_1) \leq L(a_1,\theta_1) - \Omega(\epsilon)$. This, combined with the fact that $a_1 + a_2$ is bounded by $\poly(d)$, would lead to a contradiction.
 
 First, notice that since $a_2$ is always optimal, we have
 \begin{align*}
@@ -1733,7 +1619,7 @@ First, notice that since $a_2$ is always optimal, we have
 & \qquad \qquad = -a_2^2 = \Omega(\epsilon)
 \end{align*}
 
-Therefore, it suffices to show that $|L(a_1+a_2,\theta_1) - L(a_1,\theta_1,a_2,\theta_2) | \leq O(\epsilon)$. Since $L(a_1+a_2,\theta) = L(a_1,\theta_1,a_2,\theta_1)$, this follows immediately from the $poly(d)$-Lipschitz of $\Phi$ and the fact that $\theta_2$ is in a $poly(d,1/\epsilon)$-neighborhood of $\theta_1$. We conclude that $\theta_2$ cannot be in a $poly(\epsilon,1/d)$-neighborhood of $\theta_1$ but converges to a point close to $w_{j}$, $j\neq i,k+1$. Therefore, the no two $\theta_i$ are matched to one $w_j$. 
+Therefore, it suffices to show that $|L(a_1+a_2,\theta_1) - L(a_1,\theta_1,a_2,\theta_2) | \leq O(\epsilon)$. Since $L(a_1+a_2,\theta) = L(a_1,\theta_1,a_2,\theta_1)$, this follows immediately from the $\poly(d)$-Lipschitz of $\Phi$ and the fact that $\theta_2$ is in a $\poly(d,1/\epsilon)$-neighborhood of $\theta_1$. We conclude that $\theta_2$ cannot be in a $\poly(\epsilon,1/d)$-neighborhood of $\theta_1$ but converges to a point close to $w_{j}$, $j\neq i,k+1$. Therefore, the no two $\theta_i$ are matched to one $w_j$. 
 
 By applying this logic to all $\theta_i$ through induction, we deduce that $\theta$ is within $\epsilon$ of the global minima.
 \end{proof}

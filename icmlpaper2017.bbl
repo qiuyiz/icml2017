@@ -1,4 +1,4 @@
-\begin{thebibliography}{31}
+\begin{thebibliography}{29}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -127,11 +127,6 @@ Klivans, Adam~R and Sherstov, Alexander~A.
 \newblock In \emph{2006 47th Annual IEEE Symposium on Foundations of Computer
   Science (FOCS'06)}, pp.\  553--562. IEEE, 2006.
 
-\bibitem[Lee et~al.(2016)Lee, Simchowitz, Jordan, and Recht]{lee2016gradient}
-Lee, Jason~D, Simchowitz, Max, Jordan, Michael~I, and Recht, Benjamin.
-\newblock Gradient descent only converges to minimizers.
-\newblock 2016.
-
 \bibitem[Livni et~al.(2014)Livni, Shalev{-}Shwartz, and Shamir]{LivniSS14}
 Livni, Roi, Shalev{-}Shwartz, Shai, and Shamir, Ohad.
 \newblock On the computational efficiency of training neural networks.
@@ -143,13 +138,6 @@ Nesterov, Yurii.
 \newblock \emph{Introductory lectures on convex optimization: A basic course},
   volume~87.
 \newblock Springer Science \& Business Media, 2013.
-
-\bibitem[Panageas \& Piliouras(2016)Panageas and Piliouras]{PanageasP16}
-Panageas, Ioannis and Piliouras, Georgios.
-\newblock Gradient descent converges to minimizers: The case of non-isolated
-  critical points.
-\newblock \emph{CoRR}, abs/1605.00405, 2016.
-\newblock URL \url{http://arxiv.org/abs/1605.00405}.
 
 \bibitem[Park et~al.(2016)Park, Kyrillidis, Caramanis, and
   Sanghavi]{ParkKCS16a}
