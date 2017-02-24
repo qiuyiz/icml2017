@@ -234,18 +234,13 @@ Note that for the standard electric potential function given by $\Phi = 1/r$ whe
 We derive some sufficient conditions that characterize potentials that arise from activation functions $\sigma$. The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}.
 First we are show how to construct a complicated activation function, which we call $\lambda$-harmonic, for which we show that at convergence in at most $poly(d,1/\epsilon)$ iterations of the SGD algorithm at least some $\theta_i$ coincides with some $w_j$.
 %
-\begin{theorem}(informal statement of Theorem~\ref{almostlamdaharmonic})
+\begin{theorem}(informal statement of Theorem~\ref{eigConv})
 For some carefully chosen potential function with the SGD algorithm, at convergence, at least one of the $\theta_i$'s will coincide with some $w_i$. and further this happens in at most $poly(d,1/\epsilon)$ iterations and sample complexity.
 \end{theorem}
 %
 We also show some weaker results for other more practical activation functions.
-Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability \Rnote{under what random coin tosses?}. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn at least one of the $w_i$'s. 
-
-
-
-
-
-
+Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation and our constructed $\lambda$-harmonic activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn at least one of the $w_i$'s. 
+%
 \begin{table}[tb]
 \caption{Potentials and Convergence Results Summary}
 \label{table1}
@@ -274,9 +269,7 @@ Specifically, for the sign activation, we show that if we consider the loss func
 \end{center}
 \vskip -0.1in
 \end{table} 
-
-
-
+%
 Our main tool for analysis is to derive second-order information about our dynamics by using the Laplacian of the Hessian (or a submatrix of the Hessian) of our loss function. Together with some generalization error bounds and discrete optimization results, we can finally translate these convergence results into finite time convergence rates. We remark that our algorithms learn and return a neural network with the same architecture and number of hidden nodes as the target network. This is a big contrast to the improper learning setting of many proposed algorithms. 
 
 We acknowledge that there is still a large gap between our developed theory and practice. However, our work can offer theoretical explanations and guidelines for the design of better activation functions or gradient-based training algorithms. For example, better accuracy and training speed were reported when using the newly discovered exponential linear unit (ELU) activation function in \cite{ClevertUH15} \cite{ShahKSS16}. We hope for more theory-backed answers to these and many other questions in deep learning.
@@ -315,7 +308,8 @@ re-parametrize $a$ with $-a$ and expand.
   \sum_{i=1}^k a_i \sigma(X,\theta_i) + \sum_{i=1}^k
   b_i\sigma(X,w_i)\right)^2\right] \nonumber \\
 %
-& = \sum_{i=1}^k \sum_{j=1}^k a_i a_j \Phi(\theta_i,\theta_j)+ 2 a_ib_j \Phi(\theta_i,w_j)+ b_i b_j \Phi(w_i,w_j),   \label{errLoss}
+& = \sum_{i=1}^k \sum_{j=1}^k a_i a_j \Phi(\theta_i,\theta_j)+ 2 a_ib_j \Phi(\theta_i,w_j)+ b_i b_j \Phi(w_i,w_j)
+ \label{errLoss}
 \end{align}
 %
 where $\Phi(\theta, w) = \expt_{X\sim D}[ \sigma(X,\theta) \sigma(X,w)]$ is
@@ -581,7 +575,7 @@ A potential $\Phi$ is {\bf$\lambda$-harmonic} on $\Omega$ if there exists $\lamb
 \end{definition}
 
 We note that there are realizable versions of these potentials; for
-example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$ \Snote{Proof of realizeability?}. In Section 4, we construct a realizable approximation of these $\lambda$-harmonic potentials on $S^{d-1}$ that retains good convergence behavior.
+example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$ as in Table~\ref{table1}. In Section 4, we construct a realizable approximation of these $\lambda$-harmonic potentials on $S^{d-1}$ that retains good convergence behavior.
 %
 \begin{restatable}{theorem}{eigStrict}
 \label{EigStrict}
@@ -616,8 +610,8 @@ $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define
 
 The optimality conditions on ${\bf a}$ are unchanged, we must have
 \begin{align*}
-\Delta_v H & = 2\lambda\sum_{i=1}^l a_i \left(\sum_{j=1}^k b_j
-  \Phi(\theta_i^Tw_j) + \sum_{j=l+1}^k a_j
+\Delta_v H & = \lambda\sum_{i=1}^l a_i \left(2\sum_{j=1}^k b_j
+  \Phi(\theta_i^Tw_j) + 2\sum_{j=l+1}^k a_j
   \Phi(\theta_i^T\theta_j)\right) \\
 & = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i^T\theta_i) - 2
   \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i^T\theta_j)\right) \\
@@ -627,7 +621,7 @@ The optimality conditions on ${\bf a}$ are unchanged, we must have
 %
 & = -2\lambda\left(\sum_{i=1}^l a_i^2
   +\sum_{i \neq j}^l a_i a_j \right) = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
-\end{align*} \Snote{There is a factor 2 in the first line}
+\end{align*} 
 
 If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is
 strictly negative, so we are not at a local minimum. Therefore, if
@@ -638,8 +632,9 @@ $\hat{f} = 0$. \Snote{This part needs to be written better.}
 \end{proof} 
 
 \begin{observation}
-Notice that upon initialization, we have $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ for most $\theta$ since ${\bf a}$ can be optimized to make the loss strictly smaller. Therefore, when running gradient descent on $\lambda$-harmonic functions, we will never have $\hat{f} = 0$ since the loss function is non-increasing.
+Notice that upon initialization, we have $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ almost surely since ${\bf a}$ can be optimized to make the loss strictly smaller (look at \ref{initialize}). Continuous gradient descent on $\lambda$-harmonic functions will never have $\hat{f} = 0$ since the loss function is non-increasing.
 \end{observation}
+
 \Snote{This is not clear. I don't think we have ruled out that all 0
   is not a local minimum. We need to pick between
   $a = (1, 0, \ldots, 0)$ and $a = (-1, 0, \ldots, 0),$ and show that
@@ -820,7 +815,7 @@ holds for all $j$. We notice that for a integrable function $f(x)$, $\| f\|_X = 
 This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $\theta_j$.
  \end{proof}
  
- \begin{observation}
+ \begin{observation}\label{initialize}
 If $\theta$ is chosen uniformly from $\mathcal{M}$ and 
 
 \[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] > 3\epsilon\sqrt{L(0,0)}\] 
@@ -835,7 +830,7 @@ Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{L({\bf a, \bold
  %
  \[ = \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] \]
  
-Let $g(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}g(\theta)^2 \geq 2\epsilon\sqrt{L(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $g(\theta)^2 \geq \epsilon \sqrt{L(0,0)}$. Therefore, $L(\boldsymbol{a,\theta}) - L(0,0) \leq 2\epsilon \sqrt{L(0,0)}$ and so $\sqrt{L(\boldsymbol{a,\theta})} \leq \sqrt{L(\boldsymbol{0,\theta})} - \epsilon$.
+Let $g(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}g(\theta)^2 \geq 2\epsilon\sqrt{L(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $g(\theta)^2 \geq 2\epsilon \sqrt{L(0,0)}$. Therefore, $L(\boldsymbol{a,\theta}) - L(0,0) \leq 2\epsilon \sqrt{L(0,0)}$ and so $\sqrt{L(\boldsymbol{a,\theta})} \leq \sqrt{L(\boldsymbol{0,\theta})} - \epsilon$.
  \end{proof}
  
  
