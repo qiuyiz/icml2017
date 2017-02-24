@@ -568,6 +568,7 @@ For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, 
 %
 %
 \begin{restatable}{lemma}{bounded}
+\label{bounded}
   Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals
   bounded by $\poly(d)$ and $|\Phi|\leq 1$ on $\mathcal{M}$. Let
   $G = L + \beta\|a\|^2$. Then, if
@@ -633,9 +634,11 @@ Together, we get
 \end{align*}
 
 Again, since these inner products are assumed to be less than
-$1-\epsilon$ and and $\|a\| \leq \poly(d)$ by $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$ and Lemma \ref{bounded}, we
-can choose $m = O(\frac{1}{\epsilon}\log(d)\log(1/\delta))$ large
-enough such that
+$1-\epsilon$ and and $\|a\| \leq \poly(d)$ by
+$G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$ and Lemma
+\ref{bounded}, we can choose
+$m = O(\frac{1}{\epsilon}\log(d)\log(1/\delta))$ large enough such
+that
 %
 \begin{align*}
  2\poly(m)\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
