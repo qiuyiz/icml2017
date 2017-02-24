@@ -712,6 +712,7 @@ For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Ph
   sphere such that the corresponding potential is $m$-almost
   1-harmonic ... }
 
+\Snote{We should generalize this proof to almost $\lambda$-harmonic?}
 \begin{proof}
 We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
 Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
@@ -728,17 +729,28 @@ We want $f$ to be approximately $1$-harmonic, so we want to approximately solve:
 \[f''(x)(1-x^2) - (d-1)xf'(x) =  f(x) \]
 
 Let us construct our approximate function $f$ as follows. Let $c_n$ are the Taylor coefficients of $f(x)$, then we want to solve the equation:
-Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 1, c_1 = 0$, then we run this recurrence holds $n=0,...,N-2$ for some $N$ even and set $c_{N+i} = 0$ for $i > 0$, then
+Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n +
+1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 1, c_1 = 0$, then we run this
+recurrence holds $n=0,...,N-2$ for some $N$ even and set $c_{N+i} = 0$
+for $i > 0$, then \Snote{Reword this last line carefully.}
 \begin{align*}
 \Delta f & = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta) \\
 &= f(\cos(x)) + k_N(\cos\theta)^N
 \end{align*}
 
-Where $k_N = N^2 + (d-2)N + 1$. Notice that $f(x)$ has non-negative Taylor coefficients and is a bounded polynomial, so $f$ is a realizable potential function by Theorem \ref{thm:rotReal}. We can also choose $N$ to be odd by setting $c_0 = 0, c_1 = 1$. Therefore, we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$.
+Where $k_N = N^2 + (d-2)N + 1$. Notice that $f(x)$ has non-negative
+Taylor coefficients and is a bounded polynomial, so $f$ is a
+realizable potential function by Theorem \ref{thm:rotReal}. We can
+also choose $N$ to be odd by setting $c_0 = 0, c_1 = 1$. Therefore, we
+can construct a realizable $m$-almost $1$-Harmonic potential for any
+$m$. \Snote{This does not satisfy the $m$-almost definition because
+  $k_N > 1.$} \Snote{Also, we have assumed in the paper that the
+  potentials are normalized with $\Phi( \theta, \theta) = 1$ thus, we
+  should have $f(1) = 1.$ We need to fix the normalization.}
 \end{proof}
 
 \begin{lemma}\label{bounded}
-Let $L$ be as in \eqref{errLoss} and let $b_1,...,b_k$ be reals bounded by $poly(d)$ and $|\Phi|\leq poly(d)$ on $\mathcal{M}$. Let $\mathcal{A}$ be a gradient-type algorithm such that $\mathcal{A}(L)$ enforces that $L$ is non-increasing with high probability. Then, for $\lambda \geq 0$, $\mathcal{A}(L+ \lambda \|{\bf a}\|^2)$ initialized at ${\bf a} = 0$ will enforce $\|a\| \leq poly(d)/\lambda$.
+Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals bounded by $poly(d)$ and $|\Phi|\leq poly(d)$ on $\mathcal{M}$. Let $\mathcal{A}$ be a gradient-type algorithm such that $\mathcal{A}(L)$ enforces that $L$ is non-increasing with high probability. Then, for $\lambda \geq 0$, $\mathcal{A}(L+ \lambda \|{\bf a}\|^2)$ initialized at ${\bf a} = 0$ will enforce $\|a\| \leq poly(d)/\lambda$.
 \end{lemma}
 
 \begin{proof}
