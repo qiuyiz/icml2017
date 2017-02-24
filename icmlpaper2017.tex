@@ -218,26 +218,26 @@ Next, we provide a partial theoretical justification for this phenomena with sim
 given by the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Under some assumptions, we will show that gradient descent can learn at least one of the  $w_i's$ of the target network for certain activation functions. The algorithm will try to learn a guess $\widehat{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$ and then running gradient descent over the parameters $a_i, \theta_i$ will move them to $b_i, w_i$. We will prove that at convergence at least one $\theta_i$ is equal to (or close to) some $w_j$. 
 
 \subsubsection{Electron-Proton Dynamics}
-
+%
 Our main observation is that the gradient descent dynamics of learning such to layer networks is equivalent to the dynamics of a set of proton-electron charges under a certain electrical attraction force function. Assume for now that the coefficients $b_i$ and $a_i$ are $1$. Thus we are only perform gradient descent over $\theta_i$ to minimize the expected square loss of $f-\widehat{f}$.
-
+%
 \begin{theorem}(informal statement of Theorem~\ref{EPDyn})
 The gradient descent process for learning $f$ is equivalent to the motion of k electrons in the presence of k fixed protons where the force between any pair of charges is given by a potential function that depends on $\sigma$.
 \end{theorem}
-
+%
 The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. The electrons are at positions $\theta_1,..,\theta_k$ and can move: the total force on each charge is the sum of the pairwise forces, in each infinitesimal time step $dt$ an electron moves by a distance proportional to the net force acting on it. The force between a pair of charges is determined by the gradient of the potential function $\Phi(\theta, w) = E_{X\sim \mathcal{D}}[ \sigma(X,\theta) \sigma(X,w)]$.  
 
 \subsubsection{Convergence Analysis}
-
+%
 Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known that the electrons must converge with the protons, by Earnshaw's Theorem. However, there is no activation function $\sigma$ corresponding to this $\Phi$. 
-
+%
 We derive some sufficient conditions that characterize potentials that arise from activation functions $\sigma$. The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}.
 First we are show how to construct a complicated activation function, which we call $\lambda$-harmonic, for which we show that at convergence in at most $poly(d,1/\epsilon)$ iterations of the SGD algorithm at least some $\theta_i$ coincides with some $w_j$.
-
+%
 \begin{theorem}(informal statement of Theorem~\ref{almostlamdaharmonic})
 For some carefully chosen potential function with the SGD algorithm, at convergence, at least one of the $\theta_i$'s will coincide with some $w_i$. and further this happens in at most $poly(d,1/\epsilon)$ iterations and sample complexity.
 \end{theorem}
-
+%
 We also show some weaker results for other more practical activation functions.
 Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability \Rnote{under what random coin tosses?}. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn at least one of the $w_i$'s. 
 
@@ -399,7 +399,7 @@ for $i \in [k]$, with $\theta_i(0) = \theta_i$. If some subset $S \subseteq [k]$
 \end{definition}
 %
 \begin{theorem}\label{EPDyn}
-Let $\Phi$ be a natural potential. Running continuous gradient descent on \eqref{errLoss} with respect to $\theta$, initialized at $(\theta_1,...,\theta_k)$ produces the same dynamics as Electron-Proton Dynamics under $2\Phi$ with fixed particles at $w_1,...,w_k$ with respective charges $b_1,..,b_k$ and moving particles at $\theta_1,...,\theta_k$ with respective charges $a_1,...,a_k$.
+Let $\Phi$ be a symmetric potential. Running continuous gradient descent on \eqref{errLoss} with respect to $\theta$, initialized at $(\theta_1,...,\theta_k)$ produces the same dynamics as Electron-Proton Dynamics under $2\Phi$ with fixed particles at $w_1,...,w_k$ with respective charges $b_1,..,b_k$ and moving particles at $\theta_1,...,\theta_k$ with respective charges $a_1,...,a_k$.
 \end{theorem}
 %
 \begin{proof}
@@ -878,7 +878,23 @@ Let $\mathcal{M} = S^1$ and let Assumption \ref{outputFixed} hold. Let $L$ be as
 \end{theorem}
 
 \begin{proof}
-to be filled
+We will first argue that unless all the electrons and protons have matched up as a permutation it cannot be a strict local minimum and then argue that the global minimum is a strict local minimum.
+
+First note that if some electron and proton have merged, we can remove such pairs and argue about the remaining configuration of charges. So WLOG we assume there are no such overlapping electron and proton.
+
+First consider the case when there is an isolated electron $e$ and there is no charge diagonally opposite to it. In this case look at the two semicircles on the left and the right half of the circle around the isolated electron -- let $q_1$ and $q_2$ be the net charges in the left and the right semi-circles. Note that $q_1 \neq q_2$ since they are integers and $q_1 + q_2 = +1$ which is odd. So by moving the electron slightly to the side with the larger charge you decrease the potential.
+
+If there is a proton opposite the isolated electron the argument becomes simpler as the proton benefits the motion of the electron in either the left or right direction. So  the only way the electron does not benefit by moving in either direction is that $q_1 = -1$ and $q_2 = -1$ which is impossible.
+
+If there is an electron opposite the isolated electron then the combination of these two diagonally opposing electrons have a zero effect on every other charge. So it is possible rotate this pair jointly keeping them opposed in any way and not change the potential. So this is not a strict local minimum.
+
+Next if there is a clump of isolated electrons with no charge on the diagonally opposite point then again as before if $q_1 \neq q_2$ we are done. If  $q_1 = q_2$ then the the electrons in the clump locally are unaffected by the remaining charges. So now by splitting the clump into two groups and moving them apart infinitesimally we will decrease the potential.
+
+Now if there is only protons in the diagonally opposite position an isolated electron again we are done as in the case when there is one electron diagonally opposite one proton. 
+
+Finally if there is only electrons diagonally opposite a clump of electrons again we are done as we have found at least one pair of opposing electrons that can be jointly rotated in any way.
+
+Next we will argue that a permutation matching up is a strict local minumum. For this we will assume that no two protons are diagonally opposite each other (as they can be removed without affecting the function). Now given a perfect matching up of electrons and protons, if we perturb the electrons in any way infinitesimally, then any isolated clump of electrons can be moved slightly to  the left or right to improve the potential.
 \end{proof}
 
 We cannot simply analyze the convergence of GD
@@ -1355,7 +1371,7 @@ Finally, we proceed by induction. Since $\theta_1, w_1$ are paired to high accur
 \section{Convergence of Almost $\lambda$-Harmonic Potentials}\label{App:EigenFunc}
 
 
-When the output weights are variable, notice that our convergence results often rely on the optimality of the output weights. For this reason, we will optimize the output weights at every gradient descent step, by carefully choosing the stepsize. As our loss function \eqref{errLoss} is quadratic in $a$, we know that gradient descent will find $a^*$ efficiently. 
+When the output weights are variable, notice that our convergence results often rely on the optimality of the output weights. For this reason, we will optimize the output weights at every gradient descent step, by carefully choosing the stepsize. As our loss function \eqref{errLoss} is quadratic in $a$, we know that gradient descent will find the optimal $a$ efficiently. 
 %
 \begin{theorem}\cite{nesterov2013introductory}\label{quadConverge}
   Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq poly(d)\}$ and let
@@ -1422,7 +1438,7 @@ By assumption, we know that $\expt[\widehat{C}(\theta_i)^2] \geq
 Next, notice that $\hat{L}$ is a quadratic in $a_i$, which is a
 scalar. Therefore, the gradient step on $a_i$ is chosen with the exact
 stepsize that will optimize $a_i = a_i^*(\theta_i)$.  By optimality of
-$a^*$,
+$a$,
 %
 \begin{equation}
 0 = 2a_i \widehat{\Phi}(\theta_i,\theta_i) + 2\sum_{j\neq i} a_j \widehat{\Phi}(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \widehat{\Phi}(\theta_i,w_j)
