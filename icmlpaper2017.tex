@@ -679,7 +679,7 @@ all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\th
 
 
 \begin{lemma}
-For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a polynomial $\sigma$.
+For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m-2$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$.
 \end{lemma}
 
 \Snote{We should generalize this proof to almost $\lambda$-harmonic?}
@@ -699,47 +699,42 @@ We want $h$ to be approximately $1$-harmonic, so we want to approximately solve:
 \[h''(x)(1-x^2) - (d-1)xh'(x) =  h(x) \]
 %
 Let us construct our approximate function $h$ as follows. Let $c_n$ are the Taylor coefficients of $h(x)$, then we want to solve the equation:
-Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 1, c_1 = 0$, then let the recurrence hold for $n=0,...,m-2$ for some $m$ even. For $i > m$, we let $c_i = 0$. 
+Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 0, c_1 = 1$, then let the recurrence hold for $n=0,...,m-2$ for some $m$ odd. For $i > m$, we let $c_i = 0$. 
 \begin{align*}
 \Delta_\alpha h & = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha) \\
 &= h(\cos(\alpha)) + k_m(\cos\alpha)^m
 \end{align*}
-Where $k_m = m^2 + (d-2)m + 1$. Notice that $f(x)$ has \Snote{This is
-  not $f$ anymore} non-negative Taylor coefficients and is a bounded
-polynomial, so $f$ is a realizable potential function by Theorem
-\ref{thm:rotReal}, with corresponding
-$\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$ is the i-th
-normalized Hermite polynomial. We can also choose $m$ to be odd by
-setting $c_0 = 0, c_1 = 1$. Now, by normalizing
+Where $k_m = m^2 + (d-2)m + 1$. Notice that $f(x)$ has \Snote{This is not $f$ anymore} non-negative
+Taylor coefficients and is a bounded polynomial, so $f$ is a
+realizable potential function by Theorem \ref{thm:rotReal}, with
+corresponding $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$
+is the i-th normalized Hermite polynomial. Now, by normalizing
 $\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have
+%
 \[|\Delta_\theta \Phi_m(\theta ,w) - \Phi_m(\theta,w) | \leq \frac{k_m}{h(1)} |\theta^Tw|^m \leq |\theta^Tw|^m\]
-Thus, can construct a realizable $m$-almost $1$-Harmonic potential for any $m$.
+Furthermore, since $\Phi$ is a polynomial with non-negative coefficients, $|\Phi(\theta^Tw)| \leq \Phi(|\theta^Tw|) \leq \Phi(1) = 1$. Thus we can construct a realizable $m$-almost $1$-Harmonic potential for any $m$ odd with our desired properties. Finally, a $m$-almost $\lambda$-harmonic potential is also $m-1$-almost $\lambda$-harmonic, so our claim follows for all $m$.
  \end{proof}
-
+%
 \begin{lemma}\label{bounded}
-Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals bounded by $poly(d)$ and $|\Phi|\leq poly(d)$ on $\mathcal{M}$. Let $\mathcal{A}$ be a gradient-type algorithm such that $\mathcal{A}(L)$ enforces that $L$ is non-increasing with high probability. Then, for $\lambda \geq 0$, $\mathcal{A}(L+ \lambda \|{\bf a}\|^2)$ initialized at ${\bf a} = 0$ will enforce $\|a\| \leq poly(d)/\lambda$.
+Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals bounded by $poly(d)$ and $|\Phi|\leq 1$ on $\mathcal{M}$. Let $G = L + \beta\|a\|^2$. Then, if $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then $\|a\| \leq poly(d)/\beta$.
 \end{lemma}
-
+%
 \begin{proof}
-Notice that $L({\bf a}, 0) \leq poly(d)$ \Snote{Not sure you mean
-  (a,0), and why is this true? There has to be a dependence on $k$} and by the properties of
-$\mathcal{A}$, with high probability, $L + \lambda \|{\bf a}\|^2 \leq
-poly(d)$. Since $L \geq 0$, our claim follows. \Snote{We're applying
-  the claim to $L + \lambda \norm {a}^2$ but the assumption is about
-  $L.$ Just assume that the algorithm never increases (any) loss
-  function with high probability.}
+Notice that $G(0, \bold{\theta}) = L(0,\bold{\theta}) \leq poly(d)$ and so, $G(\boldsymbol{a,\theta}) = L(\boldsymbol{a,\theta}) + \beta \|{\bf a}\|^2 \leq
+poly(d)$. Since $L \geq 0$, our claim follows. 
 \end{proof}
-
-\Snote{Why is $\Phi(u, v)$ bounded by $\poly(d)$ for all $u,v$?. Also,
-use something other than $\lambda,$ maybe $\beta$}
+%
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
-Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $L$ be as in \eqref{errLoss} with potential $\Phi_m$ and let $G = L + \|a\|^2$. Then, for all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$, then for all $i$, either there exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or $|a_i| < \epsilon/k$. 
+Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $L$ be as in \eqref{errLoss} with potential $\Phi_m$ and let $G = L + \|a\|^2$. 
+
+For all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$ and $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all $i$, either there exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or $|a_i| < \epsilon/k$. 
 \end{restatable}
 \Snote{In this theorem, and everywhere below, can you replace $\Phi$
   by $\Phi_m$ whenever we're talking of the specific potential.}
 %
 \begin{proof}
+<<<<<<< HEAD
   The proof is similar to Theorem \ref{EigStrict}. We first show a
   weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists
   $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii)
@@ -769,6 +764,21 @@ Therefore,
 & \qquad +  2  k_m|a_i| \abs{\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
   \sum_{j: j\neq i}  a_j(\theta_i^T\theta_j)^m}
 \end{align*}
+=======
+The proof is similar to Theorem \ref{EigStrict}. We first show a weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$ such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$, or  (iii) there exists $j\neq i$ such that $|\theta_j^T\theta_i| > 1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/d}$ and we have a $(a_i,\theta_i)$ that does not satisfy (i), (ii), (iii). Then,
+%
+\[|\pd{G}{a_i}| = |2\sum_{j=1}^k  b_j  \Phi(\theta_i^T w_j) +  2\sum_{j\neq i} a_j \Phi(\theta_i^T\theta_j)  + (2\Phi(1) + 2)a_i| \leq \epsilon \] 
+
+And, 
+%
+\[\Delta_{\theta_i} G =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \]
+\[+ k_m(\theta_i^Tw_j)^m) +  2\sum_{j\neq i} a_i a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)\]
+
+Therefore,
+%
+\[|\Delta_{\theta_i}G + (2\Phi(1) + 2)a_i^2| \leq \epsilon |a_i| \]
+\[+  2|a_i| k_m|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}  a_j(\theta_i^T\theta_j)^m|\]
+>>>>>>> e5b39aa6db9b3b7ca40f0b98d888bc8e4929b648
 
 Since (i), (iii) does not hold and $\|a\| \leq poly(d)$ by Lemma
 \ref{bounded}, \Snote{Needs to be updated once we have a updated
@@ -783,11 +793,10 @@ Since (i), (iii) does not hold and $\|a\| \leq poly(d)$ by Lemma
 Therefore, by (ii) and $\Phi(1) = 1$ and previous two inequalities,
 %
 \begin{align*}
-\Delta_{\theta_i} L \leq -(2\Phi(1) + 2)a_i^2 +\epsilon |a_i|+
+\Delta_{\theta_i} G \leq -(2\Phi(1) + 2)a_i^2 +\epsilon |a_i|+
   \epsilon|a_i| & \leq |a_i|(-4\epsilon + 2\epsilon)  \\
 & \leq -\epsilon^2.
 \end{align*}
-
 Since $\Delta_{\theta_i}L$ is a sum of $d$ eigenvalues, this implies
 that $(\boldsymbol{a,\theta})$ is $\epsilon^2/d$-strict, contradicting
 that it is in $\mathcal{M}_{\epsilon^2/d}$.  
@@ -801,7 +810,7 @@ Then, consider a correlated rotation on the sphere, which is a
 correlated translation in spherical coordinates. So, consider the loss
 function
 %
-\[ H({\bf a, v}) = L({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
+\[ H({\bf a, v}) = G({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
 Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$. Then, the optimality conditions on ${\bf a}$ are unchanged, we must have
 %
@@ -839,7 +848,7 @@ D & = \expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] \\
 Since $D \geq 0$ and combined with the fact that (ii) does not hold,
 %
 \begin{align*}
-\Delta_{\theta_i} L & \leq -2a_i^2 +\epsilon |a_i|+(\epsilon/2)|a_i| \\
+\Delta_{\theta_i} G & \leq -2a_i^2 +\epsilon |a_i|+(\epsilon/2)|a_i| \\
 & \leq  |a_i|(-2\epsilon + 3\epsilon/2) \leq -\epsilon^2/4
 \end{align*}
 
@@ -854,7 +863,7 @@ $\epsilon' = \epsilon/k$, we get our claim.
 \end{proof}
 
 \begin{theorem}\label{eigRes}
-Assume the conditions of \ref{eigConv}. If $\sqrt{L({\bf a, \boldsymbol{\theta}})} < \sqrt{L(0,\boldsymbol{\theta})} - \epsilon$ and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$, then there exists some $i, j$ such that $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$.
+Assume the conditions of \ref{eigConv}. If $\sqrt{G({\bf a, \boldsymbol{\theta}})} < \sqrt{G(0,\boldsymbol{\theta})} - \epsilon$ and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$, then there exists some $i, j$ such that $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$.
 \end{theorem}
  
  \begin{proof}
@@ -865,34 +874,33 @@ f\|_X = \sqrt{E_X[f(X)^2]}$ is a norm. Therefore, if $f(x) = \sum_i
 b_i \sigma(w_i,x)$ be our true target function, we conclude that by
 triangle inequality
 \begin{align*}
-\sqrt{L(\boldsymbol{a,\theta})} & = \|\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)\|_X \\
+\sqrt{G(\boldsymbol{a,\theta})} & = \|\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)\|_X \\
 & \geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \geq
-  \sqrt{L(0,\boldsymbol{\theta})} - \epsilon
+  \sqrt{G(0,\boldsymbol{\theta})} - \epsilon
 \end{align*}
 This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $\theta_j$.
  \end{proof}
  
  \begin{observation}\label{initialize}
 If $\theta$ is chosen uniformly from $\mathcal{M}$ and 
-%
-\[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] > 3\epsilon\sqrt{L(0,0)}\] 
+\[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] > 5\epsilon\sqrt{L(0,0)}\] 
 
-Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{L({\bf a, \boldsymbol{\theta}})} < \sqrt{L(0,\boldsymbol{\theta})} - \epsilon$ with high probability.
+Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \boldsymbol{\theta}})} < \sqrt{G(0,\boldsymbol{\theta})} - \epsilon$ with high probability.
  \end{observation}
  
  \begin{proof}
  Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then
  optimizing $a_1$. Notice that the expected loss decrease is:
+%
 \begin{align*}
- %
-  \expt[ L(a_1,\theta_1)] - L(0,0) & = \expt\left [\min_{a_1} a_1^2 +
+  \expt[ G(a_1,\theta_1)] - G(0,0) & = \expt\left [\min_{a_1} a_1^2 +
   2\sum_{j=1}^k a_1 b_j\Phi(\theta_1,w_j)\right] \\
  %
  & = \expt\left[\left(  \sum_{j=1}^k b_j
    \Phi(\theta,w_j)\right)^2\right] 
 \end{align*}
  
-Let $g(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}g(\theta)^2 \geq 2\epsilon\sqrt{L(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $g(\theta)^2 \geq 2\epsilon \sqrt{L(0,0)}$. Therefore, $L(\boldsymbol{a,\theta}) - L(0,0) \leq 2\epsilon \sqrt{L(0,0)}$ and so $\sqrt{L(\boldsymbol{a,\theta})} \leq \sqrt{L(\boldsymbol{0,\theta})} - \epsilon$.
+Let $h(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}h(\theta)^2 \geq 2\epsilon\sqrt{G(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $h(\theta)^2 \geq 2\epsilon \sqrt{G(0,0)}$. Therefore, $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\epsilon \sqrt{G(0,0)}$ and so $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G(\boldsymbol{0,\theta})} - \epsilon$.
  \end{proof}
  
  
