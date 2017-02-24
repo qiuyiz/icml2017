@@ -446,11 +446,10 @@ $\Phi(\theta,w)$ is a {\bf harmonic} potential on $\Omega$ if $\Delta_\theta \Ph
 \begin{fact}
   % Let $\Omega \subseteq \R^d$ and consider a function
   % $f:\Omega \to \R$.  
-Let $x^*$ be a critical point of a function $f :
-  \Omega \to \R$ such that
-  $f$ is differentiable at $x^*.$ Then, $x^*$ is a local minima iff
-  $\lambda_{min}(\nabla^2 f(x^*)) \geq 0$ and it is a strict local
-  minimum iff $\lambda_{min}(\nabla^2 f(x^*)) > 0$.
+  Let $x^*$ be a critical point of a function $f : \Omega \to \R$ such
+  that $f$ is differentiable at $x^*.$ Then, if $x^*$ is a local
+  minimum then $\lambda_{min}(\nabla^2 f(x^*)) \geq 0.$ Moreover, if
+  $\lambda_{min}(\nabla^2 f(x^*)) > 0,$ then $x^*$ is a strict local minimum.
 \end{fact}
 %
 \begin{theorem}[Earnshaw's Theorem. See~\cite{arnold1985mathematical}]
@@ -581,11 +580,16 @@ When we drop Assumption \ref{outputFixed} and allow the output weights to be var
 A potential $\Phi$ is {\bf$\lambda$-harmonic} on $\Omega$ if there exists $\lambda > 0$ such that for every $\theta \in \Omega$, $\Delta_\theta \Phi(\theta, w) = \lambda \Phi(\theta,w) $, except possibly at $\theta = w$.
 \end{definition}
 
-We note that there are realizable versions of these potentials; for example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$. In Section 4, we construct a realizable approximation of these $\lambda$-harmonic potentials on $S^{d-1}$ that retains good convergence behavior.
+We note that there are realizable versions of these potentials; for
+example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$ \Snote{Proof of realizeability?}. In Section 4, we construct a realizable approximation of these $\lambda$-harmonic potentials on $S^{d-1}$ that retains good convergence behavior.
 %
 \begin{restatable}{theorem}{eigStrict}
 \label{EigStrict}
-Let $\Phi$ be $\lambda$-harmonic and $L$ be as in \ref{errLoss}. Then, $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except when $\hat{f} = 0$ or $\theta_i = w_j$ for some $i,j$. 
+Let $\Phi$ be $\lambda$-harmonic and $L$ be as in \ref{errLoss}. Then,
+$L$ admits no local minima $\boldsymbol{(a,\theta)}$, except when
+$\hat{f} = 0$ or $\theta_i = w_j$ for some $i,j$. \Snote{What is
+  $\hat{f}$? If you mean the current estimate of $f,$ use $\tilde{f}$
+  maybe, $\hat{f}$ operator is overloaded.}
 \end{restatable}
 \begin{proof}
   Let $(\boldsymbol{a,\theta})$ be a critical point of $L.$ First
@@ -602,7 +606,7 @@ Computing the Laplacian with respect to $\theta_i$ gives
 &= -2\lambda a_i^2
 \end{align*}
 
-In the first line, there is a factor of 2 by symmetry. $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
+In the first line, there is a factor of 2 by symmetry. If $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
 
 Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct (with $l$ maximal) and $\theta_1 \neq w_j$ for any $j$. We consider changing all
 $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
@@ -621,31 +625,39 @@ The optimality conditions on ${\bf a}$ are unchanged, we must have
 & = -2\lambda\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i^T\theta_i)
   +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i^T\theta_j)\right) \\
 %
-& = -2 \lambda\expt\left[ \left(\sum_{i=1}^l a_i \sigma(\theta_i,
-  X)\right)^2\right] = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
-\end{align*}
+& = -2\lambda\left(\sum_{i=1}^l a_i^2
+  +\sum_{i \neq j}^l a_i a_j \right) = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
+\end{align*} \Snote{There is a factor 2 in the first line}
 
-If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum. Therefore, if does not exist $\theta_i = w_j$ for some $i,j$, then we partition $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$ for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, $\hat{f} = 0$.
+If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is
+strictly negative, so we are not at a local minimum. Therefore, if
+does not exist $\theta_i = w_j$ for some $i,j$, then we partition
+$[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
+for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case,
+$\hat{f} = 0$. \Snote{This part needs to be written better.}
 \end{proof} 
 
 \begin{observation}
 Notice that upon initialization, we have $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ for most $\theta$ since ${\bf a}$ can be optimized to make the loss strictly smaller. Therefore, when running gradient descent on $\lambda$-harmonic functions, we will never have $\hat{f} = 0$ since the loss function is non-increasing.
 \end{observation}
+\Snote{This is not clear. I don't think we have ruled out that all 0
+  is not a local minimum. We need to pick between
+  $a = (1, 0, \ldots, 0)$ and $a = (-1, 0, \ldots, 0),$ and show that
+  one of these is better than 0.}
 
 \section{Runtime Bounds with Stochastic Gradients}
 
 The gradient descent convergence results in the previous sections lay
 the foundation for reasoning about the convergence of stochastic
-gradient descent (SGD) in standard backpropagation. To derive finite
-runtime bounds, we need to address three technical details: 1)
-realizable potentials are only approximately strict subharmonic or
-$\lambda$-harmonic, 2) the variance of the stochastic gradient and 3)
-SGD should escape local minima in a bounded (hopefully polynomial)
-amount of time. The second and third detail are analyzed with standard
-techniques in optimization and statistics: the former requires
-generalization bounds for neural networks and the latter requires a
-lower bound on the negative curvature, which leads to the follow
-definition.
+gradient descent (SGD). To derive finite runtime bounds, we need to
+address three technical details: 1) realizable potentials are only
+approximately strictly subharmonic or $\lambda$-harmonic, 2) the
+variance of the stochastic gradient and 3) SGD should escape local
+minima in a bounded (hopefully polynomial) number of iterations. The
+second and third detail are analyzed with standard techniques in
+optimization and statistics: the former requires generalization bounds
+for neural networks and the latter requires a lower bound on the
+negative curvature, which leads to the follow definition.
 %
 \begin{definition} 
 Let $\Omega \subseteq \R^d$. A point $x^*$ is a
