@@ -687,7 +687,8 @@ SGD algorithm is given by Algorithm \ref{GDNode}. For the Gaussian, we
 are only able to derive exponential time bounds on the runtime due to
 the fast decay of the potentials. Note that Gaussian potential
 restricted to $S^{d-1}$ gives rise to the exponential activation
-function, so we can show convergence similarly.
+function, so we can show convergence similarly. \Snote{This paragraph
+  also seems completely out of place.}
 %
 \begin{theorem}\label{gaussStrict}
 \label{GaussStrict}
@@ -699,13 +700,17 @@ Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|a-b\|^2/2}$
 We discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
 %
 \begin{definition}
-$\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for all $\theta, w\in \Omega$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq |\theta^Tw|^m$ 
+$\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
+all $\theta, w\in \Omega$, \Snote{What is $\Omega$?} $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq |\theta^Tw|^m$ 
 \end{definition}
 \Rnote{Not sure if there is a nice general definition to be honest...to be discussed}
 
 \begin{lemma}
 For any $m$, we can construct a realizable $m$-almost 1-harmonic potential, $\Phi_m$. 
-\end{lemma}
+\end{lemma} \Snote{The focus should be $\sigma$ everywhere in the
+  section. We should say here e.g. there exists a bounded sigma on the
+  sphere such that the corresponding potential is $m$-almost
+  1-harmonic ... }
 
 \begin{proof}
 We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $f(u^Tv) = f(\cos(\theta))$, where $\theta \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
@@ -714,7 +719,7 @@ Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
 \Delta f & = (\sin \theta)^{2-d} \frac{\partial}{\partial \theta}\left[ (\sin \theta)^{d-2} \frac{\partial f(\cos \theta)}{\partial \theta}\right] \\
 & = f''(\cos\theta)(\sin \theta)^{2} - (d-1)\cos(\theta)f'(\cos\theta)
 \end{align*}
-\Snote{$\theta$ is overloaded here}
+\Snote{$f$ and $\theta$ are overloaded here}
 
 We want $f$ to be approximately $1$-harmonic, so we want to approximately solve:
 %
@@ -775,7 +780,7 @@ Therefore, by (ii) and $\Phi(1) = 1$ and previous two inequalities,
 Since $\Delta_{\theta_i}L$ is a sum of $d$ eigenvalues, this implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/d$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/d}$. 
 
 Now, consider all $\theta_i$ such that only condition (iii) holds. WLOG, assume that these are $\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$. Then, consider a correlated rotation on the sphere, which is a correlated translation in spherical coordinates. So, consider the loss function
-
+%
 \[ H({\bf a, v}) = L({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
 Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$. Then, the optimality conditions on ${\bf a}$ are unchanged, we must have
