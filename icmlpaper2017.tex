@@ -708,8 +708,11 @@ Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
 \Delta h & = (\sin \alpha)^{2-d} \frac{\partial}{\partial \alpha}\left[ (\sin \alpha)^{d-2} \frac{\partial f(\cos \alpha)}{\partial \alpha}\right] \\
 & = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha)
 \end{align*}
-%
-We want $b$ to be approximately $1$-harmonic, so we want to approximately solve:
+
+\Snote{IMP: Rina, can you please check that this Laplacian is equal to
+  the trace of the hessian?}
+
+We want $h$ to be approximately $1$-harmonic, so we want to approximately solve:
 %
 \[h''(x)(1-x^2) - (d-1)xh'(x) =  h(x) \]
 
