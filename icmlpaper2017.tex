@@ -708,7 +708,11 @@ Furthermore, since $\Phi$ is a polynomial with non-negative coefficients, $|\Phi
  \end{proof}
 %
 \begin{lemma}\label{bounded}
-Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals bounded by $poly(d)$ and $|\Phi|\leq 1$ on $\mathcal{M}$. Let $G = L + \beta\|a\|^2$. Then, if $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then $\|a\| \leq poly(d)/\beta$.
+  Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals
+  bounded by $poly(d)$ and $|\Phi|\leq 1$ on $\mathcal{M}$. Let
+  $G = L + \beta\|a\|^2$. Then, if
+  $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then
+  $\|a\| \leq poly(d)/\beta$.
 \end{lemma}
 %
 \begin{proof}
@@ -718,9 +722,16 @@ poly(d)$. Since $L \geq 0$, our claim follows.
 %
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
-Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $L$ be as in \eqref{errLoss} with a $m$-almost $\lambda$-harmonic potential $\Phi_m$ and let $G = L + \|a\|^2$. 
+Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by
+$poly(d)$. For all $\epsilon \in (0,1),$ we can pick
+$m = O(poly(d)\log(1/\delta)/\epsilon)$ such that the following holds:
 
-For all $1> \epsilon > 0$, there exists $m = O(poly(d)\log(1/\delta)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$ and $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all $i$, either there exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or $|a_i| < \delta$. 
+Let $L$ be as in \eqref{errLoss} with an $m$-almost 1-harmonic
+potential $\Phi_m$ and let $G = L + \|a\|^2$.  If
+$(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$ and
+$G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all
+$i$, either there exists $j$ such that
+$|w_j^T\theta_i| > 1- \epsilon,$ or $|a_i| < \delta$.
 \end{restatable}
 %
 \begin{proof}
@@ -743,17 +754,24 @@ the optimality conditions on ${\bf a}$ are as usual:
 & \leq \delta 
 \end{align*}
 %
-And from $m$-almost $\lambda$-harmonic, we have,
+Since $\Phi_m$ is $m$-almost 1-harmonic, we get,
 %
 \begin{align*}
-& \abs{\Delta_{{\bf v}} H -  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  \Phi_m(\theta_i^Tw_j) - 2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j(-\Phi_m(\theta_i^T\theta_j))} \\
-& \qquad \leq   2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  |\theta_i^Tw_j|^m+2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j|\theta_i^T\theta_j|^m
+  &  \left| \Delta_{{\bf v}} H -  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j
+    \Phi_m(\theta_i^Tw_j) \right. \\
+& \qquad \qquad \qquad \left.- 2\sum_{i=1}^l\sum_{j= l+1}^k
+  a_ia_j(-\Phi_m(\theta_i^T\theta_j)) \right| \\
+  & \qquad \leq   2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  |\theta_i^Tw_j|^m+2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j|\theta_i^T\theta_j|^m
 \end{align*}
 %
 Together, we get
 %
-\[|\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi_m(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi_m(\theta_i^T\theta_j)| \]
-\[\leq \sum_{i=1}^l\delta |a_i| +\sum_{i=1}^l 2|a_i||\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|\]
+\begin{align*}
+& |\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi_m(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi_m(\theta_i^T\theta_j)| \\
+& \leq \sum_{i=1}^l\delta |a_i| +\sum_{i=1}^l 2|a_i||\sum_{j=1}^k b_j
+  (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|
+\\
+\end{align*}
 
 Again, since these inner products are assumed to be less than
 $1-\epsilon$ and and $\|a\| \leq poly(d)$ by Lemma \ref{bounded}, we
