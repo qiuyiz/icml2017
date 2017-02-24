@@ -439,6 +439,7 @@ $\Phi(\theta,w)$ is a {\bf harmonic} potential on $\Omega$ if $\Delta_\theta \Ph
 \end{definition} 
 %
 \begin{fact}
+\Anote{you require that $f$ be differentiable but you don't require it to be twice differentiable!}
   % Let $\Omega \subseteq \R^d$ and consider a function
   % $f:\Omega \to \R$.  
   Let $x^*$ be a critical point of a function $f : \Omega \to \R$ such
@@ -459,11 +460,13 @@ differentiable strict local minima.
   minima, then for any $i,$ we must have
 \[\nabla_{\theta_{i}} L = 0, \text{ and }  \Tr(\nabla^2_{\theta_i}L) > 0.\]
 Since $\Phi$ is harmonic, we also have
+\Anote{You use $q_i$ here but you haven't defined them. introduce it or change to $\theta$.}
 \begin{align*}
 &  \Tr(\nabla^2_{\theta_i}L(\theta_1,...,\theta_n)) = \Delta_{\theta_i} L \\
 &  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
   + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
 \end{align*}
+\Anote{in this sequence, why does trace of $\nabla^2$ equal the divergence? specify.}
 which is a contradiction. In the first line, there is a factor of 2 by symmetry.
 \end{proof}
 
@@ -657,8 +660,9 @@ $0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD (with nois
   -\epsilon\right\}\]
 
 \begin{theorem}\label{strongConverge}
-Let $L :\Omega \to \R$ be a twice differentiable function such that $|L(x)| \leq B, \|\nabla^2 L(x)\| \leq C,\|\nabla^2L(x) -\nabla^2L(y)\| \leq \rho\|x - y\|$ for all $x,y\in\Omega$. Also, assume that we access to stochastic function $\widehat{L}$ such that $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) = L(x)\|, \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$ for all $x\in \Omega$.
+Let $L :\Omega \to \R$ be a twice differentiable function such that $|L(x)| \leq B, \|\nabla^2 L(x)\| \leq C,\|\nabla^2L(x) -\nabla^2L(y)\| \leq \rho\|x - y\|$ for all $x,y\in\Omega$. Also, assume that we access to stochastic function $\widehat{L}$ such that \Anote{are you asking for all three quantities to be less than $\epsilon/3$? the first two quantities have no conditions imposed on them.} $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) = L(x)\|, \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$ for all $x\in \Omega$. \Anote{are you asking for this almost surely? if so, it's worth specifying.}
 
+\Anote{you reference Algorithm \ref{SGD}, but this algorithm is only defined in the appendix only. bring it into this section.} 
 Then, we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_\epsilon$ after at most $\poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
 \end{theorem}
 %
