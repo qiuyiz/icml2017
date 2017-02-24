@@ -604,12 +604,7 @@ Computing the Laplacian with respect to $\theta_i$ gives
 
 In the first line, there is a factor of 2 by symmetry. $a_i^2 \neq 0$, then we conclude that the Laplacian is strictly negative, so we are not at a local minimum.
 
-Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct and $\theta_1 \neq w_j$ for any $j$. Again, we consider the correlated movement:
-
-Otherwise, if all $\theta_i$ are not distinct, let
-$\theta_1 = \theta_2 =... = \theta_l$ be identical and
-$\theta_1 \neq w_j$ for any $j$. \Snote{Aren't we assuming that
-  $\theta_j \neq \theta_1$ for $j > l$?} We consider changing all
+Otherwise, WLOG, let $\theta_1 = \theta_2 =... = \theta_l$ be non-distinct (with $l$ maximal) and $\theta_1 \neq w_j$ for any $j$. We consider changing all
 $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
 %
 \[H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
@@ -667,23 +662,19 @@ to a point in $\mathcal{M}_\epsilon$, where
 
 Intuitively, this means that SGD will converge to points with small gradient and small negative curvature. The full proofs of all these claims are found in supplementary material. 
 
-\if{1}
-Because of the errors, we cannot simply analyze the convergence of SGD
-on all $\theta_i$ simultaneously since as before, the pairwise
-interaction terms between the $\theta_i$ present complications. To
-derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
-node-wise SGD algorithm to learn the hidden weights, i.e. we run a
-full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
-main idea is that after running SGD with respect to $\theta_1$,
-$\theta_1$ should be close to some $w_j$ for some $j$. Then, we can
-carefully induct and show that $\theta_2$ must be some other $w_k$ for
-$k\neq j$ and so on. The pseudocode of the exact node-wise SGD
-algorithm as well as the full theorems of the convergence results, as
-mentioned in Table~\ref{table1}, is given in the supplementary
-material
+For concreteness, we will focus on a specific potential function with this property: the Gaussian kernel $\Phi(\theta, w) = \exp(-c\|\theta - w\|^2/2)$. In $\R^d$, the Laplacian is $\Delta \Phi = ( c\|\theta - w\|^2 -d ) \exp(-c\|\theta - w\|^2/2)$, which becomes positive when $\|\theta - w \|^2 \geq d/c$. Thus, $\Phi$ is strictly subharmonic outside a ball of radius $\sqrt{d/c}$. 
 
-In addition, we remark that node-wise SGD allows us to learn the value of $k$, the number of hidden nodes in the target function. This may suggest that node-wise SGD serves as a good initialization algorithm for training neural networks. A similar claim was also made in \cite{WuM16}. 
-\fi
+When $a$ is fixed under Assumption \ref{outputFixed}, the node-wise
+SGD algorithm is given by Algorithm \ref{GDNode}. For the Gaussian, we
+are only able to derive exponential time bounds on the runtime due to
+the fast decay of the potentials. Note that Gaussian potential
+restricted to $S^{d-1}$ gives rise to the exponential activation
+function, so we can show convergence similarly.
+
+\begin{theorem}\label{gaussStrict}
+\label{GaussStrict}
+Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|a-b\|^2/2}$ and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed}, then if $c = d/\epsilon$ and $\boldsymbol{a,\theta} \in \mathcal{M}_{e^{-poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
+\end{theorem}
 
 We discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
 %
@@ -880,39 +871,36 @@ For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such 
 
 The analysis of convergence through Laplacian information do not directly extend to analyzing potentials that correspond to more widely-used activation functions in the deep learning community, such as sign, ReLU, or polynomial. However, for these more realistic potentials, we can still make some progress under further assumptions. 
 
-Analyzing standard gradient descent on \eqref{errLoss} is complicated by pairwise interaction terms between $\theta_i, \theta_j$; our techniques in the previous section do not generalize well. Therefore, in this section, we only consider the convergence guarantee of gradient descent on the first node, $\theta_1$, to some $w_j$, while the other nodes are inactive (i.e. $a_2,...,a_k = 0$). In essence, we are working with the following simplified loss function.
+First, we consider the sign activation function. Under restrictions on the size of the input dimension or the number of hidden units, we can prove convergence results under the sign activation function. 
+
+\begin{theorem}
+Let $\mathcal{M} = S^1$ and let Assumption \ref{outputFixed} hold. Let $L$ be as in \eqref{errSimp} and $\sigma$ is the sign activation function. Then $L$ admits no strict local minima, except at the global minima.
+\end{theorem}
+
+\begin{proof}
+to be filled
+\end{proof}
+
+We cannot simply analyze the convergence of GD
+on all $\theta_i$ simultaneously since as before, the pairwise
+interaction terms between the $\theta_i$ present complications. To
+derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
+node-wise SGD algorithm to learn the hidden weights, i.e. we run a
+full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
+main idea is that after running SGD with respect to $\theta_1$,
+$\theta_1$ should be close to some $w_j$ for some $j$. Then, we can
+carefully induct and show that $\theta_2$ must be some other $w_k$ for
+$k\neq j$ and so on. The pseudocode of the exact node-wise SGD
+algorithm as well as the full theorems of the convergence results, as
+mentioned in Table~\ref{table1}, is given in the supplementary
+material
+
+In this section, we only consider the convergence guarantee of gradient descent on the first node, $\theta_1$, to some $w_j$, while the other nodes are inactive (i.e. $a_2,...,a_k = 0$). In essence, we are working with the following simplified loss function.
+%
 \begin{equation}\label{errLossUnit}
 L(a_1,\theta_1) =  a_1^2 \Phi(\theta_1,\theta_1)  + 2\sum_{j=1}^k a_1b_j \Phi(\theta_1,w_j)
 \end{equation}
-While a convergence result of \eqref{errLossUnit} is weaker, it motivates the introduction of a node-wise gradient descent algorithm, where instead of applying gradient descent on all $\theta_i$ simultaneously, we run gradient descent on $\theta_1,...,\theta_k$ sequentially. We will introduce and apply node-wise gradient descent to derive finite time bounds in Section 4.
-\begin{theorem}
-\label{PolyStrict}
-Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_k$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Let $L$ be as in \eqref{errLossUnit}. Then, all critical points of $L$ are not local minima, except at the global minima. 
-\end{theorem}
-\begin{proof}
-WLOG, we can consider $w_1,...,w_d$ to be the basis vectors $e_1,...,e_d$. Note that this is a manifold optimization problem, so our optimality conditions are given by introducing a Lagrange multiplier $\lambda$, as in \cite{GeHJY15}.
-\[\pd{L}{a} = 2\sum_{i=1}^d ab_i (\theta_i)^l + 2a = 0\]
-\[ (\nabla_\theta L)_i = 2ab_il(\theta_i)^{l-1}  -2\lambda \theta_i = 0 \]
-where $\lambda$ is chosen that minimizes 
-\[\lambda = \arg \min_\lambda \sum_i (ab_i l (\theta_i)^{l-1} - \lambda\theta_i)^2 = \sum ab_i l (\theta_i)^l \]
-Therefore, either $\theta_i = 0$ or $b_i (\theta_i)^{l-2} = \lambda/(al)$. Note also that the manifold Hessian is a diagonal matrix with diagonal entry: 
-\[(\nabla^2 L)_{ii} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
-Assume that there exists $\theta_i, \theta_j \neq 0$, then we claim that $\theta$ is not a local minima.  First, our optimality conditions imply $b_i(\theta_i)^{l-2} = b_j (\theta_j)^{l-2} = \lambda/(al)$. So,
-\[(\nabla^2 L)_{ii} = (\nabla^2L)_{jj} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
-\[ = 2(l-2)\lambda = -2(l-2)la^2\]
-Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i,j$ and $v^T\theta = 0$, so $v$ is in the tangent space at $\theta$. Finally, $v^T(\nabla^2 L) v  = -2(l-2)l a^2 < 0$, implying our claim when $a \neq 0$. Note that $a = 0$ occurs with probability 0 since our objective function is non-increasing throughout the gradient descent algorithm and is almost surely initialized to be negative with $a$ optimized upon initialization.
-\end{proof}
-
-Next, we consider the sign activation function. Under restrictions on the size of the input dimension or the number of hidden units, we can prove convergence results under the sign activation function. 
-
-\begin{theorem}
-Let $\mathcal{M} = S^1$ and $L$ be as in \eqref{errLossUnit} and $\sigma$ is the sign activation function. If Assumption \ref{outputFixed} holds, then $L$ admits no local minima, except at the global minima.
-\end{theorem}
-
-\begin{proof}
-Not sure if its true
-\end{proof}
-
+%
 \begin{theorem}
 \label{SignConv}
 Let $\mathcal{M} = S^1$ and $L$ be as in \eqref{errLossUnit} and $\sigma$ is the sign activation function. Then, almost surely over random choices of $b_1,...,b_k$, all local minima of $L$ are at $\pm w_j$. 
@@ -935,7 +923,28 @@ Let $w_1,w_2$ be the two hidden weights. As shown in Theorem \ref{SignConv}, the
 of $w_1, w_2$ on $\theta$. The set of points where the sum of the two forces can be 0 lies on the great circle passing though $w_1,w_2$. Therefore, it reduces to a problem in $S^1$, whose convergence is shown in Theorem \ref{SignConv}.
 \end{proof}
 
+For the polynomial activation, we also can show convergence under orthogonality assumptions on $w_j$.
+
+\begin{theorem}
+\label{PolyStrict}
+Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_k$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Let $L$ be as in \eqref{errLossUnit}. Then, all critical points of $L$ are not local minima, except at the global minima. 
+\end{theorem}
+\begin{proof}
+WLOG, we can consider $w_1,...,w_d$ to be the basis vectors $e_1,...,e_d$. Note that this is a manifold optimization problem, so our optimality conditions are given by introducing a Lagrange multiplier $\lambda$, as in \cite{GeHJY15}.
+\[\pd{L}{a} = 2\sum_{i=1}^d ab_i (\theta_i)^l + 2a = 0\]
+\[ (\nabla_\theta L)_i = 2ab_il(\theta_i)^{l-1}  -2\lambda \theta_i = 0 \]
+where $\lambda$ is chosen that minimizes 
+\[\lambda = \arg \min_\lambda \sum_i (ab_i l (\theta_i)^{l-1} - \lambda\theta_i)^2 = \sum ab_i l (\theta_i)^l \]
+Therefore, either $\theta_i = 0$ or $b_i (\theta_i)^{l-2} = \lambda/(al)$. Note also that the manifold Hessian is a diagonal matrix with diagonal entry: 
+\[(\nabla^2 L)_{ii} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
+Assume that there exists $\theta_i, \theta_j \neq 0$, then we claim that $\theta$ is not a local minima.  First, our optimality conditions imply $b_i(\theta_i)^{l-2} = b_j (\theta_j)^{l-2} = \lambda/(al)$. So,
+\[(\nabla^2 L)_{ii} = (\nabla^2L)_{jj} = 2a b_i l(l-1)(\theta_i)^{l-2} - 2 \lambda\]
+\[ = 2(l-2)\lambda = -2(l-2)la^2\]
+Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i,j$ and $v^T\theta = 0$, so $v$ is in the tangent space at $\theta$. Finally, $v^T(\nabla^2 L) v  = -2(l-2)l a^2 < 0$, implying our claim when $a \neq 0$. Note that $a = 0$ occurs with probability 0 since our objective function is non-increasing throughout the gradient descent algorithm and is almost surely initialized to be negative with $a$ optimized upon initialization.
+\end{proof}
+
 Under a node-wise GD algorithm, we can show convergence to global minima under orthogonality assumptions on $w_j$.
+
 \begin{restatable}{theorem}{polyConv}
 \label{PolyConv}
 Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_d$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Furthermore, $1 \leq |b_i|\leq poly(d)$. 
