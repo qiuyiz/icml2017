@@ -634,6 +634,7 @@ We can initialize $\boldsymbol{a,\theta}$ such that $L(\boldsymbol{a,\theta}) < 
 \end{observation}
 %
 \section{Runtime Bounds with Stochastic Gradients}
+\Anote{this section should start with a definition, then have a main theorem that provides, as you presage, ``runtime bounds with stochastic gradient''. as it stands, i can't find such a theorem. i see lots of little claims though. please provide a main theorem at the top, and rename everything else to ``lemma''.}
 
 The gradient descent convergence results in the previous sections lay
 the foundation for reasoning about the convergence of stochastic
@@ -929,7 +930,7 @@ For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such 
 
 \section{Other Potentials}
 First, we consider the sign activation function. Under restrictions on the size of the input dimension or the number of hidden units, we can prove convergence results under the sign activation function. 
-
+\Anote{ythis theorem is about $\theta\in R$, which is not of any practical interest. you should remove it.}
 \begin{theorem}
 Let $\mathcal{M} = S^1$ and let Assumption \ref{outputFixed} hold. Let $L$ be as in \eqref{errSimp} and $\sigma$ is the sign activation function. Then $L$ admits no strict local minima, except at the global minima.
 \end{theorem}
@@ -964,6 +965,7 @@ outside a ball of radius $\sqrt{d/c}$. Note that Gaussian potential
 restricted to $S^{d-1}$ gives rise to the exponential activation
 function, so we can show convergence similarly.  
 %
+\Anote{this theorem requires assumption 1, which is not of practical relevance to the paper. you should remove this theorem.}
 \begin{theorem}\label{gaussStrict}
 \label{GaussStrict}
 Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|\theta-w\|^2/2}$ and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed}, then if $c = d/\epsilon$ and $\boldsymbol{a,\theta} \in \mathcal{M}_{e^{-\poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
@@ -989,7 +991,7 @@ In this section, we only consider the convergence guarantee of gradient descent 
 \begin{equation}\label{errLossUnit}
 L(a_1,\theta_1) =  a_1^2 \Phi(\theta_1,\theta_1)  + 2\sum_{j=1}^k a_1b_j \Phi(\theta_1,w_j)
 \end{equation}
-%
+%\Anote{this theorem is about $\theta \in R$. it is not of practical relevance. you should remove it.}
 \begin{theorem}
 \label{SignConv}
 Let $\mathcal{M} = S^1$ and $L$ be as in \eqref{errLossUnit} and $\sigma$ is the sign activation function. Then, almost surely over random choices of $b_1,...,b_k$, all local minima of $L$ are at $\pm w_j$. 
@@ -1001,7 +1003,8 @@ In $S^1$, notice that the pairwise potential function is $\Phi(\theta,w) = 1 - 2
 Since $\Phi$ is a linear function of the angle between $\theta, w_j$, each $w_j$ exerts a constant gradient on $\widetilde{\theta}$ towards $\widetilde{w_j}$, with discontinuities at $\widetilde{w_j},\pi+\widetilde{w_j}$. Almost surely over $b_1,..,b_k$, the gradient is non-zero almost everywhere, except at the discontinuities, which are at $\widetilde{w_j}, \pi+\widetilde{w_j}$ for some $j$. 
 \end{proof}
 
-
+\Anote{this theorem applies to a two layer network with two hidden layers. unless you're going to build a significant result on top of this in this paper, it is not of any independent practical interest. you should remove it.}
+  
 \begin{corollary}
 \label{SignConv2}
 Let $\mathcal{M} = S^{d-1}$ and let there be $k$ hidden nodes with $k\leq 2$. Let $L$ be as in \eqref{errLossUnit} and $\sigma$ is the sign activation function. Then, almost surely over random choices of $b_1,...,b_k$, all local minima of $L$ are at $\pm w_j$.
@@ -1014,6 +1017,7 @@ of $w_1, w_2$ on $\theta$. The set of points where the sum of the two forces can
 
 For the polynomial activation, we also can show convergence under orthogonality assumptions on $w_j$.
 
+\Anote{this and the next theorem seem relevant enough that they're worth preserving. since (i believe) this potential is realizable, you should state this theorem and the next in terms of the corresponding activation function instead of the potential. }
 \begin{theorem}
 \label{PolyStrict}
 Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_k$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Let $L$ be as in \eqref{errLossUnit}. Then, all critical points of $L$ are not local minima, except when $\theta_1 = w_j$ for some $j$.   
@@ -1082,6 +1086,7 @@ However, it seems that for depth greater than 2, gradient descent does not learn
 \end{figure}
 We note that we have been using training error as a measure of success, but it's possible that the true underlying parameters are not learned. If our loss function were strongly convex, small training error would imply a small norm in the parameter space. For the sign activation function, we can show a related result.
 
+\Anote{there is a main theorem in your experimental section. you should move this to one of your section on ``other potentials''.}
 \begin{restatable}{theorem}{signUnique}
 \label{SignUnique}
 Let $\mathcal{M} = S^{d-1}$ and $\sigma$ be the sign activation function and $b_2,...,b_k = 0$. If the loss \eqref{errLoss} at $(\boldsymbol{a,\theta})$ is less than $O(1)$, then there must exist $\theta_i$ such that $w_1^T\theta_i > \Omega(1/\sqrt{k})$.
