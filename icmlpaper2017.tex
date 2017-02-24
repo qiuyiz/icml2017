@@ -235,15 +235,15 @@ The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. Th
 Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known that the electrons must converge with the protons, by Earnshaw's Theorem. However, there is no activation function $\sigma$ corresponding to this $\Phi$. 
 %
 We derive some sufficient conditions that characterize potentials that arise from activation functions $\sigma$. The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}.
-First we are show how to construct a complicated activation function, which we call $\lambda$-harmonic, for which we show that at convergence in at most $\poly(d,1/\epsilon)$ iterations of the SGD algorithm at least some $\theta_i$ coincides with some $w_j$.
+First we are show how to construct a complicated activation function, which we call almost $\lambda$-harmonic, for which we show that at convergence of the gradient descent, at least some $\theta_i$ coincides with some $w_j$.
 %
 \Anote{same problem as the other informal theorem. i don't know what a $\theta$ is. it has only been defined in the text. furthermore, it's far too informal. instead of "carefully" it should give this notion a name. again, better to just blend this content in the rest of the text without calling it an informal theorem.}
 \begin{theorem}(informal statement of Theorem~\ref{eigConv})
-For some carefully chosen potential function with regularization, at convergence of running the SGD algorithm, we learn at least one of the hidden weights of the target neural network in at most $\poly(d,1/\epsilon)$ iterations.
+For some carefully chosen activation function, with regularization, at convergence of running the SGD algorithm, we learn at least one of the hidden weights of the target neural network.
 \end{theorem}
 %
 We also show some weaker results for other more practical activation functions.
-Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $\poly(d,1/\epsilon)$ time. For the exponential and Gaussian activation and our constructed $\lambda$-harmonic activation, we show that under the assumption that the output weights $b_i = 1$, the only local minimas are within a small neighborhood of the true weights $w_j$ and show convergence of a SGD algorithm to learn at least one of the $w_i$'s. 
+Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $\poly(d,1/\epsilon)$ time.  
 %
 \begin{table}[tb]
 \caption{Activation, Potentials, and Convergence Results Summary}
@@ -278,20 +278,10 @@ We acknowledge that there is still a large gap between our developed theory and 
 
 In section 2, we introduce our framework and assumptions, and derive
 and derive the equivalence between gradient descent and
-electron-proton dynamics under a suitable potential. In section 3, we
-give an overview of our main results and techniques for showing
-convergence of gradient descent to learn the hidden parameters for
-depth-2 neural networks with specified activation functions, including
-some common activation functions, such as the sign and the
-polynomial. These convergence results are proven under ideal
-assumptions to simply illustrate our ideas. In section 4, we address
-the steps necessary to prove finite convergence guarantees using a
-node-wise gradient descent algorithm, dealing with errors introduced
-from approximation and discretization. In section 5, experimental
+electron-proton dynamics under a suitable potential. In section 3, we show convergence results for certain potential functions that may not correspond to bounded activation functions. These convergence results are proven to simply illustrate our ideas. In section 4, we create a realizable potential function and address the steps necessary to prove finite convergence guarantees. In section 5, we consider more realistic activation functions, such as the sign and polynomial function. In section 6, experimental
 results confirm that depth-2 neural networks can be learned by
 gradient descent with common activation functions but seem to
 discredit that claim for higher depth networks.
-
 
 \section{Deep Learning, Potentials, and Electron-Proton Dynamics}
 
