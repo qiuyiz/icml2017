@@ -594,7 +594,7 @@ example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1$ as in Table~\ref{table1}. In Sect
 \label{EigStrict}
 Let $\Phi$ be $\lambda$-harmonic and $L$ be as in \ref{errLoss}. Then,
 $L$ admits no local minima $\boldsymbol{(a,\theta)}$, except when
-$L(\boldsymbol{a,\theta}) = L(\boldsymbol{0,\theta})$ or $\theta_i = w_j$ for some $i,j$. 
+$L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$ or $\theta_i = w_j$ for some $i,j$. 
 \end{restatable}
 \begin{proof}
   Let $(\boldsymbol{a,\theta})$ be a critical point of $L.$ First
@@ -636,7 +636,7 @@ The optimality conditions on ${\bf a}$ are unchanged, we must have
 & = -2\lambda\left(\sum_{i=1}^l a_i^2
   +\sum_{i \neq j}^l a_i a_j \right) = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
 \end{align*} 
-
+%
 If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is
 strictly negative, so we are not at a local minimum. 
 
@@ -646,13 +646,11 @@ for $u, v \in S_i$ and $\sum_{u \in S_i} a_u = 0$. In this case, since $\sum_{i=
 \end{proof} 
 
 \Anote{this doesn't seem rigorously stated. what are the conditions on $\Phi$? specify. also, i don't think you should bother to make this claim since these $\lambda$-potentials are not realizable, and therefore not worth running descent on.}
+%
 \begin{observation}
-We can initialize $\boldsymbol{a,\theta}$ such that $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ and continuous gradient descent will enforce the inequality as the $L$ is non-increasing.
+We can initialize $\boldsymbol{a,\theta}$ such that $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ and continuous gradient descent will enforce the inequality as the $L$ is non-increasing. Initialization details are expounded in Observation~\ref{initialize}.
 \end{observation}
-
-\begin{proof}
- \ref{initialize}
-\end{proof}
+%
 \section{Runtime Bounds with Stochastic Gradients}
 
 The gradient descent convergence results in the previous sections lay
@@ -687,7 +685,7 @@ Let $L :\Omega \to \R$ be a twice differentiable function such that $|L(x)| \leq
 Then, we can choose stepsize $\eta = 1/poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_\epsilon$ after at most $poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
 \end{theorem}
 %
-We discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
+We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is possible. We now discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
 %
 \begin{definition}
 $\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
@@ -699,7 +697,6 @@ all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\th
 For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m-2$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$.
 \end{lemma}
 
-\Snote{We should generalize this proof to almost $\lambda$-harmonic?}
 \begin{proof}
 We start with the construction. Let $u,v$ be on the unit sphere, and WLOG let $v = (0,...,1)$. Then, we can reparametrize any function of the dot product $h(u^Tv) = h(\cos(\alpha))$, where $\alpha \in [0, \pi]$ is the angle between $u$ and the positive $z$-axis.
 Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
@@ -721,10 +718,10 @@ Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + 1) = c_{n+2
 \Delta_\alpha h & = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha) \\
 &= h(\cos(\alpha)) + k_m(\cos\alpha)^m
 \end{align*}
-Where $k_m = m^2 + (d-2)m + 1$. Notice that $f(x)$ has \Snote{This is not $f$ anymore} non-negative
-Taylor coefficients and is a bounded polynomial, so $f$ is a
+Where $k_m = m^2 + (d-2)m + 1$. Notice that $h(x)$ has non-negative
+Taylor coefficients and is a bounded polynomial, so it is a
 realizable potential function by Theorem \ref{thm:rotReal}, with
-corresponding $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$
+corresponding activation $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$
 is the i-th normalized Hermite polynomial. Now, by normalizing
 $\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have
 %
@@ -745,96 +742,42 @@ poly(d)$. Since $L \geq 0$, our claim follows.
 \label{eigConv}
 Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by $poly(d)$. Furthermore, let $L$ be as in \eqref{errLoss} with a $m$-almost $\lambda$-harmonic potential $\Phi_m$ and let $G = L + \|a\|^2$. 
 
-For all $ 1 > \epsilon > 0$, there exists $m = O(poly(d)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$ and $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all $i$, either there exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or $|a_i| < \delta/k$. 
+For all $1> \epsilon > 0$, there exists $m = O(poly(d)\log(1/\delta)/\epsilon)$ such that if $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$ and $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all $i$, either there exists $j$ such that $|w_j^T\theta_i| > 1- \epsilon$ or $|a_i| < \delta$. 
 \end{restatable}
-\Snote{In this theorem, and everywhere below, can you replace $\Phi$
-  by $\Phi_m$ whenever we're talking of the specific potential.}
 %
 \begin{proof}
-The proof is similar to Theorem \ref{EigStrict}. We first show a
-weaker result: each $(a_i,\theta_i)$ must satisfy (i) there exists $j$
-such that $|w_j^T\theta_i| > 1-\epsilon$, or (ii) $|a_i| < \epsilon$,
-or (iii) there exists $j\neq i$ such that $|\theta_j^T\theta_i| >
-1-\epsilon$. Assume that $(\boldsymbol{a,\theta}) \in
-\mathcal{M}_{\epsilon^2/d}$ and we have a $(a_i,\theta_i)$ that does
-not satisfy (i), (ii), (iii). Then,
-%
-  \[ \abs{\pd{G}{a_i}} = \abs{2\sum_{j=1}^k b_j \Phi(\theta_i^T w_j) +
-    2\sum_{j: j\neq i} a_j \Phi(\theta_i^T\theta_j) + (2\Phi(1) +
-    2)a_i} \leq \epsilon.\]
-
-
-And, 
-%
-\begin{align*}
-\Delta_{\theta_i} G & =  2\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j)  
-+ k_m(\theta_i^Tw_j)^m)  \\
-& \qquad +  2\sum_{j: j\neq i} a_i
-  a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)
-\end{align*}
-\Snote{Why do we have a $k_m$ here?}
-
-Therefore,
-%
-\begin{align*}
-& |\Delta_{\theta_i}G + (2\Phi(1) + 2)a_i^2| \leq \epsilon |a_i|  \\
-& \qquad +  2  k_m|a_i| \abs{\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
-  \sum_{j: j\neq i}  a_j(\theta_i^T\theta_j)^m}
-\end{align*}
-
-
-Since (i), (iii) does not hold and $\|a\| \leq poly(d)$ by Lemma
-\ref{bounded}, \Snote{Needs to be updated once we have a updated
-  lemma, depends on $k, m,$ and needs to reference the lemma about $\Phi$} we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
-
-%
-\begin{align*}
- 2k_m |\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j\neq i}
-  a_j(\theta_i^T\theta_j)^m| & \leq  2poly(d,k,m)e^{-\epsilon m} \\
-& \leq \epsilon
-\end{align*}
-
-Therefore, by (ii) and $\Phi(1) = 1$ and previous two inequalities,
-%
-\begin{align*}
-\Delta_{\theta_i} G \leq -(2\Phi(1) + 2)a_i^2 +\epsilon |a_i|+
-  \epsilon|a_i| & \leq |a_i|(-4\epsilon + 2\epsilon)  \\
-& \leq -\epsilon^2.
-\end{align*}
-Since $\Delta_{\theta_i}L$ is a sum of $d$ eigenvalues, this implies
-that $(\boldsymbol{a,\theta})$ is $\epsilon^2/d$-strict, contradicting
-that it is in $\mathcal{M}_{\epsilon^2/d}$.  
-
-Now, consider all $\theta_i$ such that only condition (iii) holds
-\Snote{Do you mean to say all $\theta_i$ such that iii holds, but i
-  and ii don't? If yes, make that clear}. WLOG, assume that these are
-$\theta_1,...,\theta_l$, for some $l \leq k$. Furthermore, assume that
-$|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$.
+The proof is similar to Theorem \ref{EigStrict}. Consider all $\theta_i$ such that $|a_i| > \delta$ and $|w_j^T\theta_i| \leq 1-\epsilon$. WLOG, let these be
+$\theta_1,...,\theta_l$, for some $l \leq k$. Assume for now that furthermore,  $|\theta_i^T\theta_j| \leq 1-\epsilon$ for $i \leq l, j\geq l+1$.
 Then, consider a correlated rotation on the sphere, which is a
 correlated translation in spherical coordinates. So, consider the loss
 function
 %
 \[ H({\bf a, v}) = G({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
-Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$. Then, the optimality conditions on ${\bf a}$ are unchanged, we must have
+Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$. Then, the optimality conditions on ${\bf a}$ are as usual:
+%
+  \[ \abs{\pd{H}{a_i}} = \abs{2\sum_{j=1}^k b_j \Phi_m(\theta_i^T w_j) +
+    2\sum_{j: j\neq i} a_j \Phi_m(\theta_i^T\theta_j) + (2\Phi_m(1) +
+    2)a_i} \leq \delta \]
+%
+And from $m$-almost $\lambda$-harmonic, we have,
 %
 \begin{align*}
-\Delta_{{\bf v}} H & =  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \\
-& + k_m(\theta_i^Tw_j)^m) + 2\sum_{i=1}^l\sum_{j= l+1}^k a_i
-a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)
+&|\Delta_{{\bf v}} H -  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  \Phi_m(\theta_i^Tw_j) - 2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j(-\Phi_m(\theta_i^T\theta_j)| \\
+& \leq   2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  |\theta_i^Tw_j|^m+2\sum_{i=1}^l\sum_{j= l+1}^k a_ia_j|\theta_i^T\theta_j|^m
 \end{align*}
-
-Therefore, from our optimality conditions
 %
-\[|\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \sum_{i=1}^l\epsilon |a_i| \]
-\[+  \sum_{i=1}^l 2|a_i| k_m|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|\]
+Together, we get
+%
+\[|\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi_m(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi_m(\theta_i^T\theta_j)| \]
+\[\leq \sum_{i=1}^l\delta |a_i| +\sum_{i=1}^l 2|a_i||\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|\]
 
-Again, since these inner products are assumed to be less than $1-\epsilon$, we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
+Again, since these inner products are assumed to be less than $1-\epsilon$ and  and $\|a\| \leq poly(d)$ by Lemma \ref{bounded}, we can choose $m = O(\frac{1}{\epsilon}\log(d)\log(1/\delta))$ large enough such that 
 %
 \begin{align*}
- 2|a_i| k_m\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
+ 2\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
   \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m| \\
- \leq  2poly(d,k,m)e^{-\epsilon m} \leq \epsilon/2
+ \leq  2poly(d,k)e^{-\epsilon m} \leq \delta/2
 \end{align*}
 
 Finally, consider the following expression
@@ -842,51 +785,51 @@ Finally, consider the following expression
 \begin{align*}
 D & = \expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] \\
 %
-& =\sum_{i=1}^l a_i^2\Phi(\theta_i^T\theta_i) + \sum_{i \neq j}^l
-  a_ia_j\Phi(\theta_i^T\theta_j)
+& =\sum_{i=1}^l a_i^2\Phi_m(\theta_i^T\theta_i) + \sum_{i \neq j}^l
+  a_ia_j\Phi_m(\theta_i^T\theta_j)
 \end{align*}
 %
-Since $D \geq 0$ and combined with the fact that (ii) does not hold,
+Since $D \geq 0$ and combined with the fact that $|a_i| > \delta$,
 %
 \begin{align*}
-\Delta_{\theta_i} G & \leq -2a_i^2 +\epsilon |a_i|+(\epsilon/2)|a_i| \\
-& \leq  |a_i|(-2\epsilon + 3\epsilon/2) \leq -\epsilon^2/4
+\Delta_{{\bf v}}H & \leq  \sum_{i=1}^l (-2a_i^2 +\delta |a_i|+(\delta/2)|a_i|) \\
+& \leq   \sum_{i=1}^l  |a_i|(-2\delta + 3\delta/2) < -l\delta^2/4
 \end{align*}
 
-This implies that $(\boldsymbol{a,\theta})$ is $\epsilon^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\epsilon^2/(4d)}$. 
+Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-l\delta^2/(4d) > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l \,{\text  times}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -l\delta^2/4d$. Since $w$ has $\|w\|^2 = l$, we conclude that $(\boldsymbol{a,\theta})$ is $\delta^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{\delta^2/(4d)}$. 
 
-Finally, there exists $\theta_{j_1},...\theta_{j_l}$ such that
+Finally, it must be the case that there exists $\theta_{j_1},...\theta_{j_l}$ such that
 $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and
 $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and
 $|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore,
-$|\theta_i^Tw_j| > 1- (l+1)\sqrt{\epsilon}$. By choosing
-$\epsilon' = \epsilon/k$, we get our claim.
+$|\theta_i^Tw_j| > 1- k^2\epsilon$. By choosing
+$\epsilon' = \epsilon/k^2$, we get our claim.
 \end{proof}
 
 \begin{theorem}\label{eigRes}
-Assume the conditions of \ref{eigConv}. If $\sqrt{G({\bf a, \boldsymbol{\theta}})} < \sqrt{G(0,\boldsymbol{\theta})} - \epsilon$ and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{poly(\epsilon,1/d)}$, then there exists some $i, j$ such that $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$.
+Assume the conditions of \ref{eigConv}. If $\sqrt{G({\bf a, \boldsymbol{\theta}})} < \sqrt{G(0,\boldsymbol{\theta})} - \delta$ and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4poly(d))}$, then there exists some $i, j$ such that $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$.
 \end{theorem}
  
  \begin{proof}
 By Lemma \ref{eigConv}, if there does not exists $i, j$ such that
 $|w_j^T\theta_i| >  1-\epsilon$ is if for all $\theta_i$, then $|a_i|
-< \epsilon/k$ for all $i$. Now, for a integrable function $f(x)$, $\|
+< \delta/poly(d)$ for all $i$. Now, for a integrable function $f(x)$, $\|
 f\|_X = \sqrt{E_X[f(X)^2]}$ is a norm. Therefore, if $f(x) = \sum_i
 b_i \sigma(w_i,x)$ be our true target function, we conclude that by
 triangle inequality
 \begin{align*}
-\sqrt{G(\boldsymbol{a,\theta})} & = \|\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)\|_X \\
-& \geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \geq
-  \sqrt{G(0,\boldsymbol{\theta})} - \epsilon
+&\sqrt{G(\boldsymbol{a,\theta})}  \geq \|\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)\|_X \\
+&\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \geq
+  \sqrt{G(0,\boldsymbol{\theta})} - \delta
 \end{align*}
 This is a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a neighborhood of $\theta_j$.
  \end{proof}
  
  \begin{observation}\label{initialize}
 If $\theta$ is chosen uniformly from $\mathcal{M}$ and 
-\[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] > 5\epsilon\sqrt{L(0,0)}\] 
+\[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] > 5\delta\sqrt{L(0,0)}\] 
 
-Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \boldsymbol{\theta}})} < \sqrt{G(0,\boldsymbol{\theta})} - \epsilon$ with high probability.
+Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \boldsymbol{\theta}})} < \sqrt{G(0,\boldsymbol{\theta})} - \delta$ with high probability.
  \end{observation}
  
  \begin{proof}
@@ -901,7 +844,7 @@ Then, we can initialize $\boldsymbol{a,\theta}$ such that $\sqrt{G({\bf a, \bold
    \Phi(\theta,w_j)\right)^2\right] 
 \end{align*}
  
-Let $h(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\epsilon)$ samples, we know that $\hat{\expt}h(\theta)^2 \geq 2\epsilon\sqrt{G(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $h(\theta)^2 \geq 2\epsilon \sqrt{G(0,0)}$. Therefore, $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\epsilon \sqrt{G(0,0)}$ and so $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G(\boldsymbol{0,\theta})} - \epsilon$.
+Let $h(\theta) = \sum_i b_i \Phi(\theta, w_j)$. Since $a_i,b_i, \Phi$ is $poly(d)$-bounded, our random variable $g(\theta)$ is $poly(d)$-bounded. From Hoeffding bounds, we see that after $poly(d,1/\delta)$ samples, we know that $\hat{\expt}h(\theta)^2 \geq 2\delta\sqrt{G(0,0)}$, where $\hat{\expt}$ denotes the empirical average over $\theta$. Therefore, we must have found some $\theta$ such that $h(\theta)^2 \geq 2\delta \sqrt{G(0,0)}$. Therefore, $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ and so $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G(\boldsymbol{0,\theta})} - \delta$.
  \end{proof}
  
  
