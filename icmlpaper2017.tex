@@ -757,6 +757,21 @@ For the second part, note that if $w_1,..,w_k$  are random  when we expand the s
      \Phi(\theta,w_j)\right)^2\right] \ge k \left(\Omega(1/m)\right)^d\]
 \end{proof}
 
+\begin{theorem}
+Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be  such that $||b||_2$ is $\Omega(1)$ and $O(poly(d))$, and
+$w_1,..,w_k$ are randomly chosen from $\mathcal{M}$. Then 
+there exists an $m$ (that depends on $d$) so that for the potential $\Phi_m$ the following holds: we can chose an initial point $(a,\theta)$ so that with high probability after running Gradient Descent (Algorithm 1) with the regularized objective $G(\boldsymbol{a,\theta})$ if 
+$(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$ then there exists an
+$i, j$ such that
+$|w_j^T\theta_i| > 1- k^2\epsilon,$
+\end{theorem}
+
+
+
+
+
+
+
  \if{1}
  In the end, we can combine Theorem \ref{eigRes} with Algorithm \ref{GDReset} to derive a convergence result.
  
@@ -799,36 +814,16 @@ For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such 
 
 \section{Other Potentials}
 First, we consider the sign activation function. Under restrictions on the size of the input dimension or the number of hidden units, we can prove convergence results under the sign activation function. 
+
 \Anote{ythis theorem is about $\theta\in R$, which is not of any practical interest. you should remove it.}
 \begin{assumption}
 \label{outputFixed}
 All output weights $b_i = 1$ and therefore the output weights  $a_i = - b_i = -1$ are fixed throughout the learning algorithm. 
 \end{assumption}
 
-\begin{theorem}\label{signCon}
+\begin{restatable}{theorem}{signcon}\label{signCon}
 Let $\mathcal{M} = S^1$ and let Assumption \ref{outputFixed} hold. Let $L$ be as in \eqref{errSimp} and $\sigma$ is the sign activation function. Then $L$ admits no strict local minima, except at the global minima.
-\end{theorem}
-
-\begin{proof}
-We will first argue that unless all the electrons and protons have matched up as a permutation it cannot be a strict local minimum and then argue that the global minimum is a strict local minimum.
-
-First note that if some electron and proton have merged, we can remove such pairs and argue about the remaining configuration of charges. So WLOG we assume there are no such overlapping electron and proton.
-
-First consider the case when there is an isolated electron $e$ and there is no charge diagonally opposite to it. In this case look at the two semicircles on the left and the right half of the circle around the isolated electron -- let $q_1$ and $q_2$ be the net charges in the left and the right semi-circles. Note that $q_1 \neq q_2$ since they are integers and $q_1 + q_2 = +1$ which is odd. So by moving the electron slightly to the side with the larger charge you decrease the potential.
-
-If there is a proton opposite the isolated electron the argument becomes simpler as the proton benefits the motion of the electron in either the left or right direction. So  the only way the electron does not benefit by moving in either direction is that $q_1 = -1$ and $q_2 = -1$ which is impossible.
-
-If there is an electron opposite the isolated electron then the combination of these two diagonally opposing electrons have a zero effect on every other charge. So it is possible rotate this pair jointly keeping them opposed in any way and not change the potential. So this is not a strict local minimum.
-
-Next if there is a clump of isolated electrons with no charge on the diagonally opposite point then again as before if $q_1 \neq q_2$ we are done. If  $q_1 = q_2$ then the the electrons in the clump locally are unaffected by the remaining charges. So now by splitting the clump into two groups and moving them apart infinitesimally we will decrease the potential.
-
-Now if there is only protons in the diagonally opposite position an isolated electron again we are done as in the case when there is one electron diagonally opposite one proton. 
-
-Finally if there is only electrons diagonally opposite a clump of electrons again we are done as we have found at least one pair of opposing electrons that can be jointly rotated in any way.
-
-Next we will argue that a permutation matching up is a strict local minumum. For this we will assume that no two protons are diagonally opposite each other (as they can be removed without affecting the function). Now given a perfect matching up of electrons and protons, if we perturb the electrons in any way infinitesimally, then any isolated clump of electrons can be moved slightly to  the left or right to improve the potential.
-\end{proof}
-
+\end{restatable}
 
 
 We cannot simply analyze the convergence of GD
@@ -850,33 +845,17 @@ In this section, we only consider the convergence guarantee of gradient descent 
 \begin{equation}\label{errLossUnit}
 L(a_1,\theta_1) =  a_1^2 \Phi(\theta_1,\theta_1)  + 2\sum_{j=1}^k a_1b_j \Phi(\theta_1,w_j)
 \end{equation}
+
+
 %\Anote{this theorem is about $\theta \in R$. it is not of practical relevance. you should remove it.}
-\begin{theorem}
+\begin{restatable}{theorem}{signconv}
 \label{SignConv}
 Let $\mathcal{M} = S^1$ and $L$ be as in \eqref{errLossUnit} and $\sigma$ is the sign activation function. Then, almost surely over random choices of $b_1,...,b_k$, all local minima of $L$ are at $\pm w_j$. 
-\end{theorem}
-
-\begin{proof}
-In $S^1$, notice that the pairwise potential function is $\Phi(\theta,w) = 1 - 2\cos^{-1}(\theta^Tw)/\pi = 1 - 2\alpha/\pi$, where $\alpha$ is the angle between $\theta, w$. So, let us parameterize in polar coordinates, calling our true parameters as $\widetilde{w_1},...,\widetilde{w_k} \in [0,2\pi]$ and rewriting our loss as a function of $\widetilde{\theta} \in [0,2\pi]$. 
-
-Since $\Phi$ is a linear function of the angle between $\theta, w_j$, each $w_j$ exerts a constant gradient on $\widetilde{\theta}$ towards $\widetilde{w_j}$, with discontinuities at $\widetilde{w_j},\pi+\widetilde{w_j}$. Almost surely over $b_1,..,b_k$, the gradient is non-zero almost everywhere, except at the discontinuities, which are at $\widetilde{w_j}, \pi+\widetilde{w_j}$ for some $j$. 
-\end{proof}
-
-\Anote{this theorem applies to a two layer network with two hidden layers. unless you're going to build a significant result on top of this in this paper, it is not of any independent practical interest. you should remove it.}
-  
-\begin{corollary}
-\label{SignConv2}
-Let $\mathcal{M} = S^{d-1}$ and let there be $k$ hidden nodes with $k\leq 2$. Let $L$ be as in \eqref{errLossUnit} and $\sigma$ is the sign activation function. Then, almost surely over random choices of $b_1,...,b_k$, all local minima of $L$ are at $\pm w_j$.
-\end{corollary}
-
-\begin{proof}
-Let $w_1,w_2$ be the two hidden weights. As shown in Theorem \ref{SignConv}, there is a constant force gradient
-of $w_1, w_2$ on $\theta$. The set of points where the sum of the two forces can be 0 lies on the great circle passing though $w_1,w_2$. Therefore, it reduces to a problem in $S^1$, whose convergence is shown in Theorem \ref{SignConv}.
-\end{proof}
-
+\end{restatable}
+%
 For the polynomial activation, we also can show convergence under orthogonality assumptions on $w_j$.
 
-\Anote{this and the next theorem seem relevant enough that they're worth preserving. since (i believe) this potential is realizable, you should state this theorem and the next in terms of the corresponding activation function instead of the potential. }
+\Anote{ in terms of the corresponding activation function instead of the potential. }
 \begin{theorem}
 \label{PolyStrict}
 Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_k$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Let $L$ be as in \eqref{errLossUnit}. Then, all critical points of $L$ are not local minima, except when $\theta_1 = w_j$ for some $j$.   
@@ -1426,6 +1405,37 @@ Notice that $G(0, \bold{\theta}) = L(0,\bold{\theta}) \leq \poly(d)$ and so, $G(
 \poly(d)$. Since $L \geq 0$, our claim follows. 
 \end{proof}
 
+\section{Convergence of Sign Activation}
+
+\signcon*
+
+\begin{proof}
+We will first argue that unless all the electrons and protons have matched up as a permutation it cannot be a strict local minimum and then argue that the global minimum is a strict local minimum.
+
+First note that if some electron and proton have merged, we can remove such pairs and argue about the remaining configuration of charges. So WLOG we assume there are no such overlapping electron and proton.
+
+First consider the case when there is an isolated electron $e$ and there is no charge diagonally opposite to it. In this case look at the two semicircles on the left and the right half of the circle around the isolated electron -- let $q_1$ and $q_2$ be the net charges in the left and the right semi-circles. Note that $q_1 \neq q_2$ since they are integers and $q_1 + q_2 = +1$ which is odd. So by moving the electron slightly to the side with the larger charge you decrease the potential.
+
+If there is a proton opposite the isolated electron the argument becomes simpler as the proton benefits the motion of the electron in either the left or right direction. So  the only way the electron does not benefit by moving in either direction is that $q_1 = -1$ and $q_2 = -1$ which is impossible.
+
+If there is an electron opposite the isolated electron then the combination of these two diagonally opposing electrons have a zero effect on every other charge. So it is possible rotate this pair jointly keeping them opposed in any way and not change the potential. So this is not a strict local minimum.
+
+Next if there is a clump of isolated electrons with no charge on the diagonally opposite point then again as before if $q_1 \neq q_2$ we are done. If  $q_1 = q_2$ then the the electrons in the clump locally are unaffected by the remaining charges. So now by splitting the clump into two groups and moving them apart infinitesimally we will decrease the potential.
+
+Now if there is only protons in the diagonally opposite position an isolated electron again we are done as in the case when there is one electron diagonally opposite one proton. 
+
+Finally if there is only electrons diagonally opposite a clump of electrons again we are done as we have found at least one pair of opposing electrons that can be jointly rotated in any way.
+
+Next we will argue that a permutation matching up is a strict local minumum. For this we will assume that no two protons are diagonally opposite each other (as they can be removed without affecting the function). Now given a perfect matching up of electrons and protons, if we perturb the electrons in any way infinitesimally, then any isolated clump of electrons can be moved slightly to  the left or right to improve the potential.
+\end{proof}
+
+\signconv*
+
+\begin{proof}
+In $S^1$, notice that the pairwise potential function is $\Phi(\theta,w) = 1 - 2\cos^{-1}(\theta^Tw)/\pi = 1 - 2\alpha/\pi$, where $\alpha$ is the angle between $\theta, w$. So, let us parameterize in polar coordinates, calling our true parameters as $\widetilde{w_1},...,\widetilde{w_k} \in [0,2\pi]$ and rewriting our loss as a function of $\widetilde{\theta} \in [0,2\pi]$. 
+
+Since $\Phi$ is a linear function of the angle between $\theta, w_j$, each $w_j$ exerts a constant gradient on $\widetilde{\theta}$ towards $\widetilde{w_j}$, with discontinuities at $\widetilde{w_j},\pi+\widetilde{w_j}$. Almost surely over $b_1,..,b_k$, the gradient is non-zero almost everywhere, except at the discontinuities, which are at $\widetilde{w_j}, \pi+\widetilde{w_j}$ for some $j$. 
+\end{proof}
 
 \section{Convergence of Polynomial Potentials}
 
