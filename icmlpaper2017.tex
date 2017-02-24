@@ -797,20 +797,23 @@ function
 %
 \[ H({\bf a, v}) = G({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
-Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$. Then, the optimality conditions on ${\bf a}$ are unchanged, we must have
+Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\epsilon^2/(4d)}$. Then,
+the optimality conditions on ${\bf a}$ are unchanged, we must have
 %
 \begin{align*}
-\Delta_{{\bf v}} H & =  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) \\
-& + k_m(\theta_i^Tw_j)^m) + 2\sum_{i=1}^l\sum_{j= l+1}^k a_i
+\Delta_{{\bf v}} H & =  2\sum_{i=1}^l\sum_{j=1}^k a_i b_j  (-\Phi(\theta_i^T w_j) + k_m(\theta_i^Tw_j)^m) \\
+& \quad + 2\sum_{i=1}^l\sum_{j= l+1}^k a_i
 a_j(-\Phi(\theta_i^T\theta_j) + k_m(\theta_i^T\theta_j)^m)
 \end{align*}
 
 Therefore, from our optimality conditions
 %
 \begin{align*}
-& |\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)| \leq \epsilon |a_i| \\
-& \qquad +  2|a_i| k_m\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m
-  +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|
+&  \abs{\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi(\theta_i^T\theta_i)+2)a_i^2
+  + 2\sum_{i,j: i \neq j}^l a_ia_j\Phi(\theta_i^T\theta_j)}  \\ 
+& \leq \epsilon |a_i| 
++  2 k_m |a_i| \sum_{i=1}^l \abs{\sum_{j=1}^k b_j (\theta_i^Tw_j)^m
+  +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m}
 \end{align*}
 
 Again, since these inner products are assumed to be less than $1-\epsilon$, we can choose $m = O(\frac{1}{\epsilon}\log(d))$ large enough such that 
