@@ -212,7 +212,7 @@ Let $\Omega \subseteq \R^d$. A point $x^*$ is a
 Note that if a critical point is not a local minimum, then it is
 $0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are $\epsilon$-strict in $\poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_\epsilon$, where 
 %
-\[\mathcal{M}_\epsilon = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
+\[\mathcal{M}_{L, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
   \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq
   -\epsilon\right\}\]
 %
@@ -249,7 +249,7 @@ $m = O(\poly(d)\log(1/\delta)/\epsilon)$ such that the following holds:
 
 Let $L$ be as in \eqref{errLoss} with an $m$-almost 1-harmonic
 potential $\Phi_m$ and let $G = L + \|a\|^2$.  If
-$(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)}$ and
+$(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \delta^2/(4d)}$ and
 $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all
 $i$, either there exists $j$ such that
 $|w_j^T\theta_i| > 1- k^2\epsilon,$ or $|a_i| < \delta$.
@@ -338,7 +338,7 @@ $|\theta_i^Tw_j| > 1- k^2\epsilon$.
 \begin{theorem}\label{eigRes}
   Assume the conditions of Theorem~\ref{eigConv}. If
 $G({\bf a, \boldsymbol{\theta}}) \leq G(0,\boldsymbol{\theta}) - 2\delta\sqrt{G(0,\boldsymbol{\theta})}$
-  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4\poly(d))}$,
+  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\delta^2/(4\poly(d))}$,
   then there exists some $i, j$ such that $\theta_i$ is in an
   $\epsilon$-neighborhood of $w_j$.
 \end{theorem}
@@ -416,10 +416,10 @@ For the second part, note that if $w_1,..,w_k$  are random  when we expand the s
   $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running
   gradient descent on the regularized objective
   $G(\boldsymbol{a,\theta}),$ we have
+  $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)},$ then
+  there exists an $i, j$ such that $|w_j^T\theta_i| > 1- \epsilon,$
 % with high
 %   probability after running Gradient Descent (Algorithm 1) 
-  $(\boldsymbol{a,\theta}) \in \mathcal{M}_{\delta^2/(4d)},$ then there
-  exists an $i, j$ such that $|w_j^T\theta_i| > 1- \epsilon,$
 \end{theorem}
 \begin{proof}
   Follows by combining Theorem~\ref{eigConv},
@@ -515,14 +515,7 @@ For the polynomial activation and potential functions, we also can show converge
 Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_k$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Let $L$ be as in \eqref{errLossUnit}. Then, all critical points of $L$ are not local minima, except when $\theta_1 = w_j$ for some $j$.   
 \end{restatable}
 
-Under a node-wise SGD algorithm, we can show efficient convergence to global minima under orthogonality assumptions on $w_j$ for these polynomial activations/potentials.
 
-\begin{restatable}{theorem}{polyConv}
-\label{PolyConv}
-Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_d$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Furthermore, $1 \leq |b_i|\leq \poly(d)$. 
-
-Then, with high probability, running Algorithm \ref{NodeGDOpt} on \eqref{errLoss} converges to an $\epsilon$-neighborhood of the global minima in $\poly(d,1/\epsilon)$ time. The sample complexity is $\poly(d,1/\epsilon)$.
-\end{restatable}
 
 
 \section{Experiments}
@@ -1206,8 +1199,15 @@ Therefore, $X_j = a_i^*(\theta_i^{(j)})^2$ is a supermartingale and by Azuma's, 
 
 %
 
+Under a node-wise SGD algorithm, we can show efficient convergence to global minima under orthogonality assumptions on $w_j$ for these polynomial activations/potentials.
 
-\polyConv*
+\begin{restatable}{theorem}{polyConv}
+\label{PolyConv}
+Let $\mathcal{M} = S^{d-1}$. Let $w_1,...,w_d$ be orthonormal vectors in $\R^d$ and $\Phi$ is of the form $\Phi(\theta,w) = (\theta^Tw)^l$ for some fixed integer $l \geq 3$. Furthermore, $1 \leq |b_i|\leq \poly(d)$. 
+
+Then, with high probability, running Algorithm \ref{NodeGDOpt} on \eqref{errLoss} converges to an $\epsilon$-neighborhood of the global minima in $\poly(d,1/\epsilon)$ time. The sample complexity is $\poly(d,1/\epsilon)$.
+\end{restatable}
+
 
 \begin{proof}
 Without loss of generality let $w_1,...,w_k$ be the standard basis vectors $e_1,..,e_k$. and these basis vectors span the whole optimization space. Consider the algorithm on just the first node: $(a_1,\theta_1)$. For simplicity, we will drop the subscripts in the proof. 
