@@ -238,7 +238,8 @@ parts. \Snote{The last claim is not correct. $(\theta^Tw_j)^n$ is
 \begin{theorem}
   Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be such that
   $||b||_2$ is $\Omega(1)$ and $O(poly(d))$, and $w_1,..,w_k$ are
-  randomly chosen from $\mathcal{M}$. 
+  randomly chosen from $\mathcal{M}$.  \Snote{Aren't $b_i$ from the
+    sphere, and hence have $\norm{b_i}_2 = 1$?}
   
   With high probability, for all $\epsilon \in (0,1),$ there exists $m, \delta$ (that depends on $d$) such that for the $m$-almost $1$-harmonic potential $\Phi_m$ the
   following holds: we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running SGD (Algorithm \ref{SGD}) on the regularized objective
