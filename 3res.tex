@@ -202,14 +202,14 @@ $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$.
 \end{proof}
  
 \begin{lemma}\label{largeVariance}
-  Let $\Phi_m$ be as in \ref{AlmostHarmonic} \Snote{Always say
+  Let $\Phi_m$ be as in Lemma \ref{AlmostHarmonic} \Snote{Always say
     Lemma/Theorem when referring to one. So this should be
     Lemma~\ref{AlmostHarmonic}} and let $\theta, w_1,...,w_k$ be
   independent and uniformly randomly chosen on $S^{d-1}$. Then, over
   $\theta, w_1,...,w_k$,
  
  $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right]
- \geq \norm{b}_2^2 \cdot \Omega(1/m).$
+ \geq \norm{b}_2^2 \cdot \Omega(1/d^m).$
 \end{lemma}
 %
 \begin{proof}
@@ -225,14 +225,32 @@ So, it suffices to show $\expt[\Phi_m(\theta,w_j)^2] \geq 1/m$.  Now, since $\Ph
                                (\theta^Tw_j)^i\right)^2\right] \\
 & \qquad = \sum_{i,j \,odd} c_ic_j E[(\theta^Tw_j)^{i+j}] \geq \sum_{i,j
   \,odd}c_i c_j \Omega(1/(i+j))  \\
-& \qquad =\Omega(1/m) 
+& \qquad =\Omega(1/d^m) 
 \end{align*}
 
 Where we used the fact that
 $\sum_{i,j} c_ic_j = (\sum_i c_i)^2 = \Phi_m(1)^2 = 1$ and
-$E[(\theta^Tw_j)^{n}] \geq \Omega(1/n)$, which holds by integration by
-parts. \Snote{The last claim is not correct. $(\theta^Tw_j)^n$ is
-  $O(1/\sqrt{n})^n$ with high probability.}
+$E[(\theta^Tw_j)^{n}] \geq \Omega(1/d^{n})$, which holds by noticing that with high probability $\theta^T w_j = \Omega(1/\sqrt{d})$. \Snote{The last claim is not correct. $(\theta^Tw_j)^n$ is
+  $O(1/\sqrt{n}^n$ with high probability.}
+\end{proof}
+
+\begin{lemma}\label{bigVariance}
+Let $\Phi_m$ be as in Lemma \ref{AlmostHarmonic} and $b_1,...,b_k$ are $\poly(d)$-bounded. Let $\theta$ be uniformly randomly chosen on $S^{d-1}$. Then,
+ 
+ $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right]
+ \geq e^{-O(d)}L(\boldsymbol{0,0})$
+\end{lemma}
+
+\begin{proof}
+Note that we may write
+
+\[L(\boldsymbol{0,0}) =  \sum_{i=1}^k\sum_{j=1}^k b_i b_j \Phi(w_i, w_j) \]
+
+Therefore, we can find $i$, such that $|\sum_{j=1}^k b_j \Phi(w_i, w_j)| \geq L(\boldsymbol{0,0})/(kb_i)$. Since $b_i$ is $\poly(d)$-bounded and $\Phi$ is $m$-Lipschitz, we see that in a $\Omega(1/poly(d,m))$-neighborhood of $w_i$,
+
+\[|\sum_{j=1}^k b_j \Phi(\theta, w_j)| \geq L(\boldsymbol{0,0})/poly(d) \]
+
+The probability $\theta$ randomly chosen would lie in this neighborhood is $e^{-O(d)}$, so we conclude.
 \end{proof}
 
 \begin{theorem}
@@ -243,23 +261,14 @@ parts. \Snote{The last claim is not correct. $(\theta^Tw_j)^n$ is
   
   With high probability, for all $\epsilon \in (0,1),$ there exists $m, \delta$ (that depends on $d$) such that for the $m$-almost $1$-harmonic potential $\Phi_m$ the
   following holds: we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running SGD (Algorithm \ref{SGD}) on the regularized objective
-  $G(\boldsymbol{a,\theta})$, there exists an $i, j$ such that $|w_j^T\theta_i| > 1- k^2\epsilon$ in $O(poly(d,1/\epsilon))$ iteration complexity and $O(poly(d^{log(d)},1/\epsilon))$ sample complexity.
+  $G(\boldsymbol{a,\theta})$, there exists an $i, j$ such that $|w_j^T\theta_i| > 1- k^2\epsilon$ in $e^{O(d)}poly(1/\epsilon)$ iteration complexity and $d^{\poly(d, 1/\epsilon)}$ sample complexity.
 \end{theorem}
 
 \begin{proof}
-We choose $m = O(\log d \log (1/\delta)/\epsilon)$. Combining Observation \ref{initialize} and Lemma \ref{largeVariance}, we can initialize $\boldsymbol{a,\theta}$ such that $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ for $\delta = O(1/m) = \poly(d,1/\epsilon)$ \Rnote{This is not exactly true but correct in expectation..to apply concentration, we need to sample $w_i$ multiple times}.
+We choose $m = O(\log d \log (1/\delta)/\epsilon)$. Combining Observation \ref{initialize} and Lemma \ref{bigVariance}, we can initialize $\boldsymbol{a,\theta}$ such that $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ for $\delta = e^{-O(d)}$.
 
-Next, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi$ and the second and third partials of $\Phi$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon$ error with sample complexity $\poly(d^{\log(d)},1/\epsilon)$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon)$ iterations. Finally, we conclude by Theorem \ref{eigRes}.
+Next, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi$ and the second and third partials of $\Phi$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(e^{O(d)},1/\epsilon)$ iterations. Finally, we conclude by Theorem \ref{eigRes}.
 \end{proof}
-
-
-
-
-
-
-
-
-
 
 
  \if{1}
