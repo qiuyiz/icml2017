@@ -1,4 +1,3 @@
-
 \section{Introduction}
 
 \subsection{Background}
@@ -44,7 +43,7 @@ Our main observation is that the gradient descent dynamics of learning such to l
 \begin{theorem}(informal statement of Theorem~\ref{EPDyn})
 Applying gradient descent for learning the output of a neural network
 with one hidden layer and a linear activation function at the output
-node, under the squared loss, 
+node, under standard Gaussian inputs and squared loss, 
 % two layer
 % neural network 
 % The gradient descent process for learning our neural network $f$ 
@@ -67,7 +66,7 @@ First we are show how to construct a complicated activation function, which we c
 There is
   a polynomial activation function such that upon running gradient
   descent for minimizing the squared loss along with $\ell_2$
-  regularization, at convergence, 
+  regularization for standard gaussian inputs, at convergence, 
 % For some
 %   carefully chosen activation function, with regularization, at
 %   convergence of running the SGD algorithm, 
@@ -78,7 +77,6 @@ we learn at least one of
 We also show some weaker results for other more practical activation functions.
 Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $\poly(d,1/\epsilon)$ time.  
 %
-\Anote{ this caption is a fine title, but it doesn't explain the content of the table. again, keep in mind that my reading pattern is to read the theorems, tables, and then i read the text. i actually think this table does the paper a disservice. it has a "yes" without a rate, some rates that are exponential but not lower bounds. it has some non-informative text like "complicated". you could either fix this table, which will not happen by tomorrow, or you could get rid of it. }
 \begin{table}[tb]
 \caption{Activation, Potentials, and Convergence Results Summary}
 \label{table1}
@@ -117,3 +115,7 @@ results confirm that depth-2 neural networks can be learned by
 gradient descent with common activation functions but seem to
 discredit that claim for higher depth networks.
 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "icmlpaper2017.tex"
+%%% End:

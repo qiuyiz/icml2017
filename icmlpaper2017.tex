@@ -183,12 +183,14 @@
   $\poly(d,1/\epsilon)$, time and sample complexity.
 \end{abstract} 
 
-\input{1intro}
-\input{2prelim}
+\input{intro.tex}
+\input{epdyn.tex}
+\input{harmonic.tex}
 \input{3res}
 \input{App-Subharmonic}
 \input{4common}
 \input{5exp}
+
 \section{Conclusion}
 
 In this work, we view deep learning of neural networks in the context of electron-proton dynamics and analyzed the convergence of the underlying weight parameters of the neural network using arguments inspired from physics and non-convex optimization. To do so, we first established mathematical relationship between activation functions and their corresponding potentials. Next, we interpreted gradient descent as electrodynamics under a certain potential. Finally, we discovered classes of activation functions that give rise to positive convergence results, some of which relate to very commonplace activations, such as the sign and polynomial. For these classes of depth-2 neural networks, our results imply that they are provably learnable by deep learning. Our experiments seem to imply that higher depth neural networks are not learnable. 

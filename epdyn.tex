@@ -53,8 +53,10 @@ other meaningful bound.
 \subsection{Activation-Potential Correspondence}
 We restrict our attention to potential (and activation) functions with some natural symmetry, so they are either {\it translationally or rotationally invariant}. Specifically, we may write $\Phi= h(\theta-w)$ for some function $h(x)$  in the first case, with $\theta, w \in \R^d$. In the second case, $\Phi = h(\theta^Tw)$ and we enforce $\theta, w \in S^{d-1}$. Such potentials are called {\bf symmetric}. Our results focus on rotationally invariant potentials, as they correspond to classical neural networks.
 
-{\bf Remark}: Natural potentials satisfy $\Phi(\theta,\theta)$ {\it is a positive constant and we will also normalize $\Phi(\theta,\theta) = 1$ for the rest of the paper.} 
-
+{\bf Remark}: Symmetric potentials satisfy $\Phi(\theta,\theta)$ {\it is
+  a positive constant and we will also normalize
+  $\Phi(\theta,\theta) = 1$ for the rest of the paper.} 
+  
 We make a distributional assumption that our input distribution
 $\mathcal{D} = \mathcal{N}(0, {\bf I_{d\times d}})$ is fixed as the
 standard Gaussian in $\R^d$. This assumption is not critical and a
@@ -63,7 +65,6 @@ halfspaces would apply \cite{klivans2006cryptographic}.
 
 We call a potential function {\bf realizable} if it corresponds to some activation $\sigma$.  We briefly state some results about characterizations of realizable potentials for translationally and rotationally invariant potentials. Full proofs and calculations of activation-potential correspondences, such as those claimed in Table \ref{table1}, can be found in the supplementary material. 
 %
-\Anote{show the corresponding activation function explicitly.}
 \begin{restatable}{theorem}{tranReal}
 \label{thm:tranReal}
 Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = f(\theta - w)$. Then, $\Phi$ is realizable if $\mathfrak{F}(f)(\omega) \geq 0$ and the corresponding activation
@@ -71,7 +72,6 @@ Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = f(\theta - w)$. Then, $\Phi$ is r
 is bounded almost everywhere, where $\mathfrak{F}$ is the standard fourier transform in $\R^d$
 \end{restatable}
 %
-\Anote{show the corresponding activation function explicitly.}
 \begin{restatable}{theorem}{rotReal}
 \label{thm:rotReal}
 Let $\mathcal{M} = S^{d-1}$ and $\Phi(\theta,w) = f(\theta^Tw)$. Then, $\Phi$ is realizable if $f$ has non-negative Taylor coefficients, $c_i \geq 0$ , and the corresponding activation
@@ -101,9 +101,19 @@ that are trying to find $w_i$. We note that standard electron-proton dynamics in
 for all $i \not \in S$, with $\theta_i(0) = \theta_i$. For $i \in S$, $\theta_i(t) =  \theta_i$.
 \end{definition}
 %
-\Anote{you don't need this theorem anywhere. you don't build on it. it's an overly formal illustration of why eletron-proton dynamics relate to networks. you can make that point in two sentences without the formality. the presence of this theorem just means i have to read more to reach the meat of the paper.}
 \begin{restatable}{theorem}{epdyn}
 \label{EPDyn}
-Let $\Phi$ be a symmetric potential. Running continuous gradient descent on \eqref{errLoss} with respect to $\theta$, initialized at $(\theta_1,...,\theta_k)$ produces the same dynamics as Electron-Proton Dynamics under $2\Phi$ with fixed particles at $w_1,...,w_k$ with respective charges $b_1,..,b_k$ and moving particles at $\theta_1,...,\theta_k$ with respective charges $a_1,...,a_k$.
-\end{restatable}
+Let $\Phi$ be a symmetric potential and $L$ be as in \eqref{errLoss}. Running continuous gradient descent on $\frac{1}{2} L$ with respect to $\theta$, initialized at
+$(\theta_1,...,\theta_k)$ produces the same dynamics as
+Electron-Proton Dynamics under $2\Phi$ with fixed particles at
+$w_1,...,w_k$ with respective charges $b_1,..,b_k$ and moving
+particles at $\theta_1,...,\theta_k$ with respective charges
+$a_1,...,a_k$.
+\end{restatable} 
 %
+%
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "icmlpaper2017.tex"
+%%% End:
