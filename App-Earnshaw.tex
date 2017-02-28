@@ -1,0 +1,15 @@
+\section{Earnshaw's Theorem}
+
+\earnshaw*
+\begin{proof}
+  If $(\boldsymbol{a,\theta})$ is a differentiable strict local
+  minima, then for any $i,$ we must have
+\[\nabla_{\theta_{i}} L = 0, \text{ and }  \Tr(\nabla^2_{\theta_i}L) > 0.\]
+Since $\Phi$ is harmonic, we also have
+\begin{align*}
+&  \Tr(\nabla^2_{\theta_i}L(\theta_1,...,\theta_n)) = \Delta_{\theta_i} L \\
+&  =  2\sum_{ j\neq i} a_ia_j \Delta_{\theta_i}\Phi(\theta_i,\theta_j)
+  + 2\sum_{j=1}^ka_ib_j  \Delta_{\theta_i}\Phi(\theta_i,w_j) = 0,
+\end{align*}
+which is a contradiction. In the first line, there is a factor of 2 by symmetry.
+\end{proof}

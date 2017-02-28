@@ -1,0 +1,78 @@
+
+\section{Realizable Potentials}
+\label{realizable}
+
+\subsection{Activation-Potential Calculations}
+First define the {\it dual} of a function $f: \R \to \R$ is defined to be 
+%
+\[ \widehat{f}(\rho) = E_{X,Y \sim N(\rho)}[f(X)f(Y)],\]
+%
+where $N(\rho)$ is the bivariate normal distribution with $X, Y$ unit variance and $\rho$ covariance. This is as in \cite{DanielyFS16}.
+%
+\begin{lemma}\label{rotLem}
+Let $\mathcal{M} = S^{d-1}$ and $\sigma$ be our activation function, then $\widehat{\sigma}$ is the corresponding potential function.
+\end{lemma}
+
+\begin{proof}
+If $u, v$ have norm 1 and if $X$ is a standard Gaussian in $\R^d$, then note that $X_1 = u^TX$ and $X_2 = v^TX$ are both standard Gaussian variables in $\R^1$ and the covariance is $E[X_1X_2] = u^Tv$. 
+
+Therefore, the dual function of the activation gives us the potential function.
+\begin{align*}
+E_{X}[\sigma(u^TX)\sigma(v^TX)] & =
+E_{X,Y \sim N(u^Tv)}[\sigma(X)\sigma(Y)] \\
+& = \widehat{\sigma}(u^Tv).
+\end{align*}
+\end{proof}
+
+By Lemma \ref{rotLem}, the calculations of the activation-potential
+for the sign, ReLU, Hermite, exponential functions are given in
+\cite{DanielyFS16}. For the Gaussian and Bessel activation functions,
+we can calculate directly. In both case, we notice that we may write
+the integral as a product of integrals in each dimension. Therefore,
+it suffices to check the following 1-dimensional identities.
+\begin{align*}
+  & \int_{-\infty}^\infty
+    \sqrt{2}e^{x^2/4}e^{-(x-\theta)^2}\sqrt{2}e^{x^2/4}e^{-(x-w)^2} \frac{1}{\sqrt{2\pi}} e^{-x^2/2}\, dx \\
+  & \qquad = \sqrt{\frac{2}{\pi}}\int_{-\infty}^\infty
+    e^{-(x-\theta)^2}e^{-(x-w)^2} \, dx = e^{-(\theta -w)^2/2}
+\end{align*}
+\begin{align*}
+& \int_{-\infty}^\infty (\frac{2}{\pi})^{3/2}e^{x^2/2}K_0(|x-\theta|)K_0(|x-w|)  \frac{1}{\sqrt{2\pi}} e^{-x^2/2}\, dx \\
+& \qquad 
+= \int_{-\infty}^\infty \frac{2}{\pi^2}K_0(|x-\theta|)K_0(|x-w|) \, dx
+  = e^{-|\theta -w|}
+\end{align*}
+
+
+The last equality follows by Fourier uniqueness and taking the Fourier transform of both sides, which are both equality $\sqrt{2/\pi}(\omega^2+1)^{-1}$. 
+
+
+\subsection{Characterization Theorems}
+
+\tranReal*
+
+\begin{proof}
+Let $h(x) = \mathfrak{F}^{-1}(\sqrt{\mathfrak{F}(f)})(x)$ and this is well-defined since the fourier transform was non-negative everywhere. Now, let $\sigma(x,w) = (2\pi)^{1/4}e^{x^2/4}h(x-w)$ and by assumption, it is bounded almost everywhere. Realizability follows by checking:
+%
+\begin{align*}
+    E_{X \sim N}[\sigma(X,w)\sigma(X,\theta)]  &= \int_{\R^n} h(x-w)h(x-\theta) \, dx \\
+    &= \int_{\R^n} h(x)h(x-(\theta-w)) \, dx \\
+    &= \mathfrak{F}^{-1}(\mathfrak{F}(h\ast h)(\theta -w)) \\
+    &= \mathfrak{F}^{-1}(\mathfrak{F}(h)^2(\theta - w)) \\
+    &= \mathfrak{F}^{-1}(\mathfrak{F}(f)(\theta - w)) \\
+    &= f(\theta - w) 
+\end{align*}
+\end{proof}
+
+
+
+
+\rotReal*
+
+\begin{proof}
+By \ref{rotLem} and due to the orthogonality of hermite polynomials, if $f = \sum_i a_i h_i$, where $h_i(x)$ is the i-th Hermite polynomial, then
+%
+\[\widehat{f}(\rho) = \sum_{i} a_i^2 \rho^i\]
+
+Therefore, any function with non-negative taylor coefficients is a valid potential function, with the corresponding activation function determined by the sum of hermite polynomials, and the sum is bounded almost everywhere by assumption.
+\end{proof}

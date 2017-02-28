@@ -1,0 +1,105 @@
+\section{Convergence of Almost Strictly Subharmonic Potentials}\label{App:Subharm}
+
+
+%
+%
+\begin{definition}
+$\Phi(\theta,w)$ is a {\bf strictly subharmonic} potential on $\Omega$ if it is differentiable and $\Delta_\theta \Phi(\theta,w) > 0$ for all $\theta \in \Omega$, except possibly at $\theta = w$.
+\end{definition}
+
+An example of such a potential is $\Phi(\theta, w) = \|\theta -w \|^{2-d-\epsilon}$ for any $\epsilon > 0$. Although this potential is unbounded at $\theta = w$ for most $d$, we remark that it is bounded when $d = 1$. Furthermore, the sign of the output weights $a_i, b_i$ matter in determining the sign of the Laplacian of our loss function. Therefore, we need to make suitable assumptions in this framework.
+
+%
+
+Under Assumption \ref{outputFixed}, we are working with an even
+simpler loss function:
+\begin{equation}\label{errFixed}
+L(\theta) =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i,\theta_j) - 2\sum_{i=1}^k\sum_{j=1}^k\Phi(\theta_i,w_j)
+\end{equation}
+%
+\Anote{i don't think you should show this theorem. you ahve more significant results, and this distracts from them. plus it doesn't refer to any realistic learning setup. it's an intermediate warmup illustration for yourself, not for the reader.}
+\begin{theorem}\label{subStrict}
+Let $\Phi$ be a symmetric strictly subharmonic potential on $\mathcal{M}$ with $\Phi(\theta,\theta) = \infty$. Let Assumption \ref{outputFixed} hold and let $L$ be as in \eqref{errFixed}. Then, $L$ admits no local minima, except when $\theta_i = w_j$ for some $i, j$.
+\end{theorem}
+%
+\begin{proof}
+First, let $\Phi$ be translationally invariant and $\mathcal{M} =
+\R^d$. Let $\boldsymbol{\theta}$ be a critical point. Assume, for sake
+of contradiction, that for all $i, j$, $\theta_i \neq w_j$. If
+$\theta_i$ are not distinct, separating them shows that
+we are not at a local minima since $\Phi(\theta_i,\theta_j) = \infty$
+and finite elsewhere. 
+
+The main technical detail is to remove interaction terms between
+pairwise $\theta_i$ by considering a correlated movement, where each
+$\theta_i$ are moved along the same direction $v$. In this case,
+notice that our objective, as a function of $v$, is simply
+\begin{align*}
+& H(v) = L(\theta_1+ v, \theta_2 + v, ...,\theta_k + v) \\
+& =  2\sum_{i=1}^k\sum_{i < j} \Phi(\theta_i+v,\theta_j+v) -
+  2\sum_{i=1}^k\sum_{j=1}^k \Phi(\theta_i+v,w_j)
+\end{align*}
+
+Note that the first term is constant as a function of $v$, by
+translational invariance. Therefore,
+\[\nabla_{v}^2 H = -2\sum_{i=1}^k \sum_{j=1}^k \nabla^2\Phi(\theta_i, w_j)\]
+By the subharmonic condition,
+$\Tr(\nabla_{v}^2H) = -2\sum_{i=1}^k\sum_{j=1}^k
+\Delta_{\theta_i}\Phi(\theta_i,w_j) < 0$.
+Therefore, we conclude that $\theta$ is not a local minima of $H$ and
+$L$.  We conclude that $\theta_i = w_j$ for some $i, j$.
+
+The above technique generalizes to $\Phi$ being rotationally invariant case by
+working in spherical coordinates and correlated translations are
+simply rotations. Note that we can change to spherical coordinates (without the radius parameter) and let $\widetilde{\theta_1},...,\widetilde{\theta_{k}}$ be the standard spherical representation of $\theta_1,...,\theta_k$. 
+
+We will consider a correlated translation in the spherical coordinate space, which are simply rotations on the sphere. Let $v$ be a vector in $\R^{d-1}$ and our objective is simply
+\[ H(v) = L( \widetilde{\theta_1}+v,...,\widetilde{\theta_{k}} +v)\]
+
+Then, we apply the same proof since $\Phi( \widetilde{\theta_i}+v, \widetilde{\theta_j}+v)$ is constant as a function of $v$ by rotationally invariance.
+\end{proof}
+%
+\begin{corollary}
+Assume the conditions of Theorem \ref{subStrict} and $\Phi(\theta,\theta) < \infty$. Then, $L$ admits no local minima, except at the global minima.
+\end{corollary} 
+
+\begin{proof}
+From the same proof from theorem \ref{subStrict}, we conclude that there must exists $i, j$ such that $\theta_i = w_j$. Then, since $\Phi(\theta,\theta) < \infty$, notice that $\theta_i, w_j$ cancels each other out and by drop $\theta_i, w_j$ from the loss function, we have a new loss function $L$ with $k-1$ variables. Then, using induction, we see that $\theta_i = w_{\pi(i)}$ at the local minima for some permutation $\pi$.
+\end{proof}
+
+
+For concreteness, we will focus on a specific potential function with this property: the Gaussian kernel $\Phi(\theta, w) = \exp(-\|\theta - w\|^2/2)$. In $\R^d$, the Laplacian is $\Delta \Phi = ( \|\theta - w\|^2 -d ) \exp(-\|\theta - w\|^2/2)$, which becomes positive when $\|\theta - w \|^2 \geq d$. Thus, $\Phi$ is strictly subharmonic outside a ball of radius $\sqrt{d}$. This informally implies that $\theta_1$ converges to a $\sqrt{d}$-ball around some $w_j$. 
+
+
+
+
+
+For concreteness, we will focus on a specific potential function with
+this property: the Gaussian kernel $\Phi(\theta, w) = \exp(-c\|\theta
+- w\|^2/2)$, which corresponds to a Gaussian activation. In $\R^d$, the Laplacian is $\Delta \Phi = ( c\|\theta - w\|^2 -d ) \exp(-c\|\theta - w\|^2/2)$, which becomes positive when
+$\|\theta - w \|^2 \geq d/c$. Thus, $\Phi$ is strictly subharmonic
+outside a ball of radius $\sqrt{d/c}$. Note that Gaussian potential
+restricted to $S^{d-1}$ gives rise to the exponential activation
+function, so we can show convergence similarly.  
+%
+\begin{theorem}\label{gaussStrict}
+\label{GaussStrict}
+Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = e^{-c\|\theta-w\|^2/2}$ and Assumption \ref{outputFixed} holds. Let $L$ be as in \eqref{errFixed} and $\|\boldsymbol{w}\|\leq poly(d)$. 
+
+If $c = O(d/\epsilon)$ and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{e^{-\poly(d,1/\epsilon)}}$, then there exists $i, j$ such that $\| \theta_i - w_j \|^2 \leq \epsilon$.
+\end{theorem}
+
+\begin{proof}
+Consider again a correlated movement, where each $\theta_i$ are moved along the same direction $v$. As before, this drops the pairwise $\theta_i$ terms. If for all $i, j$ $\| \theta_i - w_j \|^2 \leq \epsilon$, then we see that $\Delta_{\theta_i} \Phi = ( c\|\theta - w\|^2 -d ) \exp(-c\|\theta - w\|^2/2) > e^{-poly(d,1/\epsilon)}$. 
+%
+\[\Tr(\nabla^2 L) = -2\sum_{i=1}^k \sum_{j=1}^k \Delta_{\theta_i}\Phi(\theta_i, w_j) < -e^{-poly(d,1/\epsilon)}\]
+
+Therefore, $\nabla^2 L$ must admit a strictly negative eigenvalue that
+is less than $e^{-c_3 d}$, which implies our claim (we drop the
+$\poly(d,k)$ terms).
+
+******Add more rigor/sample complexity later if we want to keep this
+
+To use Thm \ref{strongConverge}, we check the regularity conditions: note that we can choose $L, B, \rho$ to be $\poly(d)$ since the first, second and third partials of $\Phi$ are all bounded by $\poly(d)$. Now, by choosing $\epsilon = e^{-O(d)}$ for some $c$, we know that with high probability, running SGD in $T = e^{O(d)}$ iterations will output $\theta_1$ such that 1) $\|\nabla L (\theta_1)\| < e^{-O(d)}$ and 2) $\lambda_{min}(\nabla^2L(\theta_1)) > -e^{-O(d)}$.
+\end{proof}
+

@@ -1,0 +1,49 @@
+
+
+\section{Experiments}
+\label{experiments}
+For our experiments, our training data is given by $(x_i, f(x_i))$, where $x_i$ are randomly chosen from a standard Gaussian in $\R^d$ and $f$ is a randomly generated neural network with weights chosen from a standard Gaussian. We run gradient descent (Algorithm \ref{GD}) on the empirical loss, with stepsize around $\alpha = 10^{-5}$, for $T = 10^6$ iterations. Our experiments show that for depth-2 neural networks, even with non-linear outputs, the training error diminishes quickly to a small constant. This seems to hold even when the width, the number of hidden nodes, is substantially increased (even up to 125 nodes), but depth is held constant; although as the number of nodes increases, the rate of decrease is slower. This substantiates our claim that depth-2 neural networks are learnable.
+
+However, it seems that for depth greater than 2, gradient descent does not learn the neural network when width is high. When the width is a small constant, the increase in depth also impedes the learnability of the neural network and the training error does not get close enough to 0. It seems that for neural networks with greater depth, positive convergence results in practice are elusive.
+\begin{table}[tb]
+\caption{Test Error of Learning Neural Networks of Various Depth and Width}
+\vskip 0.1in
+\begin{center}
+\begin{small}
+\begin{sc}
+\begin{tabular}{
+  |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 1
+  |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 2
+  |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 3
+  |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 4
+   |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 5
+  }
+   \hline 
+           & Width 5   &  Width 10   & Width 20 & Width 40     \\ \hline 
+    Depth 3 & 0.0033   & 0.0264        &   0.1503 & 0.2362 \\ \hline
+    Depth 5 & 0.0036   & 0.0579        &   0.2400 & 0.4397 \\ \hline
+    Depth 9 & 0.0085   & 0.1662        &   0.4171 & 0.6071 \\ \hline
+    Depth 17 & 0.0845   & 0.3862        &   0.4934 & 0.5777 \\ \hline
+\end{tabular}
+\end{sc}
+\end{small}
+\end{center}
+\vskip -0.1in
+\end{table}
+\begin{figure}[tb]
+\vskip 0.1in
+\begin{center}
+\includegraphics[width = 1.6in]{plotChangeDepth.jpg}\includegraphics[width = 1.77in]{plotChangeWidth.jpg}
+\caption{Left:Test Error of Networks of Varying Depth. Right: Test Error of Networks of Varying Width.}
+\end{center}
+\vskip -0.1in
+\end{figure}
+We note that we have been using training error as a measure of success, but it's possible that the true underlying parameters are not learned. If our loss function were strongly convex, small training error would imply a small norm in the parameter space. For the sign activation function, we can show a related result.
+
+\Anote{there is a main theorem in your experimental section. you should move this to one of your section on ``other potentials''.}
+\begin{restatable}{theorem}{signUnique}
+\label{SignUnique}
+Let $\mathcal{M} = S^{d-1}$ and $\sigma$ be the sign activation function and $b_2,...,b_k = 0$. If the loss \eqref{errLoss} at $(\boldsymbol{a,\theta})$ is less than $O(1)$, then there must exist $\theta_i$ such that $w_1^T\theta_i > \Omega(1/\sqrt{k})$.
+\end{restatable}
+
+

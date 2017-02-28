@@ -1,0 +1,51 @@
+
+\section{Proof of Sign Uniqueness}
+
+
+%\signUnique*
+
+\begin{proof}
+WLOG let $w_1 = e_1$. Notice that our loss can be bounded below by Jensen's:
+%
+\begin{align*}
+& \expt_X \left[ \left( \sum_{i=1}^k a_i \sigma(\theta_i^TX) - \sigma(X_1)\right)^2 \right] \\
+& \qquad 
+\geq \expt_{X_1} \left[ \left( \EE{X_2...X_d}{\left[ \sum_{i=1}^k a_i \sigma(\theta_i^TX) \right]}- \sigma(X_1)\right)^2 \right],
+\end{align*}
+where $X$ is a standard Gaussian in $\R^d$. 
+%
+\begin{align*}
+E_{X_2,..,X_d} \left[  \sum_{i=1}^k a_i \sigma(\theta_i^TX) \right] &= \sum_{i=1}^k a_i E_{X_2,...X_d}\left[  \sigma(\theta_{i1}X_1 + \sum_{j >1} \theta_{ij}X_{j})  \right]\\
+&= \sum_{i=1}^k E_{Y} \left[   \sigma(\theta_{i1}X_1 + \sqrt{1-\theta_{i1}^2}Y)  \right]  \\
+&= \sum_{i=1}^k a_i E_{Y} \left[   \sigma(\textstyle\frac{\theta_{i1}}{\sqrt{1-\theta_{i1}^2}}X_1 + Y)  \right] ,
+\end{align*}
+where $Y$ is an independent standard Gaussian and for any small $\delta$, if $p(y)$ is the standard Gaussian density, 
+%
+\[ E_Y[\sigma(\delta + Y)] = \int_{-\delta}^{\delta} p(y) \, dy = 2p(0)\delta + O(\delta^2) \]
+
+If $w_1^T\theta_i = \theta_{i1} < \epsilon$ for all $i$, then notice that with high probability on $X_1$ (say condition on $|X_1| \leq 1$), 
+%
+\[\expt_{Y} \left[   \sigma(\textstyle\frac{\theta_{i1}}{\sqrt{1-\theta_{i1}^2}}X_1 + Y)  \right] = 2p(0)\textstyle\frac{\theta_{i1}}{\sqrt{1-\theta_{i1}^2}}X_1 + O(\epsilon^2X_1^2)\]
+
+Therefore, since $\epsilon < O(1/\sqrt{k})$,
+%
+\begin{align*}
+\expt_{X_2,..,X_d} \left[  \sum_{i=1}^k a_i \sigma(\theta_i^TX)
+  \right]  & = X_1
+  \sum_{i=1}^k2p(0)a_i\textstyle\frac{\theta_{i1}}{\sqrt{1-\theta_{i1}^2}}
+  + O(k\epsilon^2X_1^2) \\
+& = cX_1+O(1)
+\end{align*}
+
+
+Finally, our error bound is now
+%
+\begin{align*}
+& \expt_{X_1} \left[ \left( \expt_{X_2...X_d}\left[ \sum_{i=1}^k a_i
+      \sigma(\theta_i^TX) \right]- \sigma(X_1)\right)^2 \right] \\
+& \qquad \geq
+\expt_{|X_1| \leq 1}[(cX_1+O(1) - \sigma(X_1))^2]
+\end{align*}
+
+And the final expression is always larger than some constant, regardless of $c$.
+\end{proof}

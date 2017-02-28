@@ -1,0 +1,109 @@
+\section{Deep Learning, Potentials, and Electron-Proton Dynamics}
+
+\subsection{Preliminaries}
+The target concept class $\mathcal{C}_{\sigma,k}$ of our learning procedure is the output of a two-layer neural network with linear output activation and has the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Let $\boldsymbol{a} = (a_1,...,a_k)$ and $\boldsymbol{\theta} = (\theta_1,...,\theta_k)$; similarly for $\boldsymbol{b}, \boldsymbol{w}$. For some distribution $\mathcal{D}$, we can given $n$ pairs of training data $(x_i, f(x_i))$, where $x_i$ are drawn i.i.d. from $\mathcal{D}$. Our hypothesis class is the same as the concept class and our loss function is the squared loss. 
+%
+\begin{equation}\label{errEmp}
+\widehat{L}(\boldsymbol{a,\theta})  = \frac{1}{n}\sum_{j=1}^n \left(\sum_{i=1}^k b_i\sigma(x_j,w_i) - \sum_{i=1}^k a_i \sigma(x_j,\theta_i)\right)^2
+\end{equation}
+%
+We would rather work with the true loss directly:
+$L(\boldsymbol{a,\theta}) = \expt[\widehat{L}]$. To further simplify $L$, let us
+re-parametrize $a$ with $-a$ and expand.
+\begin{align}
+& L(\boldsymbol{a,\theta})  = \expt_{X\sim D}\left[ \left(
+  \sum_{i=1}^k a_i \sigma(X,\theta_i) + \sum_{i=1}^k
+  b_i\sigma(X,w_i)\right)^2\right] \nonumber \\
+%
+& = \sum_{i=1}^k \sum_{j=1}^k a_i a_j \Phi(\theta_i,\theta_j)+ 2 a_ib_j \Phi(\theta_i,w_j)+ b_i b_j \Phi(w_i,w_j)
+ \label{errLoss}
+\end{align}
+%
+where $\Phi(\theta, w) = \expt_{X\sim D}[ \sigma(X,\theta) \sigma(X,w)]$ is
+the {\bf potential function} {\it corresponding to the activation function} $\sigma$. Although our loss is jointly non-convex but is quadratic in $\boldsymbol{a}$, so we have convergence guarantees to $\boldsymbol{a^*(\theta)}$, the optimal set of output weights of a given $\boldsymbol{\theta}$. 
+
+We will optimize over the familiar $\mathcal{M}= \R^d$ but often over $\mathcal{M} = S^{d-1}$. Let $\Pi_\mathcal{M}$ be the projection operator on $\mathcal{M}$. On $\R^d$, the gradient and Hessian $\nabla_{\R^d} f, \nabla_{\R^d}^2 f$ is defined as standard and the Laplacian is simply $\Delta_{\R^d} f = \Tr(\nabla_{\R^d}^2 f)$. The simplest way to define these terms on $S^{d-1}$ is $\nabla_{S^{d-1}} f(x) = \nabla_{\R^d} f(x/\|x\|)$, where $\| \cdot \|$ denotes the $l_2$ norm and $x \in S^{d-1}$. The Hessian and Laplacian are analogously defined and the subscripts are usually dropped where clear from context. If $f$ is multivariate with variable $x_i$, then let $f_{x_i}$ be a
+restriction of $f$ onto the variable $x_i$ with all other variables
+fixed. Let $\nabla_{x_i}f, \Delta_{x_i}f$ to be the gradient and
+Laplacian, respectively, of $f_{x_i}$ with respect to
+$x_i$. Lastly, we say $x$ is a critical point of $f$ if $\nabla f$
+does not exist or $\nabla f = 0$.
+
+A gradient-based method is an algorithm that calls Algorithm \ref{GD}
+in all the optimization procedures to minimize the empirical
+loss. Given $\mathcal{D}$, the training data, and the activation
+function $\sigma$, we attempt to show that there exists a gradient-based
+algorithm that optimizes $\widehat{L}$ on $\mathcal{M}$ and finds
+$\widetilde{f} \in \mathcal{C}_{\sigma, k}$ such that with high probability, $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$ for some (or all) $i, j$ in time $\poly(d,1/\epsilon)$ or some
+other meaningful bound.
+
+\begin{algorithm}[hb]
+ \caption{$x = GradientDescent(L,x_0, T,\alpha$)}
+   \label{GD}
+\begin{algorithmic}
+   \STATE {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
+   \STATE Initialize $x = x_0$
+   \FOR{$i=1$ {\bfseries to} $T$}
+   \STATE $x = x - \alpha\nabla L(x)$
+   \STATE $x = \Pi_\mathcal{M} x$
+   \ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Activation-Potential Correspondence}
+We restrict our attention to potential (and activation) functions with some natural symmetry, so they are either {\it translationally or rotationally invariant}. Specifically, we may write $\Phi= h(\theta-w)$ for some function $h(x)$  in the first case, with $\theta, w \in \R^d$. In the second case, $\Phi = h(\theta^Tw)$ and we enforce $\theta, w \in S^{d-1}$. Such potentials are called {\bf symmetric}. Our results focus on rotationally invariant potentials, as they correspond to classical neural networks.
+
+{\bf Remark}: Natural potentials satisfy $\Phi(\theta,\theta)$ {\it is a positive constant and we will also normalize $\Phi(\theta,\theta) = 1$ for the rest of the paper.} 
+
+We make a distributional assumption that our input distribution
+$\mathcal{D} = \mathcal{N}(0, {\bf I_{d\times d}})$ is fixed as the
+standard Gaussian in $\R^d$. This assumption is not critical and a
+simpler distribution might lead to better statistical bounds. However, if we allow arbitrary distributions, then hardness results in PAC-learning
+halfspaces would apply \cite{klivans2006cryptographic}.
+
+We call a potential function {\bf realizable} if it corresponds to some activation $\sigma$.  We briefly state some results about characterizations of realizable potentials for translationally and rotationally invariant potentials. Full proofs and calculations of activation-potential correspondences, such as those claimed in Table \ref{table1}, can be found in the supplementary material. 
+%
+\Anote{show the corresponding activation function explicitly.}
+\begin{restatable}{theorem}{tranReal}
+\label{thm:tranReal}
+Let $\mathcal{M} = \R^d$ and $\Phi(\theta,w) = f(\theta - w)$. Then, $\Phi$ is realizable if $\mathfrak{F}(f)(\omega) \geq 0$ and the corresponding activation
+\[\sigma(x) = (2\pi)^{1/4}e^{x^2/4}\mathfrak{F}^{-1}(\sqrt{\mathfrak{F}(f)})(x)\]
+is bounded almost everywhere, where $\mathfrak{F}$ is the standard fourier transform in $\R^d$
+\end{restatable}
+%
+\Anote{show the corresponding activation function explicitly.}
+\begin{restatable}{theorem}{rotReal}
+\label{thm:rotReal}
+Let $\mathcal{M} = S^{d-1}$ and $\Phi(\theta,w) = f(\theta^Tw)$. Then, $\Phi$ is realizable if $f$ has non-negative Taylor coefficients, $c_i \geq 0$ , and the corresponding activation
+\[\sigma(x) = \sum_{i=1}^\infty \sqrt{c_i} h_i(x)\]
+converges almost everywhere, where $h_i(x)$ is the i-th Hermite polynomial.
+\end{restatable}
+\Anote{give examples of phi's and corresponding sigmas in in a paragraph.}
+%
+\subsection{Electron-Proton Dynamics}
+
+By interpreting the pairwise potentials as electrostatic attraction
+potentials, we notice that our dynamics is similar to electron-proton
+type dynamics under some potential $\Phi$, where $w_i$ are fixed point
+charges in $\R^d$ and $\theta_i$ are moving point charges in $\R^d$
+that are trying to find $w_i$. We note that standard electron-proton dynamics interprets the force between particles as an acceleration vector; in our case, it is more accurately interpreted as a velocity vector. 
+%
+\begin{definition}\label{EPDef}
+  Given a potential $\Phi : \mathcal{M} \times \mathcal{M} \to \R$ and
+  particle locations $\theta_1,...,\theta_k \in \mathcal{M}$ along
+  with their respective charges $a_1,...,a_k \in \R$. We define {\bf
+    Electron-Proton Dynamics} under $\Phi$ with some subset $S \subseteq [k]$ of fixed particles to be the solution $(\theta_1(t),...,\theta_k(t))$ to the following system of
+  differential equations: For each pair $(\theta_i,\theta_j)$, there
+  is a force from $\theta_j$ exerted on $\theta_i$ that is given by
+  ${\bf F}_{i}(\theta_j) = a_ia_j\nabla_{\theta_i}
+  \Phi(\theta_i,\theta_j)$ and
+\[-\frac{d\theta_i}{dt} =  \sum_{ j \neq i} {\bf F}_{i}(\theta_j)\]
+for all $i \not \in S$, with $\theta_i(0) = \theta_i$. For $i \in S$, $\theta_i(t) =  \theta_i$.
+\end{definition}
+%
+\Anote{you don't need this theorem anywhere. you don't build on it. it's an overly formal illustration of why eletron-proton dynamics relate to networks. you can make that point in two sentences without the formality. the presence of this theorem just means i have to read more to reach the meat of the paper.}
+\begin{restatable}{theorem}{epdyn}
+\label{EPDyn}
+Let $\Phi$ be a symmetric potential. Running continuous gradient descent on \eqref{errLoss} with respect to $\theta$, initialized at $(\theta_1,...,\theta_k)$ produces the same dynamics as Electron-Proton Dynamics under $2\Phi$ with fixed particles at $w_1,...,w_k$ with respective charges $b_1,..,b_k$ and moving particles at $\theta_1,...,\theta_k$ with respective charges $a_1,...,a_k$.
+\end{restatable}
+%

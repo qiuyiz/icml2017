@@ -1,0 +1,11 @@
+\section{Electron-Proton Dynamics}
+
+\epdyn*
+
+\begin{proof}
+The initial values are the same. Notice that continuous gradient descent on $L(\boldsymbol{a,\theta})$ with respect to $\theta$ produces dynamics given by $\frac{d\theta_i(t)}{dt} = -\nabla_{\theta_i}L(\boldsymbol{a,\theta})$. Therefore,
+\[\frac{d\theta_i(t)}{dt} = -2\sum_{j \neq i} a_i a_j
+\nabla_{\theta_i}\Phi(\theta_i,\theta_j) - 2\sum_{j=1}^k
+a_ib_j\nabla_{\theta_i} \Phi(\theta_i,w_j)\] 
+And gradient descent does not move $w_i$. By definition, the dynamics corresponds to Electron-Proton Dynamics as claimed.
+\end{proof}
