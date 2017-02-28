@@ -40,7 +40,7 @@ all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\th
 
 \begin{restatable}{lemma}{almostHarmonic}\label{AlmostHarmonic}
 For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$.
-\end{restatable}
+\end{restatable} \Snote{Can you generalize this theorem to $\lambda$-harmonic?}
 %
 %
 \begin{restatable}{lemma}{bounded}
@@ -61,7 +61,7 @@ $m = O(\log(d)\log(1/\delta)/\epsilon)$ such that the following holds:
 
 Let $L$ be as in \eqref{errLoss} with an $m$-almost 1-harmonic
 potential $\Phi_m$ and let $G = L + \|a\|^2$.  If
-$(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \delta^2/(4d)}$ and
+$(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \delta^2 / (4d)}$ and
 $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all
 $i$, either there exists $j$ such that
 $|w_j^T\theta_i| > 1- k^2\epsilon,$ or $|a_i| < \delta$.
@@ -202,26 +202,37 @@ $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$.
 \end{proof}
  
 \begin{lemma}\label{largeVariance}
- Let $\Phi_m$ be as in \ref{AlmostHarmonic} and let $\theta, w_1,...,w_k$ be independent and uniformly random  chosen on $S^{d-1}$. Then, over $\theta, w_1,...,w_k$,
+  Let $\Phi_m$ be as in \ref{AlmostHarmonic} \Snote{Always say
+    Lemma/Theorem when referring to one. So this should be
+    Lemma~\ref{AlmostHarmonic}} and let $\theta, w_1,...,w_k$ be
+  independent and uniformly randomly chosen on $S^{d-1}$. Then, over
+  $\theta, w_1,...,w_k$,
  
- $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right] \geq \|b\|_2^2 \Omega(1/m).$
+ $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right]
+ \geq \norm{b}_2^2 \cdot \Omega(1/m).$
 \end{lemma}
 %
 \begin{proof}
 Note that $\Phi_m$ is a degree $m$ polynomial with non-negative coefficients and it only has odd-degree terms. Since it is odd, $E[\Phi_m(\theta^Tw_i)] = 0$ and the cross terms in the expansion of the square vanish:
-
+%
 \[ \expt\left[\left(  \sum_{j=1}^k b_j
      \Phi_m(\theta^Tw_j)\right)^2\right] = \sum_{j=1}^k b_j^2 \expt[\Phi_m(\theta^Tw_j)^2]\]
 
 So, it suffices to show $\expt[\Phi_m(\theta,w_j)^2] \geq 1/m$.  Now, since $\Phi_m$ has non-negative coefficients,
+\begin{align*}
+& \expt[\Phi_m(\theta^Tw_j)^2] = \expt\left[\left(\sum_{i=1, i \,
+                               odd}^m c_i
+                               (\theta^Tw_j)^i\right)^2\right] \\
+& \qquad = \sum_{i,j \,odd} c_ic_j E[(\theta^Tw_j)^{i+j}] \geq \sum_{i,j
+  \,odd}c_i c_j \Omega(1/(i+j))  \\
+& \qquad =\Omega(1/m) 
+\end{align*}
 
-\[\expt[\Phi_m(\theta^Tw_j)^2] = \expt\left[\left(\sum_{i=1, i \, odd}^m c_i (\theta^Tw_j)^i\right)^2\right]\]
-
-\[ = \sum_{i,j \,odd} c_ic_j E[(\theta^Tw_j)^{i+j}] \geq \sum_{i,j \,odd}c_i c_j \Omega(1/(i+j)) \]
-
-\[=\Omega(1/m) \]
-
-Where we used the fact that $\sum_{i,j} c_ic_j = (\sum_i c_i)^2 = \Phi_m(1)^2 = 1$ and $E[(\theta^Tw_j)^{n}] \geq \Omega(1/n)$, which holds by integration by parts.
+Where we used the fact that
+$\sum_{i,j} c_ic_j = (\sum_i c_i)^2 = \Phi_m(1)^2 = 1$ and
+$E[(\theta^Tw_j)^{n}] \geq \Omega(1/n)$, which holds by integration by
+parts. \Snote{The last claim is not correct. $(\theta^Tw_j)^n$ is
+  $O(1/\sqrt{n})^n$ with high probability.}
 \end{proof}
 
 \begin{theorem}
@@ -289,3 +300,9 @@ For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such 
 
 \end{proof}
 \fi
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "icmlpaper2017.tex"
+%%% End:
