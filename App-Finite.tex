@@ -28,7 +28,7 @@ By standard concentration bounds and analysis,
 
 Taking $B = \poly(d,p,\log(c), \log(1/\epsilon))$ will make the second term $< \epsilon/2$, then the first term is also bounded by:
 \begin{align*}
-  \exptE[|f(X)|{\bf 1}_{\|X\|>B}] & \leq (2\pi)^d \int_B^\infty cr^pe^{-r^2/2}r^{d-1}\,dr \\
+  \expt[|f(X)|{\bf 1}_{\|X\|>B}] & \leq (2\pi)^d \int_B^\infty cr^pe^{-r^2/2}r^{d-1}\,dr \\
                                   &\leq C(2\pi)^dB^{p+d}e^{-B^2/2} < \epsilon/2
 \end{align*}
 \end{proof}

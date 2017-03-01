@@ -213,25 +213,33 @@ $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$.
 \end{lemma}
 %
 \begin{proof}
-Note that $\Phi_m$ is a degree $m$ polynomial with non-negative coefficients and it only has odd-degree terms. Since it is odd, $E[\Phi_m(\theta^Tw_i)] = 0$ and the cross terms in the expansion of the square vanish:
+  Note that $\Phi_m$ is a degree $m$ polynomial with non-negative
+  coefficients and it only has odd-degree terms. Since it is odd,
+  $\expt[\Phi_m(\theta^Tw_i)] = 0$ and the cross terms in the
+  expansion of the square vanish:
 %
-\[ \expt\left[\left(  \sum_{j=1}^k b_j
-     \Phi_m(\theta^Tw_j)\right)^2\right] = \sum_{j=1}^k b_j^2 \expt[\Phi_m(\theta^Tw_j)^2]\]
+  \[ \expt\left[\left( \sum_{j=1}^k b_j
+      \Phi_m(\theta^Tw_j)\right)^2\right] = \sum_{j=1}^k b_j^2
+  \expt[\Phi_m(\theta^Tw_j)^2]\]
 
 So, it suffices to show $\expt[\Phi_m(\theta,w_j)^2] \geq 1/m$.  Now, since $\Phi_m$ has non-negative coefficients,
 \begin{align*}
-& \expt[\Phi_m(\theta^Tw_j)^2] = \expt\left[\left(\sum_{i=1, i \,
-                               odd}^m c_i
-                               (\theta^Tw_j)^i\right)^2\right] \\
-& \qquad = \sum_{i,j \,odd} c_ic_j E[(\theta^Tw_j)^{i+j}] \geq \sum_{i,j
-  \,odd}c_i c_j \Omega(1/(i+j))  \\
-& \qquad =\Omega(1/d^m) 
+  & \expt[\Phi_m(\theta^Tw_j)^2] = \expt\left[\left(\sum_{i=1, i \,
+    odd}^m c_i
+    (\theta^Tw_j)^i\right)^2\right] \\
+  & \qquad = \sum_{i,j \,odd} c_ic_j \expt[(\theta^Tw_j)^{i+j}] \geq \sum_{i,j
+    \,odd}c_i c_j \Omega(1/d)^{i+j}  \\
+  & \qquad \ge\Omega(1/d)^{2m},
 \end{align*}
 
-Where we used the fact that
+where we used the fact that
 $\sum_{i,j} c_ic_j = (\sum_i c_i)^2 = \Phi_m(1)^2 = 1$ and
-$E[(\theta^Tw_j)^{n}] \geq \Omega(1/d^{n})$, which holds by noticing that with high probability $\theta^T w_j = \Omega(1/\sqrt{d})$. \Snote{The last claim is not correct. $(\theta^Tw_j)^n$ is
-  $O(1/\sqrt{n}^n$ with high probability.}
+$E[(\theta^Tw_j)^{n}] \geq \Omega(1/d^{n})$, which holds by noticing
+that with high probability $\theta^T w_j =
+\Omega(1/\sqrt{d})$.
+\Snote{Again, the last claim is not correct. It's only true with
+  constant probability. We need to find a good way to prove this lemma
+  formally. }
 \end{proof}
 
 \begin{lemma}\label{bigVariance}
@@ -240,17 +248,25 @@ Let $\Phi_m$ be as in Lemma \ref{AlmostHarmonic} and $b_1,...,b_k$ are $\poly(d)
  $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right]
  \geq e^{-O(d)}L(\boldsymbol{0,0})$
 \end{lemma}
-
+\Snote{Richard, I don't think the details here are sufficient to
+  understand the proof. Please elaborate, and fill in the missing details.}
 \begin{proof}
-Note that we may write
-
+We have
+%
 \[L(\boldsymbol{0,0}) =  \sum_{i=1}^k\sum_{j=1}^k b_i b_j \Phi(w_i, w_j) \]
 
-Therefore, we can find $i$, such that $|\sum_{j=1}^k b_j \Phi(w_i, w_j)| \geq L(\boldsymbol{0,0})/(kb_i)$. Since $b_i$ is $\poly(d)$-bounded and $\Phi$ is $m$-Lipschitz, we see that in a $\Omega(1/poly(d,m))$-neighborhood of $w_i$,
-
+Therefore, we can find $i$, such that
+$|\sum_{j=1}^k b_j \Phi(w_i, w_j)| \geq
+L(\boldsymbol{0,0})/(kb_i)$.
+Since $b_i$ is $\poly(d)$-bounded and $\Phi$ is
+$m$-Lipschitz~\Snote{where do we prove $m$-Lipschitz?}, we see
+that in a $\Omega(1/poly(d,m))$-neighborhood of $w_i$,
+%
 \[|\sum_{j=1}^k b_j \Phi(\theta, w_j)| \geq L(\boldsymbol{0,0})/poly(d) \]
 
-The probability $\theta$ randomly chosen would lie in this neighborhood is $e^{-O(d)}$, so we conclude.
+The probability $\theta$ randomly chosen would lie in this
+neighborhood is $e^{-O(d)}$, so we conclude. \Snote{How does the claim
+  about the square follow?} 
 \end{proof}
 
 \begin{theorem}
