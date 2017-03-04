@@ -28,8 +28,8 @@ By standard concentration bounds and analysis,
 
 Taking $B = \poly(d,p,\log(c), \log(1/\epsilon))$ will make the second term $< \epsilon/2$, then the first term is also bounded by:
 \begin{align*}
-  E[|f(X)|{\bf 1}_{\|X\|>B}] &\leq (2\pi)^d \int_B^\infty cr^pe^{-r^2/2}r^{d-1}\,dr \\
-                             &\leq C(2\pi)^dB^{p+d}e^{-B^2/2} < \epsilon/2
+  \expt[|f(X)|{\bf 1}_{\|X\|>B}] & \leq (2\pi)^d \int_B^\infty cr^pe^{-r^2/2}r^{d-1}\,dr \\
+                                  &\leq C(2\pi)^dB^{p+d}e^{-B^2/2} < \epsilon/2
 \end{align*}
 \end{proof}
 
@@ -126,7 +126,14 @@ To derive a finite iteration bound, we will apply stochastic gradient descent to
 
 
 \begin{theorem}\label{strongConverge}
-Let $L :\Omega \to \R$ be a twice differentiable function such that $|L(x)| \leq B, \|\nabla^2 L(x)\| \leq C,\|\nabla^2L(x) -\nabla^2L(y)\| \leq \rho\|x - y\|$ for all $x,y\in\Omega$. Also, assume that we access to stochastic function $\widehat{L}$ such that $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) = L(x)\|, \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$ for some $\epsilon < 1$ for all $x\in \Omega$.
+  Let $L :\Omega \to \R$ be a twice differentiable function such that
+  $|L(x)| \leq B, \|\nabla^2 L(x)\| \leq C,\|\nabla^2L(x)
+  -\nabla^2L(y)\| \leq \rho\|x - y\|$
+  for all $x,y\in\Omega$. Also, assume that we access to stochastic
+  function $\widehat{L}$ such that
+  $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) - L(x)\|,
+  \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$
+  for some $\epsilon < 1$ for all $x\in \Omega$.
 
 Then, we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_{L, \epsilon}$ after at most $\poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
 \end{theorem}
@@ -134,8 +141,9 @@ Then, we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta)
 The theorem proof builds on the following two lemmas in\cite{GeHJY15} , which allows us to make significant progress on the objective function. We adopt the notation in the paper where $\widetilde{O}, \widetilde{\Omega}$ drops factors polynomially dependent on parameters other than $\eta$. 
 
 \begin{lemma}(Lemma 7 in \cite{GeHJY15})\label{GeLem7}		
-Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq C\sqrt{\eta}$ and $C\sqrt{\eta} \leq \epsilon$, after one iteration $E[f(w_{t+1})] \leq f(w_t) - \widetilde{\Omega}(\eta^2)$.
-\end{lemma}
+Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq C\sqrt{\eta}$ and $C\sqrt{\eta} \leq \epsilon$, after one iteration $\expt[f(w_{t+1})] \leq f(w_t) - \widetilde{\Omega}(\eta^2)$.
+\end{lemma} \Snote{I assume this $\eta$ is not the same as in the
+  algorithm. Fix}
 
 \begin{lemma}(Lemma 9 in \cite{GeHJY15})\label{GeLem9}
 Under the assumptions of Theorem \ref{strongConverge}, for any point where $\|\nabla f(w_t)\|\leq C\sqrt{\eta}$ and $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, there is a number of steps $T$ such that $E[f(w_{t+T})] \leq f(w_t) - \widetilde{\Omega}(\eta)$ and $T \leq \widetilde{O}(1/\eta)$.
@@ -155,3 +163,10 @@ Finally, by our bounds on $\widehat{L}$ and $L$, we conclude that both
 $\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and $\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our algorithm succeeds with high probability.
 \end{proof}
 
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "icmlpaper2017.tex"
+%%% End:

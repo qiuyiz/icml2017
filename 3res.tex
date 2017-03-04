@@ -6,51 +6,49 @@ The gradient descent convergence results in the previous sections lay
 the foundation for reasoning about the convergence of stochastic
 gradient descent (SGD). To derive finite runtime bounds, we need to
 address three technical details: 1) realizable potentials are only
-approximately strictly subharmonic or $\lambda$-harmonic, 2) the
-variance of the stochastic gradient and 3) SGD should escape local
-minima in a bounded (hopefully polynomial) number of iterations. The
+approximately $\lambda$-harmonic, 2) the
+variance of the stochastic gradient should be small and 3) SGD should escape local
+minima in a bounded number of iterations. The
 second and third detail are analyzed with standard techniques in
 optimization and statistics: the former requires generalization bounds
 for neural networks and the latter requires a lower bound on the
-negative curvature, which leads to the follow definition.
-%
-\begin{definition} 
-Let $\Omega \subseteq \R^d$. A point $x^*$ is a
-  {\bf $\epsilon$-strict} point of $f : \Omega \to \R$ if f is twice
-  differentiable at $x^*$ and
-  $\lambda_{min}(\nabla^2f(x^*)) < -\epsilon$
-\end{definition}
+negative curvature. Together, we can show that running SGD after $\poly(d,1/\epsilon)$ iterations will allow us to learn at least one of the hidden weights $w_j$ up to $\epsilon$ accuracy.
 
-Note that if a critical point is not a local minimum, then it is
-$0$-strict. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are $\epsilon$-strict in $\poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_\epsilon$, where 
-%
-\[\mathcal{M}_{L, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
-  \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq
-  -\epsilon\right\}\]
-%
-We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is possible. The full description and proof of our SGD algorithm is given in the supplementary material. 
+\begin{theorem}\label{eigSGD}
+  Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be such that
+$||b||_2$ is $\Omega(1)$ and $O(poly(d))$, and $w_1,..,w_k$ are
+  randomly chosen from $\mathcal{M}$.  \Snote{Aren't $b_i$ from the
+    sphere, and hence have $\norm{b_i}_2 = 1$?}
 
-We now discuss convergence results for a almost $\lambda$-harmonic function on $S^{d-1}$ that is constructed in the following theorem. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
+  
+  With high probability, for all $\epsilon \in (0,1),$ there exists $m, \delta$ (that depends on $d$) such that for the $m$-almost $1$-harmonic potential $\Phi_m$ the
+  following holds: we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running SGD (Algorithm \ref{SGD}) on the regularized objective
+  $G(\boldsymbol{a,\theta})$, there exists an $i, j$ such that $|w_j^T\theta_i| > 1- \epsilon$ in $poly(d,1/\epsilon)$ iteration complexity and $d^{\poly(d, 1/\epsilon)}$ sample complexity.
+\end{theorem}
+%
+%
+We first discuss the construction of an almost $\lambda$-harmonic function on $S^{d-1}$, which retains the $\lambda$-harmonic properties when $\theta$ is far from $w_j$. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
+%
 %
 \begin{definition}
 $\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
 all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq \poly(m)|\theta^Tw|^m$ 
 \end{definition}
-
-
+%
+%
 \begin{restatable}{lemma}{almostHarmonic}\label{AlmostHarmonic}
-For any $m$, we can construct a realizable odd $m$-almost 1-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$.
-\end{restatable} \Snote{Can you generalize this theorem to $\lambda$-harmonic?}
+For any $m$ and $\lambda = \poly(m)$,  we can construct a realizable odd $m$-almost $\lambda$-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq 1$ for all $\theta, w \in S^{d-1}$ and all first, second, and third partial derivatives of $\Phi_m$ are bounded by $\poly(m)$.
+\end{restatable} \Snote{Can you generalize this theorem to $\lambda$-harmonic?}\Rnote{yes done}
 %
 %
-\begin{restatable}{lemma}{bounded}
-\label{bounded}
-  Let $L$ be as in Eq.~\eqref{errLoss} and let $b_1,...,b_k$ be reals
-  bounded by $\poly(d)$ and $|\Phi|\leq 1$ on $\mathcal{M}$. Let
-  $G = L + \beta\|a\|^2$. Then, if
-  $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then
-  $\|a\| \leq \poly(d)/\beta$.
-\end{restatable}
+%
+Our goal is to analyze running SGD on $L$ in \eqref{2} with a $m$-almost $\lambda$-harmonic potential. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and run SGD on $G = L + \beta \|a\|^2$. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are $\epsilon$-strict in $\poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_\epsilon$, where 
+%
+\[\mathcal{M}_{L, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
+  \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq
+  -\epsilon\right\}\]
+%
+We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is possible. The full description and proof of our SGD algorithm is given in the supplementary material. We show that we can initialize $(\boldsymbol{a,\theta})$ and run SGD on $G$ with a $m$-almost $\lambda$-harmonic potential leads to convergence of $\theta_i$ to $w_j$ for some $j$.
 %
 %
 \begin{restatable}{lemma}{eigConv}
@@ -64,7 +62,7 @@ potential $\Phi_m$ and let $G = L + \|a\|^2$.  If
 $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \delta^2 / (4d)}$ and
 $G(\boldsymbol{a,\theta}) \leq G(0,\boldsymbol{\theta})$, then for all
 $i$, either there exists $j$ such that
-$|w_j^T\theta_i| > 1- k^2\epsilon,$ or $|a_i| < \delta$.
+$|w_j^T\theta_i| > 1- k^2\epsilon,$ or $|a_i| < \delta$. Furthermore, unless all $|a_i| <\delta$,  there exists $i, j$ such that $|w_j^T\theta_i| > 1-\epsilon$.
 \end{restatable}
 %
 \begin{proof}
@@ -138,26 +136,26 @@ Since $D \geq 0$ and combined with the fact that $|a_i| > \delta$,
 & \leq   \sum_{i=1}^l  |a_i|(-2\delta + 3\delta/2) < -l\delta^2/4
 \end{align*}
 
-Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-l\delta^2/(4d) > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l {\textrm{ times}}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -l\delta^2/4d$. Since $w$ has $\|w\|^2 = l$, we conclude that $(\boldsymbol{a,\theta})$ is $\delta^2/(4d)$-strict, contradicting that it is in $\mathcal{M}_{G, \delta^2/(4d)}$. 
+Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-l\delta^2/(4d) > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l {\textrm{ times}}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -l\delta^2/4d$. Since $w$ has $\|w\|^2 = l$, $\lambda_{min}(\nabla^2 G) < -\delta^2/(4d)$, contradicting that it is in $\mathcal{M}_{G, \delta^2/(4d)}$. 
 
 Finally, it must be the case that there exists $\theta_{j_1},...\theta_{j_l}$ such that
 $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and
 $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and
 $|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore,
-$|\theta_i^Tw_j| > 1- k^2\epsilon$. 
+$|\theta_i^Tw_j| > 1- k^2\epsilon$ and unless all $|a_i| <\delta$,  there exists $i, j$ such that $|w_j^T\theta_i| > 1-\epsilon$.
 \end{proof}
 
-\begin{theorem}\label{eigRes}
+\begin{lemma}\label{eigRes}
   Assume the conditions of Theorem~\ref{eigConv}. If
 $G({\bf a, \boldsymbol{\theta}}) \leq G(0,\boldsymbol{\theta}) - 2\delta\sqrt{G(0,\boldsymbol{\theta})}$
   and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\delta^2/(4\poly(d))}$,
   then there exists some $i, j$ such that $\theta_i$ is in an
   $\epsilon$-neighborhood of $w_j$.
-\end{theorem}
+\end{lemma}
  
  \begin{proof}
    By Lemma \ref{eigConv}, if there does not exists $i, j$ such that
-   $|w_j^T\theta_i| > 1-k^2\epsilon$ is if for all $\theta_i$, then
+   $|w_j^T\theta_i| > 1-\epsilon$, then for all $\theta_i$, then
    $|a_i| < \delta/\poly(d)$ for all $i$. Now, for a integrable
    function $f(x)$, $\| f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a
    norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
@@ -168,77 +166,107 @@ $G({\bf a, \boldsymbol{\theta}}) \leq G(0,\boldsymbol{\theta}) - 2\delta\sqrt{G(
 & \geq
   \sqrt{G(0,\boldsymbol{\theta})} - \delta
 \end{align*}
-Squaring gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $k^2\epsilon$ neighborhood of $w_j$.
+Squaring gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $\epsilon$ neighborhood of $w_j$.
  \end{proof}
  
- \begin{observation}\label{initialize}
-Let $\theta_1$ be chosen uniformly from $\mathcal{M}$ and assume
-\[ \expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta_1,w_j)\right)^2\right] > 5\delta\sqrt{L(0,0)}\] 
-
-Then, we can initialize $\boldsymbol{a,\theta}$ such that $G({\bf a, \boldsymbol{\theta}}) \leq G(0,\boldsymbol{\theta}) - 2\delta\sqrt{G(0,\boldsymbol{\theta})}$ with high probability.
- \end{observation}
+ \begin{lemma}\label{initialize}
+Assume the conditions of Theorem~\ref{eigConv} and let $\theta_1$ be chosen uniformly from $\mathcal{M}$. Then, we can initialize $\boldsymbol{a,\theta}$ such that $G({\bf a, \boldsymbol{\theta}}) \leq G(0,\boldsymbol{\theta}) - 2\delta\sqrt{G(0,\boldsymbol{\theta})}$ with $\delta = 1/poly(d)$ with probability at least $e^{-O(d)}$.
+ \end{lemma}
  
  \begin{proof}
-   Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then
-   optimizing $a_1$. Notice that the expected loss decrease is:
+  Consider choosing $\theta_1$ uniformly from $\mathcal{M}$ and then
+  optimizing $a_1$. Given $\theta_1$, the loss decrease is:
 %
 \begin{align*}
-  \expt[ G(a_1,\theta_1)] - G(0,0) & = \expt\left [\min_{a_1} 2a_1^2 +
-  2\sum_{j=1}^k a_1 b_j\Phi(\theta_1,w_j)\right] \\
+   G(a_1,\theta_1) - G(0,0) & = \min_{a_1} 2a_1^2 +
+  2\sum_{j=1}^k a_1 b_j\Phi(\theta_1,w_j) \\
  %
- & = -\frac{1}{2}\expt\left[\left(  \sum_{j=1}^k b_j
-   \Phi(\theta,w_j)\right)^2\right] 
+ & = -\frac{1}{2}\left(  \sum_{j=1}^k b_j
+   \Phi(\theta,w_j)\right)^2 
 \end{align*}
-Let
-$h(\theta) = \sum_i b_i \Phi(\theta, w_i)$. Since $a_i,b_i, \Phi$ are
-$\poly(d)$-bounded, our random variable $h(\theta)$ is
-$\poly(d)$-bounded. From Hoeffding bounds, we see that after
-$\poly(d,1/\delta)$ samples, we know that
-$\hat{\expt}h(\theta)^2 \geq 2\delta\sqrt{G(0,0)}$, where
-$\hat{\expt}$ denotes the empirical average over $\theta$. Therefore,
-we must have found some $\theta$ such that
-$h(\theta)^2 \geq 2\delta \sqrt{G(0,0)}$. Therefore,
-$G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$.
+
+Next, we can rewrite our loss as
+%
+\[L(\boldsymbol{0,0}) =  \sum_{i=1}^k\sum_{j=1}^k b_i b_j \Phi_m(w_i, w_j) \]
+
+Therefore, we can find $i$, such that
+$|\sum_{j=1}^k b_j \Phi_m(w_i, w_j)| \geq
+L(\boldsymbol{0,0})/(kb_i)$. Now, notice that all first partials of $\Phi$ are $\poly(m)$-bounded, so $\Phi$ is $\poly(d, m)$- Lipschitz. Since $b_i$ is $\poly(d)$-bounded and $\Phi$ is $\poly(d,m)$-Lipschitz, we see
+that in a $\Omega(1/poly(d,m))$-neighborhood of $w_i$,
+%
+\[|\sum_{j=1}^k b_j \Phi(\theta, w_j)| \geq L(\boldsymbol{0,0})/poly(d) \]
+
+The probability $\theta$ randomly chosen would lie in this
+neighborhood $\mathcal{N}$ is $e^{-O(d)}$ (as the surface area of $S^{d-1}$ grow exponentially in $d$), so we conclude that we probability at least $e^{-O(d)}$, we can initialize $(\boldsymbol{a,\theta})$ such that 
+%
+\[G({\bf a, \boldsymbol{\theta}}) \leq G(0,\boldsymbol{\theta}) - \frac{1}{\poly(d)}G(0,\boldsymbol{\theta})^2\]
+
+\Rnote{Then, we need to argue that $G(0,\theta)$ is large for random $w$ or random $b$}
 \end{proof}
 
+We now proceed with the proof of our main theorem.
+
+\begin{proof}[Proof of Theorem \ref{eigSGD}]
+We choose $m = O(\log d \log (1/\delta)/\epsilon)$. By Lemma \ref{initialize}, we can initialize $\boldsymbol{a,\theta}$ such that $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ for $\delta = 1/poly(d)$ after $e^{O(d)}$ samples by applying standard probabilistic bounds.
+
+Next, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi_m$ and the second and third partials of $\Phi_m$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon)$ iterations. Finally, we conclude by Theorem \ref{eigRes}.
+\end{proof}
+%
+\Rnote{Add this to make a better theorem statement?}
+In the end, we can further combine Theorem \ref{eigSGD} with Algorithm \ref{GDReset} to derive a convergence result that all $\theta_i$ will be close to some $w_j$.
+ 
+ \begin{algorithm}[tb]
+ \caption{SGD Algorithm with Resets}
+   \label{GDReset}
+\begin{algorithmic}
+  \STATE {\bfseries Input:}
+  $(\boldsymbol{a,\theta}) = (a_1,...,a_k,\theta_1,...,\theta_k), a_i
+  \in\R, \theta_i\in\mathcal{M}$;
+  $T\in \N$; $\widehat{L}$; $\alpha\in \R$; $\delta \in \R$;
+  $\gamma \in R$; $\nu \in \R$ \vspace{0.1in} 
+  \FOR{$i=1$ {\bfseries to} $k$} 
+  \STATE $(\boldsymbol{a},\boldsymbol{\theta}) = SGD \left(\widehat{L}, (\boldsymbol{a},\boldsymbol{\theta}),T, \alpha,\delta \right)$
+  \IF{$|a_j| < \nu$}
+    \STATE $a_j = 0$
+    \REPEAT \STATE Sample $\theta_j$
+  uniformly from $\mathcal{M}$
+  \UNTIL{$\left (\frac{\partial
+        \widehat{L}(\boldsymbol{a,\theta_j})}{\partial a_j} \right)^2
+    \geq \gamma$}
+    \ELSE \STATE  {\bf return} $(\boldsymbol{a}, \boldsymbol{\theta}) $
+      \ENDIF
+    \ENDFOR
+   \STATE {\bf return} $(\boldsymbol{a}, \boldsymbol{\theta}) $
+   \end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}
+For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{GDReset} on \eqref{errLoss} with error $\delta = \poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/\poly(d,1/\epsilon)$ converges in $T = \poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that each $\theta_i$ is within $\epsilon$-neighborhood of some $w_j$.
+\end{theorem}
+
+
+
+
+
+\if{1}
 
 \begin{lemma}\label{bigVariance}
 Let $\Phi_m$ be as in Lemma \ref{AlmostHarmonic} and $b_1,...,b_k$ are $\poly(d)$-bounded. Let $\theta$ be uniformly randomly chosen on $S^{d-1}$. Then,
  
- $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right]
+ $\expt\left[\left(  \sum_{j=1}^k b_j \Phi_m(\theta,w_j)\right)^2\right]
  \geq e^{-O(d)}L(\boldsymbol{0,0})$
 \end{lemma}
-
+\Snote{Richard, I don't think the details here are sufficient to
+  understand the proof. Please elaborate, and fill in the missing details.}
 \begin{proof}
-Note that we may write
-
-\[L(\boldsymbol{0,0}) =  \sum_{i=1}^k\sum_{j=1}^k b_i b_j \Phi(w_i, w_j) \]
-
-Therefore, we can find $i$, such that $|\sum_{j=1}^k b_j \Phi(w_i, w_j)| \geq L(\boldsymbol{0,0})/(kb_i)$. Since $b_i$ is $\poly(d)$-bounded and $\Phi$ is $m$-Lipschitz, we see that in a $\Omega(1/poly(d,m))$-neighborhood of $w_i$,
-
-\[|\sum_{j=1}^k b_j \Phi(\theta, w_j)| \geq L(\boldsymbol{0,0})/poly(d) \]
-
-The probability $\theta$ randomly chosen would lie in this neighborhood is $e^{-O(d)}$, so we conclude.
+ that 
+\[\expt[(  \sum_{j=1}^k b_j \Phi_m(\theta,w_j))^2]
+ \geq \prob(\theta \in \mathcal{N})\expt[(\sum_{j=1}^k b_j \Phi(\theta, w_j))^2 | \theta \in \mathcal{N}]\]
+\[\geq e^{-O(d)} L(\boldsymbol{0,0})\]
+ \Snote{How does the claim
+  about the square follow?} 
 \end{proof}
-
-\begin{theorem}
-  Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be such that
-  $||{\bf b}||_2$ is $\Omega(1)$ and $O(poly(d))$, and $w_1,..,w_k$ are
-  randomly chosen from $\mathcal{M}$. 
-  
-  With high probability, for all $\epsilon \in (0,1),$ there exists $m, \delta$ (that depends on $d$) such that for the $m$-almost $1$-harmonic potential $\Phi_m$ the
-  following holds: we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running SGD (Algorithm \ref{SGD}) on the regularized objective
-  $G(\boldsymbol{a,\theta})$, there exists an $i, j$ such that $|w_j^T\theta_i| > 1- k^2\epsilon$ in $e^{O(d)}poly(1/\epsilon)$ iteration complexity and $d^{\poly(d, 1/\epsilon)}$ sample complexity.
-\end{theorem}
-
-\begin{proof}
-We choose $m = O(\log d \log (1/\delta)/\epsilon)$. Combining Observation \ref{initialize} and Lemma \ref{bigVariance}, we can initialize $\boldsymbol{a,\theta}$ such that $G(\boldsymbol{a,\theta}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ for $\delta = e^{-O(d)}$.
-
-Next, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi$ and the second and third partials of $\Phi$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(e^{O(d)},1/\epsilon)$ iterations. Finally, we conclude by Theorem \ref{eigRes}.
-\end{proof}
-
-
-
+\fi
 
 
  \if{1}
@@ -275,45 +303,8 @@ $E[(\theta^Tw_j)^{n}] \geq \Omega(1/d^{n})$, which holds by noticing that with h
   $O(1/\sqrt{n}^n$ with high probability.}
 \end{proof}
 \fi
- \if{1}
- In the end, we can combine Theorem \ref{eigRes} with Algorithm \ref{GDReset} to derive a convergence result.
- 
- \begin{algorithm}[tb]
- \caption{SGD Algorithm with Resets}
-   \label{GDReset}
-\begin{algorithmic}
-  \STATE {\bfseries Input:}
-  $(\boldsymbol{a,\theta}) = (a_1,...,a_k,\theta_1,...,\theta_k), a_i
-  \in\R, \theta_i\in\mathcal{M}$;
-  $T\in \N$; $\widehat{L}$; $\alpha\in \R$; $\delta \in \R$;
-  $\gamma \in R$; $S \in \R$ \vspace{0.1in} 
-  \FOR{$i=1$ {\bfseries to} $S$} 
-  \STATE $(\boldsymbol{a},\boldsymbol{\theta}) = SGD \left(\widehat{L}, (\boldsymbol{a},\boldsymbol{\theta}),T, \alpha,\delta \right)$
-  \IF{(ii) or (iii)}
-    \STATE remove clump
-    \REPEAT \STATE Sample $\theta_i$
-  uniformly from $\mathcal{M}$
-  \UNTIL{$\left (\frac{\partial
-        \widehat{L}(\boldsymbol{a,\theta})}{\partial a_i} \right)^2
-    \geq \gamma$}
-    \ELSE \STATE  {\bf return} $(\boldsymbol{a}, \boldsymbol{\theta}) $
-      \ENDIF
-    \ENDFOR
-   \STATE {\bf return} $(\boldsymbol{a}, \boldsymbol{\theta}) $
-   \end{algorithmic}
-\end{algorithm}
-
-\begin{theorem}
-For any $0 < \epsilon < 1$, we can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{GDReset} on \eqref{errLoss} with error $\delta = \poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/\poly(d,1/\epsilon)$ converges in $T = \poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that each $\theta_i$ is within $\epsilon$-neighborhood of some $w_j$ or there exists $i$ such that if $\theta_i$ is picked uniformly in $\mathcal{M}$
-%
-\[ \expt\left[\left( \sum_{j < i} a_j \Phi(\theta_i,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\]
-\end{theorem}
-
-\begin{proof}
 
 
-\end{proof}
-\fi
 
 
 %%% Local Variables:
