@@ -110,8 +110,8 @@ To derive a finite iteration bound, we will apply stochastic gradient descent to
    \vspace{.1in}
    \STATE {\bf Initialize} $x = x_0$
    \FOR{$i=1$ {\bfseries to} $T$}
-   \STATE Sample $\eta$ uniformly on unit sphere.
-   \STATE $x = x - \alpha(\nabla \widehat{L} (x)+\eta)$ 
+   \STATE Sample $\omega$ uniformly on unit sphere.
+   \STATE $x = x - \alpha(\nabla \widehat{L} (x)+\omega)$ 
    \STATE $x = \Pi_\mathcal{M} x$
    \IF{$\|\nabla\widehat{L}(x)\|\leq 2\epsilon/3$ {\bf and} $\lambda_{min}(\nabla^2\widehat{L}(x)) \geq -2\epsilon/3$}
    \STATE {\bf return} $x$
@@ -135,7 +135,7 @@ To derive a finite iteration bound, we will apply stochastic gradient descent to
   \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$
   for some $\epsilon < 1$ for all $x\in \Omega$.
 
-Then, we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ with stepsize $\eta$  returns a point that is in $\mathcal{M}_{L, \epsilon}$ after at most $\poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations.
+Then, we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{L, \epsilon}$ after at most $T = \poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations. Furthermore, $L(a,x_T) \leq L(a, x_0)$ with high probability.
 \end{theorem}
 
 The theorem proof builds on the following two lemmas in\cite{GeHJY15} , which allows us to make significant progress on the objective function. We adopt the notation in the paper where $\widetilde{O}, \widetilde{\Omega}$ drops factors polynomially dependent on parameters other than $\eta$. 
@@ -143,7 +143,7 @@ The theorem proof builds on the following two lemmas in\cite{GeHJY15} , which al
 \begin{lemma}(Lemma 7 in \cite{GeHJY15})\label{GeLem7}		
 Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq C\sqrt{\eta}$ and $C\sqrt{\eta} \leq \epsilon$, after one iteration $\expt[f(w_{t+1})] \leq f(w_t) - \widetilde{\Omega}(\eta^2)$.
 \end{lemma} \Snote{I assume this $\eta$ is not the same as in the
-  algorithm. Fix}
+  algorithm. Fix} \Rnote{It's the same as in Thm \ref{strongConverge}}
 
 \begin{lemma}(Lemma 9 in \cite{GeHJY15})\label{GeLem9}
 Under the assumptions of Theorem \ref{strongConverge}, for any point where $\|\nabla f(w_t)\|\leq C\sqrt{\eta}$ and $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, there is a number of steps $T$ such that $E[f(w_{t+T})] \leq f(w_t) - \widetilde{\Omega}(\eta)$ and $T \leq \widetilde{O}(1/\eta)$.
@@ -157,7 +157,7 @@ $x_i \not \in\mathcal{M}_{\epsilon/3}$ for all the iterations, then in
 expectation, our objective function decreases by $poly(\eta)$ and is a strict supermartingale. By using Azuma's inequality, this occurs with probability
 $1-\zeta$ in $poly(\eta,\log(1/\zeta))$ iterations. Since our objective function is bounded by $\poly(d,B)$, we conclude that stochastic gradient descent must have encountered a
 point $x_i$ such that $x_i \in \mathcal{M}_{\epsilon/3}$ after at most
-$\poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. 
+$\poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. These lemmas also imply that $L(x_i) \leq L(x_0)$ with high probability.
 
 Finally, by our bounds on $\widehat{L}$ and $L$, we conclude that both
 $\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and $\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our algorithm succeeds with high probability.

@@ -63,7 +63,7 @@ When the output weights are variable, notice that our convergence results often 
 
 First, we need some control on the size of the squares of variable charges, $a_i^2$. Node-wise gradient descent allows us to maintain that control. We will work with \eqref{errEmp} and let $\widehat{\Phi}$ be the empirical potential function.
 
-\begin{theorem}\label{nonDecrease}
+\begin{theorem}\label{nonDecrease} \Rnote{Can be simplified}
   Let $\widehat{\Phi}(\theta, w)$ be $\poly(d)$-Lipschitz in $\theta$,
   $|\widehat{\Phi}| \leq \poly(d)$ on $\mathcal{M}$, and $\sum_{j \neq i} |a_j| + \sum_j |b_j| \leq \poly(d)$. Also, assume that if $\theta_i$ is drawn uniformly on $\mathcal{M}$,
 %
