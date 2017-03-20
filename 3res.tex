@@ -6,17 +6,18 @@ The gradient descent convergence results in the previous sections lay
 the foundation for reasoning about the convergence of stochastic
 gradient descent (SGD). To derive finite runtime bounds, we need to
 address three technical details: 1) realizable potentials are only
-approximately $\lambda$-harmonic, 2) the
-variance of the stochastic gradient should be small and 3) SGD should escape local
-minima in a bounded number of iterations. The
-second and third detail are analyzed with standard techniques in
-optimization and statistics: the former requires generalization bounds
-for neural networks and the latter requires a lower bound on the
-negative curvature. Together, we will show that running SGD after $\poly(d,1/\epsilon)$ iterations on an almost $\lambda$-harmonic potential will allow us to learn at least one of the hidden weights $w_j$ up to $\epsilon$ accuracy.
-
+approximately $\lambda$-harmonic, 2) the variance of the stochastic
+gradient should be small and 3) SGD should escape local minima in a
+bounded number of iterations. The second and third details are analyzed
+with standard techniques in optimization and statistics; the former
+requires generalization bounds for neural networks and the latter
+requires a lower bound on the negative curvature. Together, we will
+show that running SGD after $\poly(d,1/\epsilon)$ iterations on an
+almost $\lambda$-harmonic potential will allow us to learn at least
+one of the hidden weights $w_j$ up to $\epsilon$ accuracy.
+%
 \begin{theorem}\label{eigSGD}
-  Let $\mathcal{M} = S^{d-1}$ and $b_1,...,b_k$ be bounded by $\poly(d)$ and $w_1,..,w_k$ are randomly chosen from $\mathcal{M}$.  \Snote{Aren't $b_i$ from the
-    sphere, and hence have $\norm{b_i}_2 = 1$?}\Rnote{Actually, it turns out now that they just have to be bounded by poly(d)}
+  Let $\mathcal{M} = S^{d-1}$ and $b_1,...,b_k$ be bounded by $\poly(d)$ and $w_1,..,w_k$ are randomly chosen from $\mathcal{M}$.  
 
   With high probability, for all $\epsilon \in (0,1),$ there exists $m, \delta, \alpha$ (that depends on $d$) such that for the $m$-almost $1$-harmonic potential $\Phi_m$ the
   following holds: we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running SGD (Algorithm \ref{SGD}) on the regularized objective
@@ -24,18 +25,23 @@ negative curvature. Together, we will show that running SGD after $\poly(d,1/\ep
 \end{theorem}
 %
 %
-We first discuss the construction of an almost $\lambda$-harmonic function on $S^{d-1}$, which retains the $\lambda$-harmonic properties when $\theta$ is far from $w_j$. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
-%
+We first state a lemma concerning the construction of an almost
+$\lambda$-harmonic function on $S^{d-1}.$ The construction is given in
+Section~\ref{App:EigenFunc} and is based on truncating the taylor
+series expansion of a solution to the $\lambda$-harmonic differential
+equation. This results in a bounded degree polynomial which
+(approximately) satisfies the guarantees of $\lambda$-harmonic
+potentials when $\theta$ is far from $w_j$. 
 %
 \begin{definition}
-$\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
+$\Phi(\theta, w)$ is an $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
 all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq \poly(m)|\theta^Tw|^m$ 
 \end{definition}
 %
 %
 \begin{restatable}{lemma}{almostHarmonic}\label{AlmostHarmonic}
-For any $m$ and $\lambda = \poly(m)$,  we can construct a realizable odd $m$-almost $\lambda$-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq |\theta^Tw|$ for all $\theta, w \in S^{d-1}$ and all first, second, and third partial derivatives of $\Phi_m$ are bounded by $\poly(m)$.
-\end{restatable} \Snote{Can you generalize this theorem to $\lambda$-harmonic?}\Rnote{yes done}
+For any $m$ and $\lambda = O(\poly(m))$,  we can construct a realizable odd $m$-almost $\lambda$-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq |\theta^Tw|$ for all $\theta, w \in S^{d-1}$ and all first, second, and third partial derivatives of $\Phi_m$ are bounded by $\poly(m)$.
+\end{restatable} 
 %
 %
 %
@@ -60,8 +66,10 @@ Let $L$ be as in \eqref{errLoss} with an $m$-almost 1-harmonic
 potential $\Phi_m$ and let $G = L + \|a\|^2$.  If
 $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \delta^2 / (4d)}$ and
 $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0, 0})$, then for all
-$i$, either there exists $j$ such that
-$|w_j^T\theta_i| > 1- k^2\epsilon,$ or $|a_i| < \delta$. Furthermore, unless all $|a_i| <\delta$,  there exists $i, j$ such that $|w_j^T\theta_i| > 1-\epsilon$.
+$i$, either $|a_i| < \delta,$ or there exists $j$ such that
+$|w_j^T\theta_i| > 1- k^2\epsilon.$ Furthermore,
+unless all $|a_i| <\delta$, there exists $i, j$ such that
+$|w_j^T\theta_i| > 1-\epsilon$.
 \end{restatable}
 %
 \begin{proof}
