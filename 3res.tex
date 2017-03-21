@@ -15,15 +15,7 @@ requires a lower bound on the negative curvature. Together, we will
 show that running SGD after $\poly(d,1/\epsilon)$ iterations on an
 almost $\lambda$-harmonic potential will allow us to learn at least
 one of the hidden weights $w_j$ up to $\epsilon$ accuracy.
-%
-\begin{theorem}\label{eigSGD}
-  Let $\mathcal{M} = S^{d-1}$ and $b_1,...,b_k$ be bounded by $\poly(d)$ and $w_1,..,w_k$ are randomly chosen from $\mathcal{M}$.  
 
-  With high probability, for all $\epsilon \in (0,1),$ there exists $m, \delta, \alpha$ (that depends on $d$) such that for the $m$-almost $1$-harmonic potential $\Phi_m$ the
-  following holds: we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running SGD (Algorithm \ref{SGD}) on the regularized objective
-  $G(\boldsymbol{a,\theta})$ such that either 1) $G(\boldsymbol{a,\theta}) \leq \epsilon$ or 2) there exists an $i, j$ such that $|w_j^T\theta_i| > 1- \epsilon$ in $poly(d,1/\epsilon)$ iteration complexity and $d^{\poly(d, 1/\epsilon)}$ sample complexity.
-\end{theorem}
-%
 %
 We first state a lemma concerning the construction of an almost
 $\lambda$-harmonic function on $S^{d-1}.$ The construction is given in
@@ -43,24 +35,32 @@ all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\th
 For any $m$ and $\lambda = O(\poly(m))$,  we can construct a realizable odd $m$-almost $\lambda$-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq |\theta^Tw|$ for all $\theta, w \in S^{d-1}$ and all first, second, and third partial derivatives of $\Phi_m$ are bounded by $\poly(m)$.
 \end{restatable} 
 %
-%
-%
-Our goal is to analyze running SGD on $L$ (as in \eqref{errLoss}) with a $m$-almost $\lambda$-harmonic potential. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are have a negative curvature of at least $\epsilon$ in $\poly(1/\epsilon)$ iterations, resulting in the following Lemma. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_{L, \epsilon}$, where 
-%
-\[\mathcal{M}_{L, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
-  \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq
-  -\epsilon\right\}\]
-%
-We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is also a tractable algorithm to converge to $\mathcal{M}_{L,\epsilon}$. The full description and proof of our SGD algorithm is given in the supplementary material. 
-
-\begin{restatable}{lemma}{strongConverge2}\label{strongConverge2}  
-We can construct a $m$-almost $\lambda$-harmonic potential $\Phi_m$ for which
-we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{L, \epsilon}$ after at most $T = \poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations. 
-% Furthermore, $L(a,x_T) \leq L(a, x_0)$ with high probability. 
-\end{restatable}
-
 To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run SGD on $G = L + \|a\|^2$. Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
 %
+\begin{theorem}\label{eigSGD}
+  Let $\mathcal{M} = S^{d-1}$ and $b_1,...,b_k$ be bounded by $\poly(d)$ and $w_1,..,w_k$ are randomly chosen from $\mathcal{M}$.  
+
+  With high probability, for all $\epsilon \in (0,1),$ there exists $m, \delta, \alpha$ (that depends on $d$) such that for the $m$-almost $1$-harmonic potential $\Phi_m$ the
+  following holds: we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running SGD (Algorithm \ref{SGD}) on the regularized objective
+  $G(\boldsymbol{a,\theta})$ such that either 1) $G(\boldsymbol{a,\theta}) \leq \epsilon$ or 2) there exists an $i, j$ such that $|w_j^T\theta_i| > 1- \epsilon$ in $poly(d,1/\epsilon)$ iteration complexity and $d^{\poly(d, 1/\epsilon)}$ sample complexity.
+\end{theorem}
+%
+%
+%
+Our goal is to analyze running SGD on $G$ (as in \eqref{errLoss}) with a $m$-almost $\lambda$-harmonic potential. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are have a negative curvature of at least $\epsilon$ in $\poly(1/\epsilon)$ iterations, resulting in the following Lemma. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_{G, \epsilon}$, where 
+%
+\[\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
+  \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 G(x)) \geq
+  -\epsilon\right\}\]
+%
+We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is also a tractable algorithm to converge to $\mathcal{M}_{G,\epsilon}$. The full description and proof of our SGD algorithm is given in the supplementary material. 
+
+%
+\begin{restatable}{lemma}{strongConverge2}\label{strongConverge2}  
+We can construct a $m$-almost $\lambda$-harmonic potential $\Phi_m$ for which
+we can choose stepsize $\eta = 1/\poly(d,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{G}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{G, \epsilon}$ after at most $T = \poly(d,1/\epsilon, \log(1/\zeta))$ iterations. 
+ Furthermore, $G(a,x_T) \leq G(a, x_0)$ with high probability. 
+\end{restatable}
 %
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
@@ -278,10 +278,12 @@ $E[(\theta^Tw_j)^{n}] \geq \Omega(1/d^{n})$, which holds by noticing that with h
 \fi 
  
 \begin{proof}[Proof of Theorem \ref{eigSGD}]
-Theorem \ref{strongConverge2} ensures that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon)$ iterations.
-If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Theorem~\ref{strongConverge}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{initialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ for $\delta = 1/\poly(d,1/\epsilon)$ after $e^{O(d)}$ samples by applying standard probabilistic bounds. Finally, we conclude by Theorem \ref{eigRes}.
+Lemma~\ref{strongConverge2} ensures that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon)$ iterations.
+If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Lemma~\ref{strongConverge2}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{initialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G(0,0) - 2\delta \sqrt{G(0,0)}$ for $\delta = 1/\poly(d,1/\epsilon)$ after $e^{O(d\log d)}$ samples by applying standard probabilistic bounds. Finally, we conclude by Theorem \ref{eigRes}.
 \end{proof}
 %
+
+\if{1}
 
 \Rnote{From here begins the reset algorithm...perhaps better with node-wise algorithm...}
 
@@ -326,6 +328,7 @@ If the algorithm returns $\boldsymbol{a,\theta}$ such that $\widehat{L}(\boldsym
 Otherwise, by Theorem \ref{eigSGD}, 
 \end{proof}
 
+\fi
 
 
 
