@@ -102,24 +102,7 @@ union bound to derive our claim.
 \subsection{Finite Iteration Bounds} 
 To derive a finite iteration bound, we will apply stochastic gradient descent to our objective function and use standard martingale techniques for analysis. We will need to slightly alter the main result in \cite{GeHJY15} because we lack strong convexity assumptions. Also, we will accordingly alter the stochastic gradient descent algorithm to terminate upon finding a critical point that is $\gamma$-strict, for small $\gamma$.
 %
-\begin{algorithm}[hb]
- \caption{$x = SGD(\widehat{L}, x_0, T,\alpha,\epsilon)$}
-   \label{SGD}
-\begin{algorithmic}
-   \STATE {\bfseries Input:} $\widehat{L}:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
-   \vspace{.1in}
-   \STATE {\bf Initialize} $x = x_0$
-   \FOR{$i=1$ {\bfseries to} $T$}
-   \STATE Sample $\omega$ uniformly on unit sphere.
-   \STATE $x = x - \alpha(\nabla \widehat{L} (x)+\omega)$ 
-   \STATE $x = \Pi_\mathcal{M} x$
-   \IF{$\|\nabla\widehat{L}(x)\|\leq 2\epsilon/3$ {\bf and} $\lambda_{min}(\nabla^2\widehat{L}(x)) \geq -2\epsilon/3$}
-   \STATE {\bf return} $x$
-   \ENDIF
-   \ENDFOR
-   \STATE {\bf return} FAIL
-\end{algorithmic}
-\end{algorithm}
+
 
 
 
@@ -163,12 +146,8 @@ Finally, by our bounds on $\widehat{L}$ and $L$, we conclude that both
 $\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and $\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our algorithm succeeds with high probability.
 \end{proof}
 
+\strongConvergeTwo*
 
-\begin{restatable}{lemma}{strongConverge2}\label{strongConverge2}  
-There exists a $m$-almost $\lambda$-harmonic potential for which
-we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{L, \epsilon}$ after at most $T = \poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations. 
-% Furthermore, $L(a,x_T) \leq L(a, x_0)$ with high probability. 
-\end{restatable}
 \begin{proof}
 We will choose $\delta, \alpha = 1/\poly(d,1/\epsilon)$ and $m = O(\log d \log (1/\delta)/\epsilon)$. First, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi_m$ and the second and third partials of $\Phi_m$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}\Rnote{cite something better than wikipedia, a}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon/3$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon,1/\delta)$ iterations.
 \end{proof}

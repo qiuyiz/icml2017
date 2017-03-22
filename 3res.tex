@@ -35,7 +35,32 @@ all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\th
 For any $m$ and $\lambda = O(\poly(m))$,  we can construct a realizable odd $m$-almost $\lambda$-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq |\theta^Tw|$ for all $\theta, w \in S^{d-1}$ and all first, second, and third partial derivatives of $\Phi_m$ are bounded by $\poly(m)$.
 \end{restatable} 
 %
-To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run SGD on $G = L + \|a\|^2$. Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
+To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run SGD on $G = L + \|a\|^2$. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are have a negative curvature of at least $\epsilon$ in $\poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_{G, \epsilon}$, where 
+%
+\[\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
+  \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 G(x)) \geq
+  -\epsilon\right\}\]
+%
+Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
+%
+\begin{algorithm}[hb]
+ \caption{$x = SGD(\widehat{L}, x_0, T,\alpha,\epsilon)$}
+   \label{SGD}
+\begin{algorithmic}
+   \STATE {\bfseries Input:} $\widehat{L}:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
+   \vspace{.1in}
+   \STATE {\bf Initialize} $x = x_0$
+   \FOR{$i=1$ {\bfseries to} $T$}
+   \STATE Sample $\omega$ uniformly on unit sphere.
+   \STATE $x = x - \alpha(\nabla \widehat{L} (x)+\omega)$ 
+   \STATE $x = \Pi_\mathcal{M} x$
+   \IF{$\|\nabla\widehat{L}(x)\|\leq 2\epsilon/3$ {\bf and} $\lambda_{min}(\nabla^2\widehat{L}(x)) \geq -2\epsilon/3$}
+   \STATE {\bf return} $x$
+   \ENDIF
+   \ENDFOR
+   \STATE {\bf return} FAIL
+\end{algorithmic}
+\end{algorithm}
 %
 \begin{theorem}\label{eigSGD}
   Let $\mathcal{M} = S^{d-1}$ and $b_1,...,b_k$ be bounded by $\poly(d)$ and $w_1,..,w_k$ are randomly chosen from $\mathcal{M}$.  
@@ -47,16 +72,8 @@ To make sure that $\|a\|$ remains controlled throughout the optimization process
 %
 %
 %
-Our goal is to analyze running SGD on $G$ (as in \eqref{errLoss}) with a $m$-almost $\lambda$-harmonic potential. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are have a negative curvature of at least $\epsilon$ in $\poly(1/\epsilon)$ iterations, resulting in the following Lemma. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_{G, \epsilon}$, where 
 %
-\[\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
-  \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 G(x)) \geq
-  -\epsilon\right\}\]
-%
-We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is also a tractable algorithm to converge to $\mathcal{M}_{G,\epsilon}$. The full description and proof of our SGD algorithm is given in the supplementary material. 
-
-%
-\begin{restatable}{lemma}{strongConverge2}\label{strongConverge2}  
+\begin{restatable}{lemma}{strongConvergeTwo}\label{strongConvergeTwo}  
 We can construct a $m$-almost $\lambda$-harmonic potential $\Phi_m$ for which
 we can choose stepsize $\eta = 1/\poly(d,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{G}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{G, \epsilon}$ after at most $T = \poly(d,1/\epsilon, \log(1/\zeta))$ iterations. 
  Furthermore, $G(a,x_T) \leq G(a, x_0)$ with high probability. 
@@ -65,12 +82,12 @@ we can choose stepsize $\eta = 1/\poly(d,1/\epsilon,\log(1/\zeta))$, such that w
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
 Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by
-$\poly(d)$. For all $\epsilon \in (0,1),$ we can pick
+$\poly(d)$. For all $\epsilon,\delta \in (0,1),$ we can pick
 $m = O(\log(d)\log(1/\delta)/\epsilon)$ such that the following holds:
 
 Let $L$ be as in \eqref{errLoss} with an $m$-almost 1-harmonic
 potential $\Phi_m$ and let $G = L + \|a\|^2$.  If
-$(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \delta^2 / (4d)}$ and
+$(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \poly(\delta,1/d)}$ and
 $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0, 0})$, then for all
 $i$, either $|a_i| < \delta,$ or there exists $j$ such that
 $|w_j^T\theta_i| > 1- k^2\epsilon.$ Furthermore,
@@ -79,18 +96,15 @@ $|w_j^T\theta_i| > 1-\epsilon$.
 \end{restatable}
 %
 \begin{proof}
-  The proof is similar to Theorem \ref{EigStrict}. Consider all
-  $\theta_i$ such that $|a_i| > \delta$ and
-  $|w_j^T\theta_i| \leq 1-\epsilon$ for all $j$. WLOG, let these be
-  $\theta_1,...,\theta_l$, for some $l \leq k$. Assume for now that
-  furthermore, $|\theta_i^T\theta_j| \leq 1-\epsilon$ for
-  $i \leq l, j\geq l+1$.  Then, consider a correlated rotation on the
+  The proof is similar to Theorem \ref{EigStrict}. Let $T \subseteq [k]$ be the subset of $\theta_i$ such that $|a_i| > \poly(\delta,1/d)$ for $i \in T$. Assume there is a non-empty subset $S \subseteq T$ such that for each $i \in S$, $|w_j^T\theta_i| \leq 1-\epsilon$ for all $j$, and $|\theta_i ^T\theta_j| \leq 1-\epsilon$ for all $j\in T/S$. Assume such a subset $S$ exists and WLOG, let $S = \{1,\dots,l\}$. We claim that all $|a_i| < \delta$ for all $i \in S$. 
+  
+  Then, consider a correlated rotation on the
   sphere, which is a correlated translation in spherical
   coordinates. So, consider the loss function 
 %
 \[ H({\bf a, v}) = G({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
-Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \delta^2/(4d)}$. Then,
+Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \poly(\delta,1/d)}$. Then,
 the optimality conditions on ${\bf a}$ are as usual:
 %
 \begin{align*}
@@ -98,7 +112,7 @@ the optimality conditions on ${\bf a}$ are as usual:
     2\sum_{j: j\neq i} a_j \Phi_m(\theta_i^T\theta_j) \\
 & \qquad \qquad \qquad + (2\Phi_m(1) +
     2)a_i \rvert \\
-& \leq \delta 
+& \leq \poly(\delta,1/d)
 \end{align*}
 %
 Since $\Phi_m$ is $m$-almost 1-harmonic, we get,
@@ -115,13 +129,13 @@ Together, we get
 %
 \begin{align*}
 & |\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi_m(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi_m(\theta_i^T\theta_j)| \\
-& \leq \sum_{i=1}^l\delta |a_i| +\sum_{i=1}^l 2|a_i|\poly(m)|\sum_{j=1}^k b_j
+& \leq \sum_{i=1}^l\poly(\delta,1/d) |a_i| +\sum_{i=1}^l 2|a_i|\poly(m)|\sum_{j=1}^k b_j
   (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|
 \\
 \end{align*}
 
-Again, since these inner products are assumed to be less than
-$1-\epsilon$ and and $\|a\| \leq \poly(d)$ by
+For $j\in T$, these inner products are less than
+$1-\epsilon$ and $\|a\| \leq \poly(d)$ by
 $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0})$ and Lemma
 \ref{bounded}, we can choose
 $m = O(\frac{1}{\epsilon}\log(d)\log(1/\delta))$ large enough such
@@ -129,10 +143,15 @@ that
 %
 \begin{align*}
  2\poly(m)\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
-  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m| \\
- \leq  2\poly(d,k,m)e^{-\epsilon m} \leq \delta/2
+  \sum_{j \in T}  a_j(\theta_i^T\theta_j)^m| \\
+ \leq  2\poly(d,k,m)e^{-\epsilon m} \leq \poly(\delta,1/d)
 \end{align*}
+%
+Furthermore, if $j\not \in T$, then we just simply bound by using $|a_j| < \poly(\delta,1/d)$ and $|\theta_i^T\theta_j| \leq 1$
+\[2\poly(m)\sum_{i=1}^l|
+  \sum_{j \not\in T}  a_j(\theta_i^T\theta_j)^m|  \leq \poly(\delta,1/d)\]
 
+%
 Finally, consider the following expression
 %
 \begin{align*}
@@ -142,26 +161,26 @@ D & = \expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] \\
   a_ia_j\Phi_m(\theta_i^T\theta_j)
 \end{align*}
 %
-Since $D \geq 0$ and combined with the fact that $|a_i| > \delta$,
+Since $D \geq 0$ and now if there exists $a_i$ such that $|a_i| > \delta$, then
 %
 \begin{align*}
-\Delta_{{\bf v}}H & \leq  \sum_{i=1}^l (-2a_i^2 +\delta |a_i|+(\delta/2)|a_i|) \\
-& \leq   \sum_{i=1}^l  |a_i|(-2\delta + 3\delta/2) < -l\delta^2/4
+\Delta_{{\bf v}}H & \leq  \sum_{i=1}^l (-2a_i^2 +\poly(\delta,1/d) |a_i|+(\poly(\delta,1/d)|a_i|) \\
+& < -\delta^2 + \poly(\delta,1/d) < -\delta^2/2
 \end{align*}
 
-Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-l\delta^2/(4d) > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l {\textrm{ times}}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -l\delta^2/4d$. Since $w$ has $\|w\|^2 = l$, $\lambda_{min}(\nabla^2 G) < -\delta^2/(4d)$, contradicting that it is in $\mathcal{M}_{G, \delta^2/(4d)}$. 
+Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-\delta^2/2 > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l {\textrm{ times}}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -\delta^2/2$. Since $w$ has $\|w\|^2 = l$, $\lambda_{min}(\nabla^2 G) < -\delta^2/2l$, contradicting that it is in $\mathcal{M}_{G, -\poly(\delta,1/d)}$. 
 
-Finally, it must be the case that there exists $\theta_{j_1},...\theta_{j_l}$ such that
+Therefore, let $U \subseteq [k]$ be the subset of $\theta_i$ such that $|a_i|>\delta$. Then, if $U$ is non-empty, it must be the case that there exists ${j_1},\cdots {j_q} \in T$ such that
 $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and
 $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and
-$|\theta_{j_l}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore,
+$|\theta_{j_q}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore,
 $|\theta_i^Tw_j| > 1- k^2\epsilon$ and unless all $|a_i| <\delta$,  there exists $i, j$ such that $|w_j^T\theta_i| > 1-\epsilon$.
 \end{proof}
 
 \begin{lemma}\label{eigRes}
   Assume the conditions of Lemma~\ref{eigConv}. If
-$G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - 2\delta\sqrt{G(\boldsymbol{0,0})}$
-  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\delta^2/(4\poly(d))}$,
+$G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - \delta\sqrt{G(\boldsymbol{0,0})}$
+  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\delta^2/\poly(d)}$,
   then there exists some $i, j$ such that $|\theta_i^Tw_j| > 1- \epsilon$.
 \end{lemma}
  
@@ -176,7 +195,7 @@ $G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - 2\delta\sqrt{G(\bold
 \sqrt{G(\boldsymbol{a,\theta})}  & \geq \norm{\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)}_X \\
 &\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \\
 & \geq
-  \sqrt{G(\boldsymbol{0,0})} - \delta
+  \sqrt{G(\boldsymbol{0,0})} - \delta/2
 \end{align*}
 Squaring gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $\epsilon$ neighborhood of $w_j$.
  \end{proof}
@@ -292,8 +311,8 @@ $E[(\theta^Tw_j)^{n}] \geq \Omega(1/d^{n})$, which holds by noticing that with h
 \fi 
  
 \begin{proof}[Proof of Theorem \ref{eigSGD}]
-Lemma~\ref{strongConverge2} ensures that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon)$ iterations.
-If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Lemma~\ref{strongConverge2}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{initialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G(0,0) - 2\delta \sqrt{G(0,0)}$ for $\delta = 1/\poly(d,1/\epsilon)$ after $e^{O(d\log d)}$ samples by applying standard probabilistic bounds. Finally, we conclude by Theorem \ref{eigRes}.
+Lemma~\ref{strongConvergeTwo} ensures that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon)$ iterations.
+If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Lemma~\ref{strongConvergeTwo}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{initialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G(0,0) - 2\delta \sqrt{G(0,0)}$ for $\delta = 1/\poly(d,1/\epsilon)$ after $e^{O(d\log d)}$ samples by applying standard probabilistic bounds. Finally, we conclude by Theorem \ref{eigRes}.
 \end{proof}
 %
 
