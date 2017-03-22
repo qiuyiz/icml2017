@@ -6,17 +6,39 @@ The gradient descent convergence results in the previous sections lay
 the foundation for reasoning about the convergence of stochastic
 gradient descent (SGD). To derive finite runtime bounds, we need to
 address three technical details: 1) realizable potentials are only
-approximately $\lambda$-harmonic, 2) the
-variance of the stochastic gradient should be small and 3) SGD should escape local
-minima in a bounded number of iterations. The
-second and third detail are analyzed with standard techniques in
-optimization and statistics: the former requires generalization bounds
-for neural networks and the latter requires a lower bound on the
-negative curvature. Together, we will show that running SGD after $\poly(d,1/\epsilon)$ iterations on an almost $\lambda$-harmonic potential will allow us to learn at least one of the hidden weights $w_j$ up to $\epsilon$ accuracy.
+approximately $\lambda$-harmonic, 2) the variance of the stochastic
+gradient should be small and 3) SGD should escape local minima in a
+bounded number of iterations. The second and third details are analyzed
+with standard techniques in optimization and statistics; the former
+requires generalization bounds for neural networks and the latter
+requires a lower bound on the negative curvature. Together, we will
+show that running SGD after $\poly(d,1/\epsilon)$ iterations on an
+almost $\lambda$-harmonic potential will allow us to learn at least
+one of the hidden weights $w_j$ up to $\epsilon$ accuracy.
 
+%
+We first state a lemma concerning the construction of an almost
+$\lambda$-harmonic function on $S^{d-1}.$ The construction is given in
+Section~\ref{App:EigenFunc} and is based on truncating the taylor
+series expansion of a solution to the $\lambda$-harmonic differential
+equation. This results in a bounded degree polynomial which
+(approximately) satisfies the guarantees of $\lambda$-harmonic
+potentials when $\theta$ is far from $w_j$. 
+%
+\begin{definition}
+$\Phi(\theta, w)$ is an $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
+all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq \poly(m)|\theta^Tw|^m$ 
+\end{definition}
+%
+%
+\begin{restatable}{lemma}{almostHarmonic}\label{AlmostHarmonic}
+For any $m$ and $\lambda = O(\poly(m))$,  we can construct a realizable odd $m$-almost $\lambda$-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq |\theta^Tw|$ for all $\theta, w \in S^{d-1}$ and all first, second, and third partial derivatives of $\Phi_m$ are bounded by $\poly(m)$.
+\end{restatable} 
+%
+To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run SGD on $G = L + \|a\|^2$. Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
+%
 \begin{theorem}\label{eigSGD}
-  Let $\mathcal{M} = S^{d-1}$ and $b_1,...,b_k$ be bounded by $\poly(d)$ and $w_1,..,w_k$ are randomly chosen from $\mathcal{M}$.  \Snote{Aren't $b_i$ from the
-    sphere, and hence have $\norm{b_i}_2 = 1$?}\Rnote{Actually, it turns out now that they just have to be bounded by poly(d)}
+  Let $\mathcal{M} = S^{d-1}$ and $b_1,...,b_k$ be bounded by $\poly(d)$ and $w_1,..,w_k$ are randomly chosen from $\mathcal{M}$.  
 
   With high probability, for all $\epsilon \in (0,1),$ there exists $m, \delta, \alpha$ (that depends on $d$) such that for the $m$-almost $1$-harmonic potential $\Phi_m$ the
   following holds: we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ so that if after running SGD (Algorithm \ref{SGD}) on the regularized objective
@@ -24,31 +46,21 @@ negative curvature. Together, we will show that running SGD after $\poly(d,1/\ep
 \end{theorem}
 %
 %
-We first discuss the construction of an almost $\lambda$-harmonic function on $S^{d-1}$, which retains the $\lambda$-harmonic properties when $\theta$ is far from $w_j$. The construction is technical and requires the Hermite polynomial basis in Theorem \ref{thm:rotReal}.
 %
+Our goal is to analyze running SGD on $G$ (as in \eqref{errLoss}) with a $m$-almost $\lambda$-harmonic potential. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are have a negative curvature of at least $\epsilon$ in $\poly(1/\epsilon)$ iterations, resulting in the following Lemma. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_{G, \epsilon}$, where 
 %
-\begin{definition}
-$\Phi(\theta, w)$ is $m$-almost $\lambda$-harmonic on $S^{d-1}$ if for
-all $\theta, w\in S^{d-1}$, $|\Delta_{\theta}\Phi(\theta, w) - \lambda \Phi (\theta,w)| \leq \poly(m)|\theta^Tw|^m$ 
-\end{definition}
-%
-%
-\begin{restatable}{lemma}{almostHarmonic}\label{AlmostHarmonic}
-For any $m$ and $\lambda = \poly(m)$,  we can construct a realizable odd $m$-almost $\lambda$-harmonic potential, $\Phi_m$, that corresponds to a odd polynomial $\sigma$ of degree $m$. Furthermore, $|\Phi_m(\theta^Tw)|\leq |\theta^Tw|$ for all $\theta, w \in S^{d-1}$ and all first, second, and third partial derivatives of $\Phi_m$ are bounded by $\poly(m)$.
-\end{restatable} \Snote{Can you generalize this theorem to $\lambda$-harmonic?}\Rnote{yes done}
-%
-%
-%
-Our goal is to analyze running SGD on $L$ (as in \eqref{errLoss}) with a $m$-almost $\lambda$-harmonic potential. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are have a negative curvature of at least $\epsilon$ in $\poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_{L, \epsilon}$, where 
-%
-\[\mathcal{M}_{L, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla L(x)\|
-  \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 L(x)) \geq
+\[\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
+  \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 G(x)) \geq
   -\epsilon\right\}\]
 %
-We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is also a tractable algorithm to converge to $\mathcal{M}_{L,\epsilon}$. The full description and proof of our SGD algorithm is given in the supplementary material. 
+We note that the more straightforward algorithm of computing the negative descent direction of the Hessian is also a tractable algorithm to converge to $\mathcal{M}_{G,\epsilon}$. The full description and proof of our SGD algorithm is given in the supplementary material. 
 
-To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run SGD on $G = L + \|a\|^2$. Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
 %
+\begin{restatable}{lemma}{strongConverge2}\label{strongConverge2}  
+We can construct a $m$-almost $\lambda$-harmonic potential $\Phi_m$ for which
+we can choose stepsize $\eta = 1/\poly(d,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{G}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{G, \epsilon}$ after at most $T = \poly(d,1/\epsilon, \log(1/\zeta))$ iterations. 
+ Furthermore, $G(a,x_T) \leq G(a, x_0)$ with high probability. 
+\end{restatable}
 %
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
@@ -60,8 +72,10 @@ Let $L$ be as in \eqref{errLoss} with an $m$-almost 1-harmonic
 potential $\Phi_m$ and let $G = L + \|a\|^2$.  If
 $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \delta^2 / (4d)}$ and
 $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0, 0})$, then for all
-$i$, either there exists $j$ such that
-$|w_j^T\theta_i| > 1- k^2\epsilon,$ or $|a_i| < \delta$. Furthermore, unless all $|a_i| <\delta$,  there exists $i, j$ such that $|w_j^T\theta_i| > 1-\epsilon$.
+$i$, either $|a_i| < \delta,$ or there exists $j$ such that
+$|w_j^T\theta_i| > 1- k^2\epsilon.$ Furthermore,
+unless all $|a_i| <\delta$, there exists $i, j$ such that
+$|w_j^T\theta_i| > 1-\epsilon$.
 \end{restatable}
 %
 \begin{proof}
@@ -168,7 +182,7 @@ Squaring gives a contradiction, so we conclude that there must exist $i, j$ such
  \end{proof}
  
  \begin{lemma}\label{initialize}
-Assume the conditions of Lemma~\ref{eigConv} and let $\theta_1$ be chosen uniformly from $\mathcal{M}$. If $G(\boldsymbol{a,\theta}) \geq \epsilon$, then we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G({\bf a^{(0)}, \boldsymbol{\theta^{(0)}}}) \leq G(\boldsymbol{0,0}) - 2\delta\sqrt{G(\boldsymbol{0,0})}$ with $\delta = 1/\poly(d,1/\epsilon)$ with probability at least $e^{-O(d)}$.
+Assume the conditions of Lemma~\ref{eigConv} and let $\theta_1$ be chosen uniformly from $\mathcal{M}$. If $G(\boldsymbol{0,0}) \geq \epsilon$, then we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G({\bf a^{(0)}, \boldsymbol{\theta^{(0)}}}) \leq G(\boldsymbol{0,0}) - 2\delta\sqrt{G(\boldsymbol{0,0})}$ with $\delta = 1/\poly(d,1/\epsilon)$ with probability at least $e^{-O(d \log d)}$.
  \end{lemma}
  
  \begin{proof}
@@ -195,19 +209,95 @@ that in a $\Omega(1/poly(d,m))$-neighborhood of $w_i$,
 \[|\sum_{j=1}^k b_j \Phi_m(\theta, w_j)| \geq G(\boldsymbol{0,0})/poly(d) \]
 
 The probability $\theta$ randomly chosen would lie in this
-neighborhood $\mathcal{N}$ is $e^{-O(d)}$ (as the surface area of $S^{d-1}$ grow exponentially in $d$), so we conclude that we probability at least $e^{-O(d)}$, we can initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ such that 
+neighborhood $\mathcal{N}$ is $e^{-O(d \log d)}$ (as the surface area of $S^{d-1}$ grow exponentially in $d$). So by choosing $\theta_1$ randomly and setting $a_1$ optimally and all the other $a_i$'s to $0$ with probability at least $e^{-O(d \log d)}$, we can initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ such that 
 %
 \[G({\bf a^{(0)}, \boldsymbol{\theta^{(0)}}}) \leq G(\boldsymbol{0,0}) - \frac{1}{\poly(d)}G(\boldsymbol{0,0})^2\]
 
 Finally, since $G(\boldsymbol{0,0}) \geq \epsilon$, our claim holds with $\delta = 1/\poly(d,1/\epsilon)$
 \end{proof}
 %
-\begin{proof}[Proof of Theorem \ref{eigSGD}]
-We will choose $\delta, \alpha = 1/\poly(d,1/\epsilon)$ and $m = O(\log d \log (1/\delta)/\epsilon)$. First, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi_m$ and the second and third partials of $\Phi_m$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon/3$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon)$ iterations.
 
-If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Theorem~\ref{strongConverge}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{initialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) - G(0,0) \leq 2\delta \sqrt{G(0,0)}$ for $\delta = 1/\poly(d,1/\epsilon)$ after $e^{O(d)}$ samples by applying standard probabilistic bounds. Finally, we conclude by Theorem \ref{eigRes}.
+\if{1}
+
+The following Lemma gives an alternate guarantee on $G({\bf a, \boldsymbol{\theta}})$ provided the $w$ are chosen randomly. 
+
+ 
+
+\begin{lemma}\label{bigVariance}
+Let $\Phi_m$ be as in Lemma \ref{AlmostHarmonic} and $b_1,...,b_k$ are $\poly(d)$-bounded. Let $\theta$ be uniformly randomly chosen on $S^{d-1}$. Then,
+ 
+ $\expt\left[\left(  \sum_{j=1}^k b_j \Phi_m(\theta,w_j)\right)^2\right]
+ \geq e^{-O(d)}G(\boldsymbol{0,0})$
+\end{lemma}
+\Snote{Richard, I don't think the details here are sufficient to
+  understand the proof. Please elaborate, and fill in the missing details.}
+\begin{proof}
+
+We can rewrite our loss as
+%
+\[G(\boldsymbol{0,0}) =  \sum_{i=1}^k\sum_{j=1}^k b_i b_j \Phi_m(w_i, w_j) \]
+
+Therefore, we can find $i$, such that
+$|\sum_{j=1}^k b_j \Phi_m(w_i, w_j)| \geq
+G(\boldsymbol{0,0})/(kb_i)$. Now, notice that all first partials of $\Phi_m$ are $\poly(m)$-bounded, so $\Phi_m$ is $\poly(d, m)$- Lipschitz. Since $b_i$ is $\poly(d)$-bounded and $\Phi_m$ is $\poly(d,m)$-Lipschitz, we see
+that in a $\Omega(1/poly(d,m))$-neighborhood of $w_i$, call it $\mathcal{N}$,
+%
+\[|\sum_{j=1}^k b_j \Phi_m(\theta, w_j)| \geq G(\boldsymbol{0,0})/poly(d) \]
+
+Note that $P(\theta \in \mathcal{N}) = e^{-O(d)}$ since the surface area of the sphere is exponential in $d$. Thus, we have
+
+\[\expt[(  \sum_{j=1}^k b_j \Phi_m(\theta,w_j))^2]
+ \geq \prob(\theta \in \mathcal{N})\expt[(\sum_{j=1}^k b_j \Phi(\theta, w_j))^2 | \theta \in \mathcal{N}]\]
+\[\geq e^{-O(d)} L(\boldsymbol{0,0})\]
+ \Snote{How does the claim
+  about the square follow?} 
+\end{proof}
+
+
+
+
+\begin{lemma}\label{largeVariance}
+  Let $\Phi_m$ be as in Lemma \ref{AlmostHarmonic} \Snote{Always say
+    Lemma/Theorem when referring to one. So this should be
+    Lemma~\ref{AlmostHarmonic}} and let $\theta, w_1,...,w_k$ be
+  independent and uniformly randomly chosen on $S^{d-1}$. Then, over
+  $\theta, w_1,...,w_k$,
+ 
+ $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right]
+ \geq \norm{b}_2^2 \cdot \Omega(1/d^m).$
+\end{lemma}
+%
+\begin{proof}
+Note that $\Phi_m$ is a degree $m$ polynomial with non-negative coefficients and it only has odd-degree terms. Since it is odd, $E[\Phi_m(\theta^Tw_i)] = 0$ and the cross terms in the expansion of the square vanish:
+%
+\[ \expt\left[\left(  \sum_{j=1}^k b_j
+     \Phi_m(\theta^Tw_j)\right)^2\right] = \sum_{j=1}^k b_j^2 \expt[\Phi_m(\theta^Tw_j)^2]\]
+
+So, it suffices to show $\expt[\Phi_m(\theta,w_j)^2] \geq 1/m$.  Now, since $\Phi_m$ has non-negative coefficients,
+\begin{align*}
+& \expt[\Phi_m(\theta^Tw_j)^2] = \expt\left[\left(\sum_{i=1, i \,
+                               odd}^m c_i
+                               (\theta^Tw_j)^i\right)^2\right] \\
+& \qquad = \sum_{i,j \,odd} c_ic_j E[(\theta^Tw_j)^{i+j}] \geq \sum_{i,j
+  \,odd}c_i c_j \Omega(1/(i+j))  \\
+& \qquad =\Omega(1/d^m) 
+\end{align*}
+
+Where we used the fact that
+$\sum_{i,j} c_ic_j = (\sum_i c_i)^2 = \Phi_m(1)^2 = 1$ and
+$E[(\theta^Tw_j)^{n}] \geq \Omega(1/d^{n})$, which holds by noticing that with high probability $\theta^T w_j = \Omega(1/\sqrt{d})$. \Snote{The last claim is not correct. $(\theta^Tw_j)^n$ is
+  $O(1/\sqrt{n}^n$ with high probability.}
+\end{proof}
+
+\fi 
+ 
+\begin{proof}[Proof of Theorem \ref{eigSGD}]
+Lemma~\ref{strongConverge2} ensures that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon)$ iterations.
+If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Lemma~\ref{strongConverge2}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{initialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G(0,0) - 2\delta \sqrt{G(0,0)}$ for $\delta = 1/\poly(d,1/\epsilon)$ after $e^{O(d\log d)}$ samples by applying standard probabilistic bounds. Finally, we conclude by Theorem \ref{eigRes}.
 \end{proof}
 %
+
+\if{1}
 
 \Rnote{From here begins the reset algorithm...perhaps better with node-wise algorithm...}
 
@@ -252,77 +342,12 @@ If the algorithm returns $\boldsymbol{a,\theta}$ such that $\widehat{L}(\boldsym
 Otherwise, by Theorem \ref{eigSGD}, 
 \end{proof}
 
-
-
-
-
-
-\begin{lemma}\label{bigVariance}
-Let $\Phi_m$ be as in Lemma \ref{AlmostHarmonic} and $b_1,...,b_k$ are $\poly(d)$-bounded. Let $\theta$ be uniformly randomly chosen on $S^{d-1}$. Then,
- 
- $\expt\left[\left(  \sum_{j=1}^k b_j \Phi_m(\theta,w_j)\right)^2\right]
- \geq e^{-O(d)}G(\boldsymbol{0,0})$
-\end{lemma}
-\Snote{Richard, I don't think the details here are sufficient to
-  understand the proof. Please elaborate, and fill in the missing details.}
-\begin{proof}
-
-We can rewrite our loss as
-%
-\[G(\boldsymbol{0,0}) =  \sum_{i=1}^k\sum_{j=1}^k b_i b_j \Phi_m(w_i, w_j) \]
-
-Therefore, we can find $i$, such that
-$|\sum_{j=1}^k b_j \Phi_m(w_i, w_j)| \geq
-G(\boldsymbol{0,0})/(kb_i)$. Now, notice that all first partials of $\Phi_m$ are $\poly(m)$-bounded, so $\Phi_m$ is $\poly(d, m)$- Lipschitz. Since $b_i$ is $\poly(d)$-bounded and $\Phi_m$ is $\poly(d,m)$-Lipschitz, we see
-that in a $\Omega(1/poly(d,m))$-neighborhood of $w_i$, call it $\mathcal{N}$,
-%
-\[|\sum_{j=1}^k b_j \Phi_m(\theta, w_j)| \geq G(\boldsymbol{0,0})/poly(d) \]
-
-Note that $P(\theta \in \mathcal{N}) = e^{-O(d)}$ since the surface area of the sphere is exponential in $d$. Thus, we have
-
-\[\expt[(  \sum_{j=1}^k b_j \Phi_m(\theta,w_j))^2]
- \geq \prob(\theta \in \mathcal{N})\expt[(\sum_{j=1}^k b_j \Phi(\theta, w_j))^2 | \theta \in \mathcal{N}]\]
-\[\geq e^{-O(d)} L(\boldsymbol{0,0})\]
- \Snote{How does the claim
-  about the square follow?} 
-\end{proof}
-
-
-
- \if{1}
-\begin{lemma}\label{largeVariance}
-  Let $\Phi_m$ be as in Lemma \ref{AlmostHarmonic} \Snote{Always say
-    Lemma/Theorem when referring to one. So this should be
-    Lemma~\ref{AlmostHarmonic}} and let $\theta, w_1,...,w_k$ be
-  independent and uniformly randomly chosen on $S^{d-1}$. Then, over
-  $\theta, w_1,...,w_k$,
- 
- $\expt\left[\left(  \sum_{j=1}^k b_j \Phi(\theta,w_j)\right)^2\right]
- \geq \norm{b}_2^2 \cdot \Omega(1/d^m).$
-\end{lemma}
-%
-\begin{proof}
-Note that $\Phi_m$ is a degree $m$ polynomial with non-negative coefficients and it only has odd-degree terms. Since it is odd, $E[\Phi_m(\theta^Tw_i)] = 0$ and the cross terms in the expansion of the square vanish:
-%
-\[ \expt\left[\left(  \sum_{j=1}^k b_j
-     \Phi_m(\theta^Tw_j)\right)^2\right] = \sum_{j=1}^k b_j^2 \expt[\Phi_m(\theta^Tw_j)^2]\]
-
-So, it suffices to show $\expt[\Phi_m(\theta,w_j)^2] \geq 1/m$.  Now, since $\Phi_m$ has non-negative coefficients,
-\begin{align*}
-& \expt[\Phi_m(\theta^Tw_j)^2] = \expt\left[\left(\sum_{i=1, i \,
-                               odd}^m c_i
-                               (\theta^Tw_j)^i\right)^2\right] \\
-& \qquad = \sum_{i,j \,odd} c_ic_j E[(\theta^Tw_j)^{i+j}] \geq \sum_{i,j
-  \,odd}c_i c_j \Omega(1/(i+j))  \\
-& \qquad =\Omega(1/d^m) 
-\end{align*}
-
-Where we used the fact that
-$\sum_{i,j} c_ic_j = (\sum_i c_i)^2 = \Phi_m(1)^2 = 1$ and
-$E[(\theta^Tw_j)^{n}] \geq \Omega(1/d^{n})$, which holds by noticing that with high probability $\theta^T w_j = \Omega(1/\sqrt{d})$. \Snote{The last claim is not correct. $(\theta^Tw_j)^n$ is
-  $O(1/\sqrt{n}^n$ with high probability.}
-\end{proof}
 \fi
+
+
+
+
+
 
 
 

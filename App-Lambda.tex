@@ -15,29 +15,42 @@ Using the Laplacian formula on $S^{d-1}$ gives: \cite{Laplacian}
 \Snote{IMP: Rina, can you please check that this Laplacian is equal to
   the trace of the hessian?}
 
-We want $h$ to be approximately $1$-harmonic, so we want to approximately solve:
+We want $h$ to be approximately $\lambda$-harmonic, so we want to
+approximately solve:
 %
 \[h''(x)(1-x^2) - (d-1)xh'(x) =  \lambda h(x) \]
 %
-Let us construct our approximate function $h$ as follows. Let $c_n$ are the Taylor coefficients of $h(x)$, then we want to solve the equation:
-Therefore, we get the following recurrence: $c_n (n(n-1) + (d-1)*n + \lambda) = c_{n+2} (n+2)(n+1)$. Let $c_0 = 0, c_1 = 1$, then let the recurrence hold for $n=0,...,m-2$ for some $m$ odd. For $i > m$, we let $c_i = 0$. 
+Let us construct our approximate function $h$ as follows. Let $c_n$
+are the Taylor coefficients of $h(x)$, then we want to solve the
+equation: Therefore, we get the following recurrence:
+$c_n (n(n-1) + (d-1)*n + \lambda) = c_{n+2} (n+2)(n+1)$. Let
+$c_0 = 0, c_1 = 1$, then let the recurrence hold for $n=0,...,m-2$ for
+some $m$ odd. For $i > m$, we let $c_i = 0$. 
 \begin{align*}
 \Delta_\alpha h & = h''(\cos\alpha)(\sin \alpha)^{2} - (d-1)\cos(\alpha)h'(\cos\alpha) \\
 &= h(\cos(\alpha)) + k_mc_m(\cos\alpha)^m
 \end{align*}
-Where $k_m = m^2 + (d-2)m + \lambda$. Notice that $h(x)$ has non-negative
-Taylor coefficients and is a bounded polynomial, so it is a
-realizable potential function by Theorem \ref{thm:rotReal}, with
-corresponding activation $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$, where $H_i(x)$
-is the i-th normalized Hermite polynomial. Now, by normalizing
-$\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have
+Where $k_m = m^2 + (d-2)m + \lambda$. Notice that $h(x)$ has
+non-negative Taylor coefficients and is a bounded polynomial, so it is
+a realizable potential function by Theorem \ref{thm:rotReal}, with
+corresponding activation $\sigma(x) = \sum_{i} \sqrt{c_i} H_i(x)$,
+where $H_i(x)$ is the i-th normalized Hermite polynomial. Now, by
+normalizing $\Phi_m(\theta, w) = h(\theta^Tw)/h(1)$, have
 %
-\[|\Delta_\theta \Phi_m(\theta ,w) - \Phi_m(\theta,w) | \leq \frac{k_mc_m}{h(1)} |\theta^Tw|^m \leq k_m|\theta^Tw|^m\]
+\[|\Delta_\theta \Phi_m(\theta ,w) - \Phi_m(\theta,w) | \leq
+\frac{k_mc_m}{h(1)} |\theta^Tw|^m \leq k_m|\theta^Tw|^m,\]
+where we have used $h(1) \ge c_m.$
 Furthermore, since $\Phi$ is a polynomial with non-negative coefficients and $|\theta^Tw|\leq 1$, $|\Phi(\theta^Tw)| \leq \Phi(|\theta^Tw|) \leq |\theta^Tw|$. Next, for any differential operator $D$, 
-
+%
 \[D\Phi_m(\theta, w) = \sum_{i=1}^m c_i D(\theta^T w)^i\]
 
-Since $\theta, w \in S^{d-1}$ and $\sum_i c_i = 1$, we realize that the first, second, third partials of $\Phi_m$ are bounded by $\poly(m)$ as each $D(\theta^T w)^i$ is bounded  by $\poly(m)$. Thus we can construct a realizable $m$-almost $\lambda$-Harmonic potential for any $m$ odd with our desired properties. Finally, a $m$-almost $\lambda$-harmonic potential is also $m-1$-almost $\lambda$-harmonic, so our claim follows for all $m$.
+Since $\theta, w \in S^{d-1}$ and $\sum_i c_i = 1$, we realize that
+the first, second, third partials of $\Phi_m$ are bounded by
+$\poly(m)$ as each $D(\theta^T w)^i$ is bounded by $\poly(m)$. Thus we
+can construct a realizable $m$-almost $\lambda$-Harmonic potential for
+any $m$ odd with our desired properties. Finally, for any odd $m,$ a
+$m$-almost $\lambda$-harmonic potential is also $m-1$-almost
+$\lambda$-harmonic, so our claim follows for all $m$.
  \end{proof}
 
 \begin{restatable}{lemma}{bounded}
@@ -53,3 +66,9 @@ Since $\theta, w \in S^{d-1}$ and $\sum_i c_i = 1$, we realize that the first, s
 Notice that $G(0, \bold{\theta}) = L(0,\bold{\theta}) \leq \poly(d)$ and so, $G(\boldsymbol{a,\theta}) = L(\boldsymbol{a,\theta}) + \beta \|{\bf a}\|^2 \leq
 \poly(d)$. Since $L \geq 0$, our claim follows. 
 \end{proof}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "icmlpaper2017.tex"
+%%% End:
