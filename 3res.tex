@@ -255,25 +255,38 @@ Otherwise, by Theorem \ref{eigSGD},
 
 
 
-\if{1}
+
 
 \begin{lemma}\label{bigVariance}
 Let $\Phi_m$ be as in Lemma \ref{AlmostHarmonic} and $b_1,...,b_k$ are $\poly(d)$-bounded. Let $\theta$ be uniformly randomly chosen on $S^{d-1}$. Then,
  
  $\expt\left[\left(  \sum_{j=1}^k b_j \Phi_m(\theta,w_j)\right)^2\right]
- \geq e^{-O(d)}L(\boldsymbol{0,0})$
+ \geq e^{-O(d)}G(\boldsymbol{0,0})$
 \end{lemma}
 \Snote{Richard, I don't think the details here are sufficient to
   understand the proof. Please elaborate, and fill in the missing details.}
 \begin{proof}
- that 
+
+We can rewrite our loss as
+%
+\[G(\boldsymbol{0,0}) =  \sum_{i=1}^k\sum_{j=1}^k b_i b_j \Phi_m(w_i, w_j) \]
+
+Therefore, we can find $i$, such that
+$|\sum_{j=1}^k b_j \Phi_m(w_i, w_j)| \geq
+G(\boldsymbol{0,0})/(kb_i)$. Now, notice that all first partials of $\Phi_m$ are $\poly(m)$-bounded, so $\Phi_m$ is $\poly(d, m)$- Lipschitz. Since $b_i$ is $\poly(d)$-bounded and $\Phi_m$ is $\poly(d,m)$-Lipschitz, we see
+that in a $\Omega(1/poly(d,m))$-neighborhood of $w_i$, call it $\mathcal{N}$,
+%
+\[|\sum_{j=1}^k b_j \Phi_m(\theta, w_j)| \geq G(\boldsymbol{0,0})/poly(d) \]
+
+Note that $P(\theta \in \mathcal{N}) = e^{-O(d)}$ since the surface area of the sphere is exponential in $d$. Thus, we have
+
 \[\expt[(  \sum_{j=1}^k b_j \Phi_m(\theta,w_j))^2]
  \geq \prob(\theta \in \mathcal{N})\expt[(\sum_{j=1}^k b_j \Phi(\theta, w_j))^2 | \theta \in \mathcal{N}]\]
 \[\geq e^{-O(d)} L(\boldsymbol{0,0})\]
  \Snote{How does the claim
   about the square follow?} 
 \end{proof}
-\fi
+
 
 
  \if{1}
