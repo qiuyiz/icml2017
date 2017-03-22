@@ -82,21 +82,21 @@ we can choose stepsize $\eta = 1/\poly(d,1/\epsilon,\log(1/\zeta))$, such that w
 \begin{restatable}{lemma}{eigConv}
 \label{eigConv}
 Let $\mathcal{M} = S^{d-1}$ and let $b_1,...,b_k$ be reals bounded by
-$\poly(d)$. For all $\epsilon,\delta \in (0,1),$ we can pick
-$m = O(\log(d)\log(1/\delta)/\epsilon)$ such that the following holds:
+$\poly(d)$. For all $\epsilon \in (0,1),$ we can pick
+$m = O(\polylog(d)\log(1/\epsilon)/\epsilon)$ such that the following holds:
 
 Let $L$ be as in \eqref{errLoss} with an $m$-almost 1-harmonic
 potential $\Phi_m$ and let $G = L + \|a\|^2$.  If
-$(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \poly(\delta,1/d)}$ and
+$(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \poly(\epsilon,1/d)}$ and
 $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0, 0})$, then for all
-$i$, either $|a_i| < \delta,$ or there exists $j$ such that
+$i$, either $|a_i| < \epsilon,$ or there exists $j$ such that
 $|w_j^T\theta_i| > 1- k^2\epsilon.$ Furthermore,
-unless all $|a_i| <\delta$, there exists $i, j$ such that
+unless all $|a_i| <\epsilon$, there exists $i, j$ such that
 $|w_j^T\theta_i| > 1-\epsilon$.
 \end{restatable}
 %
 \begin{proof}
-  The proof is similar to Theorem \ref{EigStrict}. Let $T \subseteq [k]$ be the subset of $\theta_i$ such that $|a_i| > \poly(\delta,1/d)$ for $i \in T$. Assume there is a non-empty subset $S \subseteq T$ such that for each $i \in S$, $|w_j^T\theta_i| \leq 1-\epsilon$ for all $j$, and $|\theta_i ^T\theta_j| \leq 1-\epsilon$ for all $j\in T/S$. Assume such a subset $S$ exists and WLOG, let $S = \{1,\dots,l\}$. We claim that all $|a_i| < \delta$ for all $i \in S$. 
+  The proof is similar to Theorem \ref{EigStrict}. Let $T \subseteq [k]$ be the subset of $\theta_i$ such that $|a_i| > \poly(\epsilon,1/d)$ for $i \in T$. Assume there is a non-empty subset $S \subseteq T$ such that for each $i \in S$, $|w_j^T\theta_i| \leq 1-\epsilon$ for all $j$, and $|\theta_i ^T\theta_j| \leq 1-\epsilon$ for all $j\in T/S$. Assume such a subset $S$ exists and WLOG, let $S = \{1,\dots,l\}$. We claim that all $|a_i| < \delta$ for all $i \in S$. 
   
   Then, consider a correlated rotation on the
   sphere, which is a correlated translation in spherical
@@ -104,7 +104,7 @@ $|w_j^T\theta_i| > 1-\epsilon$.
 %
 \[ H({\bf a, v}) = G({\bf a,\theta_1+v,...,\theta_l+v},\theta_{l+1},..\theta_k)\]
 
-Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \poly(\delta,1/d)}$. Then,
+Let $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \poly(\epsilon,1/d)}$. Then,
 the optimality conditions on ${\bf a}$ are as usual:
 %
 \begin{align*}
@@ -112,7 +112,7 @@ the optimality conditions on ${\bf a}$ are as usual:
     2\sum_{j: j\neq i} a_j \Phi_m(\theta_i^T\theta_j) \\
 & \qquad \qquad \qquad + (2\Phi_m(1) +
     2)a_i \rvert \\
-& \leq \poly(\delta,1/d)
+& \leq \poly(\epsilon,1/d)
 \end{align*}
 %
 Since $\Phi_m$ is $m$-almost 1-harmonic, we get,
@@ -129,7 +129,7 @@ Together, we get
 %
 \begin{align*}
 & |\Delta_{{\bf v}}H + \sum_{i=1}^l (2\Phi_m(\theta_i^T\theta_i)+2)a_i^2 + 2\sum_{i \neq j}^l a_ia_j\Phi_m(\theta_i^T\theta_j)| \\
-& \leq \sum_{i=1}^l\poly(\delta,1/d) |a_i| +\sum_{i=1}^l 2|a_i|\poly(m)|\sum_{j=1}^k b_j
+& \leq \sum_{i=1}^l\poly(\epsilon,1/d) |a_i| +\sum_{i=1}^l 2|a_i|\poly(m)|\sum_{j=1}^k b_j
   (\theta_i^Tw_j)^m +  \sum_{j=l+1}^k  a_j(\theta_i^T\theta_j)^m|
 \\
 \end{align*}
@@ -138,18 +138,18 @@ For $j\in T$, these inner products are less than
 $1-\epsilon$ and $\|a\| \leq \poly(d)$ by
 $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0})$ and Lemma
 \ref{bounded}, we can choose
-$m = O(\frac{1}{\epsilon}\log(d)\log(1/\delta))$ large enough such
+$m = O(\frac{1}{\epsilon}\polylog(d)\log(1/\epsilon))$ large enough such
 that
 %
 \begin{align*}
  2\poly(m)\sum_{i=1}^l|\sum_{j=1}^k b_j (\theta_i^Tw_j)^m +
   \sum_{j \in T}  a_j(\theta_i^T\theta_j)^m| \\
- \leq  2\poly(d,k,m)e^{-\epsilon m} \leq \poly(\delta,1/d)
+ \leq  2\poly(d,k,m)e^{-\epsilon m} \leq \poly(\epsilon,1/d)
 \end{align*}
 %
-Furthermore, if $j\not \in T$, then we just simply bound by using $|a_j| < \poly(\delta,1/d)$ and $|\theta_i^T\theta_j| \leq 1$
+Furthermore, if $j\not \in T$, then we just simply bound by using $|a_j| < \poly(\epsilon,1/d)$ and $|\theta_i^T\theta_j| \leq 1$
 \[2\poly(m)\sum_{i=1}^l|
-  \sum_{j \not\in T}  a_j(\theta_i^T\theta_j)^m|  \leq \poly(\delta,1/d)\]
+  \sum_{j \not\in T}  a_j(\theta_i^T\theta_j)^m|  \leq \poly(\epsilon,1/d)\]
 
 %
 Finally, consider the following expression
@@ -161,33 +161,31 @@ D & = \expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] \\
   a_ia_j\Phi_m(\theta_i^T\theta_j)
 \end{align*}
 %
-Since $D \geq 0$ and now if there exists $a_i$ such that $|a_i| > \delta$, then
+Since $D \geq 0$ and now if there exists $a_i$ such that $|a_i| > \epsilon$, then
 %
 \begin{align*}
-\Delta_{{\bf v}}H & \leq  \sum_{i=1}^l (-2a_i^2 +\poly(\delta,1/d) |a_i|+(\poly(\delta,1/d)|a_i|) \\
-& < -\delta^2 + \poly(\delta,1/d) < -\delta^2/2
+\Delta_{{\bf v}}H & \leq  \sum_{i=1}^l (-2a_i^2 +\poly(\epsilon,1/d) |a_i|+(\poly(\epsilon,1/d)|a_i|) \\
+& < -\epsilon^2 + \poly(\epsilon,1/d) < -\epsilon^2/2
 \end{align*}
 
-Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-\delta^2/2 > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l {\textrm{ times}}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -\delta^2/2$. Since $w$ has $\|w\|^2 = l$, $\lambda_{min}(\nabla^2 G) < -\delta^2/2l$, contradicting that it is in $\mathcal{M}_{G, -\poly(\delta,1/d)}$. 
+Since the Laplacian is a sum of $d$ eigenvalues, this implies that we can find $u \in S^{d-1}$ such that $-\epsilon^2/2 > u^T\nabla^2_v H u$. Finally, notice that if $w = (\underbrace{u,...u}_{l {\textrm{ times}}},0,...,0)$, then $w^T\nabla^2_{\boldsymbol{\theta}} G w = u^T\nabla^2_v H u < -\epsilon^2/2$. Since $w$ has $\|w\|^2 = l$, $\lambda_{min}(\nabla^2 G) < -\epsilon^2/2l$, contradicting that it is in $\mathcal{M}_{G, \poly(\epsilon,1/d)}$. 
 
-Therefore, let $U \subseteq [k]$ be the subset of $\theta_i$ such that $|a_i|>\delta$. Then, if $U$ is non-empty, it must be the case that there exists ${j_1},\cdots {j_q} \in T$ such that
-$|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and
+Therefore, let $U \subseteq [k]$ be the subset of $\theta_i$ such that $|a_i|>\epsilon$. Then, if $U$ is non-empty and $i \in U$, it must be the case that there exists ${j_1},\cdots {j_q} \in T$ such that $|\theta_i^T\theta_{j_1}| > 1-\epsilon$ and
 $|\theta_{j_{i}}^T\theta_{j_{i+1}}| > 1-\epsilon$, and
 $|\theta_{j_q}^Tw_j| > 1-\epsilon$ for some $w_j$. Therefore,
-$|\theta_i^Tw_j| > 1- k^2\epsilon$ and unless all $|a_i| <\delta$,  there exists $i, j$ such that $|w_j^T\theta_i| > 1-\epsilon$.
+$|\theta_i^Tw_j| > 1- k^2\epsilon$ and unless all $|a_i| <\epsilon$,  there exists $i, j$ such that $|w_j^T\theta_i| > 1-\epsilon$.
 \end{proof}
 
 \begin{lemma}\label{eigRes}
   Assume the conditions of Lemma~\ref{eigConv}. If
-$G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - \delta\sqrt{G(\boldsymbol{0,0})}$
-  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\delta^2/\poly(d)}$,
+$G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - \epsilon\sqrt{G(\boldsymbol{0,0})}$
+  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\poly(\epsilon,1/d)}$,
   then there exists some $i, j$ such that $|\theta_i^Tw_j| > 1- \epsilon$.
 \end{lemma}
  
  \begin{proof}
-   By Lemma \ref{eigConv}, if there does not exists $i, j$ such that
-   $|w_j^T\theta_i| > 1-\epsilon$, then for all $\theta_i$, then
-   $|a_i| < \delta/\poly(d)$ for all $i$. Now, for a integrable
+ If there does not exists $i, j$ such that
+   $|w_j^T\theta_i| > 1-\epsilon$, then no such $i, j$ exists such that $|w_j^T\theta_i|>1-\poly(\epsilon,1/d)$. By Lemma \ref{eigConv}, this implies $|a_i| < \epsilon/\poly(d)$ for all $i$. Now, for a integrable
    function $f(x)$, $\| f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a
    norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
    target function, we conclude that by triangle inequality
@@ -195,7 +193,7 @@ $G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - \delta\sqrt{G(\bolds
 \sqrt{G(\boldsymbol{a,\theta})}  & \geq \norm{\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)}_X \\
 &\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \\
 & \geq
-  \sqrt{G(\boldsymbol{0,0})} - \delta/2
+  \sqrt{G(\boldsymbol{0,0})} - \epsilon/2
 \end{align*}
 Squaring gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $\epsilon$ neighborhood of $w_j$.
  \end{proof}
@@ -311,7 +309,7 @@ $E[(\theta^Tw_j)^{n}] \geq \Omega(1/d^{n})$, which holds by noticing that with h
 \fi 
  
 \begin{proof}[Proof of Theorem \ref{eigSGD}]
-Lemma~\ref{strongConvergeTwo} ensures that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon)$ iterations.
+Lemma~\ref{strongConvergeTwo} ensures that we are in $\mathcal{M}_{G,\poly(\epsilon,1/d)}$ in $\poly(d,1/\epsilon)$ iterations.
 If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Lemma~\ref{strongConvergeTwo}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{initialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G(0,0) - 2\delta \sqrt{G(0,0)}$ for $\delta = 1/\poly(d,1/\epsilon)$ after $e^{O(d\log d)}$ samples by applying standard probabilistic bounds. Finally, we conclude by Theorem \ref{eigRes}.
 \end{proof}
 %
