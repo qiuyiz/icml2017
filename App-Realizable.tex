@@ -76,3 +76,73 @@ By \ref{rotLem} and due to the orthogonality of hermite polynomials, if $f = \su
 
 Therefore, any function with non-negative taylor coefficients is a valid potential function, with the corresponding activation function determined by the sum of hermite polynomials, and the sum is bounded almost everywhere by assumption.
 \end{proof}
+
+\subsection{Further Characterizations}
+
+\begin{lemma}
+If $\Phi_1, \Phi_2$ are realizable potentials, then $\Phi_1 + \Phi_2$ is realizable. Furthermore, if $\Phi_i$ are a sequence of realizable potentials such that $\Phi_i(x)$ converges to $\Phi(x)$, then $\Phi$ is also realizable.
+\end{lemma}
+
+\begin{proof}
+Follows from PSD-ness.
+\end{proof}
+
+\begin{corollary}
+Let $w(x) \geq 0$ be a positive weighting function such that $\int_a^b w(x) \, dx$ is bounded. If $\Phi_x$ is a parametrized family of realizable potentials, then, $\int_a^b w(x) \Phi_x$ is realizable.
+\end{corollary}
+
+
+
+\begin{lemma}\label{baseConstruct}
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon, t > 0$, there exists a realizable $\Phi$ such that for $t \geq r > \epsilon$, $\Phi^{(d-1)}(r) = t -r$ and $\Phi^{k}(r) = 0$ for $r > t$ for all $0 \leq k \leq d$.
+\end{lemma}
+
+\begin{proof}
+First, consider a radial activation function $\sigma(x, \theta) = \bf{1}_{\|\theta - x\| \leq t/2}$, which is the indicator in the disk of radius $t/2$. This activation, when weighted correctly, gives rise to a realizable radial potential that measures the volume of the intersection of two spheres of radius $t$ centered at $\theta$ and $w$.
+%
+\[\Phi_t(\theta, w) = E_X[\sigma(X,\theta)\sigma(X,w)]\]
+\[= \begin{cases}
+C\int_{\|\theta - w\|/2}^{t/2} ((t/2)^2 - x^2)^{(d-1)/2} \, dx & \|\theta - w\| \leq t\\
+0 & o.w.\\
+\end{cases}\]
+%
+Therefore, as a function of $r=\|\theta - w \|$, we see that when $r \leq t$, $\Phi_t(r) = C\int_{r/2}^{t/2} ((t/2)^2-x^2)^{(d-1)/2} \, dx$ and $\Phi_t'(r) = -C'((t/2)^2-(r/2)^2)^{(d-1)/2}$. Since $d \equiv 3 \mod 4$, we notice that $\Phi_t'$ has a positive coefficient in the leading $r^{d-1}$ term and since it is a function of $r^2$, it has a zero $r^{d-2}$ term. Therefore, we can scale $\Phi_t$ such that 
+
+\[\Phi_t^{(d-1)}(r) = \begin{cases}
+r & r \leq t\\
+0 & o.w. \\
+\end{cases} \]
+
+Now, for any $\epsilon > 0$, let us construct our desired $\Phi$ by taking a positive sum of $\Phi_t$. Consider
+
+\[\Phi(r) = \int_{\epsilon}^{t} \frac{1}{x^2}\Phi_x(r) \, dx\]
+
+First, note that the total weight $\int_\epsilon^t \frac{1}{x^2}$ is bounded. Then, when $r \geq t$, since $\Phi_x(r) = 0$ for $x \leq t$, we conclude that $\Phi^{(k)}(r) = 0$ for any $k$. Otherwise, for $\epsilon < r < t$, we can interchange limits by non-negativity to get
+
+\[\Phi^{(d-1)}(r) = \int_{\epsilon}^r \frac{1}{x^2}\Phi_x^{(d-1)}(r) \, dx + \int_{r}^t \frac{1}{x^2} \Phi_x^{(d-1)}(r) \, dx\]
+
+\[ = 0 + \int_r^t \frac{r}{x^2} \, dx = 1 -r/t \]
+
+Scaling by $t$ gives our desired claim.
+\end{proof}
+
+\begin{lemma}\label{transConstruct}
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $\Phi(r)$ be a radial potential. Also, $\Phi^{(d)}(r) \leq 0$ and $\Phi^{(d+1)}(r)\geq 0$ for all $r > 0$ and $\lim_{r \to \infty} \Phi^{(k)}(r) = 0$ for all $0 \leq k \leq d$. 
+
+Then, for any $\epsilon > 0$, there exists a realizable potential $\overline{\Phi}$ $\Phi$ such that $\overline{\Phi}^{(k)}(r) = \Phi^{(k)}(r)$ for all $0 \leq k \leq d$ and $r \geq \epsilon$. 
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{baseConstruct}, we can find $\Phi_t$ such that for $r \geq \epsilon$, we have $\Phi_t^{(d)}(r) = - {\bf1}_{r \leq t}$. Therefore, consider 
+
+\[\overline{\Phi}(r) = \int_{\epsilon}^\infty \Phi^{(d+1)}(x) \Phi_x(r) \, dx\] 
+
+Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \, dx = -\Phi^{(d)}(\epsilon) < \infty$. By the non-negativity of $-\Phi^{(d)}_x$, we can interchange limits to get
+
+\[-\overline{\Phi}^{(d)}(r) = \int_{\epsilon}^\infty  \Phi^{(d+1)}(x) (-\Phi_x^{(d)}(r)) \, dx\] 
+
+\[ = \int_r^\infty \Phi^{(d+1)}(x) \,dx = -\Phi^{(d)}(r)\]
+
+Now, since $\overline{\Phi}^{(d)}(r) = \Phi^{(d)}(r)$ for $r\geq \epsilon$ and $\lim_{r\to\infty} \overline{\Phi}^{k}(r) = \lim_{r\to\infty} {\Phi}^{k}(r) = 0$ for $0 \leq k \leq d$, repeated integration gives us our claim.
+\end{proof}
+
