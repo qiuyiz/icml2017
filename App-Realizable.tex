@@ -146,3 +146,14 @@ Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \,
 Now, since $\overline{\Phi}^{(d)}(r) = \Phi^{(d)}(r)$ for $r\geq \epsilon$ and $\lim_{r\to\infty} \overline{\Phi}^{k}(r) = \lim_{r\to\infty} {\Phi}^{k}(r) = 0$ for $0 \leq k \leq d$, repeated integration gives us our claim.
 \end{proof}
 
+\begin{corollary}
+Let $\mathcal{M} = \R^d$ for $d = 3$. Then, for any $\epsilon > 0$, we can construct a radial potential $\Phi_\epsilon$ that is $\lambda$-harmonic for $r \geq \epsilon$.
+\end{corollary}
+
+\begin{proof}
+Consider $\Phi(r) = e^{-r}/r$. Then, by our formula for the 3-dimensional Laplacian,
+
+\[\Delta \Phi =  \frac{1}{r^2} \frac{\partial}{\partial r} (r^2 \frac{\partial \Phi}{\partial r}) = \Phi\]
+
+We can check that $\Phi^{(k)}(r)$ is non-negative for $k$ even and non-positive for $k$ odd. So, by Lemma \ref{transConstruct}, our claim follows.
+\end{proof}
