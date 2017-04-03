@@ -52,14 +52,14 @@ The last equality follows by Fourier uniqueness and taking the Fourier transform
 \tranReal*
 
 \begin{proof}
-Let $h(x) = \mathfrak{F}^{-1}(\sqrt{\mathfrak{F}(f)})(x)$ and this is well-defined since the fourier transform was non-negative everywhere. Now, let $\sigma(x,w) = (2\pi)^{1/4}e^{x^2/4}h(x-w)$ and by assumption, it is bounded almost everywhere. Realizability follows by checking:
+Let $h(x) = \FT^{-1}(\sqrt{\FT(f)})(x)$ and this is well-defined since the fourier transform was non-negative everywhere. Now, let $\sigma(x,w) = (2\pi)^{1/4}e^{x^2/4}h(x-w)$ and by assumption, it is bounded almost everywhere. Realizability follows by checking:
 %
 \begin{align*}
     E_{X \sim N}[\sigma(X,w)\sigma(X,\theta)]  &= \int_{\R^n} h(x-w)h(x-\theta) \, dx \\
     &= \int_{\R^n} h(x)h(x-(\theta-w)) \, dx \\
-    &= \mathfrak{F}^{-1}(\mathfrak{F}(h\ast h)(\theta -w)) \\
-    &= \mathfrak{F}^{-1}(\mathfrak{F}(h)^2(\theta - w)) \\
-    &= \mathfrak{F}^{-1}(\mathfrak{F}(f)(\theta - w)) \\
+    &= \FT^{-1}(\FT(h\ast h)(\theta -w)) \\
+    &= \FT^{-1}(\FT(h)^2(\theta - w)) \\
+    &= \FT^{-1}(\FT(f)(\theta - w)) \\
     &= f(\theta - w) 
 \end{align*}
 \end{proof}
@@ -79,22 +79,30 @@ Therefore, any function with non-negative taylor coefficients is a valid potenti
 
 \subsection{Further Characterizations}
 
+\begin{definition}
+Let $\Phi$ be $\FT$-integrable if $\FT({\Phi}(\omega))$ is integrable, where $\FT$ is the standard Fourier transform.
+\end{definition}
+
 \begin{lemma}
-If $\Phi_1, \Phi_2$ are realizable potentials, then $\Phi_1 + \Phi_2$ is realizable. Furthermore, if $\Phi_i$ are a sequence of realizable potentials such that $\Phi_i(x)$ converges to $\Phi(x)$, then $\Phi$ is also realizable.
+Let $\mathcal{M} = \R^{d}$. If $\Phi_1, \Phi_2$ are $\FT$-integrable realizable potentials, then $\Phi_1 + \Phi_2$ is $\FT$-integrable realizable.
 \end{lemma}
 
 \begin{proof}
-Follows from PSD-ness.
+Since $\Phi_1, \Phi_2$ is $\FT$-integrable, then since the Fourier transform is linear, $\Phi_1+\Phi_2$ is also $\FT$-integrable. Since $\Phi_1, \Phi_2$ are realizable, they are positive definite and by Bochner's theorem, their Fourier transforms are non-negative. Therefore, we know $\FT(\Phi_1 + \Phi_2)\geq 0$ and $\sqrt{\FT(\Phi_1 + \Phi_2)}$ is defined and is square-integrable. By properties of the Fourier transform, $\FT^{-1}(\sqrt{\FT(\Phi_1 + \Phi_2)})$ exists and is also square-integrable, therefore bounded almost anywhere. Lastly, by Theorem \ref{thm:tranReal}, we conclude that $\Phi_1 + \Phi_2$ is realizable.
 \end{proof}
 
 \begin{corollary}
-Let $w(x) \geq 0$ be a positive weighting function such that $\int_a^b w(x) \, dx$ is bounded. If $\Phi_x$ is a parametrized family of realizable potentials, then, $\int_a^b w(x) \Phi_x$ is realizable.
+Let $w(x) \geq 0$ be a positive weighting function such that $\int_a^b w(x) \, dx$ is bounded. If $\Phi_x$ is a parametrized family of $\FT$-integrable realizable potentials, then, $\int_a^b w(x) \Phi_x$ is $\FT$-integrable realizable.
 \end{corollary}
+
+\begin{proof}
+Let $\Phi = \int_a^b w(x) \Phi_x$. From linearity of the Fourier transform and $\int_a^b w(x)\, dx$ is bounded, we know that $\Phi$ is $\FT$-integrable. Then, by the continuity of Fourier transform, we can argue similarly as the previous lemma.
+\end{proof}
 
 
 
 \begin{lemma}\label{baseConstruct}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon, t > 0$, there exists a realizable $\Phi$ such that for $t \geq r > \epsilon$, $\Phi^{(d-1)}(r) = t -r$ and $\Phi^{k}(r) = 0$ for $r > t$ for all $0 \leq k \leq d$.
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon, t > 0$, there exists a $\FT$-integrable realizable $\Phi$ such that for $t \geq r > \epsilon$, $\Phi^{(d-1)}(r) = t -r$ and $\Phi^{k}(r) = 0$ for $r > t$ for all $0 \leq k \leq d$.
 \end{lemma}
 
 \begin{proof}
@@ -113,7 +121,7 @@ r & r \leq t\\
 0 & o.w. \\
 \end{cases} \]
 
-Now, for any $\epsilon > 0$, let us construct our desired $\Phi$ by taking a positive sum of $\Phi_t$. Consider
+Now, for any $\epsilon > 0$, let us construct our desired $\Phi$ by taking a positive sum of $\Phi_t$. $\Phi_t$ is clearly realizable and is $\FT$-integrable since it is continuous and has compact support. Consider
 
 \[\Phi(r) = \int_{\epsilon}^{t} \frac{1}{x^2}\Phi_x(r) \, dx\]
 
@@ -129,21 +137,25 @@ Scaling by $t$ gives our desired claim.
 \begin{lemma}\label{transConstruct}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $\Phi(r)$ be a radial potential. Also, $\Phi^{(d)}(r) \leq 0$ and $\Phi^{(d+1)}(r)\geq 0$ for all $r > 0$ and $\lim_{r \to \infty} \Phi^{(k)}(r) = 0$ for all $0 \leq k \leq d$. 
 
-Then, for any $\epsilon > 0$, there exists a realizable potential $\overline{\Phi}$ $\Phi$ such that $\overline{\Phi}^{(k)}(r) = \Phi^{(k)}(r)$ for all $0 \leq k \leq d$ and $r \geq \epsilon$. 
+Then, for any $\epsilon > 0$, there exists a $\FT$-integrable realizable potential $\overline{\Phi}$ $\Phi$ such that $\overline{\Phi}^{(k)}(r) = \Phi^{(k)}(r)$ for all $0 \leq k \leq d-1$ and $r \geq \epsilon$. 
 \end{lemma}
 
 \begin{proof}
-By Lemma \ref{baseConstruct}, we can find $\Phi_t$ such that for $r \geq \epsilon$, we have $\Phi_t^{(d)}(r) = - {\bf1}_{r \leq t}$. Therefore, consider 
+By Lemma \ref{baseConstruct}, we can find $\Phi_t$ such that for $r \geq \epsilon$, we have $\Phi_t^{(d-1)}(r) = t - r $. Therefore, consider 
 
 \[\overline{\Phi}(r) = \int_{\epsilon}^\infty \Phi^{(d+1)}(x) \Phi_x(r) \, dx\] 
 
 Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \, dx = -\Phi^{(d)}(\epsilon) < \infty$. By the non-negativity of $-\Phi^{(d)}_x$, we can interchange limits to get
 
-\[-\overline{\Phi}^{(d)}(r) = \int_{\epsilon}^\infty  \Phi^{(d+1)}(x) (-\Phi_x^{(d)}(r)) \, dx\] 
+\[\overline{\Phi}^{(d-1)}(r) = \int_{\epsilon}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx\] 
 
-\[ = \int_r^\infty \Phi^{(d+1)}(x) \,dx = -\Phi^{(d)}(r)\]
+\[ = \int_r^\infty \Phi^{(d+1)}(x) \int_r^x 1 \, dy \,dx \]
 
-Now, since $\overline{\Phi}^{(d)}(r) = \Phi^{(d)}(r)$ for $r\geq \epsilon$ and $\lim_{r\to\infty} \overline{\Phi}^{k}(r) = \lim_{r\to\infty} {\Phi}^{k}(r) = 0$ for $0 \leq k \leq d$, repeated integration gives us our claim.
+\[= \int_r^\infty \int_y^\infty \Phi^{(d+1)}(x) \, dx \, dy = \int_r^\infty  -\Phi^{(d)}(y) \, dy\]
+
+\[ = \Phi^{(d-1)}(r)\]
+
+Now, since $\overline{\Phi}^{(d-1)}(r) = \Phi^{(d-1)}(r)$ for $r\geq \epsilon$ and $\lim_{r\to\infty} \overline{\Phi}^{k}(r) = \lim_{r\to\infty} {\Phi}^{k}(r) = 0$ for $0 \leq k \leq d-1$, repeated integration gives us our claim.
 \end{proof}
 
 \begin{corollary}
