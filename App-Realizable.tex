@@ -80,10 +80,10 @@ Therefore, any function with non-negative taylor coefficients is a valid potenti
 \subsection{Further Characterizations}
 
 \begin{definition}
-Let $\Phi$ be $\FT$-integrable if $\FT({\Phi}(\omega))$ is integrable, where $\FT$ is the standard Fourier transform.
+Let $\Phi$ be integrable or square integrable. Then, $\Phi$ is $\FT$-integrable if $\FT({\Phi}(\omega))$ is integrable, where $\FT$ is the standard Fourier transform.
 \end{definition}
 
-\begin{lemma}
+\begin{lemma}\label{sumReal}
 Let $\mathcal{M} = \R^{d}$. If $\Phi_1, \Phi_2$ are $\FT$-integrable realizable potentials, then $\Phi_1 + \Phi_2$ is $\FT$-integrable realizable.
 \end{lemma}
 
@@ -91,9 +91,9 @@ Let $\mathcal{M} = \R^{d}$. If $\Phi_1, \Phi_2$ are $\FT$-integrable realizable 
 Since $\Phi_1, \Phi_2$ is $\FT$-integrable, then since the Fourier transform is linear, $\Phi_1+\Phi_2$ is also $\FT$-integrable. Since $\Phi_1, \Phi_2$ are realizable, they are positive definite and by Bochner's theorem, their Fourier transforms are non-negative. Therefore, we know $\FT(\Phi_1 + \Phi_2)\geq 0$ and $\sqrt{\FT(\Phi_1 + \Phi_2)}$ is defined and is square-integrable. By properties of the Fourier transform, $\FT^{-1}(\sqrt{\FT(\Phi_1 + \Phi_2)})$ exists and is also square-integrable, therefore bounded almost anywhere. Lastly, by Theorem \ref{thm:tranReal}, we conclude that $\Phi_1 + \Phi_2$ is realizable.
 \end{proof}
 
-\begin{corollary}
+\begin{lemma}\label{intReal}
 Let $w(x) \geq 0$ be a positive weighting function such that $\int_a^b w(x) \, dx$ is bounded. If $\Phi_x$ is a parametrized family of $\FT$-integrable realizable potentials, then, $\int_a^b w(x) \Phi_x$ is $\FT$-integrable realizable.
-\end{corollary}
+\end{lemma}
 
 \begin{proof}
 Let $\Phi = \int_a^b w(x) \Phi_x$. From linearity of the Fourier transform and $\int_a^b w(x)\, dx$ is bounded, we know that $\Phi$ is $\FT$-integrable. Then, by the continuity of Fourier transform, we can argue similarly as the previous lemma.
@@ -106,9 +106,9 @@ Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon, t > 0
 \end{lemma}
 
 \begin{proof}
-First, consider a radial activation function $\sigma(x, \theta) = \bf{1}_{\|\theta - x\| \leq t/2}$, which is the indicator in the disk of radius $t/2$. This activation, when weighted correctly, gives rise to a realizable radial potential that measures the volume of the intersection of two spheres of radius $t$ centered at $\theta$ and $w$.
+First, consider a radial activation function $\sigma_t(x, \theta) = \bf{1}_{\|\theta - x\| \leq t/2}$, which is the indicator in the disk of radius $t/2$. This activation, when weighted correctly, gives rise to a realizable radial potential that is simply the convolution of $\sigma_t$ with itself, measuring the volume of the intersection of two spheres of radius $t$ centered at $\theta$ and $w$.
 %
-\[\Phi_t(\theta, w) = E_X[\sigma(X,\theta)\sigma(X,w)]\]
+\[\Phi_t(\theta, w) = E_X[\sigma_t(X,\theta)\sigma_t(X,w)]\]
 \[= \begin{cases}
 C\int_{\|\theta - w\|/2}^{t/2} ((t/2)^2 - x^2)^{(d-1)/2} \, dx & \|\theta - w\| \leq t\\
 0 & o.w.\\
@@ -121,7 +121,9 @@ r & r \leq t\\
 0 & o.w. \\
 \end{cases} \]
 
-Now, for any $\epsilon > 0$, let us construct our desired $\Phi$ by taking a positive sum of $\Phi_t$. $\Phi_t$ is clearly realizable and is $\FT$-integrable since it is continuous and has compact support. Consider
+$\Phi_t$ is clearly realizable and we claim that it is $\FT$-integrable. First, $\Phi_t$ is integrable. Furthermore, $\sigma_t$ is integrable and square integrable, so its Fourier transform exists and by Parseval's, $\FT{\sigma_t}$ is square integrable. By the convolution properties of the Fourier transform, $\FT{\Phi_t} = \FT{\sigma_t}^2$, it follows that $\Phi_t$ is $\FT$-integrable.
+
+Now, for any $\epsilon > 0$, let us construct our desired $\Phi$ by taking a positive sum of $\Phi_t$ and then appealing to Lemma \ref{intReal}. Consider
 
 \[\Phi(r) = \int_{\epsilon}^{t} \frac{1}{x^2}\Phi_x(r) \, dx\]
 
@@ -158,7 +160,7 @@ Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \,
 Now, since $\overline{\Phi}^{(d-1)}(r) = \Phi^{(d-1)}(r)$ for $r\geq \epsilon$ and $\lim_{r\to\infty} \overline{\Phi}^{k}(r) = \lim_{r\to\infty} {\Phi}^{k}(r) = 0$ for $0 \leq k \leq d-1$, repeated integration gives us our claim.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}\label{almostHarmReal}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon > 0$, we can construct a radial potential $\Phi_\epsilon(r)$ that is $1$-harmonic when $r \geq \epsilon$.
 \end{theorem}
 
@@ -199,3 +201,45 @@ $q_{k+1} = p_k$
 
 Since $i \leq k < l$, we conclude that $q$ has non-negative coefficients. Finally, our assertion follows with induction since $\Phi^{(0)}(r)$ is non-negative and has our desired form with $k = (d-3)/2 < d-2$. By Lemma \ref{transConstruct}, our theorem follows.
 \end{proof}
+
+\begin{theorem}
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L$ be as in \eqref{errLoss}. For any $\epsilon > 0$, we can find a realizable potential $\Phi$ such that if $\boldsymbol{(a,\theta)}$ is a local minima of $L$, then for all $i$, either 1) there exists $S \subseteq [k]$ such that $i\in S$ and $\sum_{i \in S} a_i \sigma(\theta_i, x) = 0$ or 2) there exists $j$ such that $\|\theta_i - w_j\| < \epsilon$.
+\end{theorem}
+
+\begin{proof}
+ The proof is similar to Theorem \ref{EigStrict}. Let $\Phi$ be the realizable potential in \ref{almostHarmReal} such that $\Phi(r)$ is 1-harmonic when $r \geq \epsilon/k$. And let $\boldsymbol{a,\theta}$ be a local minima of $L$. Assume there is a non-empty subset $S \subseteq [k]$ such that for each $i \in S$, $\|w_j - \theta_i\|\geq \epsilon/k$ for all $j$, and $\|\theta_i - \theta_j\| \leq \epsilon/k$ for all $j\in [k]/S$. WLOG, let $S = \{1,\dots,l\}$. 
+  
+We consider changing all
+$\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
+%
+\[H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
+\ldots, \theta_k).\]
+
+The optimality conditions on ${\bf a}$ are 
+\begin{align*}
+0 = \pd{H}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j)
+  + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
+\end{align*}
+%
+Next, since $\Phi(r)$ is $1$-harmonic for $r \geq \epsilon/k$, we may differentiate as $\theta_i \neq w_j$ and compute the Laplacian as 
+\begin{align*}
+\Delta_v H & = \sum_{i=1}^l a_i \left(2\sum_{j=1}^k b_j
+  \Phi(\theta_i, w_j) + 2\sum_{j=l+1}^k a_j
+  \Phi(\theta_i, \theta_j)\right) \\
+& = \sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i, \theta_i) - 2
+  \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i,\theta_j)\right) \\
+& = -2\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i, \theta_i)
++\sum_{i \neq j}^l a_i a_j \Phi(\theta_i, \theta_j)\right) \\
+&= -2\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right]
+\end{align*} 
+%
+If $f(x) = \sum_{i=1}^l a_i\sigma(\theta_i, x) = 0$, then we satisfy condition 1. Otherwise, we conclude that the Laplacian is
+strictly negative, so we are not at a local minimum.  
+
+Therefore, it must be the case that there exists ${j_1},\cdots {j_q}$ such that $\|\theta_i - \theta_{j_1} \| < \epsilon/k$ and
+$\|\theta_{j_{i}} - \theta_{j_{i+1}}\| < \epsilon/k$, and
+$\|\theta_{j_q}- w_j\| <\epsilon/k$ for some $w_j$. So, there exists $j$, such that $\|\theta_i - w_j\| < \epsilon$. 
+
+
+\end{proof}
+
