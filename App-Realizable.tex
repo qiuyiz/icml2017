@@ -5,7 +5,7 @@
 \subsection{Activation-Potential Calculations}
 First define the {\it dual} of a function $f: \R \to \R$ is defined to be 
 %
-\[ \widehat{f}(\rho) = E_{X,Y \sim N(\rho)}[f(X)f(Y)],\]
+\[ \widehat{f}(\rho) = \expt_{X,Y \sim N(\rho)}[f(X)f(Y)],\]
 %
 where $N(\rho)$ is the bivariate normal distribution with $X, Y$ unit variance and $\rho$ covariance. This is as in \cite{DanielyFS16}.
 %
@@ -18,8 +18,8 @@ If $u, v$ have norm 1 and if $X$ is a standard Gaussian in $\R^d$, then note tha
 
 Therefore, the dual function of the activation gives us the potential function.
 \begin{align*}
-E_{X}[\sigma(u^TX)\sigma(v^TX)] & =
-E_{X,Y \sim N(u^Tv)}[\sigma(X)\sigma(Y)] \\
+\expt_{X}[\sigma(u^TX)\sigma(v^TX)] & =
+\expt_{X,Y \sim N(u^Tv)}[\sigma(X)\sigma(Y)] \\
 & = \widehat{\sigma}(u^Tv).
 \end{align*}
 \end{proof}
@@ -52,10 +52,10 @@ The last equality follows by Fourier uniqueness and taking the Fourier transform
 \tranReal*
 
 \begin{proof}
-Let $h(x) = \FT^{-1}(\sqrt{\FT(f)})(x)$ and this is well-defined since the fourier transform was non-negative everywhere. Now, let $\sigma(x,w) = (2\pi)^{1/4}e^{x^2/4}h(x-w)$ and by assumption, it is bounded almost everywhere. Realizability follows by checking:
+Let $h(x) = \FT^{-1}(\sqrt{\FT(f)})(x)$ and this is well-defined since the fourier transform was non-negative everywhere. Now, let $\sigma(x,w) = (2\pi)^{1/4}e^{x^2/4}h(x-w)$ and by assumption, it is bounded almost everywhere. Realizability follows by the Fourier inversion theorem:
 %
 \begin{align*}
-    E_{X \sim N}[\sigma(X,w)\sigma(X,\theta)]  &= \int_{\R^n} h(x-w)h(x-\theta) \, dx \\
+    \expt_{X \sim N}[\sigma(X,w)\sigma(X,\theta)]  &= \int_{\R^n} h(x-w)h(x-\theta) \, dx \\
     &= \int_{\R^n} h(x)h(x-(\theta-w)) \, dx \\
     &= \FT^{-1}(\FT(h\ast h)(\theta -w)) \\
     &= \FT^{-1}(\FT(h)^2(\theta - w)) \\
@@ -80,6 +80,10 @@ Therefore, any function with non-negative taylor coefficients is a valid potenti
 \subsection{Further Characterizations}
 
 \begin{definition}
+Let $\Phi$ be a positive semidefinite function if for all $x_1,...,x_n$, the matrix $A_{ij} = \Phi(x_i - x_j)$ is positive semidefinite. 
+\end{definition}
+
+\begin{definition}
 Let $\Phi$ be integrable or square integrable. Then, $\Phi$ is $\FT$-integrable if $\FT({\Phi}(\omega))$ is integrable, where $\FT$ is the standard Fourier transform.
 \end{definition}
 
@@ -102,13 +106,13 @@ Let $\Phi = \int_a^b w(x) \Phi_x$. From linearity of the Fourier transform and $
 
 
 \begin{lemma}\label{baseConstruct}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon, t > 0$, there exists a $\FT$-integrable realizable $\Phi$ such that for $t \geq r > \epsilon$, $\Phi^{(d-1)}(r) = t -r$ and $\Phi^{k}(r) = 0$ for $r > t$ for all $0 \leq k \leq d$.
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon, t > 0$, there exists a $\FT$-integrable realizable $\Phi$ such that for $t \geq r > \epsilon$, $\Phi^{(d-1)}(r) = t -r$ and for $ r \leq \epsilon$, $\Phi^{(d-1)}(r) = \frac{t-\epsilon}{\epsilon}r$. Furthermore, $\Phi^{(k)}(r) = 0$ for $r > t$ for all $0 \leq k \leq d$.
 \end{lemma}
 
 \begin{proof}
 First, consider a radial activation function $\sigma_t(x, \theta) = \bf{1}_{\|\theta - x\| \leq t/2}$, which is the indicator in the disk of radius $t/2$. This activation, when weighted correctly, gives rise to a realizable radial potential that is simply the convolution of $\sigma_t$ with itself, measuring the volume of the intersection of two spheres of radius $t$ centered at $\theta$ and $w$.
 %
-\[\Phi_t(\theta, w) = E_X[\sigma_t(X,\theta)\sigma_t(X,w)]\]
+\[\Phi_t(\theta, w) = \expt_X[\sigma_t(X,\theta)\sigma_t(X,w)]\]
 \[= \begin{cases}
 C\int_{\|\theta - w\|/2}^{t/2} ((t/2)^2 - x^2)^{(d-1)/2} \, dx & \|\theta - w\| \leq t\\
 0 & o.w.\\
@@ -121,35 +125,47 @@ r & r \leq t\\
 0 & o.w. \\
 \end{cases} \]
 
-$\Phi_t$ is clearly realizable and we claim that it is $\FT$-integrable. First, $\Phi_t$ is integrable. Furthermore, $\sigma_t$ is integrable and square integrable, so its Fourier transform exists and by Parseval's, $\FT{\sigma_t}$ is square integrable. By the convolution properties of the Fourier transform, $\FT{\Phi_t} = \FT{\sigma_t}^2$, it follows that $\Phi_t$ is $\FT$-integrable.
+$\Phi_t$ is clearly realizable and we claim that it is $\FT$-integrable. First, $\Phi_t$ is integrable. Furthermore, $\sigma_t$ is integrable and square integrable, so its Fourier transform exists and by Parseval's, $\FT(\sigma_t)$ is square integrable. By the convolution properties of the Fourier transform, $\FT(\Phi_t) = \FT(\sigma_t)^2$, it follows that $\Phi_t$ is $\FT$-integrable.
 
 Now, for any $\epsilon > 0$, let us construct our desired $\Phi$ by taking a positive sum of $\Phi_t$ and then appealing to Lemma \ref{intReal}. Consider
 
 \[\Phi(r) = \int_{\epsilon}^{t} \frac{1}{x^2}\Phi_x(r) \, dx\]
 
-First, note that the total weight $\int_\epsilon^t \frac{1}{x^2}$ is bounded. Then, when $r \geq t$, since $\Phi_x(r) = 0$ for $x \leq t$, we conclude that $\Phi^{(k)}(r) = 0$ for any $k$. Otherwise, for $\epsilon < r < t$, we can interchange limits by non-negativity to get
+First, note that the total weight $\int_\epsilon^t \frac{1}{x^2}$ is bounded. Then, when $r \geq t$, since $\Phi_x(r) = 0$ for $x \leq t$, we conclude that $\Phi^{(k)}(r) = 0$ for any $k$. Otherwise, for $\epsilon < r < t$, we can apply dominated convergence theorem to get
 
 \[\Phi^{(d-1)}(r) = \int_{\epsilon}^r \frac{1}{x^2}\Phi_x^{(d-1)}(r) \, dx + \int_{r}^t \frac{1}{x^2} \Phi_x^{(d-1)}(r) \, dx\]
 
 \[ = 0 + \int_r^t \frac{r}{x^2} \, dx = 1 -r/t \]
 
-Scaling by $t$ gives our desired claim.
+Scaling by $t$ gives our desired claim. For $r\leq \epsilon$, we integrate similarly and scale by $t$ to conclude.
 \end{proof}
 
 \begin{lemma}\label{transConstruct}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $\Phi(r)$ be a radial potential. Also, $\Phi^{(d)}(r) \leq 0$ and $\Phi^{(d+1)}(r)\geq 0$ for all $r > 0$ and $\lim_{r \to \infty} \Phi^{(k)}(r) = 0$ for all $0 \leq k \leq d$. 
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $\Phi(r)$ be a radial potential. Also, $\Phi^{(k)}(r) \geq 0$ and $\Phi^{(k+1)}(r)\leq 0$ for all $r > 0$ and $k \geq 0 $ even, and $\lim_{r \to \infty} \Phi^{(k)}(r) = 0$ for all $0 \leq k \leq d$. 
 
-Then, for any $\epsilon > 0$, there exists a $\FT$-integrable realizable potential $\overline{\Phi}$ $\Phi$ such that $\overline{\Phi}^{(k)}(r) = \Phi^{(k)}(r)$ for all $0 \leq k \leq d-1$ and $r \geq \epsilon$. 
+Then, for any $\epsilon > 0$, there exists a $\FT$-integrable realizable potential $\overline{\Phi}$  such that $\overline{\Phi}^{(k)}(r) = \Phi^{(k)}(r)$ for all $0 \leq k \leq d-1$ and $r \geq \epsilon$. Furthermore, we have $\overline{\Phi}^{(d-1)}(r) \geq 0$ for all $r  > 0$ and $\overline{\Phi}^{(k)}(r) \geq 0$ and $\overline{\Phi}^{(k+1)}(r)\leq 0$ for all $r > 0$ and $d - 3 \geq k \geq 0 $ even.
 \end{lemma}
 
 \begin{proof}
-By Lemma \ref{baseConstruct}, we can find $\Phi_t$ such that for $r \geq \epsilon$, we have $\Phi_t^{(d-1)}(r) = t - r $. Therefore, consider 
+By Lemma \ref{baseConstruct}, we can find $\Phi_t$ such that
+
+$\Phi_t^{(d-1)} = \begin{cases}
+\frac{t-\epsilon}{\epsilon } r & 0 \leq r \leq \epsilon \\
+t - r & \epsilon < r \leq t \\
+0 & r > t
+\end{cases}$
+
+Furthermore, $\Phi_t^{(k)}(r) = 0$ for $r > t$ for all $0 \leq k \leq d$.
+
+Therefore, consider 
 
 \[\overline{\Phi}(r) = \int_{\epsilon}^\infty \Phi^{(d+1)}(x) \Phi_x(r) \, dx\] 
 
-Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \, dx = -\Phi^{(d)}(\epsilon) < \infty$. By the non-negativity of $-\Phi^{(d)}_x$, we can interchange limits to get
+Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \, dx = -\Phi^{(d)}(\epsilon) < \infty$. By the non-negativity of our summands, we can apply dominated convergence theorem and Fubini's theorem to get
 
 \[\overline{\Phi}^{(d-1)}(r) = \int_{\epsilon}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx\] 
+
+\[ = \int_{r}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx\] 
 
 \[ = \int_r^\infty \Phi^{(d+1)}(x) \int_r^x 1 \, dy \,dx \]
 
@@ -157,7 +173,16 @@ Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \,
 
 \[ = \Phi^{(d-1)}(r)\]
 
-Now, since $\overline{\Phi}^{(d-1)}(r) = \Phi^{(d-1)}(r)$ for $r\geq \epsilon$ and $\lim_{r\to\infty} \overline{\Phi}^{k}(r) = \lim_{r\to\infty} {\Phi}^{k}(r) = 0$ for $0 \leq k \leq d-1$, repeated integration gives us our claim.
+Now, since $\overline{\Phi}^{(d-1)}(r) = \Phi^{(d-1)}(r)$ for $r\geq \epsilon$ and $\lim_{r\to\infty} \overline{\Phi}^{(k)}(r) = \lim_{r\to\infty} {\Phi}^{(k)}(r) = 0$ for $0 \leq k \leq d-1$, repeated integration gives us our claim. 
+
+Finally, for the second claim, notice that for $r \leq \epsilon$, we get
+
+\[\overline{\Phi}^{(d-1)}(r) = \int_{\epsilon}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx\] 
+
+\[ =  r \int_\epsilon^\infty \Phi^{(d+1)}(x) \frac{x - \epsilon}{\epsilon} \, dx = Cr  \]
+
+Note that our constant $C \geq 0$ since the summands are non-negative. Therefore, we conclude that $\overline{\Phi}^{(d-1)}(r) \geq 0$ for all $r > 0$. Repeated integration and noting that $\lim_{r\to\infty} \overline{\Phi}^{(k)}(r) = 0$ for $0 \leq k \leq d-1$ gives us our claim.
+
 \end{proof}
 
 \begin{theorem}\label{almostHarmReal}
@@ -185,9 +210,9 @@ $x^k:$ $-2k +d-3 = 0$
 
 Note that for $i = 1$, this becomes $a_0 = a_1$, which is already satisfied. Thus, setting $a_0 = 1$ and running the recurrence gives us our desired polynomial. Note that the recurrence is valid and produces positive coefficients since $i < k  = (d-3)/2$. Therefore, our claim follows and $\Phi$ is $1$-harmonic.
 
-Lastly, we assert that $\Phi^{(j)}(r)$ is non-negative for $j$ even and non-positive for $j$ odd. Our second claim is that if $\Phi$ is of the form $\Phi(r) = p(r) e^{-r}/r^{l}$ for some $p$ of degree $k < l$ and $p$ has non-negative coefficients, then $\Phi'(r) = - q(r) e^{-r}/r^{l+1}$ for some $q$ of degree $k+1$ with non-negative coefficients. 
+Lastly, we assert that $\Phi^{(j)}(r)$ is non-negative for $j$ even and non-positive for $j$ odd. To prove our assertion, we note that it suffices to show that if $\Phi$ is of the form $\Phi(r) = p(r) e^{-r}/r^{l}$ for some $p$ of degree $k < l$ and $p$ has non-negative coefficients, then $\Phi'(r) = - q(r) e^{-r}/r^{l+1}$ for some $q$ of degree $k+1$ with non-negative coefficients. 
 
-It suffices to prove our second claim. Differentiating $\Phi$ gives:
+Differentiating $\Phi$ gives:
 
 \[\Phi' = \frac{e^{-r}}{r^{l+1}} (rp'(r) - (l + r)p(r))\]
 
