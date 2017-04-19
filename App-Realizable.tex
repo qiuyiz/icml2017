@@ -49,19 +49,25 @@ The last equality follows by Fourier uniqueness and taking the Fourier transform
 
 \subsection{Characterization Theorems}
 
+\begin{definition}
+A potential $\Phi$ is $\FT$-integrable if it is square-integrable and $\FT({\Phi}(\omega))$ is integrable, where $\FT$ is the standard Fourier transform.
+\end{definition}
+
 \tranReal*
 
 \begin{proof}
-Let $h(x) = \FT^{-1}(\sqrt{\FT(f)})(x)$ and this is well-defined since the fourier transform was non-negative everywhere. Now, let $\sigma(x,w) = (2\pi)^{1/4}e^{x^2/4}h(x-w)$ and by assumption, it is bounded almost everywhere. Realizability follows by the Fourier inversion theorem:
+Since $\Phi$ is square-integrable, its Fourier transform exists. Let $h(x) = \FT^{-1}(\sqrt{\FT(\Phi)})(x)$ and this is well-defined since the Fourier transform was non-negative everywhere and the Fourier inverse exists since $\sqrt{\FT(\Phi)}(x)$ is square-integrable. Now, let $\sigma(x,w) = (2\pi)^{1/4}e^{x^2/4}h(x-w)$. Realizability follows by the Fourier inversion theorem:
 %
 \begin{align*}
     \expt_{X \sim N}[\sigma(X,w)\sigma(X,\theta)]  &= \int_{\R^n} h(x-w)h(x-\theta) \, dx \\
     &= \int_{\R^n} h(x)h(x-(\theta-w)) \, dx \\
     &= \FT^{-1}(\FT(h\ast h)(\theta -w)) \\
     &= \FT^{-1}(\FT(h)^2(\theta - w)) \\
-    &= \FT^{-1}(\FT(f)(\theta - w)) \\
-    &= f(\theta - w) 
+    &= \FT^{-1}(\FT(\Phi)(\theta - w)) \\
+    &= \Phi(\theta - w) 
 \end{align*}
+ 
+Note that $\ast$ denotes function convolution.
 \end{proof}
 
 
@@ -79,20 +85,24 @@ Therefore, any function with non-negative taylor coefficients is a valid potenti
 
 \subsection{Further Characterizations}
 
+To apply Theorem~\ref{thm:tranReal}, we need to check that the Fourier transform of our function is non-negative. Not only is this is not straightforward to check, many of our desired potentials do not satisfy this criterion. In this section, we would like to have a stronger characterization of realizable potentials, allowing us to construct realizable potentials that approximates our desired potential.
+ 
 \begin{definition}
 Let $\Phi$ be a positive semidefinite function if for all $x_1,...,x_n$, the matrix $A_{ij} = \Phi(x_i - x_j)$ is positive semidefinite. 
 \end{definition}
 
-\begin{definition}
-Let $\Phi$ be integrable or square integrable. Then, $\Phi$ is $\FT$-integrable if $\FT({\Phi}(\omega))$ is integrable, where $\FT$ is the standard Fourier transform.
-\end{definition}
-
-\begin{lemma}\label{sumReal}
-Let $\mathcal{M} = \R^{d}$. If $\Phi_1, \Phi_2$ are $\FT$-integrable realizable potentials, then $\Phi_1 + \Phi_2$ is $\FT$-integrable realizable.
+\begin{lemma}\label{lem:psd}
+Let $\mathcal{M} = \R^d$ and $\Phi(\theta, w) = f(\theta-w)$ is is realizable, then it is positive semidefinite.
 \end{lemma}
 
 \begin{proof}
-Since $\Phi_1, \Phi_2$ is $\FT$-integrable, then since the Fourier transform is linear, $\Phi_1+\Phi_2$ is also $\FT$-integrable. Since $\Phi_1, \Phi_2$ are realizable, they are positive definite and by Bochner's theorem, their Fourier transforms are non-negative. Therefore, we know $\FT(\Phi_1 + \Phi_2)\geq 0$ and $\sqrt{\FT(\Phi_1 + \Phi_2)}$ is defined and is square-integrable. By properties of the Fourier transform, $\FT^{-1}(\sqrt{\FT(\Phi_1 + \Phi_2)})$ exists and is also square-integrable, therefore bounded almost anywhere. Lastly, by Theorem \ref{thm:tranReal}, we conclude that $\Phi_1 + \Phi_2$ is realizable.
+If $\Phi$ is realizable, then there exists $\sigma$ such that  $\Phi(\theta, w) =  \expt_{X \sim N}[\sigma(X, w)\sigma(X, \theta)]$. For $x_1,...,x_n$, we note that the quadratic form:
+
+\[\sum_{i,j} \Phi(x_i,x_j) v_i v_j = \sum_{i,j} \expt_{X \sim N}[\sigma(X, x_i)\sigma(X, x_j)] v_i v_j \]
+
+\[ = \expt_{X \sim N}\left[\left(\sum_{i}v_i \sigma(X , x_i) \right)^2\right] \geq 0\]
+
+And since $\Phi$ is translationally symmetric, we conclude that $\Phi$ is positive semidefinite.
 \end{proof}
 
 \begin{lemma}\label{intReal}
@@ -100,7 +110,7 @@ Let $w(x) \geq 0$ be a positive weighting function such that $\int_a^b w(x) \, d
 \end{lemma}
 
 \begin{proof}
-Let $\Phi = \int_a^b w(x) \Phi_x$. From linearity of the Fourier transform and $\int_a^b w(x)\, dx$ is bounded, we know that $\Phi$ is $\FT$-integrable. Then, by the continuity of Fourier transform, we can argue similarly as the previous lemma.
+Let $\Phi = \int_a^b w(x) \Phi_x$. From linearity of the Fourier transform and $\int_a^b w(x)\, dx$ is bounded, we know that $\Phi$ is $\FT$-integrable. Since $\Phi_x$ are realizable, they are positive definite by Lemma~\ref{lem:psd} and by Bochner's theorem, their Fourier transforms are non-negative. And since $w(x) \geq 0$, we conclude by linearity and continuity of the Fourier transform that $\FT(\Phi) \geq 0$. By Theorem \ref{thm:tranReal}, we conclude that $\Phi$ is realizable.
 \end{proof}
 
 
@@ -110,7 +120,7 @@ Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon, t > 0
 \end{lemma}
 
 \begin{proof}
-First, consider a radial activation function $\sigma_t(x, \theta) = \bf{1}_{\|\theta - x\| \leq t/2}$, which is the indicator in the disk of radius $t/2$. This activation, when weighted correctly, gives rise to a realizable radial potential that is simply the convolution of $\sigma_t$ with itself, measuring the volume of the intersection of two spheres of radius $t$ centered at $\theta$ and $w$.
+Our construction is based on the radial activation function $h_t(x, \theta) = \bf{1}_{\|\theta - x\| \leq t/2}$, which is the indicator in the disk of radius $t/2$. This function, when re-weighted correctly as $\sigma_t(x,\theta) =  (2\pi)^{1/4} e^{x^2/4}h_t(x,\theta)$ gives rise to a radial potential function that is simply the convolution of $h_t$ with itself, measuring the volume of the intersection of two spheres of radius $t$ centered at $\theta$ and $w$.
 %
 \[\Phi_t(\theta, w) = \expt_X[\sigma_t(X,\theta)\sigma_t(X,w)]\]
 \[= \begin{cases}
@@ -125,7 +135,7 @@ r & r \leq t\\
 0 & o.w. \\
 \end{cases} \]
 
-$\Phi_t$ is clearly realizable and we claim that it is $\FT$-integrable. First, $\Phi_t$ is integrable. Furthermore, $\sigma_t$ is integrable and square integrable, so its Fourier transform exists and by Parseval's, $\FT(\sigma_t)$ is square integrable. By the convolution properties of the Fourier transform, $\FT(\Phi_t) = \FT(\sigma_t)^2$, it follows that $\Phi_t$ is $\FT$-integrable.
+$\Phi_t$ is clearly realizable and now we claim that it is $\FT$-integrable. First, $\Phi_t$ is bounded on a compact set so it is square-integrable. Now, since $\Phi_t = h_t \ast h_t$ can be written as a convolution, $\FT(\Phi_t) = \FT(h_t)^2$. Since $h_t$ is square integrable, then by Parseval's, $\FT(h_t)$ is square integrable, allowing us to conclude that $\Phi_t$ is $\FT$-integrable.
 
 Now, for any $\epsilon > 0$, let us construct our desired $\Phi$ by taking a positive sum of $\Phi_t$ and then appealing to Lemma \ref{intReal}. Consider
 
@@ -185,86 +195,42 @@ Note that our constant $C \geq 0$ since the summands are non-negative. Therefore
 
 \end{proof}
 
-\begin{theorem}\label{almostHarmReal}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon > 0$, we can construct a radial potential $\Phi_\epsilon(r)$ that is $1$-harmonic when $r \geq \epsilon$.
-\end{theorem}
+\AlmostHarmReal*
 
 \begin{proof}
-Consider a potential of the form $\Phi(r) = p(r)e^{-r}/r^{d-2}$. We claim that there exists a polynomial $p$ of degree $k = (d-3)/2$ with non-negative coefficients and $p(0) = 1$ such that $\Phi$ is $1$-harmonic.
+Consider a potential of the form $\Phi(r) = p(r)e^{-\sqrt{\lambda}r}/r^{d-2}$. We claim that there exists a polynomial $p$ of degree $k = (d-3)/2$ with non-negative coefficients and $p(0) = 1$ such that $\Phi$ is $\lambda$-harmonic.
 
-When $d = 3$, it is easy to check that $\Phi(r) = e^{-r}/r$ is our desired potential. Otherwise, by our formula for the radial Laplacian in $d$ dimensions, we want to solve the following differential equation:
+When $d = 3$, it is easy to check that $\Phi(r) = e^{(-\sqrt{\lambda})r}/r$ is our desired potential. Otherwise, by our formula for the radial Laplacian in $d$ dimensions, we want to solve the following differential equation:
 
-\[\Delta \Phi =  \frac{1}{r^{d-1}} \frac{\partial}{\partial r} (r^{d-1} \frac{\partial \Phi}{\partial r}) = \Phi\]
+\[\Delta \Phi =  \frac{1}{r^{d-1}} \frac{\partial}{\partial r} (r^{d-1} \frac{\partial \Phi}{\partial r}) =\lambda \Phi\]
 
 Solving this gives us the following second-order differential equation on $p$
 
-\[rp'' - (d+2r-3)p' +(d-3)p = 0\]
+\[rp'' - (d-3+2\sqrt{\lambda}r)p' +\sqrt{\lambda} (d-3)p = 0\]
 
-Let us write $p(r) = \sum_{i=0}^k a_i x^i$. Then, substituting into our differential equation gives us the following equations by setting each coefficient of $x^i$ to zero:
+Let us write $p(r) = \sum_{i=0}^k a_i r^i$. Then, substituting into our differential equation gives us the following equations by setting each coefficient of $r^i$ to zero:
 
-$x^0:$ $a_0 = a_1$,
+$r^i$:  $a_{i+1}(i+1)(i - (d-3)) = a_i \sqrt{\lambda} (2i-(d-3))$
 
-$x^i$:  $a_{i-1}(d-3 - 2(i-1)) = a_i (i(d-3 - i-1))$
+$r^k:$ $(-2k +d-3)a_k = 0$
 
-$x^k:$ $-2k +d-3 = 0$
+The last equation explains why we chose $k = (d-3)/2$, so that it is automatically zero. Thus, setting $a_0 = 1$ and running the recurrence gives us our desired polynomial. Note that the recurrence is valid and produces positive coefficients since $i < k  = (d-3)/2$. Our claim follows and $\Phi$ is $\lambda$-harmonic.
 
-Note that for $i = 1$, this becomes $a_0 = a_1$, which is already satisfied. Thus, setting $a_0 = 1$ and running the recurrence gives us our desired polynomial. Note that the recurrence is valid and produces positive coefficients since $i < k  = (d-3)/2$. Therefore, our claim follows and $\Phi$ is $1$-harmonic.
-
-Lastly, we assert that $\Phi^{(j)}(r)$ is non-negative for $j$ even and non-positive for $j$ odd. To prove our assertion, we note that it suffices to show that if $\Phi$ is of the form $\Phi(r) = p(r) e^{-r}/r^{l}$ for some $p$ of degree $k < l$ and $p$ has non-negative coefficients, then $\Phi'(r) = - q(r) e^{-r}/r^{l+1}$ for some $q$ of degree $k+1$ with non-negative coefficients. 
+Lastly, we assert that $\Phi^{(j)}(r)$ is non-negative for $j$ even and non-positive for $j$ odd. To prove our assertion, we note that it suffices to show that if $\Phi$ is of the form $\Phi(r) = p(r) e^{-\sqrt{\lambda}r}/r^{l}$ for some $p$ of degree $k < l$ and $p$ has non-negative coefficients, then $\Phi'(r) = - q(r) e^{-\sqrt{\lambda}r}/r^{l+1}$ for some $q$ of degree $k+1$ with non-negative coefficients. 
 
 Differentiating $\Phi$ gives:
 
-\[\Phi' = \frac{e^{-r}}{r^{l+1}} (rp'(r) - (l + r)p(r))\]
+\[\Phi' = \frac{e^{-r}}{r^{l+1}} (rp'(r) - (l + \sqrt{\lambda} r)p(r))\]
 
-It is clear that if $p$ has degree $k$, then $q(r) = (l+r)p(r) - rp'(r)$ has degree $k+1$, so it suffices to show that it has non-negative coefficients. Let $p_0,..., p_k$ be the non-negative coefficients of $p$. Then, by our formula, we see that 
+It is clear that if $p$ has degree $k$, then $q(r) = (l+\sqrt{\lambda} r)p(r) - rp'(r)$ has degree $k+1$, so it suffices to show that it has non-negative coefficients. Let $p_0,..., p_k$ be the non-negative coefficients of $p$. Then, by our formula, we see that 
 
 $q_0 = l p_0$
 
-$q_i = lp_i - ip_i + p_{i-1} = (l-i)p_i + p_{i-1}$ 
+$q_i = lp_i - ip_i + \sqrt{\lambda}p_{i-1} = (l-i)p_i + \sqrt{\lambda}p_{i-1}$ 
 
-$q_{k+1} = p_k$
+$q_{k+1} = \sqrt{\lambda} p_k$
 
 Since $i \leq k < l$, we conclude that $q$ has non-negative coefficients. Finally, our assertion follows with induction since $\Phi^{(0)}(r)$ is non-negative and has our desired form with $k = (d-3)/2 < d-2$. By Lemma \ref{transConstruct}, our theorem follows.
 \end{proof}
 
-\begin{theorem}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L$ be as in \eqref{errLoss}. For any $\epsilon > 0$, we can find a realizable potential $\Phi$ such that if $\boldsymbol{(a,\theta)}$ is a local minima of $L$, then for all $i$, either 1) there exists $S \subseteq [k]$ such that $i\in S$ and $\sum_{i \in S} a_i \sigma(\theta_i, x) = 0$ or 2) there exists $j$ such that $\|\theta_i - w_j\| < \epsilon$.
-\end{theorem}
-
-\begin{proof}
- The proof is similar to Theorem \ref{EigStrict}. Let $\Phi$ be the realizable potential in \ref{almostHarmReal} such that $\Phi(r)$ is 1-harmonic when $r \geq \epsilon/k$. And let $\boldsymbol{a,\theta}$ be a local minima of $L$. Assume there is a non-empty subset $S \subseteq [k]$ such that for each $i \in S$, $\|w_j - \theta_i\|\geq \epsilon/k$ for all $j$, and $\|\theta_i - \theta_j\| \leq \epsilon/k$ for all $j\in [k]/S$. WLOG, let $S = \{1,\dots,l\}$. 
-  
-We consider changing all
-$\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
-%
-\[H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
-\ldots, \theta_k).\]
-
-The optimality conditions on ${\bf a}$ are 
-\begin{align*}
-0 = \pd{H}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j)
-  + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
-\end{align*}
-%
-Next, since $\Phi(r)$ is $1$-harmonic for $r \geq \epsilon/k$, we may differentiate as $\theta_i \neq w_j$ and compute the Laplacian as 
-\begin{align*}
-\Delta_v H & = \sum_{i=1}^l a_i \left(2\sum_{j=1}^k b_j
-  \Phi(\theta_i, w_j) + 2\sum_{j=l+1}^k a_j
-  \Phi(\theta_i, \theta_j)\right) \\
-& = \sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i, \theta_i) - 2
-  \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i,\theta_j)\right) \\
-& = -2\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i, \theta_i)
-+\sum_{i \neq j}^l a_i a_j \Phi(\theta_i, \theta_j)\right) \\
-&= -2\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right]
-\end{align*} 
-%
-If $f(x) = \sum_{i=1}^l a_i\sigma(\theta_i, x) = 0$, then we satisfy condition 1. Otherwise, we conclude that the Laplacian is
-strictly negative, so we are not at a local minimum.  
-
-Therefore, it must be the case that there exists ${j_1},\cdots {j_q}$ such that $\|\theta_i - \theta_{j_1} \| < \epsilon/k$ and
-$\|\theta_{j_{i}} - \theta_{j_{i+1}}\| < \epsilon/k$, and
-$\|\theta_{j_q}- w_j\| <\epsilon/k$ for some $w_j$. So, there exists $j$, such that $\|\theta_i - w_j\| < \epsilon$. 
-
-
-\end{proof}
 
