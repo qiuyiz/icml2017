@@ -1,0 +1,130 @@
+
+\section{Realizable Potentials with Convergence Guarantees}
+
+In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive our desired guarantees. (elaborate)
+
+To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run SGD on $G = L + \beta\|a\|^2$. By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are have a negative curvature of at least $\epsilon$ in $\poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_{G, \epsilon}$, where 
+%
+\begin{theorem}\label{almostHarmSGD}
+  Let $\mathcal{M} = \R^{d}$ and $b_1,...,b_k$ be bounded by $\poly(d)$ and $\|\boldsymbol{b}\| \geq 1$. Let $w_1,..,w_k$ are randomly chosen from $\mathcal{M}$ according to a standard normal distribution.
+
+  With high probability, for all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ and after running SGD (Algorithm \ref{SGD}) on the regularized objective
+  $G(\boldsymbol{a,\theta})$ such that either 1) $G(\boldsymbol{a,\theta}) \leq \epsilon$ or 2) there exists an $i, j$ such that $|w_j^T\theta_i| > 1- \epsilon$ in $poly(d,1/\epsilon)$ iteration complexity.
+\end{theorem}
+
+
+
+We first state a lemma concerning the construction of an approximately
+$\lambda$-harmonic function on $\R^d.$ The construction is given in
+Section~\ref{realizable} and is quite technical.
+%
+%
+\begin{restatable}{lemma}{AlmostHarmReal}\label{almostHarmReal}
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon > 0$, we can construct a realizable radial potential $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when $r \geq \epsilon$.
+\end{restatable}
+%
+%
+%
+\begin{lemma}\label{almostHarmConv}
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L$ be as in \eqref{errLoss} corresponding to some activation function $\sigma$. For any $\epsilon > 0$, we can construct $\sigma$ such that if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\poly(\epsilon,1/d)}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < \epsilon$ or 2) $a_i^2 < \poly(\epsilon,1/d)/(\beta\lambda)$
+\end{lemma}
+%
+\begin{proof}
+ The proof is similar to Theorem \ref{EigStrict}. Let $\Phi_\lambda$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\lambda(r)$ is $\lambda$-harmonic when $r \geq \epsilon/k$. Note that $\Phi_\lambda(0) = 1$ is normalized. And let $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\poly(\epsilon,1/d)}$. Assume there is a non-empty subset $S \subseteq [k]$ such that for each $i \in S$, $\|w_j - \theta_i\|\geq \epsilon/k$ for all $j$, and $\|\theta_i - \theta_j\| \leq \epsilon/k$ for all $j\in [k]/S$. WLOG, let $S = \{1,\dots,l\}$. 
+  
+We consider changing all
+$\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
+%
+\[H({\bf a}, v) = G({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
+\ldots, \theta_k).\]
+
+The optimality conditions on ${\bf a}$ are 
+\begin{align*}
+   \abs{\pd{H}{a_i}} & = \lvert (2+2\beta)a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j) \rvert \\
+& \leq \poly(\epsilon,1/d)
+\end{align*}
+%
+Next, since $\Phi_\lambda(r)$ is $\lambda$-harmonic for $r \geq \epsilon/k$, we may calculate the Laplacian of $H$ as
+%
+\begin{align*}
+\Delta_v H & = \sum_{i=1}^l \lambda \left(2\sum_{j=1}^k a_ib_j
+  \Phi(\theta_i, w_j) + 2\sum_{j=l+1}^k a_ia_j
+  \Phi(\theta_i, \theta_j)\right) \\
+& = \sum_{i=1}^l \lambda \left(-2\beta a_i^2 -2a_i^2 - 2
+  \sum_{j = 1, j\neq i}^l  a_ia_j \Phi(\theta_i,\theta_j)\right) \\
+  & \qquad \qquad  + \poly(\epsilon,1/d) \sum_{i=1}^l \lambda a_i^2 \\
+&= -2\lambda\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] -2\beta\lambda \sum_{i=1}^l a_i^2\\
+& \qquad \qquad + \poly(\epsilon,1/d) \sum_{i=1}^l \lambda a_i^2 \\
+\end{align*} 
+%
+The second line follows from our optimality conditions and the third line follows from completing the square. Since $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\poly(\epsilon,1/d)}$, we have $\Delta_v H \geq - \poly(\epsilon,1/d)$. By choosing $\beta \geq \poly(\epsilon,1/d)$, we see that we must satisfy $\sum_{i=1}^l a_i^2 \leq \poly(\epsilon,1/d)/(\beta\lambda)$. Therefore, $a_i^2 \leq \poly(\epsilon,1/d)/(\beta\lambda)$.
+
+Otherwise, our subset $S$ does not exist. Therefore, it must be the case that there exists ${j_1},\cdots {j_q}$ such that $\|\theta_i - \theta_{j_1} \| < \epsilon/k$ and
+$\|\theta_{j_{i}} - \theta_{j_{i+1}}\| < \epsilon/k$, and
+$\|\theta_{j_q}- w_j\| <\epsilon/k$ for some $w_j$. So, there exists $j$, such that $\|\theta_i - w_j\| < \epsilon$. 
+
+
+\end{proof}
+
+\begin{lemma}\label{almostHarmRes}
+  Assume the conditions of Theorem~\ref{almostHarmSGD}. If
+$G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - \epsilon\sqrt{G(\boldsymbol{0,0})}$
+  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\poly(\epsilon,1/d)}$,
+  then there exists some $i, j$ such that $\|\theta_i - w_j\| <\epsilon$.
+\end{lemma}
+ 
+ \begin{proof}
+ If there does not exists $i, j$ such that
+   $\|\theta_i - w_j\| <\epsilon$, then by Lemma \ref{eigConv}, this implies $a_i^2 < \epsilon/\poly(d)$ for all $i$ (for $\beta\lambda = \Omega(1)$). Now, for a integrable
+   function $f(x)$, $\| f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a
+   norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
+   target function, we conclude that by triangle inequality
+\begin{align*}
+\sqrt{G(\boldsymbol{a,\theta})}  & \geq \norm{\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)}_X \\
+&\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \\
+& \geq
+  \sqrt{G(\boldsymbol{0,0})} - \epsilon/2
+\end{align*}
+Squaring gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $\epsilon$ neighborhood of $w_j$.
+ \end{proof}
+ 
+ \begin{lemma}[Initialization]\label{almostHarmInitialize}
+Assume the conditions of Lemma~\ref{eigConv}. If $G(\boldsymbol{0,0}) \geq \epsilon$, then we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G({\bf a^{(0)}, \boldsymbol{\theta^{(0)}}}) \leq G(\boldsymbol{0,0}) - 2\delta\sqrt{G(\boldsymbol{0,0})}$ with $\delta = \poly(\epsilon,1/d)$ with probability at least $\poly(\epsilon,1/d)$.
+ \end{lemma}
+ 
+ \begin{proof}
+  Consider choosing $\theta_1$ as a multivariate standard normal and then
+  optimizing $a_1$. Given $\theta_1$, the loss decrease is:
+%
+\begin{align*}
+   G(a_1,\theta_1) - G(0,0) & = \min_{a_1} 2a_1^2 +
+  2\sum_{j=1}^k a_1 b_j\Phi(\theta_1,w_j) \\
+ %
+ & = -\frac{1}{2}\left(  \sum_{j=1}^k b_j
+   \Phi(\theta_1,w_j)\right)^2 
+\end{align*}
+
+Let $f(x) =  \sum_{j=1}^k b_j \Phi(x,w_j)$, then it suffices (***Justify later) to show that $\Var(f(X)) \geq 1/\poly(d) $, where $X$ is a multivariate standard normal. By appealing to Cramer-Rao type bounds given in \cite{cacoullos1982upper}, we see that
+
+\begin{align*}
+ \Var(f(X)) &\geq \frac{1}{d}\expt \left[\sum_{i=1}^d \frac{\partial}{\partial x_i} f(X)\right]^2 \\
+ &= \frac{1}{d}\left( \sum_{j=1}^k b_j \sum_{i=1}^d \expt \frac{\partial}{\partial x_i}\Phi(X,w_j) \right)^2 \\
+\end{align*}
+
+By Stein's identity, $\expt[\frac{\partial}{\partial x_i}\Phi(X,w_j)] = \expt[X_i\Phi(X,w_j)]$. And since $\Phi$ is translationally symmetric, if we let $w_{ji}$ be the $i$-th coordinate of $w_j$, then $\expt[ X_i\Phi(X,w_j)] = \expt[(X_i - w_{ji})\Phi(X, {\bf 0})] = -w_{ji}\expt[\Phi(X,{\bf 0})] = -Cw_{ji}$, where $C$ is a positive constant and $C\geq 1/\poly(d)$ (justify later).
+
+Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}\right)^2$. However, note that $w_{ji}$ are independent Gaussians of variance 1, so we conclude that $\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}$ is a Gaussian of variance $d\|{\bf b}\|^2 \geq d$. So, with high probability over $w_1,...,w_j$, we conclude that $\Var(f(X)) \geq C^2 \geq 1/\poly(d)$.
+\end{proof}
+%
+
+\begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
+Lemma~\ref{strongConvergeTwo} ensures that we are in $\mathcal{M}_{G,\poly(\epsilon,1/d)}$ in $\poly(d,1/\epsilon)$ iterations.
+If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Lemma~\ref{strongConvergeTwo}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{initialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G(0,0) - 2\delta \sqrt{G(0,0)}$ for $\delta = 1/\poly(d,1/\epsilon)$ after $e^{O(d\log d)}$ samples by applying standard probabilistic bounds. Finally, we conclude by Theorem \ref{eigRes}.
+\end{proof}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "icmlpaper2017.tex"
+%%% End:
