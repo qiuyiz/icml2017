@@ -4,10 +4,12 @@
 In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive the following theorem.
 
 \begin{theorem}\label{almostHarmSGD}
-  Let $\mathcal{M} = \R^{d}$ and $w_1,...,w_k$ be in $\R^d$ with $\|w_i\| \leq \log(d)$. Let $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$. 
-
-  With high probability, for all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that we can chose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ and after running SGD (Algorithm \ref{SGD}) on the regularized objective
-  $G(\boldsymbol{a,\theta})$ such that either 1) $G(\boldsymbol{a,\theta}) \leq \epsilon$ or 2) there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$ in $poly(d,1/\epsilon)$ iteration complexity.
+  Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $\|w_i\|\leq \log(d)$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ and after running SGD (Algorithm \ref{SGD}) on the regularized objective
+  $G(\boldsymbol{a,\theta})$ for at most $(d/\epsilon)^{O(d)}$ iterations, we have either 
+  
+  1) $G(\boldsymbol{a,\theta}) \leq \epsilon$ or 
+  
+  2) there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$ 
 \end{theorem}
 
 
@@ -26,9 +28,11 @@ Section~\ref{realizable} and is quite technical.
 %
 %
 \begin{restatable}{lemma}{AlmostHarmReal}\label{almostHarmReal}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon > 0$, we can construct a realizable radial potential $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when $r \geq \epsilon$.
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $1 > \epsilon > 0$, we can construct a realizable radial potential $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when $r \geq \epsilon$.
 
 Furthermore, we have ${\Phi_\epsilon}^{(d-1)}(r) \geq 0$ for all $r  > 0$ and ${\Phi_\epsilon}^{(k)}(r) \geq 0$ and ${\Phi_\epsilon}^{(k+1)}(r)\leq 0$ for all $r > 0$ and $d - 3 \geq k \geq 0 $ even.
+
+Lastly, $|\Phi_\epsilon^{(k)}(r)| \leq 3(2d + \epsilon \sqrt{\lambda})^{2d}\epsilon^{-2d}  $ for all $0 \leq k \leq d-1$.
 \end{restatable}
 %
 %
@@ -75,9 +79,6 @@ Next, since $\Phi_\lambda(r)$ is $\lambda$-harmonic for $r \geq \epsilon/k$, we 
 %
 The second line follows from our optimality conditions and the third line follows from completing the square. Since $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\poly(\delta,1/d)}$, we have $\Delta_v H \geq - \poly(\delta,1/d)$. By choosing $\beta \geq \poly(\delta,1/d)$, we see that we must satisfy $\sum_{i=1}^l a_i^2 \leq \poly(\delta,1/d)/(\beta\lambda)$. Therefore, $a_i^2 \leq \delta/(\beta\lambda)$.
 
-Otherwise, our subset $S$ does not exist. 
-
-
 \end{proof}
 
 \begin{lemma}\label{almostHarmRes}
@@ -103,7 +104,7 @@ Squaring gives a contradiction, so we conclude that there must exist $i, j$ such
  \end{proof}
  
  \begin{lemma}[Initialization]\label{almostHarmInitialize}
-Assume the conditions of Lemma~\ref{eigConv}. If $G(\boldsymbol{0,0}) \geq \epsilon$, then we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G({\bf a^{(0)}, \boldsymbol{\theta^{(0)}}}) \leq G(\boldsymbol{0,0}) - 2\delta\sqrt{G(\boldsymbol{0,0})}$ with $\delta = \poly(\epsilon,1/d)$ with probability at least $\poly(\epsilon,1/d)$.
+Assume the conditions of Lemma~\ref{almostHarmConv}. If $G(\boldsymbol{0,0}) \geq \epsilon$, then we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G({\bf a^{(0)}, \boldsymbol{\theta^{(0)}}}) \leq G(\boldsymbol{0,0}) - 2\delta\sqrt{G(\boldsymbol{0,0})}$ with $\delta = (d/\epsilon)^{O(d)}$ with probability at least $(d/\epsilon)^{O(d)}$.
  \end{lemma}
  
  \begin{proof}
@@ -118,9 +119,9 @@ Assume the conditions of Lemma~\ref{eigConv}. If $G(\boldsymbol{0,0}) \geq \epsi
    \Phi({\bf 0},w_j)\right)^2 
 \end{align*}
 
-Because $\|w_j\| \leq \log(d)$, we see that $\Phi({\bf 0}, w_j) \geq 1/\poly(d)$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that we high probability over the choices of $b_j$, $-\frac{1}{2}\left(  \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq 1/\poly(d)$.  
+Because $\|w_j\| \leq \log(d)$, we see that $\Phi({\bf 0}, w_j) \geq 1/\poly(d)$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that we high probability over the choices of $b_j$, $-\frac{1}{2}\left(  \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq (d/\epsilon)^{O(d)}$ by appealing to \ref{almostHarmReal} 
 
-Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - 1/\poly(d)$. Since $G(\boldsymbol{0,0}) \geq \epsilon$, we derive our claim.
+Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - (d/\epsilon)^{O(d)}$. Since $G(\boldsymbol{0,0}) \geq \epsilon$, we derive our claim.
 
 
 %%Cramer-Rao type Argument
@@ -140,8 +141,8 @@ Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_
 %
 
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
-Lemma~\ref{strongConvergeTwo} (with more arguments on Lipschitz constants etc) ensures that we are in $\mathcal{M}_{G,\poly(\epsilon,1/d)}$ in $\poly(d,1/\epsilon)$ iterations.
-If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Lemma~\ref{strongConvergeTwo}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{almostHarmInitialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G(0,0) - 2\delta \sqrt{G(0,0)}$ for $\delta = 1/\poly(d,1/\epsilon)$. Finally, we conclude by Theorem \ref{almostHarmRes}.
+Lemma~\ref{almostHarmReal} ensures all derivatives of $\Phi$ are bounded by $(d/\epsilon)^{O(d)}$. Lemma~\ref{strongConvergeTwo} ensures that we are in $\mathcal{M}_{G,\poly(\delta,1/d)}$ in $(d/\epsilon)^{O(d)}$ iterations.
+If $G(\boldsymbol{0,0}) \leq \epsilon$, then by Lemma~\ref{strongConvergeTwo}, with high probability, $G(\boldsymbol{a,\theta}) \leq G(\boldsymbol{0,0}) \leq \epsilon$. Otherwise, by Lemma \ref{almostHarmInitialize},  we can initialize $\boldsymbol{a^{(0)},\theta^{(0)}}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G(0,0) - 2\delta \sqrt{G(0,0)}$ for $\delta = (d/\epsilon)^{O(d)}$. Finally, we conclude by Theorem \ref{almostHarmRes}.
 \end{proof}
 
 

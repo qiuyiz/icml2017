@@ -155,7 +155,7 @@ Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $\Phi(r)$ be a radial p
 
 Then, for any $\epsilon > 0$, there exists a $\FT$-integrable realizable potential $\overline{\Phi}$  such that $\overline{\Phi}^{(k)}(r) = \Phi^{(k)}(r)$ for all $0 \leq k \leq d-1$ and $r \geq \epsilon$. Furthermore, we have $\overline{\Phi}^{(d-1)}(r) \geq 0$ for all $r  > 0$ and $\overline{\Phi}^{(k)}(r) \geq 0$ and $\overline{\Phi}^{(k+1)}(r)\leq 0$ for all $r > 0$ and $d - 3 \geq k \geq 0 $ even.
 
-Lastly, $|\overline{\Phi}^{(d-1-k)}(0)| \leq \overline{\Phi}^{(d-1-k)}(\epsilon) + $
+Lastly, for $r < \epsilon$ and $0 \leq k \leq d-1$, $|\overline{\Phi}^{(d-1-k)}(r)| \leq |\Phi^{(d-1-k)}(\epsilon)| + \sum_{j=1}^k \frac{(\epsilon - r)^{k-j+1}}{(k-j+1)!} |\Phi^{(d-j)}(\epsilon)|$
 \end{lemma}
 
 \begin{proof}
@@ -195,12 +195,23 @@ Finally, for the second claim, notice that for $r \leq \epsilon$, we get
 
 Note that our constant $C \geq 0$ since the summands are non-negative. Therefore, we conclude that $\overline{\Phi}^{(d-1)}(r) \geq 0$ for all $r > 0$. Repeated integration and noting that $\lim_{r\to\infty} \overline{\Phi}^{(k)}(r) = 0$ for $0 \leq k \leq d-1$ gives us our claim.
 
+Lastly, we prove the last claim of the theorem with induction on $k$. This holds trivially for $k = 0$ since $\overline{\Phi}^{(d-1)}(r) \leq \overline{\Phi}^{(d-1)}(\epsilon) = \Phi^{(d-1)}(\epsilon)$ for $r \leq \epsilon$. Then, assume we have the inequality for $k < d-1$. By integration, we have
+
+\[|\overline{\Phi}^{(d-k-2)}(r)| \leq |\overline{\Phi}^{(d-k-2)}(\epsilon)| + \int_r^\epsilon |\overline{\Phi}^{(d-1 -k)}(y)| \, dy\]
+
+\[ \leq |\overline{\Phi}^{(d-k-2)}(\epsilon)| + \int_r^\epsilon |\overline{\Phi}^{(d-1 -k)}(\epsilon)| \, dy \]
+
+\[+ \int_r^\epsilon \sum_{j=1}^k \frac{(\epsilon -y)^{k-j+1}}{(k-j+1)!}|\Phi^{(d-j)}(\epsilon)| \, dy\]
+
+\[ \leq  |\overline{\Phi}^{(d-k-2)}(\epsilon)| + \sum_{j=1}^{k+1}  \frac{(\epsilon -y)^{k-j+2}}{(k-j+2)!}|\Phi^{(d-j)}(\epsilon)|\]
+
+Therefore, we conclude with induction.
 \end{proof}
 
 \AlmostHarmReal*
 
 \begin{proof}
-Consider a potential of the form $\Phi(r) = p(r)e^{-\sqrt{\lambda}r}/r^{d-2}$. We claim that there exists a polynomial $p$ of degree $k = (d-3)/2$ with non-negative coefficients and $p(0) = 1$ such that $\Phi$ is $\lambda$-harmonic.
+Consider a potential of the form $\Phi(r) = p(r)e^{-\sqrt{\lambda}r}/r^{d-2}$. We claim that there exists a polynomial $p$ of degree $k = (d-3)/2$ with non-negative coefficients and $p(0) = 1$ such that $\Phi$ is $\lambda$-harmonic. Furthermore, $p(\epsilon) \leq (1+\sqrt{\lambda}\epsilon)^d$.
 
 When $d = 3$, it is easy to check that $\Phi(r) = e^{(-\sqrt{\lambda})r}/r$ is our desired potential. Otherwise, by our formula for the radial Laplacian in $d$ dimensions, we want to solve the following differential equation:
 
@@ -216,7 +227,7 @@ $r^i$:  $a_{i+1}(i+1)(i - (d-3)) = a_i \sqrt{\lambda} (2i-(d-3))$
 
 $r^k:$ $(-2k +d-3)a_k = 0$
 
-The last equation explains why we chose $k = (d-3)/2$, so that it is automatically zero. Thus, setting $a_0 = 1$ and running the recurrence gives us our desired polynomial. Note that the recurrence is valid and produces positive coefficients since $i < k  = (d-3)/2$. Our claim follows and $\Phi$ is $\lambda$-harmonic.
+The last equation explains why we chose $k = (d-3)/2$, so that it is automatically zero. Thus, setting $a_0 = 1$ and running the recurrence gives us our desired polynomial. Note that the recurrence is valid and produces positive coefficients since $i < k  = (d-3)/2$. And furthermore, notice that $a_{i+1} \leq \sqrt{\lambda} a_i \leq (\sqrt{\lambda})^{i+1}$. Therefore, $p(\epsilon) \leq (1+\epsilon\sqrt{\lambda})^d$. Our claim follows and $\Phi$ is $\lambda$-harmonic.
 
 Lastly, we assert that $\Phi^{(j)}(r)$ is non-negative for $j$ even and non-positive for $j$ odd. To prove our assertion, we note that it suffices to show that if $\Phi$ is of the form $\Phi(r) = p(r) e^{-\sqrt{\lambda}r}/r^{l}$ for some $p$ of degree $k < l$ and $p$ has non-negative coefficients, then $\Phi'(r) = - q(r) e^{-\sqrt{\lambda}r}/r^{l+1}$ for some $q$ of degree $k+1$ with non-negative coefficients. 
 
@@ -233,6 +244,18 @@ $q_i = lp_i - ip_i + \sqrt{\lambda}p_{i-1} = (l-i)p_i + \sqrt{\lambda}p_{i-1}$
 $q_{k+1} = \sqrt{\lambda} p_k$
 
 Since $i \leq k < l$, we conclude that $q$ has non-negative coefficients. Finally, our assertion follows with induction since $\Phi^{(0)}(r)$ is non-negative and has our desired form with $k = (d-3)/2 < d-2$. By Lemma \ref{transConstruct}, our theorem follows.
+
+Lastly, we prove our bound on $\Phi_\epsilon^{(k)}(r)$ when $k \leq d$. First, notice that by the results of Lemma~\ref{transConstruct}, $\Phi_\epsilon^{(k)}(r)$ is monotone and $\lim_{r\to\infty}\Phi_\epsilon^{(k)}(r) = 0$. So, it follows that we just have to bound $|\Phi_{\epsilon}^{(k)}(0)|$. From our construction, $\Phi_{\epsilon}^{(k)}(\epsilon) = p_k(\epsilon)e^{-\sqrt{\lambda}\epsilon}\epsilon^{2-d-k}$, for some polynomial $p_k$. Furthermore, from our construction, we have the recurrence $p_{k}(\epsilon) = (d-2+k + \sqrt{\lambda}\epsilon)p_{k-1}(\epsilon) - \epsilon p_{k-1}'(\epsilon)$. Therefore, we conclude that for $k \leq d$, $p_k(\epsilon) \leq (2d + \sqrt{\lambda} \epsilon)^dp_0(\epsilon) \leq  (2d + \sqrt{\lambda} \epsilon)^d(1+\sqrt{\lambda}\epsilon)^d \leq (2d + \sqrt{\lambda}\epsilon)^{2d}$. 
+
+Therefore, we can bound $\Phi_\epsilon^{(k)}(\epsilon) \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d}$. Finally, by Lemma~\ref{transConstruct}, 
+
+\[|\Phi_{\epsilon}^{(d-1-k)}(0)| \leq |\Phi_{\epsilon}^{(d-1-k)}(\epsilon)| + \sum_{j=1}^k \frac{(\epsilon )^{k-j+1}}{(k-j+1)!} |\Phi^{(d-j)}(\epsilon)|\]
+
+\[ \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d} (1 + \sum_{j=1}^k \frac{\epsilon^{k-j+1}}{(k-j+1)!})\]
+
+\[ \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d} e^{\epsilon} \leq 3(2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d}\]
+
+Notice that $\Phi_{\epsilon}$ must be normalized to have $\Phi_{\epsilon}(0) = 1$.
 \end{proof}
 
 
