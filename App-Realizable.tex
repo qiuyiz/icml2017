@@ -211,7 +211,7 @@ Therefore, we conclude with induction.
 \AlmostHarmReal*
 
 \begin{proof}
-Consider a potential of the form $\Phi(r) = p(r)e^{-\sqrt{\lambda}r}/r^{d-2}$. We claim that there exists a polynomial $p$ of degree $k = (d-3)/2$ with non-negative coefficients and $p(0) = 1$ such that $\Phi$ is $\lambda$-harmonic. Furthermore, $p(\epsilon) \leq (1+\sqrt{\lambda}\epsilon)^d$.
+Consider a potential of the form $\Phi(r) = p(r)e^{-\sqrt{\lambda}r}/r^{d-2}$. We claim that there exists a polynomial $p$ of degree $k = (d-3)/2$ with non-negative coefficients and $p(0) = 1$ such that $\Phi$ is $\lambda$-harmonic. Furthermore, we will also show along the way that $p(r) \leq (1+\sqrt{\lambda}r)^d$.
 
 When $d = 3$, it is easy to check that $\Phi(r) = e^{(-\sqrt{\lambda})r}/r$ is our desired potential. Otherwise, by our formula for the radial Laplacian in $d$ dimensions, we want to solve the following differential equation:
 
@@ -227,7 +227,7 @@ $r^i$:  $a_{i+1}(i+1)(i - (d-3)) = a_i \sqrt{\lambda} (2i-(d-3))$
 
 $r^k:$ $(-2k +d-3)a_k = 0$
 
-The last equation explains why we chose $k = (d-3)/2$, so that it is automatically zero. Thus, setting $a_0 = 1$ and running the recurrence gives us our desired polynomial. Note that the recurrence is valid and produces positive coefficients since $i < k  = (d-3)/2$. And furthermore, notice that $a_{i+1} \leq \sqrt{\lambda} a_i \leq (\sqrt{\lambda})^{i+1}$. Therefore, $p(\epsilon) \leq (1+\epsilon\sqrt{\lambda})^d$. Our claim follows and $\Phi$ is $\lambda$-harmonic.
+The last equation explains why we chose $k = (d-3)/2$, so that it is automatically zero. Thus, setting $a_0 = 1$ and running the recurrence gives us our desired polynomial. Note that the recurrence is valid and produces positive coefficients since $i < k  = (d-3)/2$. Our claim follows and $\Phi$ is $\lambda$-harmonic. And furthermore, notice that $a_{i+1} \leq \sqrt{\lambda} a_i \leq (\sqrt{\lambda})^{i+1}$. Therefore, $p(r) \leq (1+r\sqrt{\lambda})^d$. 
 
 Lastly, we assert that $\Phi^{(j)}(r)$ is non-negative for $j$ even and non-positive for $j$ odd. To prove our assertion, we note that it suffices to show that if $\Phi$ is of the form $\Phi(r) = p(r) e^{-\sqrt{\lambda}r}/r^{l}$ for some $p$ of degree $k < l$ and $p$ has non-negative coefficients, then $\Phi'(r) = - q(r) e^{-\sqrt{\lambda}r}/r^{l+1}$ for some $q$ of degree $k+1$ with non-negative coefficients. 
 
@@ -243,11 +243,11 @@ $q_i = lp_i - ip_i + \sqrt{\lambda}p_{i-1} = (l-i)p_i + \sqrt{\lambda}p_{i-1}$
 
 $q_{k+1} = \sqrt{\lambda} p_k$
 
-Since $i \leq k < l$, we conclude that $q$ has non-negative coefficients. Finally, our assertion follows with induction since $\Phi^{(0)}(r)$ is non-negative and has our desired form with $k = (d-3)/2 < d-2$. By Lemma \ref{transConstruct}, our theorem follows.
+Since $i \leq k < l$, we conclude that $q$ has non-negative coefficients. Finally, our assertion follows with induction since $\Phi^{(0)}(r)$ is non-negative and has our desired form with $k = (d-3)/2 < d-2$. By Lemma \ref{transConstruct}, our primary theorem follows, we can construct a realizable radial potential $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when $r \geq \epsilon$ and has alternating-signed derivatives.
 
-Lastly, we prove our bound on $\Phi_\epsilon^{(k)}(r)$ when $k \leq d$. First, notice that by the results of Lemma~\ref{transConstruct}, $\Phi_\epsilon^{(k)}(r)$ is monotone and $\lim_{r\to\infty}\Phi_\epsilon^{(k)}(r) = 0$. So, it follows that we just have to bound $|\Phi_{\epsilon}^{(k)}(0)|$. From our construction, $\Phi_{\epsilon}^{(k)}(\epsilon) = p_k(\epsilon)e^{-\sqrt{\lambda}\epsilon}\epsilon^{2-d-k}$, for some polynomial $p_k$. Furthermore, from our construction, we have the recurrence $p_{k}(\epsilon) = (d-2+k + \sqrt{\lambda}\epsilon)p_{k-1}(\epsilon) - \epsilon p_{k-1}'(\epsilon)$. Therefore, we conclude that for $k \leq d$, $p_k(\epsilon) \leq (2d + \sqrt{\lambda} \epsilon)^dp_0(\epsilon) \leq  (2d + \sqrt{\lambda} \epsilon)^d(1+\sqrt{\lambda}\epsilon)^d \leq (2d + \sqrt{\lambda}\epsilon)^{2d}$. 
+Lastly, we prove the following preliminary bound on $\Phi_\epsilon^{(k)}(r)$ when $k \leq d$: $|\Phi_\epsilon^{(k)}(r)| \leq 3(2d + \epsilon \sqrt{\lambda})^{2d}\epsilon^{-2d}  $ for all $0 \leq k \leq d-1$. First, notice that by the results of Lemma~\ref{transConstruct}, $\Phi_\epsilon^{(k)}(r)$ is monotone and $\lim_{r\to\infty}\Phi_\epsilon^{(k)}(r) = 0$. So, it follows that we just have to bound $|\Phi_{\epsilon}^{(k)}(0)|$. From our construction, $\Phi_{\epsilon}^{(k)}(\epsilon) = p_k(\epsilon)e^{-\sqrt{\lambda}\epsilon}\epsilon^{2-d-k}$, for some polynomial $p_k$. Furthermore, from our construction, we have the recurrence $p_{k}(\epsilon) = (d-2+k + \sqrt{\lambda}\epsilon)p_{k-1}(\epsilon) - \epsilon p_{k-1}'(\epsilon)$. Therefore, we conclude that for $k \leq d$, $p_k(\epsilon) \leq (2d + \sqrt{\lambda} \epsilon)^kp_0(\epsilon) \leq  (2d + \sqrt{\lambda} \epsilon)^k(1+\sqrt{\lambda}\epsilon)^d \leq (2d + \sqrt{\lambda}\epsilon)^{2d}$. 
 
-Therefore, we can bound $\Phi_\epsilon^{(k)}(\epsilon) \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d}$. Finally, by Lemma~\ref{transConstruct}, 
+Therefore, we can bound $|\Phi_\epsilon^{(k)}(\epsilon)| \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d}$. Finally, by Lemma~\ref{transConstruct}, 
 
 \[|\Phi_{\epsilon}^{(d-1-k)}(0)| \leq |\Phi_{\epsilon}^{(d-1-k)}(\epsilon)| + \sum_{j=1}^k \frac{(\epsilon )^{k-j+1}}{(k-j+1)!} |\Phi^{(d-j)}(\epsilon)|\]
 
@@ -255,7 +255,12 @@ Therefore, we can bound $\Phi_\epsilon^{(k)}(\epsilon) \leq (2d + \sqrt{\lambda}
 
 \[ \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d} e^{\epsilon} \leq 3(2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d}\]
 
-Notice that $\Phi_{\epsilon}$ must be normalized to have $\Phi_{\epsilon}(0) = 1$.
+And for $r \geq \epsilon$, we see that $|\Phi_\epsilon(r)| = |\Phi(r)| \leq |p(r)|\frac{e^{-\sqrt{\lambda}r}}{r^{d-2}} = (1+r\sqrt{\lambda})^de^{-\sqrt{\lambda}r}r^{2-d}$.
+
+
+Finally, we consider the normalized potential: $\widetilde{\Phi}_\epsilon = {\Phi}_\epsilon/{\Phi}_\epsilon(0)$. Note that since ${\Phi}_\epsilon$ is monotonically decreasing, we can lower bound ${\Phi}_\epsilon(0) \geq {\Phi}_\epsilon(\epsilon) \geq e^{-\sqrt{\lambda}}$. Therefore, we can derive the following upper bounds: $|\widetilde{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-2d}e^{\sqrt{\lambda}}$ and for $r \geq \epsilon$, $|\widetilde{\Phi}_\epsilon(r)| \leq (1+r\sqrt{\lambda})^de^{\sqrt{\lambda}(1-r)}(r)^{2-d}$. 
+
+And lastly, we derive some lower bounds on $\widetilde{\Phi}_\epsilon$ for $r \geq \epsilon$, by noting that $\widetilde{\Phi}_\epsilon(r) \geq {\Phi}_\epsilon(r)(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3  \geq e^{-\sqrt{\lambda}r}r^{2-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3$
 \end{proof}
 
 

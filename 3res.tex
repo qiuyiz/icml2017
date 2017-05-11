@@ -42,26 +42,7 @@ To make sure that $\|a\|$ remains controlled throughout the optimization process
   -\epsilon\right\}\]
 %
 Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
-%
-\begin{algorithm}[hb]
- \caption{$x = SGD(\widehat{L}, x_0, T,\alpha,\epsilon)$}
-   \label{SGD}
-\begin{algorithmic}
-   \STATE {\bfseries Input:} $\widehat{L}:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
-   \vspace{.1in}
-   \STATE {\bf Initialize} $x = x_0$
-   \FOR{$i=1$ {\bfseries to} $T$}
-   \STATE Sample $\omega$ uniformly on unit sphere.
-   \STATE $x = x - \alpha(\nabla \widehat{L} (x)+\omega)$ 
-   \STATE $x = \Pi_\mathcal{M} x$
-   \IF{$\|\nabla\widehat{L}(x)\|\leq 2\epsilon/3$ {\bf and} $\lambda_{min}(\nabla^2\widehat{L}(x)) \geq -2\epsilon/3$}
-   \STATE {\bf return} $x$
-   \ENDIF
-   \ENDFOR
-   \STATE {\bf return} FAIL
-\end{algorithmic}
-\end{algorithm}
-%
+
 \begin{theorem}\label{eigSGD}
   Let $\mathcal{M} = S^{d-1}$ and $b_1,...,b_k$ be bounded by $\poly(d)$ and $w_1,..,w_k$ are randomly chosen from $\mathcal{M}$.  
 
@@ -73,6 +54,7 @@ Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}
 %
 %
 %
+
 \begin{restatable}{lemma}{strongConvergeTwo}\label{strongConvergeTwo}  
 We can construct a $m$-almost $\lambda$-harmonic potential $\Phi_m$ for which
 we can choose stepsize $\eta = 1/\poly(d,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{G}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{G, \epsilon}$ after at most $T = \poly(d,1/\epsilon, \log(1/\zeta))$ iterations. 
