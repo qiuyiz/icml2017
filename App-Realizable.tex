@@ -255,12 +255,14 @@ Therefore, we can bound $|\Phi_\epsilon^{(k)}(\epsilon)| \leq (2d + \sqrt{\lambd
 
 \[ \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d} e^{\epsilon} \leq 3(2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d}\]
 
-And for $r \geq \epsilon$, we see that $|\Phi_\epsilon(r)| = |\Phi(r)| \leq |p(r)|\frac{e^{-\sqrt{\lambda}r}}{r^{d-2}} = (1+r\sqrt{\lambda})^de^{-\sqrt{\lambda}r}r^{2-d}$.
+And for $r \geq \epsilon$, we see that $|\Phi_\epsilon(r)| = |\Phi(r)| \leq |p(r)|\frac{e^{-\sqrt{\lambda}r}}{r^{d-2}} = (1+r\sqrt{\lambda})^de^{-\sqrt{\lambda}r}r^{2-d}$. And $|\Phi_\epsilon'(r)| = |\Phi'(r)| \leq |p_1(r)| \frac{e^{-\sqrt{\lambda} r}}{r^{d-1}} \leq (d+\sqrt{\lambda}r)(1+ r\sqrt{\lambda})^de^{-\sqrt{\lambda} r} r^{1-d}$.
 
 
-Finally, we consider the normalized potential: $\widetilde{\Phi}_\epsilon = {\Phi}_\epsilon/{\Phi}_\epsilon(0)$. Note that since ${\Phi}_\epsilon$ is monotonically decreasing, we can lower bound ${\Phi}_\epsilon(0) \geq {\Phi}_\epsilon(\epsilon) \geq e^{-\sqrt{\lambda}}$. Therefore, we can derive the following upper bounds: $|\widetilde{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-2d}e^{\sqrt{\lambda}}$ and for $r \geq \epsilon$, $|\widetilde{\Phi}_\epsilon(r)| \leq (1+r\sqrt{\lambda})^de^{\sqrt{\lambda}(1-r)}(r)^{2-d}$. 
+Finally, we consider the normalized potential: $\widetilde{\Phi}_\epsilon = {\Phi}_\epsilon/{\Phi}_\epsilon(0)$. Note that since ${\Phi}_\epsilon$ is monotonically decreasing, we can lower bound ${\Phi}_\epsilon(0) \geq {\Phi}_\epsilon(\epsilon) \geq e^{-\sqrt{\lambda}}$. Therefore, we can derive the following upper bounds: $|\widetilde{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-2d}e^{\sqrt{\lambda}}$ and for $r \geq \epsilon$, $|\widetilde{\Phi}_\epsilon(r)| \leq (1+r\sqrt{\lambda})^de^{\sqrt{\lambda}(1-r)}r^{2-d}$ and its derivative is bounded by $|\widetilde{\Phi}_\epsilon'(r)| \leq (d+\sqrt{\lambda}r)(1+ r\sqrt{\lambda})^de^{\sqrt{\lambda}(1- r)} r^{1-d}$.
 
-And lastly, we derive some lower bounds on $\widetilde{\Phi}_\epsilon$ for $r \geq \epsilon$, by noting that $\widetilde{\Phi}_\epsilon(r) \geq {\Phi}_\epsilon(r)(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3  \geq e^{-\sqrt{\lambda}r}r^{2-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3$
+
+And lastly, we derive some lower bounds on $\widetilde{\Phi}_\epsilon$ and the first derivative when $r \geq \epsilon$, by using the upper bound on $\Phi_\epsilon(0)$: $\widetilde{\Phi}_\epsilon(r) \geq {\Phi}_\epsilon(r)(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3  \geq e^{-\sqrt{\lambda}r}r^{2-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3$. For the derivative, we get
+ $|\widetilde{\Phi}_\epsilon'(r)| \geq e^{-\sqrt{\lambda}r}r^{1-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3$.
 \end{proof}
 
 
