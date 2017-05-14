@@ -13,27 +13,32 @@ By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid
 Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our following theorem.
 %
 \begin{algorithm}[hb]
- \caption{$x = SGD(\widehat{L}, x_0, T,\alpha,\epsilon)$}
+ \caption{$x = NoisyGD(\widehat{L}, x_0, T,\alpha,\epsilon)$}
    \label{SGD}
 \begin{algorithmic}
    \STATE {\bfseries Input:} $\widehat{L}:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
    \vspace{.1in}
    \STATE {\bf Initialize} $x = x_0$
+   \WHILE{{\it true}}
+   \STATE $x_1 = x$
    \FOR{$i=1$ {\bfseries to} $T$}
    \STATE Sample $\omega$ uniformly on unit sphere.
-   \STATE $x = x - \alpha(\nabla \widehat{L} (x)+\omega)$ 
-   \STATE $x = \Pi_\mathcal{M} x$
-   \IF{$\|\nabla\widehat{L}(x)\|\leq 2\epsilon/3$ {\bf and} $\lambda_{min}(\nabla^2\widehat{L}(x)) \geq -2\epsilon/3$}
-   \STATE {\bf return} $x$
-   \ENDIF
+   \STATE $x_{i+1} = x_i - \alpha(\nabla \widehat{L} (x_i)+\alpha\omega)$ 
+%\STATE $x = \Pi_\mathcal{M} x$
    \ENDFOR
-   \STATE {\bf return} FAIL
+    \IF{$\widehat{L}(x_i) - \widehat{L}(x) < \alpha^2$ for all $i$}
+   \STATE {\bf return} $x$
+   \ELSE 
+   \STATE Find $i$ such that $\widehat{L}(x_i) - \widehat{L}(x) \geq \alpha^2$ 
+   \STATE $x = x_i$
+   \ENDIF
+   \ENDWHILE
 \end{algorithmic}
 \end{algorithm}
 %
 
 \begin{theorem}\label{almostHarmSGD}
-  Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SGD (Algorithm \ref{SGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
+  Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running NoisyGD (Algorithm \ref{SGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
 \end{theorem}
 
 
@@ -75,8 +80,7 @@ $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define
 
 The optimality conditions on ${\bf a}$ are 
 \begin{align*}
-   \abs{\pd{H}{a_i}} & = \lvert (2+2\beta)a_i  + 2\sum_{j\neq i} a_j \Phi_\epsilon(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi_\epsilon(\theta_i,w_j) \rvert \\
-& \leq \delta
+   \abs{\pd{H}{a_i}} & = \lvert (2+2\beta)a_i  + 2\sum_{j\neq i} a_j \Phi_\epsilon(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi_\epsilon(\theta_i,w_j) \rvert \leq \delta
 \end{align*}
 %
 Next, since $\Phi_\epsilon(r)$ is $\lambda$-harmonic for $r \geq \epsilon/k$, we may calculate the Laplacian of $H$ as
@@ -86,10 +90,8 @@ Next, since $\Phi_\epsilon(r)$ is $\lambda$-harmonic for $r \geq \epsilon/k$, we
   \Phi_\epsilon(\theta_i, w_j) + 2\sum_{j=l+1}^k a_ia_j
   \Phi_\epsilon(\theta_i, \theta_j)\right) \\
 & = \sum_{i=1}^l \lambda \left(-2\beta a_i^2 -2a_i^2 - 2
-  \sum_{j = 1, j\neq i}^l  a_ia_j \Phi_\epsilon(\theta_i,\theta_j)\right) \\
-  & \qquad \qquad  + \delta \sum_{i=1}^l \lambda a_i^2 \\
-&= -2\lambda\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] -2\beta\lambda \sum_{i=1}^l a_i^2\\
-& \qquad \qquad + \delta\lambda\sum_{i=1}^l  a_i^2 \\
+  \sum_{j = 1, j\neq i}^l  a_ia_j \Phi_\epsilon(\theta_i,\theta_j)\right)+ \delta \sum_{i=1}^l \lambda a_i^2 \\
+&= -2\lambda\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] -2\beta\lambda \sum_{i=1}^l a_i^2+ \delta\lambda\sum_{i=1}^l  a_i^2 \\
 \end{align*} 
 %
 The second line follows from our optimality conditions and the third line follows from completing the square. Since $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, we have $\Delta_v H \geq - \delta$. Because $\beta \geq \delta$, we see that we must satisfy $\sum_{i=1}^l a_i^2 \leq \delta/(\beta\lambda)$. Therefore, $a_i^2 \leq \delta/(\beta\lambda)$.
@@ -158,19 +160,20 @@ Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_
 
 
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
-First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Next, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{O(d)}$, except at $w_1,...,w_k$. Appealing to Theorem~\ref{strongConverge}, our algorithm returns a point $\boldsymbol{(a,\theta)}$ in $\mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$ in $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations and furthermore, $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ with high probability. Finally, we conclude by Theorem \ref{almostHarmRes}.
+Let our potential be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/2$. First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Since $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$, if we set $\alpha = \poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$, then running Algorithm~\ref{SGD} will terminate return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations since our objective function cannot decrease by at least $\alpha^2$ too many times.
+
+Assume that there does not exist $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$. Then, since our algorithm has terminated, there must exist noisy GD iterates $\boldsymbol{a_i,\theta_i}$ such that $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a_T,\theta_T}) \leq \alpha^2$ after $T= \tilde{O}(1/\alpha)$ steps of noisy gradient descent from $(\boldsymbol{a,\theta})$. We claim that $\boldsymbol{a,\theta} \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$. First, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{-2d}$, except at $w_1,...,w_k$. Now, if $\boldsymbol{a,\theta} \not \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$, then Lemma~\ref{GeLem7} and ~\ref{GeLem9}, we know that $\|\boldsymbol{\theta_1 - \theta} \| < (d/\epsilon)^{-O(d)}$  and we know that $\|\boldsymbol{\theta_i - \theta} \| < (d/\epsilon)^{-O(d)}$ for all $i$, and with high probability by Azuma's inequality, $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a_T,\theta_T}) \geq \alpha^2$, a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes}.
 \end{proof}
 
 \subsection{Node-by-Node Analysis}
 
-We cannot easily analyze the convergence of GD to the global minima when all $\theta_i$ are simultaneously moving since the pairwise interaction terms between the $\theta_i$ present complications. To
-derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
+We cannot easily analyze the convergence of GD to the global minima when all $\theta_i$ are simultaneously moving since the pairwise interaction terms between the $\theta_i$ present complications. To derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
 node-wise SGD algorithm to learn the hidden weights, i.e. we run a
 full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
 main idea is that after running SGD with respect to $\theta_1$,
 $\theta_1$ should be close to some $w_j$ for some $j$. Then, we can
 carefully induct and show that $\theta_2$ must be some other $w_k$ for
-$k\neq j$ and so on. 
+$k\neq j$ and so on.
 
 %
 \begin{algorithm}[tb]
@@ -183,7 +186,7 @@ $k\neq j$ and so on.
   $T\in \N$; $\widehat{L}$; $\alpha\in \R$; $\delta \in \R$;
   $\gamma \in R$; \vspace{0.1in} \STATE{\bf Initialize} $\boldsymbol{(a,\theta) = (0,0)}$
   \FOR{$i=1$ {\bfseries to} $k$} 
-  \STATE $(a_i, \theta_i) = SGD \left(\widehat{G}_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\delta \right)$
+  \STATE $(a_i, \theta_i) = NoisyGD \left(\widehat{L}_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\delta \right)$
    \STATE    $(a_1,...,a_i) =  GD \left(\widehat{L}_{a_1,..,a_i},
      (a_1,..,a_i), T , \alpha \right)$\;
    \ENDFOR
@@ -191,51 +194,47 @@ $k\neq j$ and so on.
    \end{algorithmic}
 \end{algorithm}
 
-To apply our node-wise guarantees, we would first need to first tighten the convergence properties of SGD in the case where we have only 1 variable charge, say $\theta_1$. Let $G_1(a_1,\theta_1)$ be the regularized objective $G$ restricted to $a_1,\theta_1$ being variable, and $a_2,...,a_k = 0$ are fixed. While our previous guarantees before allow us to reach a $\epsilon$-neighborhood of $w_j$ when running SGD on $G_1$, we actually would like to reach a $(d/\epsilon)^{-O(d)}$-neighborhood of $w_j$. This is accomplished by reasoning about the first derivatives of our potential, mainly by showing that in an $\epsilon$-neighborhood of $w_j$, descending along the gradient always brings $\theta_1$ closer to $w_j$.
+To apply our node-wise guarantees, we would first need to first tighten the convergence properties of SGD in the case where we have only 1 variable charge, say $\theta_1$. Let $L_1(a_1,\theta_1)$ be the objective $L$ restricted to $a_1,\theta_1$ being variable, and $a_2,...,a_k = 0$ are fixed. Our better control on the movements of $\theta_1$ allows us to remove our regularization. While our previous guarantees before allow us to reach a $\epsilon$-neighborhood of $w_j$ when running SGD on $L_1$, we actually would like to reach a $(d/\epsilon)^{-O(d)}$-neighborhood of $w_j$. This is accomplished by reasoning about the first derivatives of our potential, mainly by showing that in an $\epsilon$-neighborhood of $w_j$, descending along the gradient always brings $\theta_1$ closer to $w_j$.
 
 
 
 \begin{lemma}\label{nodewiseSGD}
-Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(a^{(0)}, \theta^{(0)})$ such that after running SGD (Algorithm \ref{SGD}) on the restricted regularized objective $G_1(a,\theta)$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < O(d/\epsilon)^{-O(d)}$.
+Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(a^{(0)}, \theta^{(0)})$ such that after running SGD (Algorithm \ref{SGD}) on the restricted regularized objective $L_1(a,\theta)$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < O(d/\epsilon)^{-O(d)}$ and $|a - b_j| < O(d/\epsilon)^{-O(d)}$.
 \end{lemma}
 
 
 \begin{proof}
-First, by Lemma~\ref{almostHarmInitialize},  we can initialize ${(a^{(0)},\theta^{(0)})}$ such that $G({a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Next, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $O((d/\epsilon)^{2d})$, except at $w_1,...,w_k$. Now, consider running SGD to generate a sequence $x_1,...,x_T$ with step-sizes of $(d/\epsilon)^{-O(d)}$ so that each gradient step moves at most a distance of $(d/\epsilon)^{-O(d)}$. 
+First, by Lemma~\ref{almostHarmInitialize},  we can initialize ${(a^{(0)},\theta^{(0)})}$ such that $L_1({a^{(0)},\theta^{(0)}}) \leq  L_1({\bf 0,0}) - 2\delta \sqrt{L_1({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Next, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $O((d/\epsilon)^{2d})$, except at $w_1,...,w_k$. Now, consider running noisy GD to generate a sequence $x_1,...,x_T$ with step-sizes of $(d/\epsilon)^{-O(d)}$ so that each gradient step moves at most a distance of $(d/\epsilon)^{-O(d)}$. 
 
-If the SGD iterates $x_i$, for all $i$, is not in a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_1,...,w_k$, then appealing to Theorem~\ref{strongConverge}, our algorithm returns a point $\boldsymbol{(a,\theta)}$ in $\mathcal{M}_{G,(d/\epsilon)^{-O(d)}}$ in $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations and furthermore, $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ with high probability. Finally, we conclude by Theorem \ref{almostHarmRes} that there exists $w_j$ such that $\|\theta - w_j\| < \epsilon$.
+If the SGD iterates $x_i$, for all $i$, is not in a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_1,...,w_k$, then appealing to a similar argumentation in Theorem~\ref{almostHarmSGD}, our algorithm returns a point $\boldsymbol{(a,\theta)}$ in $\mathcal{M}_{L_1,(d/\epsilon)^{-O(d)}}$ in $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations and furthermore, $L_1(\boldsymbol{a,\theta}) \leq L_1({\bf 0,0}) - 2\delta \sqrt{L_1({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes} that there exists $w_j$ such that $\|\theta - w_j\| < \epsilon$.
 
 Now, our gradient with respect to $\theta$ is
 %
 \begin{align*}
-\nabla_\theta G_1 &=  2\sum_{i=1}^k a b_i \nabla_\theta \Phi_\epsilon(\|\theta - w_i\|) \\
-&= 2ab_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} \\
-&\qquad+ 2\sum_{i\neq j} ab_i\Phi_\epsilon'(\|\theta - w_i\|) \frac{\theta - w_i}{\|\theta - w_i\|}
+\nabla_\theta L_1 &= 2ab_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|}+ 2\sum_{i\neq j} ab_i\Phi_\epsilon'(\|\theta - w_i\|) \frac{\theta - w_i}{\|\theta - w_i\|}
 \end{align*}
 %
 
 By our construction, since $\|\theta - w_j\| \leq \epsilon$, we may lower bound $|\Phi_\epsilon'(\|\theta - w_j\|)| \geq e^{-\sqrt{\lambda}\epsilon}\epsilon^{1-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3 \geq O((d/\epsilon)^{-2d})$. On the other hand, for all $i \neq j$, we note that with high probability $\|w_i - w_j\| \geq \Omega(d \log k)$. Therefore, we may upper bound $|\Phi_{\epsilon}(\|\theta - w_i\|)| \leq 1/\poly(k)(d/\epsilon)^{-O(d)}$. Finally, we note that all $|b_i | \geq 1/\poly(k)$ with high probability. 
 
-Together, we conclude that $\nabla_\theta G_1 = 2ab_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} + 2a\eta$, where $\|\eta\| \leq (d/\epsilon)^{-O(d)} b_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|}$. 
+Together, we conclude that $\nabla_\theta L_1 = 2ab_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} + 2a\eta$, where $\|\eta\| \leq (d/\epsilon)^{-O(d)} b_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|}$. 
 
-Similarly, since $(a,\theta) \in \mathcal{M}_{G, (d/\epsilon)^{-O(d)}}$, we know that
+Similarly, since $(a,\theta) \in \mathcal{M}_{L_1, (d/\epsilon)^{-O(d)}}$, we know that
 
 \begin{align*}
-   \abs{\pd{G}{a}} & = \lvert (2+2\beta)a  + 2b_j \Phi_\epsilon(\|\theta - w_j\|) \\
-    &+ 2\sum_{i \neq j} b_i \Phi_\epsilon(\|\theta - w_i\|) \rvert \leq (d/\epsilon)^{-O(d)}
+   \abs{\pd{L_1}{a}} & = \lvert 2a  + 2b_j \Phi_\epsilon(\|\theta - w_j\|) + 2\sum_{i \neq j} b_i \Phi_\epsilon(\|\theta - w_i\|) \rvert \leq (d/\epsilon)^{-O(d)}
 \end{align*}
 
-By a similar argument as on the derivative, we see that $a = -2b_j \Phi_\epsilon(\|\theta - w_j\|) + O(d/\epsilon)^{-O(d)}$ and $|b_j \Phi_\epsilon(\|\theta - w_j\|) | \geq (d/\epsilon)^{-2d}$. By combining our observations, we realize that since SGD is moving in the direction of $-\nabla_\theta G_1$, it is moving $\theta$ closer to $w_j$ since 
+By a similar argument as on the derivative, we see that $a = -2b_j \Phi_\epsilon(\|\theta - w_j\|) + O(d/\epsilon)^{-O(d)}$ and $|b_j \Phi_\epsilon(\|\theta - w_j\|) | \geq (d/\epsilon)^{-2d}$. By combining our observations, we realize that since noisy GD is moving in the direction of $-\nabla_\theta G_1$, it is moving $\theta$ closer to $w_j$ since 
 
 \begin{align*}
-\nabla_\theta G_1 &=  2ab_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} + (d/\epsilon)^{-O(d)} \\
-&= -\frac{1}{1+\beta}b_j^2\Phi_\epsilon(\|\theta-w_j\|)\Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} \\
-&\qquad + (d/\epsilon)^{-O(d)} 
+\nabla_\theta L_1 &=  2ab_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} + (d/\epsilon)^{-O(d)} \\
+&= -b_j^2\Phi_\epsilon(\|\theta-w_j\|)\Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} + (d/\epsilon)^{-O(d)} 
 \end{align*}
 
 However, we see that with high probability, $|b_j^2\Phi_\epsilon(\|\theta-w_j\|)\Phi_\epsilon'(\|\theta - w_j\|)| \geq 1/\poly(k)(d/\epsilon)^{-4d}$, which contradicts $\boldsymbol{(a,\theta)}$ in $\mathcal{M}_{G,(d/\epsilon)^{-O(d)}}$ since $\|\nabla_\theta G_1 \| \geq 1/\poly(k)(d/\epsilon)^{-4d}$. 
 
-Therefore, it must be that while running SGD, there exists some iterate $x_l$ such that $x_l$ in within a $(d/\epsilon)^{-O(d)}$ neighborhood of some $w_j$. By our observation above, we see that $-\nabla_\theta G_1(x_l) = 2b_j^2\Phi_\epsilon(\|x_l-w_j\|)\Phi_\epsilon'(\|x_l - w_j\|) \frac{x_l - w_j}{\|x_l - w_j\|}+ (d/\epsilon)^{-O(d)}$. Note that $\Phi_\epsilon$ and $\Phi_\epsilon'$ differ in sign, so $x_{l}$ moves in the direction of $w_j$ with negligible remainder terms. Since we are taking step-sizes of $(d/\epsilon)^{-O(d)}$, we conclude that $x_T$ remains also in a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_j$. 
+Therefore, it must be that while running noisy GD, there exists some iterate $x_l$ such that $x_l$ in within a $(d/\epsilon)^{-O(d)}$ neighborhood of some $w_j$. By our observation above, we see that $-\nabla_\theta G_1(x_l) = 2b_j^2\Phi_\epsilon(\|x_l-w_j\|)\Phi_\epsilon'(\|x_l - w_j\|) \frac{x_l - w_j}{\|x_l - w_j\|}+ (d/\epsilon)^{-O(d)}$. Note that $\Phi_\epsilon$ and $\Phi_\epsilon'$ differ in sign, so $x_{l}$ moves in the direction of $w_j$ with negligible remainder terms. Since we are taking step-sizes of $(d/\epsilon)^{-O(d)}$, we conclude that $x_T$ remains also in a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_j$. 
 \end{proof}
 
 \begin{theorem}\label{nodewiseSGD}
