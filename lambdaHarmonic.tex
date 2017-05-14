@@ -144,7 +144,7 @@ Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\bold
 %%Cramer-Rao type Argument
 \if{1}
 Let $f(x) =  \sum_{j=1}^k b_j \Phi(x,w_j)$, then it suffices (***Justify later) to show that $\Var(f(X)) \geq 1/\poly(d) $, where $X$ is a multivariate standard normal. By appealing to Cramer-Rao type bounds given in \cite{cacoullos1982upper}, we see that
-
+%
 \begin{align*}
  \Var(f(X)) &\geq \frac{1}{d}\expt \left[\sum_{i=1}^d \frac{\partial}{\partial x_i} f(X)\right]^2 \\
  &= \frac{1}{d}\left( \sum_{j=1}^k b_j \sum_{i=1}^d \expt \frac{\partial}{\partial x_i}\Phi(X,w_j) \right)^2 \\
@@ -166,7 +166,6 @@ Assume that there does not exist $\theta_i, w_j$ such that $\|\theta_i - w_j\| <
 \end{proof}
 
 \subsection{Node-by-Node Analysis}
-
 We cannot easily analyze the convergence of GD to the global minima when all $\theta_i$ are simultaneously moving since the pairwise interaction terms between the $\theta_i$ present complications. To derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
 node-wise SGD algorithm to learn the hidden weights, i.e. we run a
 full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
@@ -195,9 +194,7 @@ $k\neq j$ and so on.
 \end{algorithm}
 
 To apply our node-wise guarantees, we would first need to first tighten the convergence properties of SGD in the case where we have only 1 variable charge, say $\theta_1$. Let $L_1(a_1,\theta_1)$ be the objective $L$ restricted to $a_1,\theta_1$ being variable, and $a_2,...,a_k = 0$ are fixed. Our better control on the movements of $\theta_1$ allows us to remove our regularization. While our previous guarantees before allow us to reach a $\epsilon$-neighborhood of $w_j$ when running SGD on $L_1$, we actually would like to reach a $(d/\epsilon)^{-O(d)}$-neighborhood of $w_j$. This is accomplished by reasoning about the first derivatives of our potential, mainly by showing that in an $\epsilon$-neighborhood of $w_j$, descending along the gradient always brings $\theta_1$ closer to $w_j$.
-
-
-
+%
 \begin{lemma}\label{nodewiseSGD}
 Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(a^{(0)}, \theta^{(0)})$ such that after running SGD (Algorithm \ref{SGD}) on the restricted regularized objective $L_1(a,\theta)$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < O(d/\epsilon)^{-O(d)}$ and $|a - b_j| < O(d/\epsilon)^{-O(d)}$.
 \end{lemma}
@@ -220,13 +217,13 @@ By our construction, since $\|\theta - w_j\| \leq \epsilon$, we may lower bound 
 Together, we conclude that $\nabla_\theta L_1 = 2ab_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} + 2a\eta$, where $\|\eta\| \leq (d/\epsilon)^{-O(d)} b_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|}$. 
 
 Similarly, since $(a,\theta) \in \mathcal{M}_{L_1, (d/\epsilon)^{-O(d)}}$, we know that
-
+%
 \begin{align*}
    \abs{\pd{L_1}{a}} & = \lvert 2a  + 2b_j \Phi_\epsilon(\|\theta - w_j\|) + 2\sum_{i \neq j} b_i \Phi_\epsilon(\|\theta - w_i\|) \rvert \leq (d/\epsilon)^{-O(d)}
 \end{align*}
 
 By a similar argument as on the derivative, we see that $a = -2b_j \Phi_\epsilon(\|\theta - w_j\|) + O(d/\epsilon)^{-O(d)}$ and $|b_j \Phi_\epsilon(\|\theta - w_j\|) | \geq (d/\epsilon)^{-2d}$. By combining our observations, we realize that since noisy GD is moving in the direction of $-\nabla_\theta G_1$, it is moving $\theta$ closer to $w_j$ since 
-
+%
 \begin{align*}
 \nabla_\theta L_1 &=  2ab_j \Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} + (d/\epsilon)^{-O(d)} \\
 &= -b_j^2\Phi_\epsilon(\|\theta-w_j\|)\Phi_\epsilon'(\|\theta - w_j\|) \frac{\theta - w_j}{\|\theta - w_j\|} + (d/\epsilon)^{-O(d)} 
