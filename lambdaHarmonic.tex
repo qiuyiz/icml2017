@@ -1,6 +1,21 @@
 
 \section{Realizable Potentials with Convergence Guarantees}
 
+{\color{red} Under some assumptions, we
+will show that gradient descent can learn at least one of the $w_i's$
+of the target network for certain activation functions. The algorithm
+will try to learn a guess
+$\widetilde{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$
+and then running gradient descent over the parameters $a_i, \theta_i$
+will move them to $b_i, w_i$. We will prove that at convergence, at
+least one $\theta_i$ is equal to (or close to) some $w_j$. Note that
+we may end up with a many to one mapping of the learned hidden weights
+to the true hidden weights, instead of a bijection.
+
+
+% Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions.
+}
+ 
 In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive our convergence theorem. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run SGD on $G = L + \beta\|a\|^2$. 
 
 By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are have a negative curvature of at least $\epsilon$ in $\poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_{G, \epsilon}$, where 

@@ -266,3 +266,11 @@ And lastly, we derive some lower bounds on $\widetilde{\Phi}_\epsilon$ and the f
 \end{proof}
 
 
+\begin{lemma}\label{3dlambdaharmonic}
+The lambda-harmonic radial potential $\Phi(r) = e^{-r}/r$ in $3$-dimensions is realizable by the activation 
+$\sigma(r) = K_1(r)/r$.
+\end{lemma}
+
+\begin{proof}
+The activation is obtained from the potential function by first taking its Fourier transform, then taking its square root, and then taking the inverse fourier transform. Since the functions in consideration are radially symmetric the Fourier transform $F(y)$ of $f(x)$ (and inverse) are obtained by the Hankel Transfom $y F(y) = \int_0^\infty x f(x) J_{1/2} (xy) sqrt{xy} dx$. Plugging $f(x) = e^{-x}/x$, from the Hankel tranform tables we get $yF(y) = cy/(1+y^2)$ giving $F(y) = cy/(1+y^2)$. So we wish to find the inverse Fourier transform for $1/\sqrt{1+y^2}$. The inverse $f(x)$ is given by $xf(x) = \int_0^\infty y F(y) J_{1/2} (xy) sqrt{xy} dy = cK_1(x)$. So $\sigma(r) = K_1(r)/r$.
+\end{proof}
