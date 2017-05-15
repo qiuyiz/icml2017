@@ -36,6 +36,31 @@ Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}
 \end{algorithmic}
 \end{algorithm}
 %
+%
+\begin{algorithm}[hb]
+ \caption{$x = SecondGD(\widehat{L}, x_0, T,\alpha,\epsilon)$}
+   \label{SecondGD}
+\begin{algorithmic}
+   \STATE {\bfseries Input:} $\widehat{L}:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
+   \vspace{.1in}
+   \STATE {\bf Initialize} $x = x_0$
+   \WHILE{{\it true}}
+   \STATE $x_1 = x$
+   \FOR{$i=1$ {\bfseries to} $T$}
+   \STATE Sample $\omega$ uniformly on unit sphere.
+   \STATE $x_{i+1} = x_i - \alpha(\nabla \widehat{L} (x_i)+\alpha\omega)$ 
+%\STATE $x = \Pi_\mathcal{M} x$
+   \ENDFOR
+    \IF{$\widehat{L}(x_i) - \widehat{L}(x) < \alpha^2$ for all $i$}
+   \STATE {\bf return} $x$
+   \ELSE 
+   \STATE Find $i$ such that $\widehat{L}(x_i) - \widehat{L}(x) \geq \alpha^2$ 
+   \STATE $x = x_i$
+   \ENDIF
+   \ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+%
 
 \begin{theorem}\label{almostHarmSGD}
   Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running NoisyGD (Algorithm \ref{SGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
@@ -160,9 +185,9 @@ Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_
 
 
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
-Let our potential be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/2$. First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Since $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$, if we set $\alpha = \poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$, then running Algorithm~\ref{SGD} will terminate return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations since our objective function cannot decrease by at least $\alpha^2$ too many times.
+Let our potential be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/2$. First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Since $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$, if we set $\alpha = \poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$, then running Algorithm~\ref{SecondGD} will terminate return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations since our objective function cannot decrease by at least $\alpha^3$ (change) too many times.
 
-Assume that there does not exist $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$. Then, since our algorithm has terminated, there must exist noisy GD iterates $\boldsymbol{a_i,\theta_i}$ such that $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a_T,\theta_T}) \leq \alpha^2$ after $T= \tilde{O}(1/\alpha)$ steps of noisy gradient descent from $(\boldsymbol{a,\theta})$. We claim that $\boldsymbol{a,\theta} \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$. First, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{-2d}$, except at $w_1,...,w_k$. Now, if $\boldsymbol{a,\theta} \not \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$, then Lemma~\ref{GeLem7} and ~\ref{GeLem9}, we know that $\|\boldsymbol{\theta_1 - \theta} \| < (d/\epsilon)^{-O(d)}$  and we know that $\|\boldsymbol{\theta_i - \theta} \| < (d/\epsilon)^{-O(d)}$ for all $i$, and with high probability by Azuma's inequality, $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a_T,\theta_T}) \geq \alpha^2$, a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes}.
+Assume that there does not exist $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$. Then let $\boldsymbol{a',\theta'}$ be point reached from a step of gradient descent starting from $\boldsymbol{a,\theta}$. Since our algorithm has terminated, $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a',\theta'}) \leq \alpha^2$ (change). We claim that $\boldsymbol{a,\theta} \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$. First, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{2d}$, except at $w_1,...,w_k$. Now, if $\boldsymbol{a,\theta} \not \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$, then Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we know that $\|\boldsymbol{\theta' - \theta} \| < (d/\epsilon)^{-O(d)}$ and $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a_T,\theta_T}) \geq \alpha^2$, a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes}.
 \end{proof}
 
 \subsection{Node-by-Node Analysis}
@@ -196,14 +221,16 @@ $k\neq j$ and so on.
 To apply our node-wise guarantees, we would first need to first tighten the convergence properties of SGD in the case where we have only 1 variable charge, say $\theta_1$. Let $L_1(a_1,\theta_1)$ be the objective $L$ restricted to $a_1,\theta_1$ being variable, and $a_2,...,a_k = 0$ are fixed. Our better control on the movements of $\theta_1$ allows us to remove our regularization. While our previous guarantees before allow us to reach a $\epsilon$-neighborhood of $w_j$ when running SGD on $L_1$, we actually would like to reach a $(d/\epsilon)^{-O(d)}$-neighborhood of $w_j$. This is accomplished by reasoning about the first derivatives of our potential, mainly by showing that in an $\epsilon$-neighborhood of $w_j$, descending along the gradient always brings $\theta_1$ closer to $w_j$.
 %
 \begin{lemma}\label{nodewiseSGD}
-Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(a^{(0)}, \theta^{(0)})$ such that after running SGD (Algorithm \ref{SGD}) on the restricted regularized objective $L_1(a,\theta)$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < O(d/\epsilon)^{-O(d)}$ and $|a - b_j| < O(d/\epsilon)^{-O(d)}$.
+Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(a^{(0)}, \theta^{(0)})$ such that after running SGD (Algorithm \ref{SGD}) on the restricted regularized objective $L_1(a,\theta)$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < O(d/\epsilon)^{-O(d)}$ and $|a + b_j| < O(d/\epsilon)^{-O(d)}$.
 \end{lemma}
 
 
 \begin{proof}
-First, by Lemma~\ref{almostHarmInitialize},  we can initialize ${(a^{(0)},\theta^{(0)})}$ such that $L_1({a^{(0)},\theta^{(0)}}) \leq  L_1({\bf 0,0}) - 2\delta \sqrt{L_1({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Next, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $O((d/\epsilon)^{2d})$, except at $w_1,...,w_k$. Now, consider running noisy GD to generate a sequence $x_1,...,x_T$ with step-sizes of $(d/\epsilon)^{-O(d)}$ so that each gradient step moves at most a distance of $(d/\epsilon)^{-O(d)}$. 
+First, by Lemma~\ref{almostHarmInitialize},  we can initialize ${(a^{(0)},\theta^{(0)})}$ such that $L_1({a^{(0)},\theta^{(0)}}) \leq  L_1({\bf 0,0}) - 2\delta \sqrt{L_1({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Next, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $O((d/\epsilon)^{2d})$, except at $w_1,...,w_k$. Now, consider running noisy GD to generate a sequence $x_1 = (a^{(1)},\theta^{(1)}),...,x_T = (a^{(T)},\theta^{(T)})$ with step-sizes of $(d/\epsilon)^{-O(d)}$ so that each gradient step moves at most a distance of $(d/\epsilon)^{-O(d)}$. 
 
-If the SGD iterates $x_i$, for all $i$, is not in a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_1,...,w_k$, then appealing to a similar argumentation in Theorem~\ref{almostHarmSGD}, our algorithm returns a point $\boldsymbol{(a,\theta)}$ in $\mathcal{M}_{L_1,(d/\epsilon)^{-O(d)}}$ in $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations and furthermore, $L_1(\boldsymbol{a,\theta}) \leq L_1({\bf 0,0}) - 2\delta \sqrt{L_1({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes} that there exists $w_j$ such that $\|\theta - w_j\| < \epsilon$.
+If, for all $i$, the iterates $x_i \not \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$ and $\theta_i$ is not within a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_1,...,w_k$, then we derive a contradiction by looking at the decrease in the expected objective function. Since our derivatives are bounded outside of a neighborhood of $w_1,...,w_k$, by Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we know that our expected objective function is decreasing by $(d/\epsilon)^{-O(d)}$ in at most $(d/\epsilon)^{O(d)}$ iterations, if we set $\alpha = \poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$. Since $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$, then we derive a contradiction since the expected decrease is bounded by $O(k)$. 
+
+Now, there must exist $x_i \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$ or $x_i$ is within a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_1,...,w_k$ for some $i$. Assume the former holds and the latter does not. First, by Azuma's inequality, in $(d/\epsilon)^{O(d)}$ iterations, we can guarantee that $L_1(\boldsymbol{a,\theta}) \leq L_1({a^{(0)},\theta^{(0)}}) + (d/\epsilon)^{O(d)} \leq L_1({\bf 0,0}) - \delta \sqrt{L_1({\bf 0,0})}$ with high probability for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Finally, we conclude by Theorem \ref{almostHarmRes} that there exists $w_j$ such that $\|\theta - w_j\| < \epsilon$.
 
 Now, our gradient with respect to $\theta$ is
 %
@@ -232,6 +259,8 @@ By a similar argument as on the derivative, we see that $a = -2b_j \Phi_\epsilon
 However, we see that with high probability, $|b_j^2\Phi_\epsilon(\|\theta-w_j\|)\Phi_\epsilon'(\|\theta - w_j\|)| \geq 1/\poly(k)(d/\epsilon)^{-4d}$, which contradicts $\boldsymbol{(a,\theta)}$ in $\mathcal{M}_{G,(d/\epsilon)^{-O(d)}}$ since $\|\nabla_\theta G_1 \| \geq 1/\poly(k)(d/\epsilon)^{-4d}$. 
 
 Therefore, it must be that while running noisy GD, there exists some iterate $x_l$ such that $x_l$ in within a $(d/\epsilon)^{-O(d)}$ neighborhood of some $w_j$. By our observation above, we see that $-\nabla_\theta G_1(x_l) = 2b_j^2\Phi_\epsilon(\|x_l-w_j\|)\Phi_\epsilon'(\|x_l - w_j\|) \frac{x_l - w_j}{\|x_l - w_j\|}+ (d/\epsilon)^{-O(d)}$. Note that $\Phi_\epsilon$ and $\Phi_\epsilon'$ differ in sign, so $x_{l}$ moves in the direction of $w_j$ with negligible remainder terms. Since we are taking step-sizes of $(d/\epsilon)^{-O(d)}$, we conclude that $x_T$ remains also in a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_j$. 
+
+Finally, we see that the charges also converge since $a = -2b_j \Phi_\epsilon(\|\theta - w_j\|) + O(d/\epsilon)^{-O(d)}$ and $\|\theta - w_j\| = (d/\epsilon)^{-O(d)}$. By noting that $\Phi_\epsilon(0) = 1$ and $\Phi_\epsilon$ is $(d/\epsilon)^{2d}$-Lipschitz, we conclude. 
 \end{proof}
 
 \begin{theorem}\label{nodewiseSGD}
@@ -239,8 +268,11 @@ Let $\mathcal{M} = \R^{d}$ and let $L$ be as in \ref{errLoss} with some activati
 \end{theorem}
 
 \begin{proof}
+Let $(a_i, \theta_i)$ be the $i$-th node that is initialized and applied noisy gradient descent onto. We want to show that the nodes $(a_i, \theta_i)$ will converge, in a node-wise fashion, to some permutation of $\{(b_1,w_1),...,(b_k,w_k)\}$. By Lemma~\ref{nodewiseSGD}, we know that with high probability $(a_1,\theta_1)$ will converge to some $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(1)}, w_{\pi(1)})$ for some function $\pi: [k] \to [k]$. Now, since [condition holds], by Lemma~\ref{almostHarmInitialize}, we can initialize ${(a_2^{(0)},\theta_2^{(0)})}$ such that $L_2({a_2^{(0)},\theta_2^{(0)}}) \leq  L_2({\bf 0,0}) - 2\delta \sqrt{L_2({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Then, by Lemma~\ref{nodewiseSGD}, we know that if $x_i = (a_2^{(i)}, \theta_2^{(i)}$ are the noisy GD iterates, then there exists a minimal $l$ such that $x_l$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_j$ for some $j$. [Needs to be argued further] By Azuma's inequality, $L_2({a_2^{(l)},\theta_2^{(l)}}) \leq  L_2({\bf 0,0}) - \delta \sqrt{L_2({\bf 0,0})}$, with high probability. 
 
+Now, we claim that $x_l$ is not in a $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(1)}, w_{\pi(1)})$. Assume otherwise. First, we see that our decrease in objective function implies that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_2^{(l)}) \leq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - \delta \sqrt{L_2({\bf 0,0})}$. However, notice that our assumption implies that $a_2^{(l)},\theta_2^{(l)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of $a_1,\theta_1$. By the smoothness of $L$, we see that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_2^{(l)}) \geq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_1) - (d/\epsilon)^{-O(d)} = L_{a_1,\theta_1,a_2,\theta_2}(a_1 + a_2^{(l)},\theta_1, {\bf 0, 0}) - (d/\epsilon)^{-O(d)} $. Together, we know that  $L_{a_1,\theta_1,a_2,\theta_2}(a_1+a_2^{(l)},\theta_1,{\bf 0, 0}) \leq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - (d/\epsilon)^{-O(d)}$
 
+However, our gradient descent guarantees that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - L_{a_1,\theta_1,a_2,\theta_2}(a_1 + a_2^{(l)},\theta_1, {\bf 0, 0}) \leq O(1/T)$, where $T$ is the number of iterations of gradient descent. Since $T = (d/\epsilon)^{-O(d)}$ is large enough, we derive a contradiction. Therefore, our claim is done and by induction, $\pi$ is a permutation. Now, our theorem follows. 
 \end{proof}
 
 
