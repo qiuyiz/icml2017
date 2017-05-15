@@ -71,19 +71,30 @@ There is an activation function such that upon running gradient
 
 \paragraph{Intuition and Techniques.}
 %
-Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed charges and some moving electrons is at equilibrium only when the moving charges coincide with the fixed charges. Given our translation above between electrodynamic systems and depth 2 networks, this would imply learnability of depth 2 networks with gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$. 
+Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed charges and some moving electrons is at equilibrium only when the moving charges coincide with the fixed charges. Given our translation above between electrodynamic systems and depth 2 networks (Section~\ref{}), this would imply learnability of depth 2 networks with gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$. 
 %
 
-We derive some sufficient conditions that characterize potentials
- that arise from activation functions $\sigma$. 
+% \paragraph{Organization.} In section 2, we introduce our framework and assumptions, and derive the equivalence between gradient descent and electron-proton dynamics under a suitable potential. 
+%  % These convergence results are proven to simply illustrate our ideas. 
+% In Section~\ref{}, we construct a realizable almost $\lambda$-harmonic potential and prove finite convergence guarantees. In section 6, experimental results confirm that depth-2 neural networks can be learned by gradient descent with common activation functions but seem to discredit that claim for higher depth networks. In section 5, we consider more realistic activation functions, such as the sign and polynomial function.
+
+The proof of Earnshaw's theorem is based on the fact that the electrostatic potential is harmonic, \emph{i.e}, its Laplacian (trace of its Hessian) is identically zero. This ensures that at every critical point, there is direction of potential reduction (unless the hessian is identically zero). We generalize these ideas to potential functions that are eigenfunctions of the Laplacians, $\lambda$-harmonic potentials (Section~\ref{sec:lambda}). However, there potentials are unbounded. Subsequently, we construct a non-explicit activation function such that the corresponding potential is bounded and is almost $\lambda$-harmonic, \emph{i.e.}, it is $\lambda$-harmonic outside a small sphere (Section~\ref{}). For this activation function, we show at a stable critical point, we must learn at least one of the hidden nodes. \Snote{We use recent results on gradient descent~\cite{Rongetal} to show that gradient descent (with perturbations) converges close a stable critical point.}
+
+% Our main tool for analysis is to derive second-order information about our dynamics by using the Laplacian of the Hessian (or a submatrix of the Hessian) of our loss function. 
+% Together with some generalization error bounds and discrete optimization results, we can finally translate these convergence results into finite time convergence rates. 
+We remark that our algorithms learn and return a neural network with the same architecture and number of hidden nodes as the target network. This is a big contrast to the improper learning setting of many proposed algorithms. 
+
+
+% We derive some sufficient conditions that characterize potentials
+%  that arise from activation functions $\sigma$. 
 
 % The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}.
-First we show how to construct an activation function, such that the corresponding potential satisfies a nice smooth property which we call almost $\lambda$-harmonic, for which we show that at convergence of the gradient descent, at least some $\theta_i$ coincides with some $w_j$.
+% First we show how to construct an activation function, such that the corresponding potential satisfies a nice smooth property which we call almost $\lambda$-harmonic, 
+% for which we show that at convergence of the gradient descent, at least some $\theta_i$ coincides with some $w_j$.
 %
 
 %
-We also show some weaker results for other more practical activation functions.
-Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $\poly(d,1/\epsilon)$ time.  
+In the supplementary material, we also show some weak results for other more practical activation functions. Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $\poly(d,1/\epsilon)$ time.
 %
 % \begin{table}[tb]
 % \caption{Activation, Potentials, and Convergence Results Summary}
@@ -113,16 +124,10 @@ Specifically, for the sign activation, we show that if we consider the loss func
 % \end{table} 
 % %
 
-Our main tool for analysis is to derive second-order information about our dynamics by using the Laplacian of the Hessian (or a submatrix of the Hessian) of our loss function. Together with some generalization error bounds and discrete optimization results, we can finally translate these convergence results into finite time convergence rates. We remark that our algorithms learn and return a neural network with the same architecture and number of hidden nodes as the target network. This is a big contrast to the improper learning setting of many proposed algorithms. 
 
 We acknowledge that there is still a large gap between our developed theory and practice. However, our work can offer theoretical explanations and guidelines for the design of better activation functions or gradient-based training algorithms. For example, better accuracy and training speed were reported when using the newly discovered exponential linear unit (ELU) activation function in \cite{ClevertUH15, ShahKSS16}. We hope for more theory-backed answers to these and many other questions in deep learning.
 
-\paragraph{Organization.} In section 2, we introduce our framework and assumptions, and derive
-and derive the equivalence between gradient descent and
-electron-proton dynamics under a suitable potential. In section 3, we show convergence results for certain potential functions that may not correspond to bounded activation functions. These convergence results are proven to simply illustrate our ideas. In section 4, we create a realizable potential function and address the steps necessary to prove finite convergence guarantees. In section 5, we consider more realistic activation functions, such as the sign and polynomial function. In section 6, experimental
-results confirm that depth-2 neural networks can be learned by
-gradient descent with common activation functions but seem to
-discredit that claim for higher depth networks.
+
 
 %%% Local Variables:
 %%% mode: latex
