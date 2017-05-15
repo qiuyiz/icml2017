@@ -152,6 +152,35 @@ $\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and $\lambda_{min}(\nabla^2 \wideh
 We will choose $\delta, \alpha = 1/\poly(d,1/\epsilon)$ and $m = O(\log d \log (1/\delta)/\epsilon)$. First, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi_m$ and the second and third partials of $\Phi_m$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}\Rnote{cite something better than wikipedia, a}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon/3$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon,1/\delta)$ iterations.
 \end{proof}
 
+ADDING DETERMINISTIC LEMMAS
+
+
+\begin{lemma}\label{GradDecrease}		
+Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq \sqrt{\eta}$, after one iteration of gradient descent, $f(w_{t+1}) \leq f(w_t) - \widetilde{\Omega}(\eta)$. Furthermore, $\|w_{t+1} - w_t\| \leq \widetilde{O}(\sqrt{\eta})$
+\end{lemma} 
+
+\begin{proof}
+The gradient descent step is given by $w_{t+1} = w_t - \frac{1}{C} \nabla f(w_t)$, where $C$ is the Lipschitz constant of the gradient. The bound on $\|w_{t+1} - w_t\|$ is clear.
+\begin{align*}
+f(w_{t+1}) &\leq f(w_t) - \frac{1}{C}\nabla f(w_t)^T\nabla f(w_t)^T + \frac{C^2}{2} \|\frac{1}{C}\nabla f(w_t)\|^2 \\
+&\leq f(w_t) - \frac{1}{2C} \eta
+\end{align*}
+
+\end{proof}
+
+\begin{lemma}(Lemma 9 in \cite{GeHJY15})\label{HessianDecrease}
+Under the assumptions of Theorem \ref{strongConverge}, for any point where $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, then after one iteration of Hessian descent, $f(w_{t+1}) \leq f(w_t) - \widetilde{\Omega}(\gamma^3)$. Furthermore, $\|w_{t+1} - w_t\| \leq \widetilde{O}(\gamma)$
+\end{lemma}
+
+\begin{proof}
+The gradient descent step is given by $w_{t+1} = w_t + \beta v_{min}$, where $v_{min}$ is the unit eigenvector corresponding to $\lambda_{min}(\nabla^2f(w_t))$.  
+\begin{align*}
+f(w_{t+1}) &\leq f(w_t) + \beta\nabla f(w_t)^Tv_{min} + \beta^2 v_{min}^T\nabla^2f(w_t)v_{min} + \frac{\rho}{6} |\beta|^3 \|v_{min}\|^3 \\
+&\leq f(w_t) - |\beta|^2 \gamma + \frac{\rho}{6} |\beta|^3
+\end{align*}
+The last inequality holds since the sign of $\beta$ is chosen so that $\beta f(w_t)^Tv_{min} \leq 0$. Now, setting $|\beta| = \frac{1}{\rho}\gamma$ gives our desired bound. The bound on $\|w_{t+1} - w_t\|$ is clear.
+\end{proof}
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "icmlpaper2017.tex"
