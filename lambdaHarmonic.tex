@@ -16,9 +16,9 @@ to the true hidden weights, instead of a bijection.
 % Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions.
 }
  
-In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive our convergence theorem. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run SGD on $G = L + \beta\|a\|^2$. 
+In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive our convergence theorem. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run our optimization procedure on $G = L + \beta\|a\|^2$. 
 
-By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid all points that are have a negative curvature of at least $\epsilon$ in $\poly(1/\epsilon)$ iterations. Intuitively, this means that SGD will converge to points with small gradient and small negative curvature, converging to a point in $\mathcal{M}_{G, \epsilon}$, where 
+Our optimization procedure is a slightly altered version of gradient descent, where second-order methods are used when the gradient is too small and progress is slow. By using a second-order gradient descent (Algorithm~\ref{SecondGD}), we are able to converge to points with small gradient and small negative curvature. Namely, in $\poly(1/\epsilon)$ iterations, we should have reached a point in $\mathcal{M}_{G, \epsilon}$, where 
 %
 %
 \[\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
@@ -26,6 +26,8 @@ By reusing techniques in \cite{GeHJY15}, we show that SGD (with noise) can avoid
   -\epsilon\right\}\]
 %
 Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our following theorem.
+
+The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{Jin0NKJ17} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.
 %
 \begin{algorithm}[hb]
  \caption{$x = NoisyGD(\widehat{L}, x_0, T,\alpha,\epsilon)$}
@@ -58,17 +60,20 @@ Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}
 \begin{algorithmic}
    \STATE {\bfseries Input:} $L:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
    \vspace{.1in}
-   \STATE {\bf Initialize} $x = x_0$
    \FOR{$i=1$ {\bfseries to} $T$}
-   \IF{$\|\nabla L(x) \geq  \eta$}
-   \STATE $x = GD(L, x, 1, \alpha)$
+   \IF{$\|\nabla L(x_{i-1})\| \geq  \eta$}
+   \STATE $x_{i} = GD(L, x_{i-1}, 1, \alpha)$
+   
    \ELSE 
-   \STATE Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(w_t))$ 
-    \IF{$\lambda_{min}(\nabla^2 f(w_t)) \leq - \gamma$}
-    \STATE $x = x - \alpha \gamma sgn(\nabla f(w_t)^Tv_{min}) v_{min}$
+   \STATE Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(x_{i-1}))$ 
+    \IF{$\lambda_{min}(\nabla^2 f(x_{i-1})) \leq - \gamma$}
+    \STATE $x_i = x_{i-1} - \alpha \gamma sgn(\nabla f(x_{i-1})^Tv_{min}) v_{min}$
     \ELSE 
-     \STATE {\bf return} $x$
+     \STATE {\bf return} $x_{i-1}$
     \ENDIF
+   \ENDIF
+   \IF{$ L(x_i) \geq L(x_{i-1}) - min(\alpha\eta^2/2, \alpha^2 \gamma^3/2) $}
+     \STATE {\bf return} $x_{i-1}$
    \ENDIF
    \ENDFOR
    \end{algorithmic}
@@ -174,7 +179,7 @@ Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmCo
    \Phi_\epsilon({\bf 0},w_j)\right)^2 
 \end{align*}
 
-Because $w_j$ are random Gaussians with variance $O(d \log k)$, we have $\|w_j\| \leq O(d\log k)$ with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left(  \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality for uniform variables (separate lemma?).
+Because $w_j$ are random Gaussians with variance $O(d \log k)$, we have $\|w_j\| \leq O(d\log k)$ with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left(  \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality for independent uniform variables.
 
 Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{1+\beta}d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. Since $G(\boldsymbol{0,0}) \leq O(k)$, we are done. 
 
@@ -198,9 +203,11 @@ Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_
 
 
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
-Let our potential be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/2$. First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Since $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$, if we set $\alpha = \poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$, then running Algorithm~\ref{SecondGD} will terminate return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations since otherwise by Lemma \ref{GradDecrease} and \ref{HessianDecrease}, our objective function cannot decrease by at least $\alpha^3$ (change) too many times.
+Let our potential be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/2$. First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. If we set $\alpha = \poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{-O(d)}$ and $\eta = \gamma = \beta \lambda \delta^2/2k^2$,  then running Algorithm~\ref{SecondGD} will terminate and return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations. This is because our algorithm ensures that our objective function decreases by at least $\min(\alpha \eta^2/2, \alpha^2\gamma^3/2)$ at each iteration and $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$ is non-negative.
 
-Assume that there does not exist $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$. Then let $\boldsymbol{a',\theta'}$ be point reached from a step of gradient descent starting from $\boldsymbol{a,\theta}$. Since our algorithm has terminated, $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a',\theta'}) \leq \alpha^2$ (change). We claim that $\boldsymbol{a,\theta} \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$. First, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{2d}$, except at $w_1,...,w_k$. Now, if $\boldsymbol{a,\theta} \not \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$, then Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we know that $\|\boldsymbol{\theta' - \theta} \| < (d/\epsilon)^{-O(d)}$ and $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a_T,\theta_T}) \geq \alpha^2$, a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes}.
+Let $\boldsymbol{\theta} = (\theta_1,...\theta_k)$. If there exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$, then we are done. Otherwise, we claim that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$. For the sake of contradiction, assume otherwise. By our algorithm termination conditions, if $(\boldsymbol{a,\theta}) \not \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$, then it must be that after one step of gradient or Hessian descent from $(\boldsymbol{a,\theta})$, we reach some $(\boldsymbol{a',\theta'})$ and $G(\boldsymbol{a',\theta'}) \geq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$.
+
+Now, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{2d}$, except at $w_1,...,w_k$. Furthermore, since there does not exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| <\epsilon$, $G$ is three-times continuously differentiable within a $\alpha (d/\epsilon)^{2d} = (d/\epsilon)^{-O(d)}$ neighborhood of $\boldsymbol{\theta}$. Therefore, by Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we must have  we know that $G(\boldsymbol{a',\theta'}) \leq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$. a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes}.
 \end{proof}
 
 \subsection{Node-by-Node Analysis}

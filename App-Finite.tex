@@ -156,30 +156,29 @@ ADDING DETERMINISTIC LEMMAS
 
 
 \begin{lemma}\label{GradDecrease}		
-Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq \eta$, after one iteration of gradient descent with stepsize $\alpha \leq \frac{1}{B_2}$, $f(w_{t+1}) \leq f(w_t) - \alpha\eta^2/2$. Furthermore, $\|w_{t+1} - w_t\| \leq \alpha B_1$
+Let the assumptions of Theorem \ref{strongConverge} hold in a $(\alpha B_1)$-neighborhood of $x$. If $\|\nabla f (x) \|\geq \eta$ and $x'$ is reached after one iteration of gradient descent with stepsize $\alpha \leq \frac{1}{B_2}$, then $\|x' - x\| \leq \alpha B_1$ and $f(x') \leq f(x) - \alpha\eta^2/2$.
 \end{lemma} 
 
 \begin{proof}
-The gradient descent step is given by $w_{t+1} = w_t - \alpha \nabla f(w_t)$. The bound on $\|w_{t+1} - w_t\|$ is clear since $\|\nabla f(w_t) \| \leq B_1$.
+The gradient descent step is given by $x' = x - \alpha \nabla f(x)$. The bound on $\|x' - x\|$ is clear since $\|\nabla f(x) \| \leq B_1$.
 \begin{align*}
-f(w_{t+1}) &\leq f(w_t) - \alpha \nabla f(w_t)^T\nabla f(w_t)^T + \alpha^2\frac{B_2}{2} \|\nabla f(w_t)\|^2 \\
-&\leq f(w_t) - (\alpha - \alpha^2 \frac{B_2}{2}) \eta^2 
+f(x') &\leq f(x) - \alpha \nabla f(x)^T\nabla f(x)^T + \alpha^2\frac{B_2}{2} \|\nabla f(x)\|^2 \\
+&\leq f(x) - (\alpha - \alpha^2 \frac{B_2}{2}) \eta^2 
 \end{align*}
-
 For $0 \leq \alpha \leq \frac{1}{B_2}$, we have $\alpha - \alpha^2B_2/2 \geq \alpha/2$, and our lemma follows.
 \end{proof}
 
-\begin{lemma}(Lemma 9 in \cite{GeHJY15})\label{HessianDecrease}
-Under the assumptions of Theorem \ref{strongConverge}, for any point where $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, then after one iteration of Hessian descent with stepsize $\alpha \leq \frac{1}{B_3}$, $f(w_{t+1}) \leq f(w_t) - \alpha^2 \gamma^3/2$. Furthermore, $\|w_{t+1} - w_t\| \leq \alpha B_2$
+\begin{lemma}\label{HessianDecrease}
+Let the assumptions of Theorem \ref{strongConverge} hold in a $(\alpha B_2)$-neighborhood of $x$. If $\lambda_{min}(\nabla^2 f (x)) \leq -\gamma$ and $x'$ is reached after one iteration of Hessian descent with stepsize $\alpha \leq \frac{1}{B_3}$, then $\|x' - x\| \leq \alpha B_2$ and $f(x') \leq f(x) - \alpha^2 \gamma^3/2$.
 \end{lemma}
 
 \begin{proof}
-The gradient descent step is given by $w_{t+1} = w_t + \beta v_{min}$, where $v_{min}$ is the unit eigenvector corresponding to $\lambda_{min}(\nabla^2f(w_t))$ and $\beta = -\alpha \gamma sgn(\nabla f(w_t)^Tv_{min})$. 
+The gradient descent step is given by $x' = x + \beta v_{min}$, where $v_{min}$ is the unit eigenvector corresponding to $\lambda_{min}(\nabla^2f(x))$ and $\beta = -\alpha \gamma sgn(\nabla f(x)^Tv_{min})$. Our bound on $\|x' - x\|$ is clear since $\gamma \leq B_2$.
 \begin{align*}
-f(w_{t+1}) &\leq f(w_t) + \beta\nabla f(w_t)^Tv_{min} + \beta^2 v_{min}^T\nabla^2f(w_t)v_{min} + \frac{B_3}{6} |\beta|^3 \|v_{min}\|^3 \\
-&\leq f(w_t) - |\beta|^2 \gamma + \frac{B_3}{6} |\beta|^3
+f(x') &\leq f(x) + \beta\nabla f(x)^Tv_{min} + \beta^2 v_{min}^T\nabla^2f(x)v_{min} + \frac{B_3}{6} |\beta|^3 \|v_{min}\|^3 \\
+&\leq f(x) - |\beta|^2 \gamma + \frac{B_3}{6} |\beta|^3
 \end{align*}
-The last inequality holds since the sign of $\beta$ is chosen so that $\beta \nabla f(w_t)^Tv_{min} \leq 0$. Now, since $|\beta| = \alpha \gamma \leq \frac{\gamma}{B_3}$, $-|\beta|^2\gamma + \frac{B_3}{6} |\beta|^3 \leq - \alpha^2 \gamma^3/2$. Finally, our bound on $\|w_{t+1} - w_t\|$ is clear since $\gamma \leq B_2$.
+The last inequality holds since the sign of $\beta$ is chosen so that $\beta \nabla f(x)^Tv_{min} \leq 0$. Now, since $|\beta| = \alpha \gamma \leq \frac{\gamma}{B_3}$, $-|\beta|^2\gamma + \frac{B_3}{6} |\beta|^3 \leq - \alpha^2 \gamma^3/2$. 
 \end{proof}
 
 %
