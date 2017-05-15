@@ -1,13 +1,35 @@
 \section{Introduction}
 
 
-Deep learning has resulted in major strides in machine learning applications including speech recognition, image classification, and ad-matching. The simple idea of using multiple layers of nodes with a non-linear activation function at each node allows one to express any function.  To learn a certain target function we just use (stochastic) gradient descent to minimize the loss; this approach has resulted in significantly lower error rates for several real world functions, such as those in the above applications. Naturally the question remains: how close are we to the optimal values of the network weight parameters? Are we stuck in some bad local minima? While there are serveral recent works \cite{} that have tried to study the presence of local minima the picture is far from clear.
+Deep learning has resulted in major strides in machine learning applications including speech recognition, image classification, and ad-matching. The simple idea of using multiple layers of nodes with a non-linear activation function at each node allows one to express any function.  To learn a certain target function we just use (stochastic) gradient descent to minimize the loss; this approach has resulted in significantly lower error rates for several real world functions, such as those in the above applications. Naturally the question remains: how close are we to the optimal values of the network weight parameters? Are we stuck in some bad local minima? While there are several recent works \cite{} that have tried to study the presence of local minima the picture is far from clear.
 
-In this work we will ask how well can deep learning learn certain types of synthetic functions. Simple examples of synthetic functions are polynomials \cite{}, decision tress. Here we will study this question for functions that can be represented by a deep network of a certain depth and width. If a target function is deep network with a certain shape and has randomly initialized edge weights, then will gradient descent converge to the target function? Our experimental simulations show that for short depths (say 2) and with random edge weights the error rate drops to a small percentage. 
+There has been some work on studying how well can neural networks learn some synthetic function classes (e.g. polynomials~\cite{}, decision trees). 
+In this work we study how well can neural networks learn neural networks with gradient descent?
+% In this work we ask how well can deep learning learn certain types of synthetic functions. 
+% Simple examples of synthetic functions are. 
+% Here we will study this question for functions that can be represented by a deep network of a certain depth and width. 
+%
+ % Can we use neural networks to learn neural networks with gradient descent methods? 
+ % gradient descent on neural networks learn a randomly initialized target network with the same shape.
+%
+ Specifically, if the target function is a neural network with randomly initialized weights, and we attempt to learn it using a network with the same architecture, then will gradient descent converge to the target function?
+
+% If a target function is deep network with a certain shape and has randomly initialized edge weights, then will gradient descent converge to the target function?
+% {\color{red}That is, if the function to be learnt is a neural network, and we try to learn it with a network of the same shape and randomly initialized edge weights, then will the gradient descent converge to the right function? }
+
+
+
+
+Experimental simulations show that for short depths (say 2), and for different widths, with random network weights, stochastic gradient descent of a hypothesis network with the same architecture converges to an $\ell_2$ error that is a small percentage of a random network, indicating that SGD can learn these shallow networks with random weights (see section~\ref{experiments}). 
+
+% Our experimental simulations show that for different widths and heights functions represented by neural networks with random edge weights can be learnt by stochastic gradient descent.
+ % Our experimental simulations show that for short depths (say 2) and with random edge weights the error rate drops to a small percentage. 
 %To understand this better, 
 We theoretically investigate this question of convergence for networks of depth $2$ with certain simiplifying assumptions. Specifically, we assume that the top node is a sum node instead of a non linear node and that the training data comes from a standard multivariate Gaussian distribution. 
 
-Our main conceptual contribution is that for these simplified depth $2$ networks, the question of whether the gradient descent converges to the desired target function is equivalent to a certain question of convergence in electrodynamics: given $n$ fixed protons~\Snote{charges?} in $d$ dimensional Euclidean space and $n$ electrons initialized at random positions with all the electrons moving under the influence of the electrical force of attraction from the protons and repulsion from the remaining electrons. The question of convergence, then, is whether at equilibrium all the electrons will be matched up all the protons upto some permutation. Here $n$ corresponds to the number of hidden units, $d$ is the number of inputs to the deep network, the positions of each proton corresponds to the input weight vector of
+
+
+\paragraph{Results and Contributions.} Our main conceptual contribution is that for these simplified depth $2$ networks, the question of whether the gradient descent converges to the desired target function is equivalent to a certain question of convergence in electrodynamics: given $n$ fixed protons~\Snote{charges?} in $d$ dimensional Euclidean space and $n$ electrons initialized at random positions with all the electrons moving under the influence of the electrical force of attraction from the protons and repulsion from the remaining electrons. The question of convergence, then, is whether at equilibrium all the electrons will be matched up all the protons upto some permutation. Here $n$ corresponds to the number of hidden units, $d$ is the number of inputs to the deep network, the positions of each proton corresponds to the input weight vector of
 % a  edge weights incident on each of the
 a hidden unit in the target network, and the initial positions of the electrons are the initial values of the edge weights for the hidden units at the beginning of the gradient descent in the learning network. The motion of the electrons essentially tracks the change in the network during gradient descent. The force function between a pair of charges is not given by the standard electrical force of $1/r^2$ (where $r$ is the distance between unit charges), but by another function that is determined by the activation function and the distribution of inputs. Thus the question of convergence in these simplified depth $2$ networks can be resolved by studying the equivalent electrodynamics question with the corresponding force function.
 %
@@ -25,46 +47,37 @@ potential function that depends on $\sigma$.
 \end{theorem}
 %
 
-Our main technical contribution is to prove the existance of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. We then show that this allows us to learn the complete target network one node at a time. We leave open the problem of convergence for forces corresponding to more realistic activation functions.
+Our main technical contribution is to prove the existence of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. We then show that this allows us to learn the complete target network one node at a time. We leave open the problem of convergence for forces corresponding to more realistic activation functions.
+%
+{\color{red} We assume the sample complexity is close to its infinite limit.  
+We also derive the force function for several possible activation functions. }
+% Further for a certain synthetic activation function, we prove that the electrodynamic force function results in convergence thus 
+% implying the desired convergence for simplified depth 2 networks with those activation functions 
 
-
-
-\Snote{We derive the force function for several possible activation functions. 
-Further for a certain synthetic activation function, we prove that the electrodynamic force function results in convergence thus 
-implying the desired convergence for simplified depth 2 networks with those activation functions assuming the sample complexity is close to its infinite limit. }
-
+%
 % \Anote{same problem as the other informal theorem. i don't know what a $\theta$ is. it has only been defined in the text. furthermore, it's far too informal. instead of "carefully" it should give this notion a name. again, better to just blend this content in the rest of the text without calling it an informal theorem.}
 \begin{theorem}[informal statement of Theorem~\ref{eigConv}]
 There is an activation function such that upon running gradient
   descent for minimizing the squared loss along with $\ell_2$
-  regularization for standard aussian inputs, at convergence, 
+  regularization for standard Gaussian inputs, at convergence, 
 % For some
 %   carefully chosen activation function, with regularization, at
 %   convergence of running the SGD algorithm, 
   we learn at least one of
   the hidden weights of the target neural network.
 \end{theorem}
-\subsection{Our Contribution}
 
 
-\Snote{In this work, we ask the question: Can we use neural networks to learn neural networks with gradient descent methods? That is, if the function to be learnt is a neural network, and we try to learn it with a network of the same shape and randomly initialized edge weights, then will the gradient descent converge to the right function? Our experimental simulations show that for different widths and heights functions represented by neural networks with random edge weights can be learnt by stochastic gradient descent (see section~\ref{experiments}).}
 
-Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions. We will focus on learning depth two networks with a linear activation on the output node. If the neural network takes inputs  $x \in \R^d$ (say from some distribution $\mathcal{D}$) then the output $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$ is a sum over $k = \poly(d)$ hidden units scaled by output weights $b_i \in \R$ where $\sigma(x,w):\R^d \times \R^d\to \R$ is the activation function that takes in a hidden weight vector $w \in \R^d$ and the input vector $x \in \R^d$.
-given by the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Under some assumptions, we will show that gradient descent can learn at least one of the  $w_i's$ of the target network for certain activation functions. The algorithm will try to learn a guess $\widetilde{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$ and then running gradient descent over the parameters $a_i, \theta_i$ will move them to $b_i, w_i$. We will prove that at convergence, at least one $\theta_i$ is equal to (or close to) some $w_j$. Note that we may end up with a many to one mapping of the learned hidden weights to the true hidden weights, instead of a bijection.
-
-\subsubsection{Electron-Proton Dynamics}
+\paragraph{Intuition and Techniques.}
 %
-% Our main observation is that the gradient descent dynamics of learning such to layer networks is equivalent to the dynamics of a set of proton-electron charges under a certain electrical attraction force function. 
-Assume for now that the coefficients $b_i$ and $a_i$ are $1$. 
-Thus we are only perform gradient descent over $\theta_i$ to minimize the expected square loss of $f-\widetilde{f}$.
+Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed charges and some moving electrons is at equilibrium only when the moving charges coincide with the fixed charges. Given our translation above between electrodynamic systems and depth 2 networks, this would imply learnability of depth 2 networks with gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$. 
 %
-The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. The electrons are at positions $\theta_1,..,\theta_k$ and can move: the total force on each charge is the sum of the pairwise forces, determined by the gradient of the potential function $\Phi(\theta, w) = \expt_{X\sim \mathcal{D}}[ \sigma(X,\theta) \sigma(X,w)]$.  
 
-\subsubsection{Convergence Analysis}
-%
-Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known that the electrons must converge with the protons, by Earnshaw's Theorem. However, there is no activation function $\sigma$ corresponding to this $\Phi$. 
-%
-We derive some sufficient conditions that characterize potentials that arise from activation functions $\sigma$. The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}.
+We derive some sufficient conditions that characterize potentials
+ that arise from activation functions $\sigma$. 
+
+% The different $\sigma$ that we study, their corresponding potentials, and their convergence results are summarized in Table ~\ref{table1}.
 First we show how to construct an activation function, such that the corresponding potential satisfies a nice smooth property which we call almost $\lambda$-harmonic, for which we show that at convergence of the gradient descent, at least some $\theta_i$ coincides with some $w_j$.
 %
 
@@ -104,7 +117,7 @@ Our main tool for analysis is to derive second-order information about our dynam
 
 We acknowledge that there is still a large gap between our developed theory and practice. However, our work can offer theoretical explanations and guidelines for the design of better activation functions or gradient-based training algorithms. For example, better accuracy and training speed were reported when using the newly discovered exponential linear unit (ELU) activation function in \cite{ClevertUH15, ShahKSS16}. We hope for more theory-backed answers to these and many other questions in deep learning.
 
-In section 2, we introduce our framework and assumptions, and derive
+\paragraph{Organization.} In section 2, we introduce our framework and assumptions, and derive
 and derive the equivalence between gradient descent and
 electron-proton dynamics under a suitable potential. In section 3, we show convergence results for certain potential functions that may not correspond to bounded activation functions. These convergence results are proven to simply illustrate our ideas. In section 4, we create a realizable potential function and address the steps necessary to prove finite convergence guarantees. In section 5, we consider more realistic activation functions, such as the sign and polynomial function. In section 6, experimental
 results confirm that depth-2 neural networks can be learned by

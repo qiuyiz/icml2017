@@ -1,7 +1,50 @@
 \section{Deep Learning, Potentials, and Electron-Proton Dynamics}
 
 \subsection{Preliminaries}
-The target concept class $\mathcal{C}_{\sigma,k}$ of our learning procedure is the output of a two-layer neural network with linear output activation and has the form $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. Let $\boldsymbol{a} = (a_1,...,a_k)$ and $\boldsymbol{\theta} = (\theta_1,...,\theta_k)$; similarly for $\boldsymbol{b}, \boldsymbol{w}$. For some distribution $\mathcal{D}$, we can given $n$ pairs of training data $(x_i, f(x_i))$, where $x_i$ are drawn i.i.d. from $\mathcal{D}$. Our hypothesis class is the same as the concept class and our loss function is the squared loss. 
+We focus on learning depth two networks with a linear activation on
+the output node. If the network takes inputs $x \in \R^d$ (say from
+some distribution $\mathcal{D}$), then the network output, denoted
+$f(x)$ is a sum over $k = \poly(d)$ hidden units with weight vectors
+$w_{i} \in \R^d,$ activation $\sigma(x,w):\R^d \times \R^d\to \R,$ and
+output weights $b_i \in \R.$ Thus, we can write
+$f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. We denote this concept class
+$\mathcal{C}_{\sigma,k}.$ Our hypothesis concept class is also
+$\mathcal{C}_{\sigma,k}.$
+
+% of our learning
+% procedure is the output of a two-layer neural network with linear
+% output activation and has the form $f(x) = \sum_{i=1}^k
+% b_i\sigma(x,w_i)$. 
+
+
+%  where $\sigma(x,w):\R^d \times \R^d\to \R$
+% is the activation function that takes in a hidden weight vector
+% $w \in \R^d$ and the input vector $x \in \R^d$.  
+
+% given by the form
+% $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. 
+
+{\color{red} Under some assumptions, we
+will show that gradient descent can learn at least one of the $w_i's$
+of the target network for certain activation functions. The algorithm
+will try to learn a guess
+$\widetilde{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$
+and then running gradient descent over the parameters $a_i, \theta_i$
+will move them to $b_i, w_i$. We will prove that at convergence, at
+least one $\theta_i$ is equal to (or close to) some $w_j$. Note that
+we may end up with a many to one mapping of the learned hidden weights
+to the true hidden weights, instead of a bijection.
+
+
+% Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions.
+}
+ 
+% The target concept class $\mathcal{C}_{\sigma,k}$ of our learning
+% procedure is the output of a two-layer neural network with linear
+% output activation and has the form $f(x) = \sum_{i=1}^k
+% b_i\sigma(x,w_i)$. 
+
+Let $\boldsymbol{a} = (a_1,...,a_k)$ and $\boldsymbol{\theta} = (\theta_1,...,\theta_k)$; similarly for $\boldsymbol{b}, \boldsymbol{w}$. For some distribution $\mathcal{D}$, we can given $n$ pairs of training data $(x_i, f(x_i))$, where $x_i$ are drawn i.i.d. from $\mathcal{D}$. Our hypothesis class is the same as the concept class and our loss function is the squared loss. 
 %
 \begin{equation}\label{errEmp}
 \widehat{L}(\boldsymbol{a,\theta})  = \frac{1}{n}\sum_{j=1}^n \left(\sum_{i=1}^k b_i\sigma(x_j,w_i) - \sum_{i=1}^k a_i \sigma(x_j,\theta_i)\right)^2
@@ -82,6 +125,13 @@ converges almost everywhere, where $h_i(x)$ is the i-th Hermite polynomial.
 \Anote{give examples of phi's and corresponding sigmas in in a paragraph.}
 %
 \subsection{Electron-Proton Dynamics}
+
+%
+% Our main observation is that the gradient descent dynamics of learning such to layer networks is equivalent to the dynamics of a set of proton-electron charges under a certain electrical attraction force function. 
+{\color{red} Assume for now that the coefficients $b_i$ and $a_i$ are $1$. 
+Thus we are only perform gradient descent over $\theta_i$ to minimize the expected square loss of $f-\widetilde{f}$.
+%
+The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. The electrons are at positions $\theta_1,..,\theta_k$ and can move: the total force on each charge is the sum of the pairwise forces, determined by the gradient of the potential function $\Phi(\theta, w) = \expt_{X\sim \mathcal{D}}[ \sigma(X,\theta) \sigma(X,w)]$.  }
 
 By interpreting the pairwise potentials as electrostatic attraction
 potentials, we notice that our dynamics is similar to electron-proton
