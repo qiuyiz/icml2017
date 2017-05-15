@@ -38,7 +38,12 @@ However, it seems that for depth greater than 2, gradient descent does not learn
 \end{center}
 \vskip -0.1in
 \end{figure}
-We note that we have been using training error as a measure of success, but it's possible that the true underlying parameters are not learned. If our loss function were strongly convex, small training error would imply a small norm in the parameter space. For the sign activation function, we can show a related result.
+We note that we have been using training error as a measure of
+success, but it's possible that the true underlying parameters are not
+learned. If our loss function were strongly convex, small training
+error would imply a small norm in the parameter space. 
+
+For the sign activation function, we can show a related result.
 
 \Anote{there is a main theorem in your experimental section. you should move this to one of your section on ``other potentials''.}
 \begin{restatable}{theorem}{signUnique}
