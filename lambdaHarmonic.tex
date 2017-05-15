@@ -38,32 +38,30 @@ Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}
 %
 %
 \begin{algorithm}[hb]
- \caption{$x = SecondGD(\widehat{L}, x_0, T,\alpha,\epsilon)$}
+ \caption{$x = SecondGD(L, x_0, T,\alpha, \eta, \gamma)$}
    \label{SecondGD}
 \begin{algorithmic}
-   \STATE {\bfseries Input:} $\widehat{L}:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
+   \STATE {\bfseries Input:} $L:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
    \vspace{.1in}
    \STATE {\bf Initialize} $x = x_0$
-   \WHILE{{\it true}}
-   \STATE $x_1 = x$
    \FOR{$i=1$ {\bfseries to} $T$}
-   \STATE Sample $\omega$ uniformly on unit sphere.
-   \STATE $x_{i+1} = x_i - \alpha(\nabla \widehat{L} (x_i)+\alpha\omega)$ 
-%\STATE $x = \Pi_\mathcal{M} x$
-   \ENDFOR
-    \IF{$\widehat{L}(x_i) - \widehat{L}(x) < \alpha^2$ for all $i$}
-   \STATE {\bf return} $x$
+   \IF{$\|\nabla L(x) \geq  \eta$}
+   \STATE $x = GD(L, x, 1, \alpha)$
    \ELSE 
-   \STATE Find $i$ such that $\widehat{L}(x_i) - \widehat{L}(x) \geq \alpha^2$ 
-   \STATE $x = x_i$
+   \STATE Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(w_t))$ 
+    \IF{$\lambda_{min}(\nabla^2 f(w_t)) \leq - \gamma$}
+    \STATE $x = x - \alpha \gamma sgn(\nabla f(w_t)^Tv_{min}) v_{min}$
+    \ELSE 
+     \STATE {\bf return} $x$
+    \ENDIF
    \ENDIF
-   \ENDWHILE
-\end{algorithmic}
+   \ENDFOR
+   \end{algorithmic}
 \end{algorithm}
 %
 
 \begin{theorem}\label{almostHarmSGD}
-  Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running NoisyGD (Algorithm \ref{SGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
+  Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
 \end{theorem}
 
 
@@ -83,11 +81,11 @@ Lastly, $|{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-
 %
 %
 \begin{lemma}\label{almostHarmConv}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L$ be as in \eqref{errLoss} corresponding to the activation function $\sigma$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon, \delta > 0$, we can construct $\sigma$ such that if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < \epsilon$ or 2) $a_i^2 < \delta/(\beta\lambda)$, (as long as $\beta \geq \delta$)
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L$ be as in \eqref{errLoss} corresponding to the activation function $\sigma$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon, \delta > 0$, we can construct $\sigma$ such that if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta/k}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < \epsilon$ or 2) $a_i^2 < \delta/(\beta\lambda)$, (as long as $\beta \geq \delta/k$)
 \end{lemma}
 %
 \begin{proof}
- The proof is similar to Theorem \ref{EigStrict}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon/k$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$. 
+ The proof is similar to Theorem \ref{EigStrict}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon/k$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta/k}$. 
  
 WLOG, consider $\theta_1$ and a initial set $S_0 = \{ \theta_1\}$ containing it. For a finite set of points $S$ and a point $x$, define $d(x,S) = \min_{y \in S} \| x - y\|$. Then, we consider the following set growing process. If there exists $\theta_i, w_i \not \in S_j$ such that $d(\theta_i, S_j) < \epsilon/k$ or $d(w_i, S_j) < \epsilon/k$, add $\theta_i, w_i$ to $S_j$ to form $S_{j+1}$. Otherwise, we stop the process. We grow $S_0$ to until the process terminates and we have the grown set $S$.
 
@@ -105,7 +103,7 @@ $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define
 
 The optimality conditions on ${\bf a}$ are 
 \begin{align*}
-   \abs{\pd{H}{a_i}} & = \lvert (2+2\beta)a_i  + 2\sum_{j\neq i} a_j \Phi_\epsilon(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi_\epsilon(\theta_i,w_j) \rvert \leq \delta
+   \abs{\pd{H}{a_i}} & = \lvert (2+2\beta)a_i  + 2\sum_{j\neq i} a_j \Phi_\epsilon(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi_\epsilon(\theta_i,w_j) \rvert \leq \delta/k
 \end{align*}
 %
 Next, since $\Phi_\epsilon(r)$ is $\lambda$-harmonic for $r \geq \epsilon/k$, we may calculate the Laplacian of $H$ as
@@ -115,18 +113,18 @@ Next, since $\Phi_\epsilon(r)$ is $\lambda$-harmonic for $r \geq \epsilon/k$, we
   \Phi_\epsilon(\theta_i, w_j) + 2\sum_{j=l+1}^k a_ia_j
   \Phi_\epsilon(\theta_i, \theta_j)\right) \\
 & = \sum_{i=1}^l \lambda \left(-2\beta a_i^2 -2a_i^2 - 2
-  \sum_{j = 1, j\neq i}^l  a_ia_j \Phi_\epsilon(\theta_i,\theta_j)\right)+ \delta \sum_{i=1}^l \lambda a_i^2 \\
-&= -2\lambda\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] -2\beta\lambda \sum_{i=1}^l a_i^2+ \delta\lambda\sum_{i=1}^l  a_i^2 \\
+  \sum_{j = 1, j\neq i}^l  a_ia_j \Phi_\epsilon(\theta_i,\theta_j)\right)+ \frac{\delta}{k} \sum_{i=1}^l \lambda a_i^2 \\
+&= -2\lambda\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] -2\beta\lambda \sum_{i=1}^l a_i^2+ \frac{\delta}{k}\lambda\sum_{i=1}^l  a_i^2 \\
 \end{align*} 
 %
-The second line follows from our optimality conditions and the third line follows from completing the square. Since $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, we have $\Delta_v H \geq - \delta$. Because $\beta \geq \delta$, we see that we must satisfy $\sum_{i=1}^l a_i^2 \leq \delta/(\beta\lambda)$. Therefore, $a_i^2 \leq \delta/(\beta\lambda)$.
+The second line follows from our optimality conditions and the third line follows from completing the square. Since $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta/k}$, we have $\Delta_v H \geq - \delta$. Because $\beta \geq \delta/k$, we see that we must satisfy $\sum_{i=1}^l a_i^2 \leq \delta/(\beta\lambda)$. Therefore, $a_i^2 \leq \delta/(\beta\lambda)$.
 
 \end{proof}
 
 \begin{lemma}\label{almostHarmRes}
   Assume the conditions of Lemma~\ref{almostHarmConv}. If
 $G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - \delta\sqrt{G(\boldsymbol{0,0})}$
-  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$,
+  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^3}$,
   then there exists some $i, j$ such that $\|\theta_i - w_j\| <\epsilon$.
 \end{lemma}
  
@@ -185,7 +183,7 @@ Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_
 
 
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
-Let our potential be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/2$. First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Since $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$, if we set $\alpha = \poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$, then running Algorithm~\ref{SecondGD} will terminate return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations since our objective function cannot decrease by at least $\alpha^3$ (change) too many times.
+Let our potential be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/2$. First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Since $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$, if we set $\alpha = \poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$, then running Algorithm~\ref{SecondGD} will terminate return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations since otherwise by Lemma \ref{GradDecrease} and \ref{HessianDecrease}, our objective function cannot decrease by at least $\alpha^3$ (change) too many times.
 
 Assume that there does not exist $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$. Then let $\boldsymbol{a',\theta'}$ be point reached from a step of gradient descent starting from $\boldsymbol{a,\theta}$. Since our algorithm has terminated, $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a',\theta'}) \leq \alpha^2$ (change). We claim that $\boldsymbol{a,\theta} \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$. First, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{2d}$, except at $w_1,...,w_k$. Now, if $\boldsymbol{a,\theta} \not \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$, then Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we know that $\|\boldsymbol{\theta' - \theta} \| < (d/\epsilon)^{-O(d)}$ and $G(\boldsymbol{a,\theta}) - G(\boldsymbol{a_T,\theta_T}) \geq \alpha^2$, a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes}.
 \end{proof}
@@ -272,7 +270,7 @@ Let $(a_i, \theta_i)$ be the $i$-th node that is initialized and applied noisy g
 
 Now, we claim that $x_l$ is not in a $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(1)}, w_{\pi(1)})$. Assume otherwise. First, we see that our decrease in objective function implies that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_2^{(l)}) \leq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - \delta \sqrt{L_2({\bf 0,0})}$. However, notice that our assumption implies that $a_2^{(l)},\theta_2^{(l)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of $a_1,\theta_1$. By the smoothness of $L$, we see that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_2^{(l)}) \geq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_1) - (d/\epsilon)^{-O(d)} = L_{a_1,\theta_1,a_2,\theta_2}(a_1 + a_2^{(l)},\theta_1, {\bf 0, 0}) - (d/\epsilon)^{-O(d)} $. Together, we know that  $L_{a_1,\theta_1,a_2,\theta_2}(a_1+a_2^{(l)},\theta_1,{\bf 0, 0}) \leq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - (d/\epsilon)^{-O(d)}$
 
-However, our gradient descent guarantees that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - L_{a_1,\theta_1,a_2,\theta_2}(a_1 + a_2^{(l)},\theta_1, {\bf 0, 0}) \leq O(1/T)$, where $T$ is the number of iterations of gradient descent. Since $T = (d/\epsilon)^{-O(d)}$ is large enough, we derive a contradiction. Therefore, our claim is done and by induction, $\pi$ is a permutation. Now, our theorem follows. 
+However, by Theorem \ref{quadConverge}, our gradient descent guarantees that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - L_{a_1,\theta_1,a_2,\theta_2}(a_1 + a_2^{(l)},\theta_1, {\bf 0, 0}) \leq O(1/T)$, where $T$ is the number of iterations of gradient descent. Since $T = (d/\epsilon)^{-O(d)}$ is large enough, we derive a contradiction. Therefore, our claim is done and by induction, $\pi$ is a permutation. Now, our theorem follows. 
 \end{proof}
 
 

@@ -110,15 +110,15 @@ To derive a finite iteration bound, we will apply stochastic gradient descent to
 
 \begin{theorem}\label{strongConverge}
   Let $L :\Omega \to \R$ be a twice differentiable function such that
-  $|L(x)| \leq B, \|\nabla^2 L(x)\| \leq C,\|\nabla^2L(x)
-  -\nabla^2L(y)\| \leq \rho\|x - y\|$
+  $|L(x)| \leq B_0, \|\nabla L(x)\| \leq B_1, \|\nabla^2 L(x)\| \leq B_2,\|\nabla^2L(x)
+  -\nabla^2L(y)\| \leq B_3\|x - y\|$
   for all $x,y\in\Omega$. Also, assume that we access to stochastic
   function $\widehat{L}$ such that
   $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) - L(x)\|,
   \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$
   for some $\epsilon < 1$ for all $x\in \Omega$.
 
-Then, we can choose stepsize $\eta = 1/\poly(d,B,C,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{L, \epsilon}$ after at most $T = \poly(d,B,C,\rho,1/\epsilon, \log(1/\zeta))$ iterations. Furthermore, $L(a,x_T) \leq L(a, x_0)$ with high probability.
+Then, we can choose stepsize $\eta = 1/\poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{L, \epsilon}$ after at most $T = \poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon, \log(1/\zeta))$ iterations. Furthermore, $L(a,x_T) \leq L(a, x_0)$ with high probability.
 \end{theorem}
 
 The theorem proof builds on the following two lemmas in\cite{GeHJY15} , which allows us to make significant progress on the objective function. We adopt the notation in the paper where $\widetilde{O}, \widetilde{\Omega}$ drops factors polynomially dependent on parameters other than $\eta$. 
@@ -156,30 +156,42 @@ ADDING DETERMINISTIC LEMMAS
 
 
 \begin{lemma}\label{GradDecrease}		
-Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq \sqrt{\eta}$, after one iteration of gradient descent, $f(w_{t+1}) \leq f(w_t) - \widetilde{\Omega}(\eta)$. Furthermore, $\|w_{t+1} - w_t\| \leq \widetilde{O}(\sqrt{\eta})$
+Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq \eta$, after one iteration of gradient descent with stepsize $\alpha \leq \frac{1}{B_2}$, $f(w_{t+1}) \leq f(w_t) - \alpha\eta^2/2$. Furthermore, $\|w_{t+1} - w_t\| \leq \alpha B_1$
 \end{lemma} 
 
 \begin{proof}
-The gradient descent step is given by $w_{t+1} = w_t - \frac{1}{C} \nabla f(w_t)$, where $C$ is the Lipschitz constant of the gradient. The bound on $\|w_{t+1} - w_t\|$ is clear.
+The gradient descent step is given by $w_{t+1} = w_t - \alpha \nabla f(w_t)$. The bound on $\|w_{t+1} - w_t\|$ is clear since $\|\nabla f(w_t) \| \leq B_1$.
 \begin{align*}
-f(w_{t+1}) &\leq f(w_t) - \frac{1}{C}\nabla f(w_t)^T\nabla f(w_t)^T + \frac{C^2}{2} \|\frac{1}{C}\nabla f(w_t)\|^2 \\
-&\leq f(w_t) - \frac{1}{2C} \eta
+f(w_{t+1}) &\leq f(w_t) - \alpha \nabla f(w_t)^T\nabla f(w_t)^T + \alpha^2\frac{B_2}{2} \|\nabla f(w_t)\|^2 \\
+&\leq f(w_t) - (\alpha - \alpha^2 \frac{B_2}{2}) \eta^2 
 \end{align*}
 
+For $0 \leq \alpha \leq \frac{1}{B_2}$, we have $\alpha - \alpha^2B_2/2 \geq \alpha/2$, and our lemma follows.
 \end{proof}
 
 \begin{lemma}(Lemma 9 in \cite{GeHJY15})\label{HessianDecrease}
-Under the assumptions of Theorem \ref{strongConverge}, for any point where $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, then after one iteration of Hessian descent, $f(w_{t+1}) \leq f(w_t) - \widetilde{\Omega}(\gamma^3)$. Furthermore, $\|w_{t+1} - w_t\| \leq \widetilde{O}(\gamma)$
+Under the assumptions of Theorem \ref{strongConverge}, for any point where $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, then after one iteration of Hessian descent with stepsize $\alpha \leq \frac{1}{B_3}$, $f(w_{t+1}) \leq f(w_t) - \alpha^2 \gamma^3/2$. Furthermore, $\|w_{t+1} - w_t\| \leq \alpha B_2$
 \end{lemma}
 
 \begin{proof}
-The gradient descent step is given by $w_{t+1} = w_t + \beta v_{min}$, where $v_{min}$ is the unit eigenvector corresponding to $\lambda_{min}(\nabla^2f(w_t))$.  
+The gradient descent step is given by $w_{t+1} = w_t + \beta v_{min}$, where $v_{min}$ is the unit eigenvector corresponding to $\lambda_{min}(\nabla^2f(w_t))$ and $\beta = -\alpha \gamma sgn(\nabla f(w_t)^Tv_{min})$. 
 \begin{align*}
-f(w_{t+1}) &\leq f(w_t) + \beta\nabla f(w_t)^Tv_{min} + \beta^2 v_{min}^T\nabla^2f(w_t)v_{min} + \frac{\rho}{6} |\beta|^3 \|v_{min}\|^3 \\
-&\leq f(w_t) - |\beta|^2 \gamma + \frac{\rho}{6} |\beta|^3
+f(w_{t+1}) &\leq f(w_t) + \beta\nabla f(w_t)^Tv_{min} + \beta^2 v_{min}^T\nabla^2f(w_t)v_{min} + \frac{B_3}{6} |\beta|^3 \|v_{min}\|^3 \\
+&\leq f(w_t) - |\beta|^2 \gamma + \frac{B_3}{6} |\beta|^3
 \end{align*}
-The last inequality holds since the sign of $\beta$ is chosen so that $\beta f(w_t)^Tv_{min} \leq 0$. Now, setting $|\beta| = \frac{1}{\rho}\gamma$ gives our desired bound. The bound on $\|w_{t+1} - w_t\|$ is clear.
+The last inequality holds since the sign of $\beta$ is chosen so that $\beta \nabla f(w_t)^Tv_{min} \leq 0$. Now, since $|\beta| = \alpha \gamma \leq \frac{\gamma}{B_3}$, $-|\beta|^2\gamma + \frac{B_3}{6} |\beta|^3 \leq - \alpha^2 \gamma^3/2$. Finally, our bound on $\|w_{t+1} - w_t\|$ is clear since $\gamma \leq B_2$.
 \end{proof}
+
+%
+\begin{theorem}\cite{nesterov2013introductory}\label{quadConverge}
+  Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq \poly(d)\}$ and let
+  $L(x) = x^TAx + b^Tx$ be a quadratic loss, where $A$ is a positive
+  semi-definite matrix with maximum eigenvalue bounded by $\beta$. Then, running
+  Algorithm \ref{GD} on $L$ with stepsize $\alpha = 1/\beta$ converges
+  to $x_T$ such that
+  \[L(x_T) - \min_{x \in \Omega} L(x) \leq \frac{\beta \poly(d)}{T}\]
+\end{theorem} 
+
 
 %%% Local Variables:
 %%% mode: latex

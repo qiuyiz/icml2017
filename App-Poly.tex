@@ -20,16 +20,6 @@ Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i
 When the output weights are variable, notice that our convergence results often rely on the optimality of the output weights. For this reason, we will optimize the output weights at every gradient descent step, by carefully choosing the stepsize. As our loss function \eqref{errLoss} is quadratic in $a$, we know that gradient descent will find the optimal $a$ efficiently. The pseudocode of our SGD algorithm is given in Algorithm \ref{NodeGDOpt}. 
 
 
-%
-\begin{theorem}\cite{nesterov2013introductory}\label{quadConverge}
-  Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq \poly(d)\}$ and let
-  $L(x) = x^TAx + b^Tx$ be a quadratic loss, where $A$ is a positive
-  semi-definite matrix with maximum eigenvalue $\beta$. Then, running
-  Algorithm \ref{GD} on $L$ with stepsize $\alpha = 1/\beta$ converges
-  to $x_T$ such that
-  \[L(x_T) - \min_{x \in \Omega} L(x) \leq \epsilon\]
-  in $T = \poly(d, \beta, 1/\epsilon)$ iterations.
-\end{theorem} 
 
 
 

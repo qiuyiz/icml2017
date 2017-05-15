@@ -12,7 +12,8 @@ However, it seems that for depth greater than 2, gradient descent does not learn
 \begin{small}
 \begin{sc}
 \begin{tabular}{
-  |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 1
+  |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 0
+   |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 1
   |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 2
   |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 3
   |p{\dimexpr.2\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 4
@@ -20,6 +21,7 @@ However, it seems that for depth greater than 2, gradient descent does not learn
   }
    \hline 
            & Width 5   &  Width 10   & Width 20 & Width 40     \\ \hline 
+    Depth 2 & 0.0015   & 0.0017      &   0.0018 & 0.0019 \\ \hline
     Depth 3 & 0.0033   & 0.0264        &   0.1503 & 0.2362 \\ \hline
     Depth 5 & 0.0036   & 0.0579        &   0.2400 & 0.4397 \\ \hline
     Depth 9 & 0.0085   & 0.1662        &   0.4171 & 0.6071 \\ \hline
