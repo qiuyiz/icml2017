@@ -24,20 +24,6 @@ $\mathcal{C}_{\sigma,k}.$
 % given by the form
 % $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. 
 
-{\color{red} Under some assumptions, we
-will show that gradient descent can learn at least one of the $w_i's$
-of the target network for certain activation functions. The algorithm
-will try to learn a guess
-$\widetilde{f}(x_j) = \sum_{i=1}^k a_i \sigma(x_j,\theta_i)$ for $f$
-and then running gradient descent over the parameters $a_i, \theta_i$
-will move them to $b_i, w_i$. We will prove that at convergence, at
-least one $\theta_i$ is equal to (or close to) some $w_j$. Note that
-we may end up with a many to one mapping of the learned hidden weights
-to the true hidden weights, instead of a bijection.
-
-
-% Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions.
-}
  
 % The target concept class $\mathcal{C}_{\sigma,k}$ of our learning
 % procedure is the output of a two-layer neural network with linear
@@ -111,15 +97,16 @@ We call a potential function {\bf realizable} if it corresponds to some activati
 \begin{restatable}{theorem}{tranReal}
 \label{thm:tranReal}
 Let $\mathcal{M} = \R^d$ and $\Phi$ is $\FT$-integrable. Then, $\Phi$ is realizable if $\mathfrak{F}(\Phi)(\omega) \geq 0$ and the corresponding activation is 
-\[\sigma(x) = (2\pi)^{1/4}e^{x^2/4}\mathfrak{F}^{-1}(\sqrt{\mathfrak{F}(\Phi)})(x)\]
-
-where $\mathfrak{F}$ is the generalized Fourier transform in $\R^d$
+$\sigma(x) =
+  (2\pi)^{1/4}e^{x^2/4}\mathfrak{F}^{-1}(\sqrt{\mathfrak{F}(\Phi)})(x), $
+where $\mathfrak{F}$ is the generalized Fourier transform in $\R^d.$
 \end{restatable}
 %
 \begin{restatable}{theorem}{rotReal}
 \label{thm:rotReal}
-Let $\mathcal{M} = S^{d-1}$ and $\Phi(\theta,w) = f(\theta^Tw)$. Then, $\Phi$ is realizable if $f$ has non-negative Taylor coefficients, $c_i \geq 0$ , and the corresponding activation
-\[\sigma(x) = \sum_{i=1}^\infty \sqrt{c_i} h_i(x)\]
+Let $\mathcal{M} = S^{d-1}$ and $\Phi(\theta,w) = f(\theta^Tw)$. Then,
+$\Phi$ is realizable if $f$ has non-negative Taylor coefficients, $c_i
+\geq 0$ , and the corresponding activation $\sigma(x) = \sum_{i=1}^\infty \sqrt{c_i} h_i(x)$
 converges almost everywhere, where $h_i(x)$ is the i-th Hermite polynomial.
 \end{restatable}
 \Anote{give examples of phi's and corresponding sigmas in in a paragraph.}
@@ -128,16 +115,18 @@ converges almost everywhere, where $h_i(x)$ is the i-th Hermite polynomial.
 
 %
 % Our main observation is that the gradient descent dynamics of learning such to layer networks is equivalent to the dynamics of a set of proton-electron charges under a certain electrical attraction force function. 
-{\color{red} Assume for now that the coefficients $b_i$ and $a_i$ are $1$. 
-Thus we are only perform gradient descent over $\theta_i$ to minimize the expected square loss of $f-\widetilde{f}$.
+% {\color{red} Assume for now that the coefficients $b_i$ and $a_i$ are $1$. 
+% Thus we are only perform gradient descent over $\theta_i$ to minimize the expected square loss of $f-\widetilde{f}$.
 %
-The charges reside in $R^d$. The protons are fixed at locations $w_1,..,w_k$. The electrons are at positions $\theta_1,..,\theta_k$ and can move: the total force on each charge is the sum of the pairwise forces, determined by the gradient of the potential function $\Phi(\theta, w) = \expt_{X\sim \mathcal{D}}[ \sigma(X,\theta) \sigma(X,w)]$.  }
+% The charges reside in $R^d$. The protons are fixed at locations
+% $w_1,..,w_k$. The electrons are at positions $\theta_1,..,\theta_k$
+% and can move: 
 
 By interpreting the pairwise potentials as electrostatic attraction
 potentials, we notice that our dynamics is similar to electron-proton
 type dynamics under some potential $\Phi$, where $w_i$ are fixed point
 charges in $\R^d$ and $\theta_i$ are moving point charges in $\R^d$
-that are trying to find $w_i$. We note that standard electron-proton dynamics interprets the force between particles as an acceleration vector; in our case, it is more accurately interpreted as a velocity vector. 
+that are trying to find $w_i$. The total force on each charge is the sum of the pairwise forces, determined by the gradient of the potential function $\Phi(\theta, w) = \expt_{X\sim \mathcal{D}}[ \sigma(X,\theta) \sigma(X,w)]$. We note that standard electron-proton dynamics interprets the force between particles as an acceleration vector; in our case, it is more accurately interpreted as a velocity vector. 
 %
 \begin{definition}\label{EPDef}
   Given a potential $\Phi : \mathcal{M} \times \mathcal{M} \to \R$ and
