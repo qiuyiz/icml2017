@@ -1,7 +1,7 @@
 
 \subsection {Related Work}
 
-Deep learning has been widely adopted to solve a variety of practical problems in artificial intelligence. Backpropagation, perhaps the most well-known algorithm in deep learning, applies stochastic gradient descent (SGD) to the squared loss to learn suitable parameters of a neural network that approximates some target function $f: \R^n \to \R$. However, are these discovered parameters provably good or even optimal? 
+
 
 The main difficulty in analysis is the non-convexity of the loss objectives that deep learning present. Recent work has shown that SGD will efficiently converge to a local minimizer and escape saddle points, under modest assumptions \cite{GeHJY15}. Therefore, it suffices to analyze the local minima of the loss landscape and show that no spurious local minima exist. This direction has led to positive results in matrix sensing \cite{ParkKCS16a}, matrix completion \cite{GeLM16}, dictionary learning \cite{SunQW15}, phase retrieval \cite{SunQW16}, and orthogonal tensor decomposition \cite{GeHJY15}. 
 
@@ -9,9 +9,7 @@ A non-convex analysis of the deep learning has been largely elusive and more dis
 
 Due to the difficulty of analysis, many have turned to improper learning and the study of non-gradient methods to train neural networks. Janzamin et. al use tensor decomposition methods to learn the shallow neural network weights, provided access to the score function of the training data distribution \cite{JanzaminSA15}. Eigenvector and tensor methods are also used to train shallow neural networks with quadratic activation functions in \cite{LivniSS14}. Combinatorial methods that exploit layerwise correlations in sparse networks have also been analyzed provably in \cite{AroraBGM13}. Kernel methods, ridge regression, and even boosting were explored for regularized neural networks with smooth activation functions in \cite{shalev2011learning}\cite{ZhangLWJ15}\cite{ZhangLJ15}. Non-smooth activation functions, such as the ReLU, can be approximated by polynomials and are also amenable to kernel methods\cite{GoelKKT16}. These methods require assumptions that lessen the relevance of these algorithms to practice and more importantly, come short of explaining the widespread success of simple SGD.
 
-Therefore, we will only focus on gradient-based methods in the proper
-learning framework and hope to find a theoretical justification of the
-good convergence properties. If the activation functions are linear or
+If the activation functions are linear or
 if certain independence assumptions are made, Kawaguchi shows that the
 only local minima are the global minima \cite{Kawaguchi16a}. Under the
 spin-glass and other physical models, some have shown that the loss
