@@ -160,12 +160,12 @@ We conclude that $S \leq \max(\delta^2k, 2kd\delta/\lambda) \leq 2kd\delta/\lamb
   Assume the conditions of Lemma~\ref{almostHarmConv}. If
 $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta$
   and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\lambda \delta^2/(k^3d)}$,
-  then there exists some $i, j$ such that $\|\theta_i - w_j\| <\epsilon$.
+  then there exists some $i, j$ such that $\|\theta_i - w_j\| <k\epsilon$.
 \end{lemma}
  
  \begin{proof}
  If there does not exists $i, j$ such that
-   $\|\theta_i - w_j\| <\epsilon$, then by Lemma \ref{almostHarmConv}, this implies $a_i^2 < \delta^2/k^2$ for all $i$. Now, for a integrable
+   $\|\theta_i - w_j\| <k\epsilon$, then by Lemma \ref{almostHarmConv}, this implies $a_i^2 < \delta^2/k^2$ for all $i$. Now, for a integrable
    function $f(x)$, $\| f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a
    norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
    target function, we conclude that by triangle inequality
@@ -218,9 +218,9 @@ Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_
 
 
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
-Let our potential be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/2$. First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. If we set $\alpha = \poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{-O(d)}$ and $\eta = \gamma = \beta \lambda \delta^2/2k^2$,  then running Algorithm~\ref{SecondGD} will terminate and return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations. This is because our algorithm ensures that our objective function decreases by at least $\min(\alpha \eta^2/2, \alpha^2\gamma^3/2)$ at each iteration and $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$ is non-negative.
+Let our potential $\Phi_{\epsilon/k}$ be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/k$ and as always, $k = \poly(d)$.  First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. If we set $\alpha = \poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{-O(d)}$ and $\eta = \gamma = \lambda \delta^2/(k^3d)$,  then running Algorithm~\ref{SecondGD} will terminate and return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations. This is because our algorithm ensures that our objective function decreases by at least $\min(\alpha \eta^2/2, \alpha^2\gamma^3/2)$ at each iteration and $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$ is non-negative.
 
-Let $\boldsymbol{\theta} = (\theta_1,...\theta_k)$. If there exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$, then we are done. Otherwise, we claim that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$. For the sake of contradiction, assume otherwise. By our algorithm termination conditions, if $(\boldsymbol{a,\theta}) \not \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^2}$, then it must be that after one step of gradient or Hessian descent from $(\boldsymbol{a,\theta})$, we reach some $(\boldsymbol{a',\theta'})$ and $G(\boldsymbol{a',\theta'}) \geq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$.
+Let $\boldsymbol{\theta} = (\theta_1,...\theta_k)$. If there exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$, then we are done. Otherwise, we claim that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\lambda \delta^2/(k^3d)}$. For the sake of contradiction, assume otherwise. By our algorithm termination conditions, if $(\boldsymbol{a,\theta}) \not \in \mathcal{M}_{G,\lambda \delta^2/(k^3d)}$, then it must be that after one step of gradient or Hessian descent from $(\boldsymbol{a,\theta})$, we reach some $(\boldsymbol{a',\theta'})$ and $G(\boldsymbol{a',\theta'}) \geq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$.
 
 Now, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{2d}$, except at $w_1,...,w_k$. Furthermore, since there does not exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| <\epsilon$, $G$ is three-times continuously differentiable within a $\alpha (d/\epsilon)^{2d} = (d/\epsilon)^{-O(d)}$ neighborhood of $\boldsymbol{\theta}$. Therefore, by Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we must have  we know that $G(\boldsymbol{a',\theta'}) \leq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$. a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes}.
 \end{proof}
