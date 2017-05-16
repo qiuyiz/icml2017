@@ -187,16 +187,16 @@ Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmCo
   optimizing $a_1$. Given $\theta_1$, the loss decrease is:
 %
 \begin{align*}
-   G(a_1,{\bf 0}) - G({\bf 0},{\bf 0}) & = \min_{a_1} (1+\beta)a_1^2 +
+   G(a_1,{\bf 0}) - G({\bf 0},{\bf 0}) & = \min_{a_1} 2a_1^2 +
   2\sum_{j=1}^k a_1 b_j\Phi_\epsilon({\bf 0},w_j) \\
  %
- & = -\frac{1}{1+\beta}\left(  \sum_{j=1}^k b_j
+ & = -\frac{1}{2}\left(  \sum_{j=1}^k b_j
    \Phi_\epsilon({\bf 0},w_j)\right)^2 
 \end{align*}
 
 Because $w_j$ are random Gaussians with variance $O(d \log k)$, we have $\|w_j\| \leq O(d\log k)$ with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left(  \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality for independent uniform variables.
 
-Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{1+\beta}d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. Since $G(\boldsymbol{0,0}) \leq O(k)$, we are done. 
+Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{2}d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. Let $\sqrt{G(a_1, {\bf 0})} = \sqrt{G(\boldsymbol{0,0})} - \Delta \geq 0$. Squaring and rearranging gives $\Delta \geq \frac{1}{4\sqrt{G({\bf 0, 0})}}^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$ Since $G(\boldsymbol{0,0}) \leq O(k)$, we are done. 
 
 
 %%Cramer-Rao type Argument
