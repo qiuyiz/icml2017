@@ -16,7 +16,7 @@ to the true hidden weights, instead of a bijection.
 % Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions.
 }
  
-In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive our convergence theorem. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run our optimization procedure on $G = L + \beta\|a\|^2$. 
+In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive our convergence theorem. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run our optimization procedure on $G = L + \|a\|^2$.
 
 Our optimization procedure is a slightly altered version of gradient descent, where second-order methods are used when the gradient is too small and progress is slow. By using a second-order gradient descent (Algorithm~\ref{SecondGD}), we are able to converge to points with small gradient and small negative curvature. Namely, in $\poly(1/\epsilon)$ iterations, we should have reached a point in $\mathcal{M}_{G, \epsilon}$, where 
 %
@@ -55,6 +55,20 @@ The use of second-order methods is not limiting since noisy gradient descent alg
 %
 %
 \begin{algorithm}[hb]
+ \caption{$x = HD(L,x_0, T,\alpha$)}
+   \label{HD}
+\begin{algorithmic}
+   \STATE {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha, \gamma \in \R$
+   \STATE Initialize $x = x_0$
+   \FOR{$i=1$ {\bfseries to} $T$}
+   \STATE Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(x))$ 
+   \STATE $\beta = -\alpha \lambda_{min}(\nabla^2 f(x)) sgn(\nabla f(x)^Tv_{min}) $
+    \STATE $x = x + \beta v_{min}$
+   \ENDFOR
+\end{algorithmic}
+\end{algorithm}
+%
+\begin{algorithm}[hb]
  \caption{$x = SecondGD(L, x_0, T,\alpha, \eta, \gamma)$}
    \label{SecondGD}
 \begin{algorithmic}
@@ -63,11 +77,10 @@ The use of second-order methods is not limiting since noisy gradient descent alg
    \FOR{$i=1$ {\bfseries to} $T$}
    \IF{$\|\nabla L(x_{i-1})\| \geq  \eta$}
    \STATE $x_{i} = GD(L, x_{i-1}, 1, \alpha)$
-   
    \ELSE 
    \STATE Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(x_{i-1}))$ 
     \IF{$\lambda_{min}(\nabla^2 f(x_{i-1})) \leq - \gamma$}
-    \STATE $x_i = x_{i-1} - \alpha \gamma sgn(\nabla f(x_{i-1})^Tv_{min}) v_{min}$
+    \STATE $x_i = HD(L, x_{i-1}, 1, \alpha)$
     \ELSE 
      \STATE {\bf return} $x_{i-1}$
     \ENDIF
@@ -81,7 +94,7 @@ The use of second-order methods is not limiting since noisy gradient descent alg
 %
 
 \begin{theorem}\label{almostHarmSGD}
-  Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
+  Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $\poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
 \end{theorem}
 
 
@@ -101,19 +114,19 @@ Lastly, $|{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-
 %
 %
 \begin{lemma}\label{almostHarmConv}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L$ be as in \eqref{errLoss} corresponding to the activation function $\sigma$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon, \delta > 0$, we can construct $\sigma$ such that if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta/k}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < \epsilon$ or 2) $a_i^2 < \delta/(\beta\lambda)$, (as long as $\beta \geq \delta/k$)
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L$ be as in \eqref{errLoss} corresponding to the activation function $\sigma$ given by Lemma~\ref{almostHarmReal}. For any $1 > \epsilon > 0$ and $2d/\lambda > \delta > 0$, we can construct $\sigma$ such that if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta/\lambda$.
 \end{lemma}
 %
 \begin{proof}
- The proof is similar to Theorem \ref{EigStrict}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon/k$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta/k}$. 
+ The proof is similar to Theorem \ref{EigStrict}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta/k}$. 
  
-WLOG, consider $\theta_1$ and a initial set $S_0 = \{ \theta_1\}$ containing it. For a finite set of points $S$ and a point $x$, define $d(x,S) = \min_{y \in S} \| x - y\|$. Then, we consider the following set growing process. If there exists $\theta_i, w_i \not \in S_j$ such that $d(\theta_i, S_j) < \epsilon/k$ or $d(w_i, S_j) < \epsilon/k$, add $\theta_i, w_i$ to $S_j$ to form $S_{j+1}$. Otherwise, we stop the process. We grow $S_0$ to until the process terminates and we have the grown set $S$.
+WLOG, consider $\theta_1$ and a initial set $S_0 = \{ \theta_1\}$ containing it. For a finite set of points $S$ and a point $x$, define $d(x,S) = \min_{y \in S} \| x - y\|$. Then, we consider the following set growing process. If there exists $\theta_i, w_i \not \in S_j$ such that $d(\theta_i, S_j) < \epsilon$ or $d(w_i, S_j) < \epsilon$, add $\theta_i, w_i$ to $S_j$ to form $S_{j+1}$. Otherwise, we stop the process. We grow $S_0$ to until the process terminates and we have the grown set $S$.
 
-If there is some $w_j \in S$, then it must be the case that there exists ${j_1},\cdots {j_q}$ such that $\|\theta_1 - \theta_{j_1} \| < \epsilon/k$ and
-$\|\theta_{j_{i}} - \theta_{j_{i+1}}\| < \epsilon/k$, and
-$\|\theta_{j_q}- w_j\| <\epsilon/k$ for some $w_j$. So, there exists $j$, such that $\|\theta_1 - w_j\| < \epsilon$. 
+If there is some $w_j \in S$, then it must be the case that there exists ${j_1},\cdots {j_q}$ such that $\|\theta_1 - \theta_{j_1} \| < \epsilon$ and
+$\|\theta_{j_{i}} - \theta_{j_{i+1}}\| < \epsilon$, and
+$\|\theta_{j_q}- w_j\| <\epsilon$ for some $w_j$. So, there exists $j$, such that $\|\theta_1 - w_j\| < k\epsilon$. 
 
-Otherwise, notice that for each $\theta_i \in S$, $\|w_j - \theta_i\|\geq \epsilon/k$ for all $j$, and $\|\theta_i - \theta_j\| \geq \epsilon/k$ for all $\theta_j\not \in S$. WLOG, let $S = \{\theta_1,\dots,\theta_l\}$. 
+Otherwise, notice that for each $\theta_i \in S$, $\|w_j - \theta_i\|\geq \epsilon$ for all $j$, and $\|\theta_i - \theta_j\| \geq \epsilon$ for all $\theta_j\not \in S$. WLOG, let $S = \{\theta_1,\dots,\theta_l\}$. 
   
 We consider changing all
 $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
@@ -123,34 +136,36 @@ $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define
 
 The optimality conditions on ${\bf a}$ are 
 \begin{align*}
-   \abs{\pd{H}{a_i}} & = \lvert (2+2\beta)a_i  + 2\sum_{j\neq i} a_j \Phi_\epsilon(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi_\epsilon(\theta_i,w_j) \rvert \leq \delta/k
+   \abs{\pd{H}{a_i}} & = \lvert 4a_i  + 2\sum_{j\neq i} a_j \Phi_\epsilon(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi_\epsilon(\theta_i,w_j) \rvert \leq \delta
 \end{align*}
 %
-Next, since $\Phi_\epsilon(r)$ is $\lambda$-harmonic for $r \geq \epsilon/k$, we may calculate the Laplacian of $H$ as
+Next, since $\Phi_\epsilon(r)$ is $\lambda$-harmonic for $r \geq \epsilon$, we may calculate the Laplacian of $H$ as
 %
 \begin{align*}
 \Delta_v H & = \sum_{i=1}^l \lambda \left(2\sum_{j=1}^k a_ib_j
   \Phi_\epsilon(\theta_i, w_j) + 2\sum_{j=l+1}^k a_ia_j
   \Phi_\epsilon(\theta_i, \theta_j)\right) \\
-& = \sum_{i=1}^l \lambda \left(-2\beta a_i^2 -2a_i^2 - 2
-  \sum_{j = 1, j\neq i}^l  a_ia_j \Phi_\epsilon(\theta_i,\theta_j)\right)+ \frac{\delta}{k} \sum_{i=1}^l \lambda a_i^2 \\
-&= -2\lambda\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] -2\beta\lambda \sum_{i=1}^l a_i^2+ \frac{\delta}{k}\lambda\sum_{i=1}^l  a_i^2 \\
+& \leq \sum_{i=1}^l \lambda \left(-4 a_i^2 - 2
+  \sum_{j = 1, j\neq i}^l  a_ia_j \Phi_\epsilon(\theta_i,\theta_j)\right)+ \delta \sum_{i=1}^l \lambda |a_i| \\
+&= -2\lambda\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] -2\lambda \sum_{i=1}^l a_i^2+ \delta\lambda\sum_{i=1}^l  |a_i| \\
 \end{align*} 
 %
-The second line follows from our optimality conditions and the third line follows from completing the square. Since $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta/k}$, we have $\Delta_v H \geq - \delta$. Because $\beta \geq \delta/k$, we see that we must satisfy $\sum_{i=1}^l a_i^2 \leq \delta/(\beta\lambda)$. Therefore, $a_i^2 \leq \delta/(\beta\lambda)$.
+The second line follows from our optimality conditions and the third line follows from completing the square. Since $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, we have $\Delta_v H \geq - 2kd\delta$. Let $S = \sum_{i=1}^l a_i^2$. Then, by Cauchy-Schwarz, we have $-2 \lambda S + \delta\lambda\sqrt{k} \sqrt{S} \geq -2kd\delta$. When $S \geq \delta^2 k$, we see that $-\lambda S \geq -2 \lambda S + \delta\lambda \sqrt{k}\sqrt{S} \geq -2kd\delta$. Therefore, $S \leq 2kd\delta/\lambda$.
+ 
+We conclude that $S \leq \max(\delta^2k, 2kd\delta/\lambda) \leq 2kd\delta/\lambda$ for $\delta\leq 2d/\lambda$. Therefore, $a_i^2 \leq 2kd\delta/\lambda$.
 
 \end{proof}
 
 \begin{lemma}\label{almostHarmRes}
   Assume the conditions of Lemma~\ref{almostHarmConv}. If
-$G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - \delta\sqrt{G(\boldsymbol{0,0})}$
-  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\beta\lambda\delta^2/2k^3}$,
+$\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta$
+  and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\lambda \delta^2/(k^3d)}$,
   then there exists some $i, j$ such that $\|\theta_i - w_j\| <\epsilon$.
 \end{lemma}
  
  \begin{proof}
  If there does not exists $i, j$ such that
-   $\|\theta_i - w_j\| <\epsilon$, then by Lemma \ref{almostHarmConv}, this implies $a_i^2 < \delta^2/2k^2$ for all $i$. Now, for a integrable
+   $\|\theta_i - w_j\| <\epsilon$, then by Lemma \ref{almostHarmConv}, this implies $a_i^2 < \delta^2/k^2$ for all $i$. Now, for a integrable
    function $f(x)$, $\| f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a
    norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
    target function, we conclude that by triangle inequality
@@ -158,13 +173,13 @@ $G({\bf a, \boldsymbol{\theta}}) \leq G(\boldsymbol{0,0}) - \delta\sqrt{G(\bolds
 \sqrt{G(\boldsymbol{a,\theta})}  & \geq \norm{\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)}_X \\
 &\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \\
 & \geq
-  \sqrt{G(\boldsymbol{0,0})} - \delta/2
+  \sqrt{G(\boldsymbol{0,0})} - \delta
 \end{align*}
-Squaring gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $\epsilon$ neighborhood of $w_j$.
+This gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $\epsilon$ neighborhood of $w_j$.
  \end{proof}
  
  \begin{lemma}[Initialization]\label{almostHarmInitialize}
-Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}}) \leq G(\boldsymbol{0,0}) - 2\delta\sqrt{G(\boldsymbol{0,0})}$ with $\delta = \frac{1}{1+\beta}d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$.
+Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = \frac{1}{1+\beta}d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$.
  \end{lemma}
  
  \begin{proof}

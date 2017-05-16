@@ -156,7 +156,7 @@ ADDING DETERMINISTIC LEMMAS
 
 
 \begin{lemma}\label{GradDecrease}		
-Let the assumptions of Theorem \ref{strongConverge} hold in a $(\alpha B_1)$-neighborhood of $x$. If $\|\nabla f (x) \|\geq \eta$ and $x'$ is reached after one iteration of gradient descent with stepsize $\alpha \leq \frac{1}{B_2}$, then $\|x' - x\| \leq \alpha B_1$ and $f(x') \leq f(x) - \alpha\eta^2/2$.
+Let the assumptions of Theorem \ref{strongConverge} hold in a $(\alpha B_1)$-neighborhood of $x$. If $\|\nabla f (x) \|\geq \eta$ and $x'$ is reached after one iteration of gradient descent (Algorithm \ref{GD}) with stepsize $\alpha \leq \frac{1}{B_2}$, then $\|x' - x\| \leq \alpha B_1$ and $f(x') \leq f(x) - \alpha\eta^2/2$.
 \end{lemma} 
 
 \begin{proof}
@@ -169,11 +169,11 @@ For $0 \leq \alpha \leq \frac{1}{B_2}$, we have $\alpha - \alpha^2B_2/2 \geq \al
 \end{proof}
 
 \begin{lemma}\label{HessianDecrease}
-Let the assumptions of Theorem \ref{strongConverge} hold in a $(\alpha B_2)$-neighborhood of $x$. If $\lambda_{min}(\nabla^2 f (x)) \leq -\gamma$ and $x'$ is reached after one iteration of Hessian descent with stepsize $\alpha \leq \frac{1}{B_3}$, then $\|x' - x\| \leq \alpha B_2$ and $f(x') \leq f(x) - \alpha^2 \gamma^3/2$.
+Let the assumptions of Theorem \ref{strongConverge} hold in a $(\alpha B_2)$-neighborhood of $x$. If $\lambda_{min}(\nabla^2 f (x)) \leq -\gamma$ and $x'$ is reached after one iteration of Hessian descent (Algorithm \ref{HD}) with stepsize $\alpha \leq \frac{1}{B_3}$, then $\|x' - x\| \leq \alpha B_2$ and $f(x') \leq f(x) - \alpha^2 \gamma^3/2$.
 \end{lemma}
 
 \begin{proof}
-The gradient descent step is given by $x' = x + \beta v_{min}$, where $v_{min}$ is the unit eigenvector corresponding to $\lambda_{min}(\nabla^2f(x))$ and $\beta = -\alpha \gamma sgn(\nabla f(x)^Tv_{min})$. Our bound on $\|x' - x\|$ is clear since $\gamma \leq B_2$.
+The gradient descent step is given by $x' = x + \beta v_{min}$, where $v_{min}$ is the unit eigenvector corresponding to $\lambda_{min}(\nabla^2f(x))$ and $\beta = -\alpha\lambda_{min}(\nabla^2 f(x))sgn(\nabla f(x)^Tv_{min})$. Our bound on $\|x' - x\|$ is clear since $\gamma \leq B_2$.
 \begin{align*}
 f(x') &\leq f(x) + \beta\nabla f(x)^Tv_{min} + \beta^2 v_{min}^T\nabla^2f(x)v_{min} + \frac{B_3}{6} |\beta|^3 \|v_{min}\|^3 \\
 &\leq f(x) - |\beta|^2 \gamma + \frac{B_3}{6} |\beta|^3
