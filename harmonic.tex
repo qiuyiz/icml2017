@@ -119,7 +119,7 @@ $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$ or $\theta_i = w_j$ for so
   contrary, we assume that $\theta_i \neq w_j$ for all $i,j.$ WLOG, we
   can partition $[k]$ into $S_1,...,S_r$ such that for all $u \in S_i,
   v \in S_j$, we have $\theta_{u} = \theta_v$ iff $i=j$. 
-
+%
 Let $S_1 = \{ \theta_1, \ldots, \theta_{l}\}.$ 
 % WLOG, let $\theta_1 =
 % \theta_2 =... = \theta_l$ be non-distinct (with $l$ maximal) and
@@ -127,12 +127,12 @@ Let $S_1 = \{ \theta_1, \ldots, \theta_{l}\}.$
 We consider changing all
 $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
 %
-\[H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
-\ldots, \theta_k).\]
+$H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
+\ldots, \theta_k).$
 
 The optimality conditions on ${\bf a}$ are 
 \begin{align*}
-0 = \pd{L}{a_i} = 2a_i  + 2\sum_{j\neq i} a_j \Phi(\theta_i,\theta_j)
+0 = \pd{L}{a_i} =  2\sum_{j} a_j \Phi(\theta_i,\theta_j)
   + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
 \end{align*}
 %
@@ -141,19 +141,19 @@ Next, by $\lambda$-harmonic definition, we may differentiate as $\theta_i \neq w
 \Delta_v H & = \lambda\sum_{i=1}^l a_i \left(2\sum_{j=1}^k b_j
   \Phi(\theta_i, w_j) + 2\sum_{j=l+1}^k a_j
   \Phi(\theta_i, \theta_j)\right) \\
-& = \lambda\sum_{i=1}^l a_i \left(-2a_i\Phi(\theta_i, \theta_i) - 2
-  \sum_{j = 1, j\neq i}^l  a_j \Phi(\theta_i,\theta_j)\right) \\
+& = \lambda\sum_{i=1}^l a_i \left( - 2
+  \sum_{j = 1}^l  a_j \Phi(\theta_i,\theta_j)\right) 
 %
 % & = -2\lambda\left(\sum_{i=1}^l a_i^2 \Phi(\theta_i, \theta_i)
 %   +\sum_{i \neq j}^l a_i a_j \Phi(\theta_i, \theta_j)\right) \\
 %
-& = -2\lambda\left(\sum_{i=1}^l a_i^2
-  +\sum_{i \neq j}^l a_i a_j \right) = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
+ = -2\lambda\sum_{i=1}^l a_i \left( 
+  \sum_{j = 1}^l  a_j \right) = -2 \lambda\left(\sum_{i=1}^l a_i\right)^2
 \end{align*} 
 %
 If $\sum_{i=1}^l a_i \neq 0$, then we conclude that the Laplacian is
 strictly negative, so we are not at a local minimum. 
-
+%
 Similarly, we can conclude that for each $S_i,$ 
 % Therefore, if $\theta_i \neq w_j$ for all $i,j$, then we may partition $[k]$ into $S_1,...,S_r$ such that each $S_i$, $\theta_{u} = \theta_v$
 % for $u, v \in S_i$ and
