@@ -5,7 +5,7 @@
 \AlmostHarmConv*
 
 \begin{proof}
- The proof is similar to Theorem \ref{EigStrict}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta/k}$. 
+ The proof is similar to Theorem \ref{EigStrict}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$. 
  
 WLOG, consider $\theta_1$ and a initial set $S_0 = \{ \theta_1\}$ containing it. For a finite set of points $S$ and a point $x$, define $d(x,S) = \min_{y \in S} \| x - y\|$. Then, we consider the following set growing process. If there exists $\theta_i, w_i \not \in S_j$ such that $d(\theta_i, S_j) < \epsilon$ or $d(w_i, S_j) < \epsilon$, add $\theta_i, w_i$ to $S_j$ to form $S_{j+1}$. Otherwise, we stop the process. We grow $S_0$ to until the process terminates and we have the grown set $S$.
 
@@ -73,9 +73,9 @@ This gives a contradiction, so we conclude that there must exist $i, j$ such tha
    \Phi_\epsilon({\bf 0},w_j)\right)^2 
 \end{align*}
 
-Because $w_j$ are random Gaussians with variance $O(d \log k)$, we have $\|w_j\| \leq O(d\log k)$ with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left(  \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality for independent uniform variables.
+Because $w_j$ are random Gaussians with variance $O(d \log d)$, we have $\|w_j\| \leq O(d\log d$ with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left(  \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality for independent uniform variables.
 
-Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{2}d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. Let $\sqrt{G(a_1, {\bf 0})} = \sqrt{G(\boldsymbol{0,0})} - \Delta \geq 0$. Squaring and rearranging gives $\Delta \geq \frac{1}{4\sqrt{G({\bf 0, 0})}}^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. Since $G(\boldsymbol{0,0}) \leq O(k)$, we are done. 
+Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{2}d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. Let $\sqrt{G(a_1, {\bf 0})} = \sqrt{G(\boldsymbol{0,0})} - \Delta \geq 0$. Squaring and rearranging gives $\Delta \geq \frac{1}{4\sqrt{G({\bf 0, 0})}}^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. Since $G(\boldsymbol{0,0}) \leq O(k) = O(\poly(d))$, we are done. 
 
 
 %%Cramer-Rao type Argument
