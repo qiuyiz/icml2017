@@ -9,7 +9,7 @@ $w_{i} \in \R^d,$ activation $\sigma(x,w):\R^d \times \R^d\to \R,$ and
 output weights $b_i \in \R.$ Thus, we can write
 $f(x) = \sum_{i=1}^k b_i\sigma(x,w_i)$. We denote this concept class
 $\mathcal{C}_{\sigma,k}.$ Our hypothesis concept class is also
-$\mathcal{C}_{\sigma,k}.$
+$\mathcal{C}_{\sigma,k}.$ 
 
 % of our learning
 % procedure is the output of a two-layer neural network with linear
@@ -30,15 +30,13 @@ $\mathcal{C}_{\sigma,k}.$
 % output activation and has the form $f(x) = \sum_{i=1}^k
 % b_i\sigma(x,w_i)$. 
 
-Let $\boldsymbol{a} = (a_1,...,a_k)$ and $\boldsymbol{\theta} = (\theta_1,...,\theta_k)$; similarly for $\boldsymbol{b}, \boldsymbol{w}$. For some distribution $\mathcal{D}$, we can given $n$ pairs of training data $(x_i, f(x_i))$, where $x_i$ are drawn i.i.d. from $\mathcal{D}$. Our hypothesis class is the same as the concept class and our loss function is the squared loss. 
-%
-\begin{equation}\label{errEmp}
-\widehat{L}(\boldsymbol{a,\theta})  = \frac{1}{n}\sum_{j=1}^n \left(\sum_{i=1}^k b_i\sigma(x_j,w_i) - \sum_{i=1}^k a_i \sigma(x_j,\theta_i)\right)^2
-\end{equation}
-%
-We would rather work with the true loss directly:
-$L(\boldsymbol{a,\theta}) = \expt[\widehat{L}]$. To further simplify $L$, let us
+Let $\boldsymbol{a} = (a_1,...,a_k)$ and $\boldsymbol{\theta} = (\theta_1,...,\theta_k)$; similarly for $\boldsymbol{b}, \boldsymbol{w}$ and our guess is $\hat{f}(x) = \sum_{i=1}^k a_i \sigma(x, w_i)$. We work directly with the true squared loss error $L(a,\theta)= \expt_{x \sim \mathcal{D}}[(f - \hat{f})^2]$. To further simplify $L$, let us
 re-parametrize $a$ with $-a$ and expand.
+%
+%\begin{equation}\label{errEmp}
+%\widehat{L}(\boldsymbol{a,\theta})  = \frac{1}{n}\sum_{j=1}^n \left(\sum_{i=1}^k %b_i\sigma(x_j,w_i) - \sum_{i=1}^k a_i \sigma(x_j,\theta_i)\right)^2
+%\end{equation}
+%
 \begin{align}
 & L(\boldsymbol{a,\theta})  = \expt_{X\sim D}\left[ \left(
   \sum_{i=1}^k a_i \sigma(X,\theta_i) + \sum_{i=1}^k
@@ -49,22 +47,17 @@ re-parametrize $a$ with $-a$ and expand.
 \end{align}
 %
 where $\Phi(\theta, w) = \expt_{X\sim D}[ \sigma(X,\theta) \sigma(X,w)]$ is
-the {\bf potential function} {\it corresponding to the activation function} $\sigma$. Although our loss is jointly non-convex but is quadratic in $\boldsymbol{a}$, so we have convergence guarantees to $\boldsymbol{a^*(\theta)}$, the optimal set of output weights of a given $\boldsymbol{\theta}$. 
+the {\bf potential function} {\it corresponding to the activation function} $\sigma$. Given $\mathcal{D},$ the activation function $\sigma$, and the loss $L$, we attempt to show that we can use some variant of gradient descent to learn, with high probability, an $\epsilon$-approximation of $w_j$ for some (or all) $j$. Although our loss is jointly non-convex, it is quadratic in $\boldsymbol{a}$. Therefore we can restrict our attention to convergence in $\boldsymbol{\theta}$ to $\boldsymbol{w}$, since we have convergence guarantees to $\boldsymbol{a^*(\theta)}$, the optimal set of output weights of a given $\boldsymbol{\theta}$. 
 
-We will optimize over the familiar $\mathcal{M}= \R^d$ but often over $\mathcal{M} = S^{d-1}$. Let $\Pi_\mathcal{M}$ be the projection operator on $\mathcal{M}$. On $\R^d$, the gradient and Hessian $\nabla_{\R^d} f, \nabla_{\R^d}^2 f$ is defined as standard and the Laplacian is simply $\Delta_{\R^d} f = \Tr(\nabla_{\R^d}^2 f)$. The simplest way to define these terms on $S^{d-1}$ is $\nabla_{S^{d-1}} f(x) = \nabla_{\R^d} f(x/\|x\|)$, where $\| \cdot \|$ denotes the $l_2$ norm and $x \in S^{d-1}$. The Hessian and Laplacian are analogously defined and the subscripts are usually dropped where clear from context. If $f$ is multivariate with variable $x_i$, then let $f_{x_i}$ be a
+We will optimize over the familiar $\mathcal{M}= \R^d$ {\color{red}but often over $\mathcal{M} = S^{d-1}$}. Let $\Pi_\mathcal{M}$ be the projection operator on $\mathcal{M}$. On $\R^d$, the gradient and Hessian $\nabla_{\R^d} f, \nabla_{\R^d}^2 f$ is defined as standard and the Laplacian is simply $\Delta_{\R^d} f = \Tr(\nabla_{\R^d}^2 f)$. The simplest way to define these terms on $S^{d-1}$ is $\nabla_{S^{d-1}} f(x) = \nabla_{\R^d} f(x/\|x\|)$, where $\| \cdot \|$ denotes the $l_2$ norm and $x \in S^{d-1}$. The Hessian and Laplacian are analogously defined and the subscripts are usually dropped where clear from context. If $f$ is multivariate with variable $x_i$, then let $f_{x_i}$ be a
 restriction of $f$ onto the variable $x_i$ with all other variables
 fixed. Let $\nabla_{x_i}f, \Delta_{x_i}f$ to be the gradient and
 Laplacian, respectively, of $f_{x_i}$ with respect to
 $x_i$. Lastly, we say $x$ is a critical point of $f$ if $\nabla f$
 does not exist or $\nabla f = 0$.
 
-A gradient-based method is an algorithm that calls Algorithm \ref{GD}
-in all the optimization procedures to minimize the empirical
-loss. Given $\mathcal{D}$, the training data, and the activation
-function $\sigma$, we attempt to show that there exists a gradient-based
-algorithm that optimizes $\widehat{L}$ on $\mathcal{M}$ and finds
-$\widetilde{f} \in \mathcal{C}_{\sigma, k}$ such that with high probability, $\theta_i$ is in an $\epsilon$-neighborhood of $w_j$ for some (or all) $i, j$ in time $\poly(d,1/\epsilon)$ or some
-other meaningful bound.
+
+
 
 \begin{algorithm}[hb]
  \caption{$x = GD(L,x_0, T,\alpha$)}
@@ -102,7 +95,7 @@ can be found in the supplementary material.
 %
 \begin{restatable}{theorem}{tranReal}
 \label{thm:tranReal}
-Let $\mathcal{M} = \R^d$ and $\Phi$ is $\FT$-integrable. Then, $\Phi$ is realizable if $\mathfrak{F}(\Phi)(\omega) \geq 0$ and the corresponding activation is 
+Let $\mathcal{M} = \R^d$ and $\FT(\Phi)$ is integrable. Then, $\Phi$ is realizable if $\mathfrak{F}(\Phi)(\omega) \geq 0$ and the corresponding activation is 
 $\sigma(x) =
   (2\pi)^{1/4}e^{x^2/4}\mathfrak{F}^{-1}(\sqrt{\mathfrak{F}(\Phi)})(x), $
 where $\mathfrak{F}$ is the generalized Fourier transform in $\R^d.$
