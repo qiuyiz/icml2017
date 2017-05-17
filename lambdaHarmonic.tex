@@ -1,6 +1,6 @@
 
 \section{Realizable Potentials with Convergence Guarantees}
-
+\label{sec:almost-harmonic}
 {\color{red} Under some assumptions, we
 will show that gradient descent can learn at least one of the $w_i's$
 of the target network for certain activation functions. The algorithm
@@ -103,7 +103,6 @@ $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta
  \begin{restatable}{lemma}{AlmostHarmInitialize}[Initialization]\label{almostHarmInitialize}
 Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = (d/\epsilon)^{ - O(d)}$.
  \end{restatable}
-\Snote{What happened to the proof of the above lemma?}
  %
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
 \Snote{Richard: I don't think you have updated the theorem below using the changes in the previous lemmas. E.g. the incorrect initialization condition is used here. Please make sure it's all consistent with the updated lemmas.}

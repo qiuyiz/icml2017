@@ -213,11 +213,11 @@ Therefore, we conclude with induction.
 Consider a potential of the form $\Phi(r) = p(r)e^{-\sqrt{\lambda}r}/r^{d-2}$. We claim that there exists a polynomial $p$ of degree $k = (d-3)/2$ with non-negative coefficients and $p(0) = 1$ such that $\Phi$ is $\lambda$-harmonic. Furthermore, we will also show along the way that $p(r) \leq (1+\sqrt{\lambda}r)^d$.
 
 When $d = 3$, it is easy to check that $\Phi(r) = e^{(-\sqrt{\lambda})r}/r$ is our desired potential. Otherwise, by our formula for the radial Laplacian in $d$ dimensions, we want to solve the following differential equation:
-
+%
 \[\Delta \Phi =  \frac{1}{r^{d-1}} \frac{\partial}{\partial r} (r^{d-1} \frac{\partial \Phi}{\partial r}) =\lambda \Phi\]
 
 Solving this gives us the following second-order differential equation on $p$
-
+%
 \[rp'' - (d-3+2\sqrt{\lambda}r)p' +\sqrt{\lambda} (d-3)p = 0\]
 
 Let us write $p(r) = \sum_{i=0}^k a_i r^i$. Then, substituting into our differential equation gives us the following equations by setting each coefficient of $r^i$ to zero:
