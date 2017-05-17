@@ -68,16 +68,16 @@ This gives a contradiction, so we conclude that there must exist $i, j$ such tha
 %
 \begin{align*}
    G(a_1,{\bf 0}) - G({\bf 0},{\bf 0}) & = \min_{a_1} 2a_1^2 +
-  2\sum_{j=1}^k a_1 b_j\Phi_\epsilon({\bf 0},w_j) \\
+  2\sum_{j=1}^k a_1 b_j\Phi_\epsilon({\bf 0},w_j) 
  %
- & = -\frac{1}{2}\left(  \sum_{j=1}^k b_j
+ = -\frac{1}{2}\left(  \sum_{j=1}^k b_j
    \Phi_\epsilon({\bf 0},w_j)\right)^2 
 \end{align*}
 
-Because $w_j$ are random Gaussians with variance $O(d \log d)$, we have $\|w_j\| \leq O(d\log d)$ with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq (d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left(  \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq (d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality for independent uniform variables.
+Because $w_j$ are random Gaussians with variance $O(d \log d)$, we have $\|w_j\| \leq O(d\log d)$ \Snote{Isn't there a squareroot missing?} with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq (d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left(  \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq (d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality for independent uniform variables.
 
 Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{2}(d/\epsilon)^{ - O(d)}$. Let $\sqrt{G(a_1, {\bf 0})} = \sqrt{G(\boldsymbol{0,0})} - \Delta \geq 0$. Squaring and rearranging gives $\Delta \geq \frac{1}{4\sqrt{G({\bf 0, 0})}}(d/\epsilon)^{ - O(d)}$. Since $G(\boldsymbol{0,0}) \leq O(k) = O(\poly(d))$, we are done. 
-
+\end{proof}
 %%Cramer-Rao type Argument
 %Let $f(x) =  \sum_{j=1}^k b_j \Phi(x,w_j)$, then it suffices (***Justify later) to show that $\Var(f(X)) \geq 1/\poly(d) $, where $X$ is a multivariate standard normal. By appealing to Cramer-Rao type bounds given in \cite{cacoullos1982upper}, we see that
 %%
@@ -89,7 +89,7 @@ Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\bold
 %By Stein's identity, $\expt[\frac{\partial}{\partial x_i}\Phi(X,w_j)] = \expt[X_i\Phi(X,w_j)]$. And since $\Phi$ is translationally symmetric, if we let $w_{ji}$ be the $i$-th coordinate of $w_j$, then $\expt[ X_i\Phi(X,w_j)] = \expt[(X_i - w_{ji})\Phi(X, {\bf 0})] = -w_{ji}\expt[\Phi(X,{\bf 0})] = -Cw_{ji}$, where $C$ is a positive constant and $C\geq 1/\poly(d)$ (justify later).
 %
 %Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}\right)^2$. However, note that $w_{ji}$ are independent Gaussians of variance 1, so we conclude that $\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}$ is a Gaussian of variance $d\|{\bf b}\|^2 \geq d$. So, with high probability over $w_1,...,w_j$, we conclude that $\Var(f(X)) \geq C^2 \geq 1/\poly(d)$.
-\end{proof}
+
 
 
 %%%%%%%%%%%Begin Node Convergence
@@ -102,7 +102,7 @@ Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L_1$ be the loss restr
 \begin{proof}
 The proof is similar to Lemma~\ref{almostHarmConv}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $(a_1,\theta_1) \in \mathcal{M}_{L,\delta}$. Assume that there does exist $w_j$ such that $\|\theta_1 - w_j\| < \epsilon$. 
  
-The optimality conditions on ${ a_1}$ are 
+The optimality condition on $\{ a_1\}$ is
 \begin{align*}
    \abs{\pd{L}{a_1}} & = \lvert 2a_1  + 2\sum_{j=1}^k b_j \Phi_\epsilon(\theta_1,w_j) \rvert \leq \delta
 \end{align*}
@@ -111,8 +111,8 @@ Next, since $\Phi_\epsilon(r)$ is $\lambda$-harmonic for $r \geq \epsilon$, we m
 %
 \begin{align*}
 \Delta_{\theta_1} L & = \lambda \left(2\sum_{j=1}^k a_1b_j
-  \Phi_\epsilon(\theta_1, w_j) \right) \\
-& \leq  -2\lambda a_1^2 + \delta \lambda |a_1| \\
+  \Phi_\epsilon(\theta_1, w_j) \right) 
+ \leq  -2\lambda a_1^2 + \delta \lambda |a_1| 
 \end{align*} 
 %
 The second line follows from our optimality conditions. Since ${(a_1,\theta_1)} \in \mathcal{M}_{L,\delta}$, we have $\Delta_{\theta_1} L \geq - 2d\delta$. When $a_1^2 \geq \delta^2$, we see that $-\lambda a_1^2 \geq -2 \lambda a_1^2 + \delta\lambda |a_1| \geq -2d\delta$. Therefore, $a_1^2 \leq 2d\delta/\lambda$. We conclude that $a_1^2 \leq \max(\delta^2, 2d\delta/\lambda) \leq 2d\delta/\lambda$ for $\delta\leq 2d \leq 2d/\lambda$ since $\lambda = 1$. Therefore, $a_1^2 \leq 2d\delta$.
@@ -126,7 +126,7 @@ $\sqrt{L_1(a_1,\theta_1)} \leq \sqrt{L_1(0, 0)} - \delta$
   and $(a_1,\theta_1) \in \mathcal{M}_{G,\lambda \delta^2/(2d)}$,
   then there exists some $j$ such that $\|\theta_1 - w_j\| <\epsilon$.
 \end{lemma}
-
+%
 \begin{proof}
 The proof follows similarly from Lemma \ref{almostHarmRes}.
 \end{proof}
