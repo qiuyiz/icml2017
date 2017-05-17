@@ -57,7 +57,7 @@ The use of second-order methods is not limiting since noisy gradient descent alg
    \Else 
    \State Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(x_{i-1}))$ 
     \If {$\lambda_{min}(\nabla^2 f(x_{i-1})) \leq - \gamma$}
-    \State $x_i = HD(L, x_{i-1}, 1, \alpha)$ \Snote{If you already are determining the hessian and the eigenvector, why call a second function?. If you merge it here, just say that the stepssize is $\alpha \gamma$ rather than ${\lambda_\min} \nabla^2$}
+    \State $x_i = HD(L, x_{i-1}, 1, \alpha)$ \Snote{If you already are determining the hessian and the eigenvector, why call a second function?}
     \Else \ \Return $x_{i-1}$
     \EndIf
    \EndIf
