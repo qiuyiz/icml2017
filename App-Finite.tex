@@ -181,16 +181,6 @@ f(x') &\leq f(x) + \beta\nabla f(x)^Tv_{min} + \beta^2 v_{min}^T\nabla^2f(x)v_{m
 The last inequality holds since the sign of $\beta$ is chosen so that $\beta \nabla f(x)^Tv_{min} \leq 0$. Now, since $|\beta| = \alpha \gamma \leq \frac{\gamma}{B_3}$, $-|\beta|^2\gamma + \frac{B_3}{6} |\beta|^3 \leq - \alpha^2 \gamma^3/2$. 
 \end{proof}
 
-%
-\begin{theorem}\cite{nesterov2013introductory}\label{quadConverge}
-  Let $x_0 \in \Omega = \{ x \in \R^d | \|x \| \leq \poly(d)\}$ and let
-  $L(x) = x^TAx + b^Tx$ be a quadratic loss, where $A$ is a positive
-  semi-definite matrix with maximum eigenvalue bounded by $\beta$. Then, running
-  Algorithm \ref{GD} on $L$ with stepsize $\alpha = 1/\beta$ converges
-  to $x_T$ such that
-  \[L(x_T) - \min_{x \in \Omega} L(x) \leq \frac{\beta \poly(d)}{T}\]
-\end{theorem} 
-
 
 %%% Local Variables:
 %%% mode: latex

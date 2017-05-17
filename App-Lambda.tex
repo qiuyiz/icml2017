@@ -2,7 +2,7 @@
 
 \section{Convergence of Almost $\lambda$-Harmonic Potentials}\label{App:EigenFunc}
 
-\AlmostHarmConv*
+\almostharmconv*
 
 \begin{proof}
  The proof is similar to Theorem \ref{EigStrict}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon$ with $\lambda = 1$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$. 
@@ -42,7 +42,7 @@ The second line follows from our optimality conditions and the third line follow
 We conclude that $S \leq \max(\delta^2k, 2kd\delta/\lambda) \leq 2kd\delta/\lambda$ since $\delta\leq 1 \leq 2d/\lambda$ and $\lambda = 1$. Therefore, $a_i^2 \leq 2kd\delta$.
 \end{proof}
 
-\AlmostHarmRes*
+\almostharmres*
 
  \begin{proof}
  If there does not exists $i, j$ such that
@@ -59,7 +59,7 @@ We conclude that $S \leq \max(\delta^2k, 2kd\delta/\lambda) \leq 2kd\delta/\lamb
 This gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $k\epsilon$ neighborhood of $w_j$.
  \end{proof}
  
-\AlmostHarmInitialize*
+\almostharminitialize*
 
  \begin{proof}
   Consider choosing $\theta_1 = {\bf 0}$ and then
@@ -199,9 +199,7 @@ Finally, we see that the charges also converge since $a = -2b_j \Phi_\epsilon(\|
 
 Finally, we have our final theorem.
 
-\begin{theorem}\label{nodewise}
-Let $\mathcal{M} = \R^{d}$ and $d \equiv 3 \mod 4$ and let $L$ be as in \ref{errLoss} and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, after running nodewise descent (Algorithm \ref{NodeGDOpt}) on the objective $L$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, $\boldsymbol{(a,\theta)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of the global minima.
-\end{theorem}
+\nodewise*
 
 \begin{proof}
 Let $(a_i, \theta_i)$ be the $i$-th node that is initialized and applied second order gradient descent onto. We want to show that the nodes $(a_i, \theta_i)$ will converge, in a node-wise fashion, to some permutation of $\{(b_1,w_1),...,(b_k,w_k)\}$. 
