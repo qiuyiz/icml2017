@@ -154,7 +154,7 @@ And since $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$, we know that
    \abs{\pd{L_1}{a_1}} & = \lvert 2a_1 + 2b_j \Phi_\epsilon(\|\theta_1 - w_j\|) + 2\sum_{i \neq j} b_i \Phi_\epsilon(\|\theta_1 - w_i\|) \rvert \leq (d/\epsilon)^{-O(d)}
 \end{align*}
 
-By a similar argument as on the derivative, we see that $a_1 = -2b_j \Phi_\epsilon(\|\theta_1 - w_j\|) + O(d/\epsilon)^{-O(d)}$. Therefore, the direction of $-\nabla_{\theta_1} L_1$ is moving $\theta_1$ closer to $w_j$ since 
+By a similar argument as on the derivative, we see that $a_1 = -b_j \Phi_\epsilon(\|\theta_1 - w_j\|) + O(d/\epsilon)^{-O(d)}$. Therefore, the direction of $-\nabla_{\theta_1} L_1$ is moving $\theta_1$ closer to $w_j$ since 
 %
 \begin{align*}
 -\nabla_{\theta_1} L_1 &=  b_j^2\Phi_\epsilon(\|\theta_1-w_j\|)\Phi_\epsilon'(\|\theta_1 - w_j\|) \frac{\theta_1 - w_j}{\|\theta_1 - w_j\|} + (d/\epsilon)^{-O(d)} 
@@ -200,7 +200,7 @@ Finally, we see that the charges also converge since $a = -2b_j \Phi_\epsilon(\|
 Finally, we have our final theorem.
 
 \begin{theorem}\label{nodewise}
-Let $\mathcal{M} = \R^{d}$ and $d \equiv 3 \mod 4$ and let $L$ be as in \ref{errLoss} and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, after running nodewise SGD (Algorithm \ref{NodeGDOpt}) on the objective $L$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, $\boldsymbol{(a,\theta)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of the global minima.
+Let $\mathcal{M} = \R^{d}$ and $d \equiv 3 \mod 4$ and let $L$ be as in \ref{errLoss} and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, after running nodewise descent (Algorithm \ref{NodeGDOpt}) on the objective $L$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, $\boldsymbol{(a,\theta)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of the global minima.
 \end{theorem}
 
 \begin{proof}
@@ -208,17 +208,16 @@ Let $(a_i, \theta_i)$ be the $i$-th node that is initialized and applied second 
 
 First, with high probability we know that $1 - 1/\poly(d) \geq |b_j| \geq 1/\poly(d)$ and $\|w_i\|\leq O(d\log d)$ and $\|w_i - w_j \| \geq \Omega(d\log d)$ for all $i, j$. By Lemma~\ref{nodewiseSGD}, we know that with high probability $(a_1,\theta_1)$ will converge to some $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(1)}, w_{\pi(1)})$ for some function $\pi: [k] \to [k]$. Now, we treat $a_1, \theta_1$ as one of the fixed charges and note that $|a_1| \leq 1$ and $\|\theta_1\| \leq O(d\log d)$ and note that there exists $|b_j| \geq 1/\poly(d)$ with $\|w_i - w_j\| \geq \Omega(d\log d)$ and $\|\theta_1 - w_j \| \geq \Omega(d\log d)$ as long as $k > 1$ (if $k = 1$, we are done). 
 
-Then, by Lemma~\ref{nodewiseSGD}, we know that $(a_2, \theta_2)$ will converge to some $w_{\pi(2)}$ such that $\|\theta_2 - w_{\pi(2)}\| <\epsilon$ (or $\|\theta_2 - \theta_1 \| < \epsilon$ but $\theta_2$ is still $\epsilon$-close to $w_{\pi(1)}$). We claim that $\pi(1) \neq \pi(2)$.
+Then, by Lemma~\ref{nodeInitialize}, we can initialize $(a_2^{(0)}, \theta_2^{(0)})$ such that $\sqrt{L_2(a_2^{(0)}, \theta_2^{(0)})} \leq \sqrt{L(0,0)} - \delta$, with $\delta = 1/\poly(d) (d/\epsilon)^{-18d}$. Then, by Lemma~\ref{nodewiseSGD}, we know that $(a_2, \theta_2)$ will converge to some $w_{\pi(2)}$ such that $\|\theta_2 - w_{\pi(2)}\| <\epsilon$ (or $\|\theta_2 - \theta_1 \| < \epsilon$ but $\theta_2$ is still $\epsilon$-close to $w_{\pi(1)}$). We claim that $\pi(1) \neq \pi(2)$.
 
 By optimality conditions on $a_2$, we see that 
 \begin{align*}
-a_2^*(\theta_2) = a_1 \Phi_{\epsilon}(\|\theta_2 - \theta_1\|) + b_j \Phi_{\epsilon}(\|\theta_1 - w_j\|) + 2 \sum_{i \neq j} b_i \Phi_{\epsilon}(\|\theta_1 - w_i\|)
+a_2^*(\theta_2) = a_1 \Phi_{\epsilon}(\|\theta_2 - \theta_1\|) + b_j \Phi_{\epsilon}(\|\theta_1 - w_j\|) +  \sum_{i \neq j} b_i \Phi_{\epsilon}(\|\theta_1 - w_i\|)
 \end{align*}
 
 If $w_{\pi(1)} = w_{\pi(2)}$, then note that $\|\theta_1 - w_i \| \geq \Omega(d\log d)$ for all $i \neq \pi(1)$. Therefore, $2 \sum_{i \neq j} b_i \Phi_{\epsilon}(\|\theta_1 - w_i\|) = (d/\epsilon)^{-O(d)}$. And by our convergence guarantees and the $(d/\epsilon)^{2d}$-Lipschitzness of $\Phi_{\epsilon}$, $ a_1 \Phi_{\epsilon}(\|\theta_2 - \theta_1\|) + b_j \Phi_{\epsilon}(\|\theta_1 - w_j\|) \leq (d/\epsilon)^{-O(d)}$. Therefore, $a_2^*(\theta_2) \leq (d/\epsilon)^{-O(d)}$. 
 
-
-However, But this contradicts our initialization and $\pi(1) \neq \pi(2)$. . Therefore, our claim is done and by induction, $\pi$ is a permutation. Now, our theorem follows. 
+However, we see that $L_2(a_2, \theta_2) \geq L_2(a_2^*(\theta_2),\theta_2) = L_2(0,0) - \frac{1}{2}a_2^*(\theta_2)^2 \geq L_2(0,0) - (d/\epsilon)^{-O(d)}$. But since $L_2$ is non-increasing, this contradicts our initialization and therefore $\pi(1) \neq \pi(2)$. Therefore, our claim is done and by Lemma~\ref{nodewiseSGD}, we see that since $|b_{\pi(2)}| \geq 1/\poly(d)$ and for all $i$, $\|w_i - w_{\pi(2)}\| \geq \Omega(d \log d)$ and $\|\theta_1 - w_{\pi(2)}\| \geq \Omega(d\log d)$, we conclude that $(a_2,\theta_2)$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(2)}, \theta_{\pi(2)})$. Finally, we induct and by similar reasoning, $\pi$ is a permutation. Now, our theorem follows. 
 \end{proof}
 
 %%% Local Variables:
