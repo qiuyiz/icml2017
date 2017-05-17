@@ -77,22 +77,22 @@ Because $w_j$ are random Gaussians with variance $O(d \log d)$, we have $\|w_j\|
 
 Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{2}d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. Let $\sqrt{G(a_1, {\bf 0})} = \sqrt{G(\boldsymbol{0,0})} - \Delta \geq 0$. Squaring and rearranging gives $\Delta \geq \frac{1}{4\sqrt{G({\bf 0, 0})}}^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$. Since $G(\boldsymbol{0,0}) \leq O(k) = O(\poly(d))$, we are done. 
 
-
 %%Cramer-Rao type Argument
-\if{1}
-Let $f(x) =  \sum_{j=1}^k b_j \Phi(x,w_j)$, then it suffices (***Justify later) to show that $\Var(f(X)) \geq 1/\poly(d) $, where $X$ is a multivariate standard normal. By appealing to Cramer-Rao type bounds given in \cite{cacoullos1982upper}, we see that
+%Let $f(x) =  \sum_{j=1}^k b_j \Phi(x,w_j)$, then it suffices (***Justify later) to show that $\Var(f(X)) \geq 1/\poly(d) $, where $X$ is a multivariate standard normal. By appealing to Cramer-Rao type bounds given in \cite{cacoullos1982upper}, we see that
+%%
+%\begin{align*}
+% \Var(f(X)) &\geq \frac{1}{d}\expt \left[\sum_{i=1}^d \frac{\partial}{\partial x_i} f(X)\right]^2 \\
+% &= \frac{1}{d}\left( \sum_{j=1}^k b_j \sum_{i=1}^d \expt \frac{\partial}{\partial x_i}\Phi(X,w_j) \right)^2 \\
+%\end{align*}
 %
-\begin{align*}
- \Var(f(X)) &\geq \frac{1}{d}\expt \left[\sum_{i=1}^d \frac{\partial}{\partial x_i} f(X)\right]^2 \\
- &= \frac{1}{d}\left( \sum_{j=1}^k b_j \sum_{i=1}^d \expt \frac{\partial}{\partial x_i}\Phi(X,w_j) \right)^2 \\
-\end{align*}
-
-By Stein's identity, $\expt[\frac{\partial}{\partial x_i}\Phi(X,w_j)] = \expt[X_i\Phi(X,w_j)]$. And since $\Phi$ is translationally symmetric, if we let $w_{ji}$ be the $i$-th coordinate of $w_j$, then $\expt[ X_i\Phi(X,w_j)] = \expt[(X_i - w_{ji})\Phi(X, {\bf 0})] = -w_{ji}\expt[\Phi(X,{\bf 0})] = -Cw_{ji}$, where $C$ is a positive constant and $C\geq 1/\poly(d)$ (justify later).
-
-Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}\right)^2$. However, note that $w_{ji}$ are independent Gaussians of variance 1, so we conclude that $\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}$ is a Gaussian of variance $d\|{\bf b}\|^2 \geq d$. So, with high probability over $w_1,...,w_j$, we conclude that $\Var(f(X)) \geq C^2 \geq 1/\poly(d)$.
-\fi
-
+%By Stein's identity, $\expt[\frac{\partial}{\partial x_i}\Phi(X,w_j)] = \expt[X_i\Phi(X,w_j)]$. And since $\Phi$ is translationally symmetric, if we let $w_{ji}$ be the $i$-th coordinate of $w_j$, then $\expt[ X_i\Phi(X,w_j)] = \expt[(X_i - w_{ji})\Phi(X, {\bf 0})] = -w_{ji}\expt[\Phi(X,{\bf 0})] = -Cw_{ji}$, where $C$ is a positive constant and $C\geq 1/\poly(d)$ (justify later).
+%
+%Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}\right)^2$. However, note that $w_{ji}$ are independent Gaussians of variance 1, so we conclude that $\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}$ is a Gaussian of variance $d\|{\bf b}\|^2 \geq d$. So, with high probability over $w_1,...,w_j$, we conclude that $\Var(f(X)) \geq C^2 \geq 1/\poly(d)$.
 \end{proof}
+
+
+%%%%%%%%%%%Begin Node Convergence
+\subsection{Node by Node Analysis}
 
 \begin{lemma}\label{nodeConv}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L_1$ be the loss restricted to $(a_1,\theta_1)$ corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon \in (0,1)$ and $\delta \in (0, 2d/\lambda)$, we can construct $\sigma_\epsilon$ such that if $\boldsymbol{(a_1,\theta_1)} \in \mathcal{M}_{L_1,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_1 - w_j\| < \epsilon$ or 2) $a_1^2 < 2d\delta/\lambda$.
@@ -119,19 +119,95 @@ The second line follows from our optimality conditions. Since ${(a_1,\theta_1)} 
 
 The charges are big if we made progress
 %
-\begin{lemma}
-  Assume the conditions of Lemma~\ref{nodeConv}. If
-$\sqrt{L_1(a_1,\theta_1)} \leq \sqrt{L_1(0,{\bf 0})} - \delta$
-  and $\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\lambda \delta^2/(2k^3d)}$,
-  then there exists some $i, j$ such that $\|\theta_i - w_j\| <k\epsilon$.
+\begin{lemma}\label{nodeRes}
+  Assume the conditions of Lemma. If
+$\sqrt{L_1(a_1,\theta_1)} \leq \sqrt{L_1(0, 0)} - \delta$
+  and $(a_1,\theta_1) \in \mathcal{M}_{G,\lambda \delta^2/(2d)}$,
+  then there exists some $j$ such that $\|\theta_1 - w_j\| <\epsilon$.
 \end{lemma}
- %
- Next, we guarantee progress.
- %
- \begin{restatable}{lemma}{AlmostHarmInitialize}[Initialization]\label{almostHarmInitialize}
-Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$.
- \end{restatable}
 
+\begin{proof}
+The proof follows similarly from Lemma \ref{almostHarmRes}.
+\end{proof}
+ %
+ Next, we guarantee progress. We first prove a lemma about gradients of the potential $\Phi_\epsilon$.
+
+\begin{lemma}\label{nodeGradient}
+Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma~\ref{almostHarmConv}. If $\|\theta_1 - w_j\| \leq d$ and $|b_j|\geq 1/\poly(d)$ and $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$ is almost optimal, then $-\nabla_{\theta_1}L_1 = \zeta \frac{w_j - \theta_1}{\|\theta_1 - w_j\|} + \xi$ and $\zeta \geq  1/\poly(d)(d/\epsilon)^{-(6+2\sqrt{\lambda})d}$ and $\xi \leq (d/\epsilon)^{-O(d)}$. 
+\end{lemma}
+
+\begin{proof}
+Through the proof, we assume $k = \poly(d)$. Now, our gradient with respect to $\theta_1$ is
+%
+\begin{align*}
+\nabla_{\theta_1} L_1 &= 2a_1b_j \Phi_\epsilon'(\|\theta_1 - w_j\|) \frac{\theta_1 - w_j}{\|\theta_1 - w_j\|}+ 2\sum_{i\neq j} a_1b_i\Phi_\epsilon'(\|\theta_1 - w_i\|) \frac{\theta_1 - w_i}{\|\theta_1 - w_i\|}
+\end{align*}
+%
+
+Since $\|\theta_1 - w_j\| \leq d$, we may lower bound $|\Phi_\epsilon'(\|\theta_1 - w_j\|)| \geq e^{-\sqrt{\lambda}d}d^{1-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3 \geq O((d/\epsilon)^{-(3+\sqrt{\lambda})d})$. Similarly, $\Phi_\epsilon(\|\theta_1 - w_j\|) \geq O((d/\epsilon)^{-(3+\sqrt{\lambda})d})$. On the other hand, for all $i \neq j$, we note that with high probability $\|w_i - w_j\| \geq \Omega(d \log d)$. Therefore, we may upper bound $|\Phi_{\epsilon}(\|\theta_1 - w_i\|)| \leq (d/\epsilon)^{-O(d)}$. 
+
+Together, we conclude that $\nabla_{\theta_1} L_1 = 2a_1b_j \Phi_\epsilon'(\|\theta_1 - w_j\|) \frac{\theta_1 - w_j}{\|\theta_1 - w_j\|} + 2a_1\xi$, where $\|\xi\| \leq (d/\epsilon)^{-O(d)}$.
+
+And since $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$, we know that
+%
+\begin{align*}
+   \abs{\pd{L_1}{a_1}} & = \lvert 2a_1 + 2b_j \Phi_\epsilon(\|\theta_1 - w_j\|) + 2\sum_{i \neq j} b_i \Phi_\epsilon(\|\theta_1 - w_i\|) \rvert \leq (d/\epsilon)^{-O(d)}
+\end{align*}
+
+By a similar argument as on the derivative, we see that $a_1 = -2b_j \Phi_\epsilon(\|\theta_1 - w_j\|) + O(d/\epsilon)^{-O(d)}$. Therefore, the direction of $-\nabla_{\theta_1} L_1$ is moving $\theta_1$ closer to $w_j$ since 
+%
+\begin{align*}
+-\nabla_{\theta_1} L_1 &=  b_j^2\Phi_\epsilon(\|\theta_1-w_j\|)\Phi_\epsilon'(\|\theta_1 - w_j\|) \frac{\theta_1 - w_j}{\|\theta_1 - w_j\|} + (d/\epsilon)^{-O(d)} 
+\end{align*}
+
+and $\Phi_\epsilon > 0$ and $\Phi_\epsilon' < 0$. Finally, with high probability, $-b_j^2\Phi_\epsilon(\|\theta_1-w_j\|)\Phi_\epsilon'(\|\theta_1 - w_j\|) \geq 1/\poly(d)(d/\epsilon)^{-(6+2\sqrt{\lambda})d}$.
+\end{proof}
+
+ 
+ %
+ \begin{lemma}[Initialization]\label{nodeInitialize}
+Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma. With high probability, we can initialize $(a_1^{(0)},\theta_1^{(0)})$ such that $\sqrt{L(a_1^{(0)},\theta_1^{(0)})} \leq \sqrt{L({0,0})} -\delta$ with $\delta = \frac{1}{\poly(d)}(d/\epsilon)^{ -(14+5\sqrt{\lambda})d}$ in time $\log(d)^{O(d)}$.
+ \end{lemma}
+
+\begin{proof}
+By our conditions, there must exist some $|b_j|$ such that $|b_j| \geq 1/\poly(d)$. Note that if we randomly sample points in a ball of radius $O(d\log d)$, we will land in a $d$-neighborhood of $w_j$ with probability $\log(d)^{-O(d)}$ since $\|w_j\|\leq O(d\log d)$ with high probability. 
+
+Let $\theta_1$ be such that $\|\theta_1 - w_j \| \leq d$ and then we can solve for $a_1 = a_1^*(\theta_1)$ since we are simply minimizing a quadratic in one variable. Then, by Lemma~\ref{nodeGradient}, we see that $\|\nabla_{\theta_1}L_1 \| \geq 1/\poly(d)(d/\epsilon)^{-(6+2\sqrt{\lambda})d}$. Finally, by Lemma~\ref{almostHarmReal}, we know that the Hessian is bounded by $\poly(d)(d/\epsilon)^{2d + \sqrt{\lambda}}$. So, by Lemma~\ref{GradDecrease}, we conclude by taking a stepsize of $\alpha = \frac{1}{\poly(d)}(d/\epsilon)^{-(2d + \sqrt{\lambda})}$ to reach $(a_1',\theta_1')$, we can guarantee that $L_1(a_1', \theta_1') \leq L_1 (a_1^*(\theta_1), \theta_1) - \frac{1}{\poly(d)} (d/\epsilon)^{ -(14+5\sqrt{\lambda})d}$.
+
+But since $L_1(a_1^*(\theta_1),\theta_1)\leq L_1(0,0)$, we conclude that $L_1(a_1', \theta_1') \leq L_1(0,0) -  \frac{1}{\poly(d)} (d/\epsilon)^{ -(14+5\sqrt{\lambda})d}$. Let $\sqrt{L_1(a_1', \theta_1')} = \sqrt{L_1(0,0)} - \Delta \geq 0$. Squaring and rearranging gives $\Delta \geq \frac{1}{4\sqrt{L_1( 0, 0)}}  \frac{1}{\poly(d)}(d/\epsilon)^{ -(14+5\sqrt{\lambda})d} $. Since $L_1(0,0) \leq O(k) = O(\poly(d))$, we are done. 
+
+\end{proof}
+%
+\begin{lemma}\label{nodewiseSGD}
+Let $\mathcal{M} = \R^{d}$ and $d\equiv 3 \mod 4$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log d){\bf I_{d\times d}})$ and $b_1,...,b_k$ are any numbers in $[-1,1]$ and there exists some $|b_i| \geq 1/\poly(d)$, then with high probability, we can choose an initial point $(a_1^{(0)}, \theta_1^{(0)})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the restricted regularized objective $L_1(a_1,\theta_1)$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < \epsilon$. Furthermore, if $|b_j| \geq 1/\poly(d)$, then $\|\theta - w_j\| < (d/\epsilon)^{-O(d)}$ and $|a + b_j| < (d/\epsilon)^{-O(d)}$.
+\end{lemma}
+
+
+\begin{proof}
+Let our potential $\Phi_{\epsilon/k}$ be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon$ and as always, $k = \poly(d)$. First, by Lemma~\ref{nodeInitialize},  we can initialize ${(a^{(0)},\theta^{(0)})}$ such that $L_1({a^{(0)},\theta^{(0)}}) \leq  L_1({\bf 0,0}) - 2\delta \sqrt{L_1({\bf 0,0})}$ for $ \delta = \frac{1}{\poly(d)}(d/\epsilon)^{ -(14+5\sqrt{\lambda})d}$. If we set $\alpha = \poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{-O(d)}$ and $\eta = \gamma = \lambda \delta^2/(2d)$,  then running Algorithm~\ref{SecondGD} will terminate and return some $(a,\theta)$ in at most $\poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations. This is because our algorithm ensures that our objective function decreases by at least $\min(\alpha \eta^2/2, \alpha^2\gamma^3/2)$ at each iteration and $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$ is non-negative.
+
+Assume there does not exist $w_j$ such that $\|\theta - w_j\| < (d/\epsilon)^{-O(d)}$. Then, we claim that $(a,\theta) \in \mathcal{M}_{L,\lambda \delta^2/(2d)}$. For the sake of contradiction, assume otherwise. By our algorithm termination conditions, if $(a,\theta) \not\in \mathcal{M}_{L,\lambda \delta^2/(2d)}$, then it must be that after one step of gradient or Hessian descent from $(a,\theta)$, we reach some $(a',\theta')$ and $L(\boldsymbol{a',\theta'}) \geq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$. Now, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{2d}$, except at $w_1,...,w_k$. Furthermore, since there does not exists $w_j$ such that $\|\theta - w_j\| < (d/\epsilon)^{-O(d)}$, $G$ is three-times continuously differentiable within a $\alpha (d/\epsilon)^{2d} = (d/\epsilon)^{-O(d)}$ neighborhood of $\boldsymbol{\theta}$. Therefore, by Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we know that $L(a',\theta') \leq L(a,\theta) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$, a contradiction. 
+
+So, it must be $(a,\theta) \in \mathcal{M}_{L,\lambda \delta^2/(2d)}$. Since our algorithm maintains that our objective function is decreasing, so $\sqrt{L(\boldsymbol{a,\theta})} \leq \sqrt{L({\bf 0,0})} - \delta $. So, by Lemma~\ref{nodeRes}, there must be some $w_j$ such that $\|\theta- w_j\|\leq \epsilon$.
+
+Now, if $|b_j| \geq 1/\poly(d)$, then since $(a,\theta) \in \mathcal{M}_{L,\lambda \delta^2/(2d)}$, by Lemma~\ref{nodeGradient}, since $\|\theta - w_j \| \leq \epsilon$, we see that $\|\nabla_{\theta_1}L_1 \| \geq 1/\poly(d)(d/\epsilon)^{-(6+2\sqrt{\lambda})d} > \delta^2/(2d)$, a contradiction. Therefore, we must conclude that our original assumption was false and $\|\theta - w_j\| < (d/\epsilon)^{-O(d)}$ for some $w_j$.
+
+Finally, we see that the charges also converge since $a = -2b_j \Phi_\epsilon(\|\theta - w_j\|) + O(d/\epsilon)^{-O(d)}$ and $\|\theta - w_j\| = (d/\epsilon)^{-O(d)}$. By noting that $\Phi_\epsilon(0) = 1$ and $\Phi_\epsilon$ is $(d/\epsilon)^{2d}$-Lipschitz, we conclude. 
+\end{proof}
+
+Finally, we have our final theorem.
+
+\begin{theorem}\label{nodewiseSGD}
+Let $\mathcal{M} = \R^{d}$ and $d \equiv 3 \mod 4$ and let $L$ be as in \ref{errLoss} with some activation $\sigma$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, after running nodewise SGD (Algorithm \ref{NodeGDOpt}) on the objective $L$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, $\boldsymbol{(a,\theta)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of the global minima.
+\end{theorem}
+
+\begin{proof}
+Let $(a_i, \theta_i)$ be the $i$-th node that is initialized and applied noisy gradient descent onto. We want to show that the nodes $(a_i, \theta_i)$ will converge, in a node-wise fashion, to some permutation of $\{(b_1,w_1),...,(b_k,w_k)\}$. By Lemma~\ref{nodewiseSGD}, we know that with high probability $(a_1,\theta_1)$ will converge to some $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(1)}, w_{\pi(1)})$ for some function $\pi: [k] \to [k]$. Now, since [condition holds], by Lemma~\ref{almostHarmInitialize}, we can initialize ${(a_2^{(0)},\theta_2^{(0)})}$ such that $L_2({a_2^{(0)},\theta_2^{(0)}}) \leq  L_2({\bf 0,0}) - 2\delta \sqrt{L_2({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. Then, by Lemma~\ref{nodewiseSGD}, we know that if $x_i = (a_2^{(i)}, \theta_2^{(i)}$ are the noisy GD iterates, then there exists a minimal $l$ such that $x_l$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_j$ for some $j$. [Needs to be argued further] By Azuma's inequality, $L_2({a_2^{(l)},\theta_2^{(l)}}) \leq  L_2({\bf 0,0}) - \delta \sqrt{L_2({\bf 0,0})}$, with high probability. 
+
+Now, we claim that $x_l$ is not in a $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(1)}, w_{\pi(1)})$. Assume otherwise. First, we see that our decrease in objective function implies that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_2^{(l)}) \leq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - \delta \sqrt{L_2({\bf 0,0})}$. However, notice that our assumption implies that $a_2^{(l)},\theta_2^{(l)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of $a_1,\theta_1$. By the smoothness of $L$, we see that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_2^{(l)}) \geq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_1) - (d/\epsilon)^{-O(d)} = L_{a_1,\theta_1,a_2,\theta_2}(a_1 + a_2^{(l)},\theta_1, {\bf 0, 0}) - (d/\epsilon)^{-O(d)} $. Together, we know that  $L_{a_1,\theta_1,a_2,\theta_2}(a_1+a_2^{(l)},\theta_1,{\bf 0, 0}) \leq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - (d/\epsilon)^{-O(d)}$
+
+However, by Theorem \ref{quadConverge}, our gradient descent guarantees that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - L_{a_1,\theta_1,a_2,\theta_2}(a_1 + a_2^{(l)},\theta_1, {\bf 0, 0}) \leq O(1/T)$, where $T$ is the number of iterations of gradient descent. Since $T = (d/\epsilon)^{-O(d)}$ is large enough, we derive a contradiction. Therefore, our claim is done and by induction, $\pi$ is a permutation. Now, our theorem follows. 
+\end{proof}
 
 %%% Local Variables:
 %%% mode: latex
