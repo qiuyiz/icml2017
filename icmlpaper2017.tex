@@ -134,16 +134,8 @@ Berkeley, CA \\
 \maketitle
 
 \begin{abstract} 
-  We study the efficacy of learning neural networks with neural
-  networks by the (stochastic) gradient descent method. While gradient
-  descent enjoys empirical success in a variety of applications, there
-  is a lack of theoretical guarantees that explains the practical
-  utility of deep learning. We focus on two-layer neural networks with
-  a linear activation on the output node. We show that under some mild
-  assumptions and certain classes of activation functions, if the target function can also be represented by such a network then gradient descent does learn at least one hidden unit of the network -- the incoming edge weight vector for at least one hidden node coincides with that of the true network for the target function %we show that every upon convergence 
-  %every hidden unit in our trained network coincides with some %hidden unit in the original network. 
-  Further this convergence happens in
-  $\poly(d,1/\epsilon)$, time and sample complexity.
+	We study the problem of learning a function using a neural network of a certain depth and width assuming it can
+be represented using such a network.  We show that for networks of depth two with certain simplifying assumptions  the question of whether the gradient descent converges to the desired target function is equivalent to a certain question of convergence in electrodynamics: given $n$ fixed protons in a $d$ dimensional Euclidean space and $n$ electrons initialized at random positions with all the electrons moving under the influence of the electrical force of attraction from the protons and repulsion from the remaining electrons. The question of convergence, then, is whether at equilibrium all the electrons will be matched up all the protons upto some permutation. The force function between a pair of charges is not given by the standard electrical force of $1/r^2$ (where $r$ is the distance between unit charges), but by another function that is determined by the activation function and the distribution of inputs.  Based on this equivalance, we prove the existence of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. 
 \end{abstract} 
 
 \input{intro.tex}
@@ -155,10 +147,14 @@ Berkeley, CA \\
 
 \section{Conclusion}
 
-In this work, we view deep learning of neural networks in the context of electron-proton dynamics and analyzed the convergence of the underlying weight parameters of the neural network using arguments inspired from physics and non-convex optimization. To do so, we first established mathematical relationship between activation functions and their corresponding potentials. Next, we interpreted gradient descent as electrodynamics under a certain potential. Finally, we discovered classes of activation functions that give rise to positive convergence results, some of which relate to very commonplace activations, such as the sign and polynomial. For these classes of depth-2 neural networks, our results imply that they are provably learnable by deep learning. Our experiments seem to imply that higher depth neural networks are not learnable. 
+We studied the problem of learning a function using a neural network of a certain depth and width assuming it can
+be represented using such a network.   We show that for networks of depth two with certain simplifying assumptions  the question of whether the gradient descent converges to the desired target function is equivalent to a certain question of convergence in electrodynamics.  Given $n$  fixed protons and $n$ mobile under the influence of the electrical force of attraction from the protons and repulsion from the remaining electrons will all the electrons will be matched up all the protons upto some permutation. Based on this equivalance, we proved the existence of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. 
 
-However, we believe that convergence results for depth-2 neural networks can be extended to even more activation functions, such as the sigmoid or the ReLU. Also, we believe these convergence results can be proven with minimal assumptions. We hope that our work is a step in the theoretical understanding of the performance of neural networks seen in practice.
 
+%In this work, we view deep learning of neural networks in the context of electron-proton dynamics and analyzed the convergence of the underlying weight parameters of the neural network using arguments inspired from physics and non-convex optimization. To do so, we first established mathematical relationship between activation functions and their corresponding potentials. Next, we interpreted gradient descent as electrodynamics under a certain potential. Finally, we discovered classes of activation functions that give rise to positive convergence results, some of which relate to very commonplace activations, such as the sign and polynomial. For these classes of depth-2 neural networks, our results imply that they are provably learnable by deep learning. Our experiments seem to imply that higher depth neural networks are not learnable. 
+
+%However, 
+We believe that convergence results for depth-2 neural networks can be extended to even more activation functions, such as the sigmoid or the ReLU. Also, we believe these convergence results can be proven with minimal assumptions.
 
 
 {\small
