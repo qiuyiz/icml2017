@@ -38,11 +38,11 @@ re-parametrize $a$ with $-a$ and expand.
 %\end{equation}
 %
 \begin{align}
-& L(\boldsymbol{a,\theta})  = \expt_{X\sim D}\left[ \left(
+ L(\boldsymbol{a,\theta})  & = \expt_{X\sim D}\left[ \left(
   \sum_{i=1}^k a_i \sigma(X,\theta_i) + \sum_{i=1}^k
   b_i\sigma(X,w_i)\right)^2\right] \nonumber \\
 %
-& = \sum_{i=1}^k \sum_{j=1}^k a_i a_j \Phi(\theta_i,\theta_j)+ 2 a_ib_j \Phi(\theta_i,w_j)+ b_i b_j \Phi(w_i,w_j)
+& = \sum_{i=1}^k \sum_{j=1}^k a_i a_j \Phi(\theta_i,\theta_j)+ 2 a_ib_j \Phi(\theta_i,w_j)+ b_i b_j \Phi(w_i,w_j),
  \label{errLoss}
 \end{align}
 %
@@ -63,12 +63,12 @@ does not exist or $\nabla f = 0$.
  \caption{$x = GD(L,x_0, T,\alpha$)}
    \label{GD}
 \begin{algorithmic}
-   \STATE {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
-   \STATE Initialize $x = x_0$
-   \FOR{$i=1$ {\bfseries to} $T$}
-   \STATE $x = x - \alpha\nabla L(x)$
-   \STATE $x = \Pi_\mathcal{M} x$
-   \ENDFOR
+   \State {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
+   \State Initialize $x = x_0$
+   \For {$i=1$ {\bfseries to} $T$}
+   \State $x = x - \alpha\nabla L(x)$
+   \State $x = \Pi_\mathcal{M} x$
+   \EndFor
 \end{algorithmic}
 \end{algorithm}
 

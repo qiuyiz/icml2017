@@ -160,17 +160,17 @@ Lastly, for $r < \epsilon$ and $0 \leq k \leq d-1$, $|\overline{\Phi}^{(d-1-k)}(
 
 \begin{proof}
 By Lemma \ref{baseConstruct}, we can find $\Phi_t$ such that
-
-$\Phi_t^{(d-1)} = \begin{cases}
+\begin{align*}
+\Phi_t^{(d-1)} = \begin{cases}
 \frac{t-\epsilon}{\epsilon } r & 0 \leq r \leq \epsilon \\
 t - r & \epsilon < r \leq t \\
 0 & r > t
-\end{cases}$
+\end{cases}
+\end{align*}
 
 Furthermore, $\Phi_t^{(k)}(r) = 0$ for $r > t$ for all $0 \leq k \leq d$.
-
-Therefore, consider 
-
+Therefore, we consider 
+%
 \[\overline{\Phi}(r) = \int_{\epsilon}^\infty \Phi^{(d+1)}(x) \Phi_x(r) \, dx\] 
 
 Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \, dx = -\Phi^{(d)}(\epsilon) < \infty$. By the non-negativity of our summands, we can apply dominated convergence theorem and Fubini's theorem to get
@@ -272,5 +272,10 @@ $\sigma(r) = K_1(r)/r$.
 \end{lemma}
 
 \begin{proof}
-The activation is obtained from the potential function by first taking its Fourier transform, then taking its square root, and then taking the inverse fourier transform. Since the functions in consideration are radially symmetric the Fourier transform $F(y)$ of $f(x)$ (and inverse) are obtained by the Hankel Transfom $y F(y) = \int_0^\infty x f(x) J_{1/2} (xy) sqrt{xy} dx$. Plugging $f(x) = e^{-x}/x$, from the Hankel tranform tables we get $yF(y) = cy/(1+y^2)$ giving $F(y) = cy/(1+y^2)$. So we wish to find the inverse Fourier transform for $1/\sqrt{1+y^2}$. The inverse $f(x)$ is given by $xf(x) = \int_0^\infty y F(y) J_{1/2} (xy) sqrt{xy} dy = cK_1(x)$. So $\sigma(r) = K_1(r)/r$.
+The activation is obtained from the potential function by first taking its Fourier transform, then taking its square root, and then taking the inverse fourier transform. Since the functions in consideration are radially symmetric the Fourier transform $F(y)$ of $f(x)$ (and inverse) are obtained by the Hankel Transfom $y F(y) = \int_0^\infty x f(x) J_{1/2} (xy) \sqrt{xy} dx$. Plugging $f(x) = e^{-x}/x$, from the Hankel tranform tables we get $yF(y) = cy/(1+y^2)$ giving $F(y) = cy/(1+y^2)$. So we wish to find the inverse Fourier transform for $1/\sqrt{1+y^2}$. The inverse $f(x)$ is given by $xf(x) = \int_0^\infty y F(y) J_{1/2} (xy) \sqrt{xy} dy = cK_1(x)$. So $\sigma(r) = K_1(r)/r$.
 \end{proof}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "icmlpaper2017.tex"
+%%% End:

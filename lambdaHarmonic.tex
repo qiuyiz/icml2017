@@ -28,18 +28,21 @@ Our optimization procedure is a slightly altered version of gradient descent, wh
 Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our following theorem.
 
 The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.
+
+\Snote{Rename the HD algorithm. Check the following two algorithms.}
 %
+\alglanguage{pseudocode}
 \begin{algorithm}[hb]
  \caption{$x = HD(L,x_0, T,\alpha$)}
    \label{HD}
 \begin{algorithmic}
-   \STATE {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha, \gamma \in \R$
-   \STATE Initialize $x = x_0$
-   \FOR{$i=1$ {\bfseries to} $T$}
-   \STATE Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(x))$ 
-   \STATE $\beta = -\alpha \lambda_{min}(\nabla^2 f(x)) sgn(\nabla f(x)^Tv_{min}) $
-    \STATE $x = x + \beta v_{min}$
-   \ENDFOR
+   \State {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha, \gamma \in \R$
+   \State Initialize $x = x_0$
+   \For {$i=1$ {\bfseries to} $T$}
+   \State Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(x))$ 
+   \State  $\beta = -\alpha \lambda_{min}(\nabla^2 f(x)) \sign(\nabla f(x)^Tv_{min}) $
+    \State $x = x + \beta v_{min}$
+   \EndFor
 \end{algorithmic}
 \end{algorithm}
 %
@@ -47,22 +50,21 @@ The use of second-order methods is not limiting since noisy gradient descent alg
  \caption{$x = SecondGD(L, x_0, T,\alpha, \eta, \gamma)$}
    \label{SecondGD}
 \begin{algorithmic}
-   \STATE {\bfseries Input:} $L:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
-   \FOR{$i=1$ {\bfseries to} $T$}
-   \IF{$\|\nabla L(x_{i-1})\| \geq  \eta$}
-   \STATE $x_{i} = GD(L, x_{i-1}, 1, \alpha)$
-   \ELSE 
-   \STATE Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(x_{i-1}))$ 
-    \IF{$\lambda_{min}(\nabla^2 f(x_{i-1})) \leq - \gamma$}
-    \STATE $x_i = HD(L, x_{i-1}, 1, \alpha)$
-    \ELSE 
-     \STATE {\bf return} $x_{i-1}$
-    \ENDIF
-   \ENDIF
-   \IF{$ L(x_i) \geq L(x_{i-1}) - min(\alpha\eta^2/2, \alpha^2 \gamma^3/2) $}
-     \STATE {\bf return} $x_{i-1}$
-   \ENDIF
-   \ENDFOR
+   \State {\bfseries Input:} $L:\mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
+   \For {$i=1$ {\bfseries to} $T$}
+   \If {$\|\nabla L(x_{i-1})\| \geq  \eta$}
+   \State  $x_{i} = GD(L, x_{i-1}, 1, \alpha)$
+   \Else 
+   \State Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(x_{i-1}))$ 
+    \If {$\lambda_{min}(\nabla^2 f(x_{i-1})) \leq - \gamma$}
+    \State $x_i = HD(L, x_{i-1}, 1, \alpha)$ \Snote{If you already are determining the hessian and the eigenvector, why call a second function?. If you merge it here, just say that the stepssize is $\alpha \gamma$ rather than ${\lambda_\min} \nabla^2$}
+    \Else \ \Return $x_{i-1}$
+    \EndIf
+   \EndIf
+   \If {$ L(x_i) \geq L(x_{i-1}) - min(\alpha\eta^2/2, \alpha^2 \gamma^3/2) $}
+     \Return $x_{i-1}$
+   \EndIf \Snote{I think you can merge the two returns. Just move along the smallest eigenvalue direction, if loss decrement is small, return the previous point.}
+   \EndFor
    \end{algorithmic}
 \end{algorithm}
 %
@@ -72,7 +74,7 @@ The use of second-order methods is not limiting since noisy gradient descent alg
 %
 We start by stating a lemma concerning the construction of an approximately
 $\lambda$-harmonic function on $\R^d.$ The construction is given in
-Section~\ref{realizable} and is quite technical.
+Section~\ref{realizable} and is quite technical. \Snote{We need to write a good paragraph about this. This is one of our key technical contributions.}
 %
 %
 \begin{restatable}{lemma}{AlmostHarmReal}\label{almostHarmReal}
@@ -84,13 +86,13 @@ Lastly, $|{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-
 \end{restatable}
 %
 %
-The proof is similar to Theorem \ref{EigStrict}.
+The proof is similar to Theorem \ref{EigStrict}. \Snote{Expand this statement, and refer to the theorem below. Interpret that it is an approximate version of the previous exact theorem.}
 %
 \begin{restatable}{lemma}{AlmostHarmConv}\label{almostHarmConv}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $G$ be the regularized loss corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon \in (0,1)$ and $\delta \in (0, 2d/\lambda)$, if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta/\lambda$.
 \end{restatable}
 %
-The charges are big if we made progress
+The charges are big if we made progress \Snote{Again, needs a good description.}
 %
 \begin{restatable}{lemma}{AlmostHarmRes}\label{almostHarmRes}
   Assume the conditions of Lemma~\ref{almostHarmConv}. If
@@ -104,18 +106,21 @@ $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta
  \begin{restatable}{lemma}{AlmostHarmInitialize}[Initialization]\label{almostHarmInitialize}
 Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{ - O(d)}$.
  \end{restatable}
+\Snote{What happened to the proof of the above lemma?}
  %
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
-Let our potential $\Phi_{\epsilon/k}$ be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/k$ and as always, $k = \poly(d)$.  First, by Lemma~\ref{almostHarmInitialize},  we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq  G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. If we set $\alpha = \poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{-O(d)}$ and $\eta = \gamma = \lambda \delta^2/(2k^3d)$,  then running Algorithm~\ref{SecondGD} will terminate and return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations. This is because our algorithm ensures that our objective function decreases by at least $\min(\alpha \eta^2/2, \alpha^2\gamma^3/2)$ at each iteration and $G({\bf 0, 0})$ is bounded by $O(k)$ and $G \geq 0$ is non-negative.
+\Snote{Richard: I don't think you have updated the theorem below using the changes in the previous lemmas. E.g. the incorrect initialization condition is used here. Please make sure it's all consistent with the updated lemmas.}
+  Let our potential $\Phi_{\epsilon/k}$ be the one as constructed in Lemma~\ref{almostHarmReal} that is $\lambda$-harmonic for all $r \geq \epsilon/k$ and as always, $k = \poly(d)$.  First, by Lemma~\ref{almostHarmInitialize}, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $G(\boldsymbol{a^{(0)},\theta^{(0)}}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$ for $\delta = d^{-O(d\sqrt{\lambda})}(d/\epsilon)^{-O(d)}$. If we set $\alpha = \poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{-O(d)}$ and $\eta = \gamma = \lambda \delta^2/(2k^3d)$, then running Algorithm~\ref{SecondGD} will terminate and return some $(\boldsymbol{a,\theta})$ in at most $\poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations. This is because our algorithm ensures that our objective function decreases by at least $\min(\alpha \eta^2/2, \alpha^2\gamma^3/2)$ at each iteration, $G({\bf 0, 0})$ is bounded by $O(k),$ and $G \geq 0$ is non-negative.
 
-Let $\boldsymbol{\theta} = (\theta_1,...\theta_k)$. If there exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$, then we are done. Otherwise, we claim that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\lambda \delta^2/(2k^3d)}$. For the sake of contradiction, assume otherwise. By our algorithm termination conditions, if $(\boldsymbol{a,\theta}) \not \in \mathcal{M}_{G,\lambda \delta^2/(2k^3d)}$, then it must be that after one step of gradient or Hessian descent from $(\boldsymbol{a,\theta})$, we reach some $(\boldsymbol{a',\theta'})$ and $G(\boldsymbol{a',\theta'}) \geq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$.
+Let $\boldsymbol{\theta} = (\theta_1,...\theta_k)$. If there exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$, \Snote{Richard: please double check your $\epsilon$ and $\epsilon / k$ are consistent.} then we are done. Otherwise, we claim that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\lambda \delta^2/(2k^3d)}$. For the sake of contradiction, assume otherwise. By our algorithm termination conditions, if $(\boldsymbol{a,\theta}) \not \in \mathcal{M}_{G,\lambda \delta^2/(2k^3d)}$, then it must be that after one step of gradient or Hessian descent from $(\boldsymbol{a,\theta})$, we reach some $(\boldsymbol{a',\theta'})$ and $G(\boldsymbol{a',\theta'}) \geq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$.
+\Snote{Is the last inequality correct?}
 
 Now, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ are bounded by $(d/\epsilon)^{2d}$, except at $w_1,...,w_k$. Furthermore, since there does not exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| <\epsilon$, $G$ is three-times continuously differentiable within a $\alpha (d/\epsilon)^{2d} = (d/\epsilon)^{-O(d)}$ neighborhood of $\boldsymbol{\theta}$. Therefore, by Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we must have  we know that $G(\boldsymbol{a',\theta'}) \leq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$. a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $G(\boldsymbol{a,\theta}) \leq G({\bf 0,0}) - 2\delta \sqrt{G({\bf 0,0})}$. Finally, we conclude by Theorem \ref{almostHarmRes}.
 \end{proof}
 
 \subsection{Node-by-Node Analysis}
 We cannot easily analyze the convergence of gradient descent to the global minima when all $\theta_i$ are simultaneously moving since the pairwise interaction terms between the $\theta_i$ present complications, even with added regularization. To derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
-node-wise SGD algorithm to learn the hidden weights, i.e. we run a
+node-wise SGD \Snote{Use the correct algorithm name} algorithm to learn the hidden weights, i.e. we run a
 full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
 main idea is that after running SGD with respect to $\theta_1$,
 $\theta_1$ should be close to some $w_j$ for some $j$. Then, we can
@@ -127,18 +132,18 @@ $k\neq j$ and so on.
  \caption{Node-wise Gradient Descent Algorithm with Output Weights Optimization}
    \label{NodeGDOpt}
 \begin{algorithmic}
-  \STATE {\bfseries Input:}
+  \State {\bfseries Input:}
   $(\boldsymbol{a,\theta}) = (a_1,...,a_k,\theta_1,...,\theta_k), a_i
   \in\R, \theta_i\in\mathcal{M}$;
   $T\in \N$; $L$; $\alpha, \eta, \gamma \in \R$; 
-   \STATE{\bf Initialize} $\boldsymbol{(a,\theta) = (0,0)}$
-  \FOR{$i=1$ {\bfseries to} $k$} 
-  \STATE $(a_i, \theta_i) = SecondGD \left(\widehat{L}_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\eta,\gamma \right)$
-  \STATE ??
-   \STATE    $(a_1,...,a_i) =  GD \left(\widehat{L}_{a_1,..,a_i},
+   \State{\bf Initialize} $\boldsymbol{(a,\theta) = (0,0)}$
+  \For {$i=1$ {\bfseries to} $k$} 
+  \State $(a_i, \theta_i) = SecondGD \left(\widehat{L}_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\eta,\gamma \right)$
+  \State ?? \Snote{What is this ?? for?}
+   \State    $(a_1,...,a_i) =  GD \left(\widehat{L}_{a_1,..,a_i},
      (a_1,..,a_i), T , \alpha \right)$\;
-   \ENDFOR
-   \STATE {\bf return} $a = (a_1,...,a_k), \theta = (\theta_1,..., \theta_k)$
+   \EndFor
+   \State {\bf return} $a = (a_1,...,a_k), \theta = (\theta_1,..., \theta_k)$
    \end{algorithmic}
 \end{algorithm}
 

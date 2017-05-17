@@ -1,4 +1,7 @@
 \section{Common Activations}
+\Snote{Collect and organize all the results for ``realistic''
+  activation functions in one section. Merge the proofs at their right
+places.}
 First, we consider the sign activation function. Under restrictions on the size of the input dimension or the number of hidden units, we can prove convergence results under the sign activation function, as it gives rise to a harmonic potential.
 
 \Anote{ythis theorem is about $\theta\in R$, which is not of any practical interest. you should remove it.}
@@ -7,7 +10,7 @@ First, we consider the sign activation function. Under restrictions on the size 
 All output weights $b_i = 1$ and therefore the output weights  $a_i = - b_i = -1$ are fixed throughout the learning algorithm. 
 \end{assumption}
 
-\begin{restatable}{theorem}{signcon}\label{signCon}
+\begin{restatable}{lemma}{signcon}\label{signCon}
 Let $\mathcal{M} = S^1$ and let Assumption \ref{outputFixed} hold. Let $L$ be as in \eqref{errSimp} and $\sigma$ is the sign activation function. Then $L$ admits no strict local minima, except at the global minima.
 \end{restatable}
 
@@ -33,7 +36,7 @@ L(a_1,\theta_1) =  a_1^2 \Phi(\theta_1,\theta_1)  + 2\sum_{j=1}^k a_1b_j \Phi(\t
 \end{equation}
 
 
-\begin{restatable}{theorem}{signconv}
+\begin{restatable}{lemma}{signconv}
 \label{SignConv}
 Let $\mathcal{M} = S^1$ and $L$ be as in \eqref{errLossUnit} and $\sigma$ is the sign activation function. Then, almost surely over random choices of $b_1,...,b_k$, all local minima of $L$ are at $\pm w_j$. 
 \end{restatable}
