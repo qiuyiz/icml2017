@@ -110,10 +110,10 @@ Rong Ge, Furong Huang, Chi Jin, and Yang Yuan.
   decomposition.
 \newblock {\em CoRR}, abs/1503.02101, 2015.
 
-\bibitem{Jin0NKJ17}
-Chi Jin, Rong Ge, Praneeth Netrapalli, Sham~M. Kakade, and Michael~I. Jordan.
+\bibitem{jin2017escape}
+Chi Jin, Rong Ge, Praneeth Netrapalli, Sham~M Kakade, and Michael~I Jordan.
 \newblock How to escape saddle points efficiently.
-\newblock {\em CoRR}, abs/1703.00887, 2017.
+\newblock {\em arXiv preprint arXiv:1703.00887}, 2017.
 
 \bibitem{DanielyFS16}
 Amit Daniely, Roy Frostig, and Yoram Singer.
@@ -144,10 +144,5 @@ Yurii Nesterov.
 \newblock {\em Introductory lectures on convex optimization: A basic course},
   volume~87.
 \newblock Springer Science \& Business Media, 2013.
-
-\bibitem{Laplacian}
-Wikipedia.
-\newblock Laplace-beltrami operator.
-\newblock \url{https://en.wikipedia.org/wiki/Laplace-Beltrami_operator}.
 
 \end{thebibliography}

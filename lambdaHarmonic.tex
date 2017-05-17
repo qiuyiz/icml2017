@@ -27,7 +27,7 @@ Our optimization procedure is a slightly altered version of gradient descent, wh
 %
 Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our following theorem.
 
-The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{Jin0NKJ17} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.
+The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.
 %
 \begin{algorithm}[hb]
  \caption{$x = HD(L,x_0, T,\alpha$)}
@@ -70,8 +70,7 @@ The use of second-order methods is not limiting since noisy gradient descent alg
 \begin{theorem}\label{almostHarmSGD}
   Let $\mathcal{M} = \R^{d}$ for $d \equiv 3 \mod 4$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $\poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
 \end{theorem}
-
-
+%
 We start by stating a lemma concerning the construction of an approximately
 $\lambda$-harmonic function on $\R^d.$ The construction is given in
 Section~\ref{realizable} and is quite technical.
@@ -146,7 +145,7 @@ $k\neq j$ and so on.
 To apply our node-wise guarantees, we would first need to first tighten the convergence properties of SGD in the case where we have only 1 variable charge, say $\theta_1$. Let $L_1(a_1,\theta_1)$ be the objective $L$ restricted to $a_1,\theta_1$ being variable, and $a_2,...,a_k = 0$ are fixed. Our better control on the movements of $\theta_1$ allows us to remove our regularization. While our previous guarantees before allow us to reach a $\epsilon$-neighborhood of $w_j$ when running SGD on $L_1$, we actually would like to reach a $(d/\epsilon)^{-O(d)}$-neighborhood of $w_j$. This is accomplished by reasoning about the first derivatives of our potential, mainly by showing that in an $\epsilon$-neighborhood of $w_j$, descending along the gradient always brings $\theta_1$ closer to $w_j$.
 %
 \begin{lemma}\label{nodewiseSGD}
-Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(a^{(0)}, \theta^{(0)})$ such that after running SGD (Algorithm \ref{SGD}) on the restricted regularized objective $L_1(a,\theta)$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < O(d/\epsilon)^{-O(d)}$ and $|a + b_j| < O(d/\epsilon)^{-O(d)}$.
+Let $\mathcal{M} = \R^{d}$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(a^{(0)}, \theta^{(0)})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the restricted regularized objective $L_1(a,\theta)$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < O(d/\epsilon)^{-O(d)}$ and $|a + b_j| < O(d/\epsilon)^{-O(d)}$.
 \end{lemma}
 
 
