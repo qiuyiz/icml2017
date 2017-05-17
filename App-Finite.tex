@@ -173,7 +173,7 @@ Let the assumptions of Theorem \ref{strongConverge} hold in a $(\alpha B_2)$-nei
 \end{lemma}
 
 \begin{proof}
-The gradient descent step is given by $x' = x + \beta v_{min}$, where $v_{min}$ is the unit eigenvector corresponding to $\lambda_{min}(\nabla^2f(x))$ and $\beta = -\alpha\lambda_{min}(\nabla^2 f(x))sgn(\nabla f(x)^Tv_{min})$. Our bound on $\|x' - x\|$ is clear since $\gamma \leq B_2$.
+The gradient descent step is given by $x' = x + \beta v_{min}$, where $v_{min}$ is the unit eigenvector corresponding to $\lambda_{min}(\nabla^2f(x))$ and $\beta = -\alpha\lambda_{min}(\nabla^2 f(x))sgn(\nabla f(x)^Tv_{min})$. Our bound on $\|x' - x\|$ is clear since $|\lambda_{min}(\nabla^2 f(x))| \leq B_2$.
 \begin{align*}
 f(x') &\leq f(x) + \beta\nabla f(x)^Tv_{min} + \beta^2 v_{min}^T\nabla^2f(x)v_{min} + \frac{B_3}{6} |\beta|^3 \|v_{min}\|^3 \\
 &\leq f(x) - |\beta|^2 \gamma + \frac{B_3}{6} |\beta|^3
