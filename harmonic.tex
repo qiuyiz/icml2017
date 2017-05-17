@@ -42,6 +42,12 @@ $\Phi(\theta,w)$ is a {\bf harmonic} potential on $\Omega$ if $\Delta_\theta \Ph
   $\lambda_{min}(\nabla^2 f(x^*)) > 0,$ then $x^*$ is a strict local minimum.
 \end{fact}
 %
+
+Note that if $\lambda_{min}(\nabla^2 f(x^*)) < 0$ then moving along the direction of the corresponding eigenvector decreases $f$ locally. if $\Phi$ is harmonic then it can be shown the trace of its Hessian is $0$ so 
+if there is any non zero eigenvalue then at least one eigenvalue is negative. This idea results in the following known theorem (see full proof in supplementary material) that is applicable to the electric potential  
+function $1/r$ in $3$-dimensions since is harmonic. It implies that a configuration of $n$ electrons and $n$ protons cannot be in a strict local minimum even if one of the mobile charges is isolated
+(however note that this potential function goes to $\infty$ at $r=0$ and may not be realizable).
+
 \begin{restatable}{theorem}{earnshaw}
 \emph{(Earnshaw's Theorem. See~\cite{arnold1985mathematical})}
 \label{Earnshaw} 
@@ -51,6 +57,8 @@ differentiable strict local minima.
 \end{restatable}
 %
 
+Note that a potential being harmonic does not mean that its Hessian has a strictly negative eigenvalue at everypoint as all eigenvalues may be $0$. To
+avoid the latter possibility we will generalize the idea of harmonic potentials. 
 
 \if{1}
 \begin{corollary}
@@ -58,12 +66,14 @@ Let $\mathcal{M} = \R^d$, $\Phi(\theta,w) = \|\theta-w\|^{2-d}$, and $L$ be as i
 \end{corollary}
 \fi
 
-Intuitively, the trace of the Hessian being 0 implies every
-differentiable critical point has a direction of negative curvative
-(unless the Hessian is the zero matrix altogether, in which case some
-complex analysis still finds a direction of negative change
-\cite{arnold1985mathematical}). 
 
+%Intuitively, the trace of the Hessian being 0 implies every
+%differentiable critical point has a direction of negative curvative
+%(unless the Hessian is the zero matrix altogether, in which case some
+%complex analysis still finds a direction of negative change
+%\cite{arnold1985mathematical}). 
+
+\iffalse
 Such a convergence result is desired but we run into two main problems. First, the singularity of the natural harmonic potentials at $0$ disqualifies them from being a realizable potential. Furthermore, harmonic potentials are not robust to approximation and statistical error as the convergence guarantees hinge on $\Delta_\theta\Phi$ being exactly 0. 
 
 Second, the lack of strict local minima {\it does not} imply
@@ -73,14 +83,16 @@ be the zero matrix, and so gradient descent could converge to these
 local minima. However, if our loss function admits no local minima
 (other than the global minima), then we can guarantee that gradient
 descent with small stepsize converges to the global minima.
+\fi
 
 \subsection{$\lambda$-Harmonic Potentials}
-
+\iffalse
 The first alternative to harmonic potentials is the natural
 consideration of strictly subharmonic potentials, which have a
 positive Laplacian value almost everywhere. Subharmonic potentials are
 also difficult to realize; however their convergence properties are
 more robust than harmonic potentials and are discussed in supplementary material. 
+\fi
 
 %
 In order to relate our loss function with its Laplacian, we consider potentials that are non-negative eigenfunctions of the Laplacian operator. Since the zero eigenvalue case simply gives rise to harmonic potentials, we restrict our attention to positive eigenfunctions.
@@ -93,7 +105,7 @@ We note that there are realizable versions of these potentials; for
 example $\Phi(a,b) = e^{-\|a-b\|_1}$ in $\R^1.$
 % as in Table~\ref{table1}.
 In the next section, we construct  realizable potentials that are 
-$\lambda$-harmonic outside a small sphere. 
+$\lambda$-harmonic almost everywhere except when $\theta$ and $w$ are very close. 
 %
 \begin{restatable}{theorem}{eigStrict}
 \label{EigStrict}
@@ -147,11 +159,13 @@ Similarly, we can conclude that for each $S_i,$
  $\sum_{u \in S_i} a_u = 0$. In this case, since $\sum_{i=1}^k a_i \sigma(\theta_i,x) = 0$, $L(\boldsymbol{a,\theta}) = L(0,\boldsymbol{\theta})$. 
 \end{proof} 
 %
+\iffalse
 \Snote{Rina, Richard: I think we should leave out this
   observation. Let's discuss tomorrow morning.}
 \begin{observation}
 We can initialize $\boldsymbol{a,\theta}$ such that $L(\boldsymbol{a,\theta}) < L(0,\boldsymbol{\theta})$ and continuous gradient descent will enforce the inequality as the $L$ is non-increasing. Initialization details are expounded in Observation~\ref{initialize}.
 \end{observation}
+\fi
 %
 
 %%% Local Variables:
