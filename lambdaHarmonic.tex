@@ -18,18 +18,17 @@ to the true hidden weights, instead of a bijection.
  
 In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive our convergence theorem. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run our optimization procedure on $G = L + \|a\|^2$.
 
-Our optimization procedure is a slightly altered version of gradient descent, where second-order methods are used when the gradient is too small and progress is slow. By using a second-order gradient descent (Algorithm~\ref{SecondGD}), we are able to converge to points with small gradient and small negative curvature. Namely, in $\poly(1/\epsilon)$ iterations, we should have reached a point in $\mathcal{M}_{G, \epsilon}$, where 
+Our optimization procedure is a slightly altered version of gradient descent, where we incorportate a second-order method (which we named Hessian descent) are used when the gradient is too small and progress is slow. The descent algorithm (Algorithm~\ref{SecondGD}) allows us to converge to points with small gradient and small negative curvature. Namely, in $\poly(1/\epsilon)$ iterations, we should have reached a point in $\mathcal{M}_{G, \epsilon}$, where 
 %
 %
 \[\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
   \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 G(x)) \geq
   -\epsilon\right\}\]
 %
-Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run SGD to converge to $\mathcal{M}_{G,\epsilon}$, proving our following theorem.
+Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run second-order GD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
 
 The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.
-
-\Snote{Rename the HD algorithm. Check the following two algorithms.}
+\Snote{check algorithms below}
 %
 \alglanguage{pseudocode}
 \begin{algorithm}[hb]
@@ -66,15 +65,15 @@ The use of second-order methods is not limiting since noisy gradient descent alg
 \end{algorithm}
 %
 \begin{theorem}\label{almostHarmSGD}
-  Let $\mathcal{M} = \R^{d}$ for $d \equiv 3 \mod 4$ and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log d){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $\poly(1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
+  Let $\mathcal{M} = \R^{d}$ for $d \equiv 3 \mod 4$ and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log d){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
 \end{theorem}
 %
 We start by stating a lemma concerning the construction of an approximately
 $\lambda$-harmonic function on $\R^d.$ The construction is given in
-Section~\ref{realizable} and is quite technical. \Snote{We need to write a good paragraph about this. This is one of our key technical contributions.}
+Section~\ref{realizable} and takes a linear combination of realizable potentials that correspond to the activation function. relies on the characterization theorems such as~\ref{thm:tranReal}. 
 %
 %
-\begin{restatable}{lemma}{AlmostHarmReal}\label{almostHarmReal}
+\begin{restatable}{lemma}{almostharmreal}\label{almostHarmReal}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $1 > \epsilon > 0$, we can construct a radial activation $\sigma_\epsilon(r)$ with corresponding normalized radial potential $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when $r \geq \epsilon$.
 
 Furthermore, we have ${\Phi_\epsilon}^{(d-1)}(r) \geq 0$ for all $r  > 0$ and ${\Phi_\epsilon}^{(k)}(r) \geq 0$ and ${\Phi_\epsilon}^{(k+1)}(r)\leq 0$ for all $r > 0$ and $d - 3 \geq k \geq 0 $ even.
@@ -85,13 +84,13 @@ Lastly, $|{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-
 %
 The proof is similar to Theorem \ref{EigStrict}. \Snote{Expand this statement, and refer to the theorem below. Interpret that it is an approximate version of the previous exact theorem.}
 %
-\begin{restatable}{lemma}{AlmostHarmConv}\label{almostHarmConv}
+\begin{restatable*}{lemma}{almostharmconv}\label{almostHarmConv}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $G$ be the regularized loss corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon \in (0,1)$ and $\delta \in (0, 1)$, if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta$.
-\end{restatable}
+\end{restatable*}
 %
 The charges are big if we made progress \Snote{Again, needs a good description.}
 %
-\begin{restatable}{lemma}{AlmostHarmRes}\label{almostHarmRes}
+\begin{restatable}{lemma}{almostharmres}\label{almostHarmRes}
   Assume the conditions of Lemma~\ref{almostHarmConv}. If
 $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta$
   and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\lambda \delta^2/(2k^3d)}$,
@@ -100,7 +99,7 @@ $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta
  %
  Next, we guarantee progress.
  %
- \begin{restatable}{lemma}{AlmostHarmInitialize}[Initialization]\label{almostHarmInitialize}
+ \begin{restatable}{lemma}{almostharminitialize}[Initialization]\label{almostHarmInitialize}
 Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = (d/\epsilon)^{ - O(d)}$.
  \end{restatable}
  %
@@ -142,6 +141,10 @@ $k\neq j$ and so on.
 \end{algorithm}
 
 To apply our node-wise guarantees, we would first need to first tighten the convergence properties of SGD in the case where we have only 1 variable charge, say $\theta_1$. Let $L_1(a_1,\theta_1)$ be the objective $L$ restricted to $a_1,\theta_1$ being variable, and $a_2,...,a_k = 0$ are fixed. Our better control on the movements of $\theta_1$ allows us to remove our regularization. While our previous guarantees before allow us to reach a $\epsilon$-neighborhood of $w_j$ when running SGD on $L_1$, we actually would like to reach a $(d/\epsilon)^{-O(d)}$-neighborhood of $w_j$. This is accomplished by reasoning about the first derivatives of our potential, mainly by showing that in an $\epsilon$-neighborhood of $w_j$, descending along the gradient always brings $\theta_1$ closer to $w_j$.
+
+\begin{restatable}{theorem}{nodewise}\label{nodeWise}
+Let $\mathcal{M} = \R^{d}$ and $d \equiv 3 \mod 4$ and let $L$ be as in \ref{errLoss} and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, after running nodewise descent (Algorithm \ref{NodeGDOpt}) on the objective $L$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, $\boldsymbol{(a,\theta)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of the global minima.
+\end{restatable}
 
 %
 %%

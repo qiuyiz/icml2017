@@ -49,11 +49,8 @@ The last equality follows by Fourier uniqueness and taking the Fourier transform
 
 \subsection{Characterization Theorems}
 
-\begin{definition}
-A potential $\Phi$ is $\FT$-integrable if it is square-integrable and $\FT({\Phi}(\omega))$ is integrable, where $\FT$ is the standard Fourier transform.
-\end{definition}
 
-\tranReal*
+\tranreal*
 
 \begin{proof}
 Since $\Phi$ is square-integrable, its Fourier transform exists. Let $h(x) = \FT^{-1}(\sqrt{\FT(\Phi)})(x)$ and this is well-defined since the Fourier transform was non-negative everywhere and the Fourier inverse exists since $\sqrt{\FT(\Phi)}(x)$ is square-integrable. Now, let $\sigma(x,w) = (2\pi)^{1/4}e^{x^2/4}h(x-w)$. Realizability follows by the Fourier inversion theorem:
@@ -73,7 +70,7 @@ Note that $\ast$ denotes function convolution.
 
 
 
-\rotReal*
+\rotreal*
 
 \begin{proof}
 By \ref{rotLem} and due to the orthogonality of hermite polynomials, if $f = \sum_i a_i h_i$, where $h_i(x)$ is the i-th Hermite polynomial, then
@@ -105,6 +102,11 @@ If $\Phi$ is realizable, then there exists $\sigma$ such that  $\Phi(\theta, w) 
 
 Since $\Phi$ is translationally symmetric, we conclude that $\Phi$ is positive semidefinite.
 \end{proof}
+
+
+\begin{definition}
+A potential $\Phi$ is $\FT$-integrable if it is square-integrable and $\FT({\Phi}(\omega))$ is integrable, where $\FT$ is the standard Fourier transform.
+\end{definition}
 
 \begin{lemma}\label{intReal}
 Let $w(x) \geq 0$ be a positive weighting function such that $\int_a^b w(x) \, dx$ is bounded. If $\Phi_x$ is a parametrized family of $\FT$-integrable realizable potentials, then, $\int_a^b w(x) \Phi_x$ is $\FT$-integrable realizable.
@@ -207,7 +209,7 @@ Lastly, we prove the last claim of the theorem with induction on $k$. This holds
 Therefore, we conclude with induction.
 \end{proof}
 
-\AlmostHarmReal*
+\almostharmreal*
 
 \begin{proof}
 Consider a potential of the form $\Phi(r) = p(r)e^{-\sqrt{\lambda}r}/r^{d-2}$. We claim that there exists a polynomial $p$ of degree $k = (d-3)/2$ with non-negative coefficients and $p(0) = 1$ such that $\Phi$ is $\lambda$-harmonic. Furthermore, we will also show along the way that $p(r) \leq (1+\sqrt{\lambda}r)^d$.
