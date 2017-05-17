@@ -207,17 +207,19 @@ Let $\mathcal{M} = \R^{d}$ and $d \equiv 3 \mod 4$ and let $L$ be as in \ref{err
 \begin{proof}
 Let $(a_i, \theta_i)$ be the $i$-th node that is initialized and applied second order gradient descent onto. We want to show that the nodes $(a_i, \theta_i)$ will converge, in a node-wise fashion, to some permutation of $\{(b_1,w_1),...,(b_k,w_k)\}$. 
 
-First, with high probability we know that $1 - 1/\poly(d) \geq |b_j| \geq 1/\poly(d)$ and $\|w_i\|\leq O(d\log d)$ and $\|w_i - w_j \| \geq \Omega(d\log d)$ for all $i, j$. By Lemma~\ref{nodewiseSGD}, we know that with high probability $(a_1,\theta_1)$ will converge to some $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(1)}, w_{\pi(1)})$ for some function $\pi: [k] \to [k]$. Now, we treat $a_1, \theta_1$ as one of the fixed charges and note that $|a_1| \leq 1$ and $\|\theta_1\| \leq O(d\log d)$ and note that there exists $|b_j| \geq 1/\poly(d)$ with $\|w_i - w_j\| \geq \Omega(d\log d)$ and $\|\theta_1 - w_j \| \geq \Omega(d\log d)$ as long as $k > 1$ (if $k = 1$, we are done). Then, by Lemma~\ref{nodewiseSGD}, we know that $(a_2, \theta_2)$ will converge to some 
+First, with high probability we know that $1 - 1/\poly(d) \geq |b_j| \geq 1/\poly(d)$ and $\|w_i\|\leq O(d\log d)$ and $\|w_i - w_j \| \geq \Omega(d\log d)$ for all $i, j$. By Lemma~\ref{nodewiseSGD}, we know that with high probability $(a_1,\theta_1)$ will converge to some $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(1)}, w_{\pi(1)})$ for some function $\pi: [k] \to [k]$. Now, we treat $a_1, \theta_1$ as one of the fixed charges and note that $|a_1| \leq 1$ and $\|\theta_1\| \leq O(d\log d)$ and note that there exists $|b_j| \geq 1/\poly(d)$ with $\|w_i - w_j\| \geq \Omega(d\log d)$ and $\|\theta_1 - w_j \| \geq \Omega(d\log d)$ as long as $k > 1$ (if $k = 1$, we are done). 
+
+Then, by Lemma~\ref{nodewiseSGD}, we know that $(a_2, \theta_2)$ will converge to some $w_{\pi(2)}$ such that $\|\theta_2 - w_{\pi(2)}\| <\epsilon$ (or $\|\theta_2 - \theta_1 \| < \epsilon$ but $\theta_2$ is still $\epsilon$-close to $w_{\pi(1)}$). We claim that $\pi(1) \neq \pi(2)$.
+
+By optimality conditions on $a_2$, we see that 
+\begin{align*}
+a_2^*(\theta_2) = a_1 \Phi_{\epsilon}(\|\theta_2 - \theta_1\|) + b_j \Phi_{\epsilon}(\|\theta_1 - w_j\|) + 2 \sum_{i \neq j} b_i \Phi_{\epsilon}(\|\theta_1 - w_i\|)
+\end{align*}
+
+If $w_{\pi(1)} = w_{\pi(2)}$, then note that $\|\theta_1 - w_i \| \geq \Omega(d\log d)$ for all $i \neq \pi(1)$. Therefore, $2 \sum_{i \neq j} b_i \Phi_{\epsilon}(\|\theta_1 - w_i\|) = (d/\epsilon)^{-O(d)}$. And by our convergence guarantees and the $(d/\epsilon)^{2d}$-Lipschitzness of $\Phi_{\epsilon}$, $ a_1 \Phi_{\epsilon}(\|\theta_2 - \theta_1\|) + b_j \Phi_{\epsilon}(\|\theta_1 - w_j\|) \leq (d/\epsilon)^{-O(d)}$. Therefore, $a_2^*(\theta_2) \leq (d/\epsilon)^{-O(d)}$. 
 
 
-
-
-
-we know that if $x_i = (a_2^{(i)}, \theta_2^{(i)}$ are the noisy GD iterates, then there exists a minimal $l$ such that $x_l$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of $w_j$ for some $j$. [Needs to be argued further] By Azuma's inequality, $L_2({a_2^{(l)},\theta_2^{(l)}}) \leq  L_2({\bf 0,0}) - \delta \sqrt{L_2({\bf 0,0})}$, with high probability. 
-
-Now, we claim that $x_l$ is not in a $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(1)}, w_{\pi(1)})$. Assume otherwise. First, we see that our decrease in objective function implies that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_2^{(l)}) \leq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - \delta \sqrt{L_2({\bf 0,0})}$. However, notice that our assumption implies that $a_2^{(l)},\theta_2^{(l)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of $a_1,\theta_1$. By the smoothness of $L$, we see that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_2^{(l)}) \geq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, a_2^{(l)},\theta_1) - (d/\epsilon)^{-O(d)} = L_{a_1,\theta_1,a_2,\theta_2}(a_1 + a_2^{(l)},\theta_1, {\bf 0, 0}) - (d/\epsilon)^{-O(d)} $. Together, we know that  $L_{a_1,\theta_1,a_2,\theta_2}(a_1+a_2^{(l)},\theta_1,{\bf 0, 0}) \leq L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - (d/\epsilon)^{-O(d)}$
-
-However, by Theorem \ref{quadConverge}, our gradient descent guarantees that $L_{a_1,\theta_1,a_2,\theta_2}(a_1,\theta_1, {\bf 0,0}) - L_{a_1,\theta_1,a_2,\theta_2}(a_1 + a_2^{(l)},\theta_1, {\bf 0, 0}) \leq O(1/T)$, where $T$ is the number of iterations of gradient descent. Since $T = (d/\epsilon)^{-O(d)}$ is large enough, we derive a contradiction. Therefore, our claim is done and by induction, $\pi$ is a permutation. Now, our theorem follows. 
+However, But this contradicts our initialization and $\pi(1) \neq \pi(2)$. . Therefore, our claim is done and by induction, $\pi$ is a permutation. Now, our theorem follows. 
 \end{proof}
 
 %%% Local Variables:
