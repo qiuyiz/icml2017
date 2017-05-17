@@ -122,30 +122,33 @@ Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $\epsilon, t > 0
 \begin{proof}
 Our construction is based on the radial activation function $h_t(x, \theta) = \bf{1}_{\|\theta - x\| \leq t/2}$, which is the indicator in the disk of radius $t/2$. This function, when re-weighted correctly as $\sigma_t(x,\theta) =  (2\pi)^{1/4} e^{x^2/4}h_t(x,\theta)$ gives rise to a radial potential function that is simply the convolution of $h_t$ with itself, measuring the volume of the intersection of two spheres of radius $t$ centered at $\theta$ and $w$.
 %
-\[\Phi_t(\theta, w) = \expt_X[\sigma_t(X,\theta)\sigma_t(X,w)]\]
-\[= \begin{cases}
+\begin{align*}
+\Phi_t(\theta, w) & = \expt_X[\sigma_t(X,\theta)\sigma_t(X,w)]
+= \begin{cases}
 C\int_{\|\theta - w\|/2}^{t/2} ((t/2)^2 - x^2)^{(d-1)/2} \, dx & \|\theta - w\| \leq t\\
-0 & o.w.\\
-\end{cases}\]
+0 & \textrm{ otherwise.}
+\end{cases}
+\end{align*}
 %
 Therefore, as a function of $r=\|\theta - w \|$, we see that when $r \leq t$, $\Phi_t(r) = C\int_{r/2}^{t/2} ((t/2)^2-x^2)^{(d-1)/2} \, dx$ and $\Phi_t'(r) = -C'((t/2)^2-(r/2)^2)^{(d-1)/2}$. Since $d \equiv 3 \mod 4$, we notice that $\Phi_t'$ has a positive coefficient in the leading $r^{d-1}$ term and since it is a function of $r^2$, it has a zero $r^{d-2}$ term. Therefore, we can scale $\Phi_t$ such that 
-
-\[\Phi_t^{(d-1)}(r) = \begin{cases}
+\begin{align*}
+\Phi_t^{(d-1)}(r) = \begin{cases}
 r & r \leq t\\
-0 & o.w. \\
-\end{cases} \]
+0 & \textrm{ otherwise.}
+\end{cases} 
+\end{align*}
 
 $\Phi_t$ is clearly realizable and now we claim that it is $\FT$-integrable. First, $\Phi_t$ is bounded on a compact set so it is square-integrable. Now, since $\Phi_t = h_t \ast h_t$ can be written as a convolution, $\FT(\Phi_t) = \FT(h_t)^2$. Since $h_t$ is square integrable, then by Parseval's, $\FT(h_t)$ is square integrable, allowing us to conclude that $\Phi_t$ is $\FT$-integrable.
 
 Now, for any $\epsilon > 0$, let us construct our desired $\Phi$ by taking a positive sum of $\Phi_t$ and then appealing to Lemma \ref{intReal}. Consider
-
+%
 \[\Phi(r) = \int_{\epsilon}^{t} \frac{1}{x^2}\Phi_x(r) \, dx\]
 
 First, note that the total weight $\int_\epsilon^t \frac{1}{x^2}$ is bounded. Then, when $r \geq t$, since $\Phi_x(r) = 0$ for $x \leq t$, we conclude that $\Phi^{(k)}(r) = 0$ for any $k$. Otherwise, for $\epsilon < r < t$, we can apply dominated convergence theorem to get
-
-\[\Phi^{(d-1)}(r) = \int_{\epsilon}^r \frac{1}{x^2}\Phi_x^{(d-1)}(r) \, dx + \int_{r}^t \frac{1}{x^2} \Phi_x^{(d-1)}(r) \, dx\]
-
-\[ = 0 + \int_r^t \frac{r}{x^2} \, dx = 1 -r/t \]
+\begin{align*}
+\Phi^{(d-1)}(r) = \int_{\epsilon}^r \frac{1}{x^2}\Phi_x^{(d-1)}(r) \, dx + \int_{r}^t \frac{1}{x^2} \Phi_x^{(d-1)}(r) \, dx
+ = 0 + \int_r^t \frac{r}{x^2} \, dx = 1 -r/t 
+\end{align*}
 
 Scaling by $t$ gives our desired claim. For $r\leq \epsilon$, we integrate similarly and scale by $t$ to conclude.
 \end{proof}
@@ -174,16 +177,13 @@ Therefore, we consider
 \[\overline{\Phi}(r) = \int_{\epsilon}^\infty \Phi^{(d+1)}(x) \Phi_x(r) \, dx\] 
 
 Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \, dx = -\Phi^{(d)}(\epsilon) < \infty$. By the non-negativity of our summands, we can apply dominated convergence theorem and Fubini's theorem to get
-
-\[\overline{\Phi}^{(d-1)}(r) = \int_{\epsilon}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx\] 
-
-\[ = \int_{r}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx\] 
-
-\[ = \int_r^\infty \Phi^{(d+1)}(x) \int_r^x 1 \, dy \,dx \]
-
-\[= \int_r^\infty \int_y^\infty \Phi^{(d+1)}(x) \, dx \, dy = \int_r^\infty  -\Phi^{(d)}(y) \, dy\]
-
-\[ = \Phi^{(d-1)}(r)\]
+\begin{align*}
+\overline{\Phi}^{(d-1)}(r) & = \int_{\epsilon}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx \\
+& = \int_{r}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx \\
+& = \int_r^\infty \Phi^{(d+1)}(x) \int_r^x 1 \, dy \,dx  \\
+& = \int_r^\infty \int_y^\infty \Phi^{(d+1)}(x) \, dx \, dy = \int_r^\infty  -\Phi^{(d)}(y) \, dy \\
+& = \Phi^{(d-1)}(r)
+\end{align*}
 
 Now, since $\overline{\Phi}^{(d-1)}(r) = \Phi^{(d-1)}(r)$ for $r\geq \epsilon$ and $\lim_{r\to\infty} \overline{\Phi}^{(k)}(r) = \lim_{r\to\infty} {\Phi}^{(k)}(r) = 0$ for $0 \leq k \leq d-1$, repeated integration gives us our claim. 
 
@@ -232,7 +232,7 @@ The last equation explains why we chose $k = (d-3)/2$, so that it is automatical
 Lastly, we assert that $\Phi^{(j)}(r)$ is non-negative for $j$ even and non-positive for $j$ odd. To prove our assertion, we note that it suffices to show that if $\Phi$ is of the form $\Phi(r) = p(r) e^{-\sqrt{\lambda}r}/r^{l}$ for some $p$ of degree $k < l$ and $p$ has non-negative coefficients, then $\Phi'(r) = - q(r) e^{-\sqrt{\lambda}r}/r^{l+1}$ for some $q$ of degree $k+1$ with non-negative coefficients. 
 
 Differentiating $\Phi$ gives:
-
+%
 \[\Phi' = \frac{e^{-r}}{r^{l+1}} (rp'(r) - (l + \sqrt{\lambda} r)p(r))\]
 
 It is clear that if $p$ has degree $k$, then $q(r) = (l+\sqrt{\lambda} r)p(r) - rp'(r)$ has degree $k+1$, so it suffices to show that it has non-negative coefficients. Let $p_0,..., p_k$ be the non-negative coefficients of $p$. Then, by our formula, we see that 
