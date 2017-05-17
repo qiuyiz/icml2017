@@ -87,7 +87,7 @@ Lastly, $|{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-
 The proof is similar to Theorem \ref{EigStrict}.
 %
 \begin{restatable}{lemma}{AlmostHarmConv}\label{almostHarmConv}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L$ be as in \eqref{errLoss} corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon \in (0,1)$ and $\delta \in (0, 2d/\lambda)$, we can construct $\sigma$ such that if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta/\lambda$.
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $G$ be the regularized loss corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon \in (0,1)$ and $\delta \in (0, 2d/\lambda)$, if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta/\lambda$.
 \end{restatable}
 %
 The charges are big if we made progress
@@ -114,7 +114,7 @@ Now, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi$ ar
 \end{proof}
 
 \subsection{Node-by-Node Analysis}
-We cannot easily analyze the convergence of GD to the global minima when all $\theta_i$ are simultaneously moving since the pairwise interaction terms between the $\theta_i$ present complications. To derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
+We cannot easily analyze the convergence of gradient descent to the global minima when all $\theta_i$ are simultaneously moving since the pairwise interaction terms between the $\theta_i$ present complications, even with added regularization. To derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
 node-wise SGD algorithm to learn the hidden weights, i.e. we run a
 full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
 main idea is that after running SGD with respect to $\theta_1$,
@@ -130,10 +130,11 @@ $k\neq j$ and so on.
   \STATE {\bfseries Input:}
   $(\boldsymbol{a,\theta}) = (a_1,...,a_k,\theta_1,...,\theta_k), a_i
   \in\R, \theta_i\in\mathcal{M}$;
-  $T\in \N$; $\widehat{L}$; $\alpha\in \R$; $\delta \in \R$;
-  $\gamma \in R$; \vspace{0.1in} \STATE{\bf Initialize} $\boldsymbol{(a,\theta) = (0,0)}$
+  $T\in \N$; $L$; $\alpha, \eta, \gamma \in \R$; 
+   \STATE{\bf Initialize} $\boldsymbol{(a,\theta) = (0,0)}$
   \FOR{$i=1$ {\bfseries to} $k$} 
-  \STATE $(a_i, \theta_i) = NoisyGD \left(\widehat{L}_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\delta \right)$
+  \STATE $(a_i, \theta_i) = SecondGD \left(\widehat{L}_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\eta,\gamma \right)$
+  \STATE ??
    \STATE    $(a_1,...,a_i) =  GD \left(\widehat{L}_{a_1,..,a_i},
      (a_1,..,a_i), T , \alpha \right)$\;
    \ENDFOR
@@ -185,6 +186,12 @@ Therefore, it must be that while running noisy GD, there exists some iterate $x_
 
 Finally, we see that the charges also converge since $a = -2b_j \Phi_\epsilon(\|\theta - w_j\|) + O(d/\epsilon)^{-O(d)}$ and $\|\theta - w_j\| = (d/\epsilon)^{-O(d)}$. By noting that $\Phi_\epsilon(0) = 1$ and $\Phi_\epsilon$ is $(d/\epsilon)^{2d}$-Lipschitz, we conclude. 
 \end{proof}
+
+
+%
+The charges are big if we made progress
+
+
 
 \begin{theorem}\label{nodewiseSGD}
 Let $\mathcal{M} = \R^{d}$ and let $L$ be as in \ref{errLoss} with some activation $\sigma$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, after running nodewise SGD (Algorithm \ref{NodeGDOpt}) on the objective $L$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, $\boldsymbol{(a,\theta)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of the global minima.
