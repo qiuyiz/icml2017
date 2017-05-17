@@ -45,12 +45,4 @@ success, but it's possible that the true underlying parameters are not
 learned. If our loss function were strongly convex, small training
 error would imply a small norm in the parameter space. 
 
-For the sign activation function, we can show a related result.
-
-\Anote{there is a main theorem in your experimental section. you should move this to one of your section on ``other potentials''.}
-\begin{restatable}{theorem}{signUnique}
-\label{SignUnique}
-Let $\mathcal{M} = S^{d-1}$ and $\sigma$ be the sign activation function and $b_2,...,b_k = 0$. If the loss \eqref{errLoss} at $(\boldsymbol{a,\theta})$ is less than $O(1)$, then there must exist $\theta_i$ such that $w_1^T\theta_i > \Omega(1/\sqrt{k})$.
-\end{restatable}
-
 

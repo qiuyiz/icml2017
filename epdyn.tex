@@ -38,17 +38,18 @@ re-parametrize $a$ with $-a$ and expand.
 %\end{equation}
 %
 \begin{align}
-& L(\boldsymbol{a,\theta})  = \expt_{X\sim D}\left[ \left(
+ L(\boldsymbol{a,\theta})  & = \expt_{X\sim D}\left[ \left(
   \sum_{i=1}^k a_i \sigma(X,\theta_i) + \sum_{i=1}^k
   b_i\sigma(X,w_i)\right)^2\right] \nonumber \\
 %
-& = \sum_{i=1}^k \sum_{j=1}^k a_i a_j \Phi(\theta_i,\theta_j)+ 2 a_ib_j \Phi(\theta_i,w_j)+ b_i b_j \Phi(w_i,w_j)
+& = \sum_{i=1}^k \sum_{j=1}^k a_i a_j \Phi(\theta_i,\theta_j)+ 2 a_ib_j \Phi(\theta_i,w_j)+ b_i b_j \Phi(w_i,w_j),
  \label{errLoss}
 \end{align}
 %
 where $\Phi(\theta, w) = \expt_{X\sim D}[ \sigma(X,\theta) \sigma(X,w)]$ is
 the {\bf potential function} {\it corresponding to the activation function} $\sigma$. Given $\mathcal{D},$ the activation function $\sigma$, and the loss $L$, we attempt to show that we can use some variant of gradient descent to learn, with high probability, an $\epsilon$-approximation of $w_j$ for some (or all) $j$. Although our loss is jointly non-convex, it is quadratic in $\boldsymbol{a}$. Therefore we can restrict our attention to convergence in $\boldsymbol{\theta}$ to $\boldsymbol{w}$, since we have convergence guarantees to $\boldsymbol{a^*(\theta)}$, the optimal set of output weights of a given $\boldsymbol{\theta}$. 
 
+\Snote{Remove concepts not needed any more}
 We will optimize over the familiar $\mathcal{M}= \R^d$ {\color{red}but often over $\mathcal{M} = S^{d-1}$}. Let $\Pi_\mathcal{M}$ be the projection operator on $\mathcal{M}$. On $\R^d$, the gradient and Hessian $\nabla_{\R^d} f, \nabla_{\R^d}^2 f$ is defined as standard and the Laplacian is simply $\Delta_{\R^d} f = \Tr(\nabla_{\R^d}^2 f)$. The simplest way to define these terms on $S^{d-1}$ is $\nabla_{S^{d-1}} f(x) = \nabla_{\R^d} f(x/\|x\|)$, where $\| \cdot \|$ denotes the $l_2$ norm and $x \in S^{d-1}$. The Hessian and Laplacian are analogously defined and the subscripts are usually dropped where clear from context. If $f$ is multivariate with variable $x_i$, then let $f_{x_i}$ be a
 restriction of $f$ onto the variable $x_i$ with all other variables
 fixed. Let $\nabla_{x_i}f, \Delta_{x_i}f$ to be the gradient and
@@ -63,12 +64,12 @@ does not exist or $\nabla f = 0$.
  \caption{$x = GD(L,x_0, T,\alpha$)}
    \label{GD}
 \begin{algorithmic}
-   \STATE {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
-   \STATE Initialize $x = x_0$
-   \FOR{$i=1$ {\bfseries to} $T$}
-   \STATE $x = x - \alpha\nabla L(x)$
-   \STATE $x = \Pi_\mathcal{M} x$
-   \ENDFOR
+   \State {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
+   \State Initialize $x = x_0$
+   \For {$i=1$ {\bfseries to} $T$}
+   \State $x = x - \alpha\nabla L(x)$
+   \State $x = \Pi_\mathcal{M} x$
+   \EndFor
 \end{algorithmic}
 \end{algorithm}
 
@@ -85,7 +86,13 @@ standard Gaussian in $\R^d$. This assumption is not critical and a
 simpler distribution might lead to better statistical bounds. However, if we allow arbitrary distributions, then hardness results in PAC-learning
 halfspaces would apply \cite{klivans2006cryptographic}.
 
-We call a potential function {\bf realizable} if it corresponds to some activation $\sigma$.  We briefly state some results about characterizations of realizable potentials for translationally and rotationally invariant potentials. Full proofs and calculations of activation-potential correspondences, such as those claimed in Table \ref{table1}, can be found in the supplementary material. 
+We call a potential function {\bf realizable} if it corresponds to
+some activation $\sigma$.  We briefly state some results about
+characterizations of realizable potentials for translationally and
+rotationally invariant potentials. Full proofs and calculations of
+activation-potential correspondences
+% , such as those claimed in Table \ref{table1}, 
+can be found in the supplementary material.
 %
 \begin{restatable}{theorem}{tranReal}
 \label{thm:tranReal}

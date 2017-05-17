@@ -1,9 +1,10 @@
 
 \section{Proof of Sign Uniqueness}
-
-
-%\signUnique*
-
+For the sign activation function, we can show a related result.
+\begin{restatable}{theorem}{signUnique}
+\label{SignUnique}
+Let $\mathcal{M} = S^{d-1}$ and $\sigma$ be the sign activation function and $b_2,...,b_k = 0$. If the loss \eqref{errLoss} at $(\boldsymbol{a,\theta})$ is less than $O(1)$, then there must exist $\theta_i$ such that $w_1^T\theta_i > \Omega(1/\sqrt{k})$.
+\end{restatable}
 \begin{proof}
 WLOG let $w_1 = e_1$. Notice that our loss can be bounded below by Jensen's:
 %
