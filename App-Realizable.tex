@@ -97,12 +97,13 @@ Let $\mathcal{M} = \R^d$ and $\Phi(\theta, w) = f(\theta-w)$ is is realizable, t
 
 \begin{proof}
 If $\Phi$ is realizable, then there exists $\sigma$ such that  $\Phi(\theta, w) =  \expt_{X \sim N}[\sigma(X, w)\sigma(X, \theta)]$. For $x_1,...,x_n$, we note that the quadratic form:
+\begin{align*}
+\sum_{i,j} \Phi(x_i,x_j) v_i v_j 
+& = \sum_{i,j} \expt_{X \sim N}[\sigma(X, x_i)\sigma(X, x_j)] v_i v_j 
+ = \expt_{X \sim N}\left[\left(\sum_{i}v_i \sigma(X , x_i) \right)^2\right] \geq 0
+\end{align*}
 
-\[\sum_{i,j} \Phi(x_i,x_j) v_i v_j = \sum_{i,j} \expt_{X \sim N}[\sigma(X, x_i)\sigma(X, x_j)] v_i v_j \]
-
-\[ = \expt_{X \sim N}\left[\left(\sum_{i}v_i \sigma(X , x_i) \right)^2\right] \geq 0\]
-
-And since $\Phi$ is translationally symmetric, we conclude that $\Phi$ is positive semidefinite.
+Since $\Phi$ is translationally symmetric, we conclude that $\Phi$ is positive semidefinite.
 \end{proof}
 
 \begin{lemma}\label{intReal}
@@ -188,22 +189,20 @@ Note that this is a positive sum with $\int_{\epsilon}^\infty \Phi^{(d+1)}(x) \,
 Now, since $\overline{\Phi}^{(d-1)}(r) = \Phi^{(d-1)}(r)$ for $r\geq \epsilon$ and $\lim_{r\to\infty} \overline{\Phi}^{(k)}(r) = \lim_{r\to\infty} {\Phi}^{(k)}(r) = 0$ for $0 \leq k \leq d-1$, repeated integration gives us our claim. 
 
 Finally, for the second claim, notice that for $r \leq \epsilon$, we get
-
-\[\overline{\Phi}^{(d-1)}(r) = \int_{\epsilon}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx\] 
-
-\[ =  r \int_\epsilon^\infty \Phi^{(d+1)}(x) \frac{x - \epsilon}{\epsilon} \, dx = Cr  \]
+\begin{align*}
+\overline{\Phi}^{(d-1)}(r) = \int_{\epsilon}^\infty  \Phi^{(d+1)}(x) (\Phi_x^{(d-1)}(r)) \, dx
+=  r \int_\epsilon^\infty \Phi^{(d+1)}(x) \frac{x - \epsilon}{\epsilon} \, dx = Cr  
+\end{align*}
 
 Note that our constant $C \geq 0$ since the summands are non-negative. Therefore, we conclude that $\overline{\Phi}^{(d-1)}(r) \geq 0$ for all $r > 0$. Repeated integration and noting that $\lim_{r\to\infty} \overline{\Phi}^{(k)}(r) = 0$ for $0 \leq k \leq d-1$ gives us our claim.
 
 Lastly, we prove the last claim of the theorem with induction on $k$. This holds trivially for $k = 0$ since $\overline{\Phi}^{(d-1)}(r) \leq \overline{\Phi}^{(d-1)}(\epsilon) = \Phi^{(d-1)}(\epsilon)$ for $r \leq \epsilon$. Then, assume we have the inequality for $k < d-1$. By integration, we have
-
-\[|\overline{\Phi}^{(d-k-2)}(r)| \leq |\overline{\Phi}^{(d-k-2)}(\epsilon)| + \int_r^\epsilon |\overline{\Phi}^{(d-1 -k)}(y)| \, dy\]
-
-\[ \leq |\overline{\Phi}^{(d-k-2)}(\epsilon)| + \int_r^\epsilon |\overline{\Phi}^{(d-1 -k)}(\epsilon)| \, dy \]
-
-\[+ \int_r^\epsilon \sum_{j=1}^k \frac{(\epsilon -y)^{k-j+1}}{(k-j+1)!}|\Phi^{(d-j)}(\epsilon)| \, dy\]
-
-\[ \leq  |\overline{\Phi}^{(d-k-2)}(\epsilon)| + \sum_{j=1}^{k+1}  \frac{(\epsilon -y)^{k-j+2}}{(k-j+2)!}|\Phi^{(d-j)}(\epsilon)|\]
+\begin{align*}
+|\overline{\Phi}^{(d-k-2)}(r)| & \leq |\overline{\Phi}^{(d-k-2)}(\epsilon)| + \int_r^\epsilon |\overline{\Phi}^{(d-1 -k)}(y)| \, dy \\
+& \leq |\overline{\Phi}^{(d-k-2)}(\epsilon)| + \int_r^\epsilon |\overline{\Phi}^{(d-1 -k)}(\epsilon)| \, dy \\
+& + \int_r^\epsilon \sum_{j=1}^k \frac{(\epsilon -y)^{k-j+1}}{(k-j+1)!}|\Phi^{(d-j)}(\epsilon)| \, dy \\
+& \leq  |\overline{\Phi}^{(d-k-2)}(\epsilon)| + \sum_{j=1}^{k+1}  \frac{(\epsilon -y)^{k-j+2}}{(k-j+2)!}|\Phi^{(d-j)}(\epsilon)|
+\end{align*}
 
 Therefore, we conclude with induction.
 \end{proof}
@@ -247,13 +246,14 @@ Since $i \leq k < l$, we conclude that $q$ has non-negative coefficients. Finall
 
 Lastly, we prove the following preliminary bound on $\Phi_\epsilon^{(k)}(r)$ when $k \leq d$: $|\Phi_\epsilon^{(k)}(r)| \leq 3(2d + \epsilon \sqrt{\lambda})^{2d}\epsilon^{-2d}  $ for all $0 \leq k \leq d-1$. First, notice that by the results of Lemma~\ref{transConstruct}, $\Phi_\epsilon^{(k)}(r)$ is monotone and $\lim_{r\to\infty}\Phi_\epsilon^{(k)}(r) = 0$. So, it follows that we just have to bound $|\Phi_{\epsilon}^{(k)}(0)|$. From our construction, $\Phi_{\epsilon}^{(k)}(\epsilon) = p_k(\epsilon)e^{-\sqrt{\lambda}\epsilon}\epsilon^{2-d-k}$, for some polynomial $p_k$. Furthermore, from our construction, we have the recurrence $p_{k}(\epsilon) = (d-2+k + \sqrt{\lambda}\epsilon)p_{k-1}(\epsilon) - \epsilon p_{k-1}'(\epsilon)$. Therefore, we conclude that for $k \leq d$, $p_k(\epsilon) \leq (2d + \sqrt{\lambda} \epsilon)^kp_0(\epsilon) \leq  (2d + \sqrt{\lambda} \epsilon)^k(1+\sqrt{\lambda}\epsilon)^d \leq (2d + \sqrt{\lambda}\epsilon)^{2d}$. 
 
-Therefore, we can bound $|\Phi_\epsilon^{(k)}(\epsilon)| \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d}$. Finally, by Lemma~\ref{transConstruct}, 
-
-\[|\Phi_{\epsilon}^{(d-1-k)}(0)| \leq |\Phi_{\epsilon}^{(d-1-k)}(\epsilon)| + \sum_{j=1}^k \frac{(\epsilon )^{k-j+1}}{(k-j+1)!} |\Phi^{(d-j)}(\epsilon)|\]
-
-\[ \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d} (1 + \sum_{j=1}^k \frac{\epsilon^{k-j+1}}{(k-j+1)!})\]
-
-\[ \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d} e^{\epsilon} \leq 3(2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d}\]
+Therefore, we can bound
+ $|\Phi_\epsilon^{(k)}(\epsilon)| \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d}$. Finally, by Lemma~\ref{transConstruct}, 
+\begin{align*}
+|\Phi_{\epsilon}^{(d-1-k)}(0)| 
+& \leq |\Phi_{\epsilon}^{(d-1-k)}(\epsilon)| + \sum_{j=1}^k \frac{(\epsilon )^{k-j+1}}{(k-j+1)!} |\Phi^{(d-j)}(\epsilon)| \\
+& \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d} (1 + \sum_{j=1}^k \frac{\epsilon^{k-j+1}}{(k-j+1)!}) \\
+& \leq (2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d} e^{\epsilon} \leq 3(2d + \sqrt{\lambda}\epsilon)^{2d}\epsilon^{-2d} 
+\end{align*}
 
 And for $r \geq \epsilon$, we see that $|\Phi_\epsilon(r)| = |\Phi(r)| \leq |p(r)|\frac{e^{-\sqrt{\lambda}r}}{r^{d-2}} = (1+r\sqrt{\lambda})^de^{-\sqrt{\lambda}r}r^{2-d}$. And $|\Phi_\epsilon'(r)| = |\Phi'(r)| \leq |p_1(r)| \frac{e^{-\sqrt{\lambda} r}}{r^{d-1}} \leq (d+\sqrt{\lambda}r)(1+ r\sqrt{\lambda})^de^{-\sqrt{\lambda} r} r^{1-d}$.
 

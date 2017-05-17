@@ -59,7 +59,8 @@ The use of second-order methods is not limiting since noisy gradient descent alg
   \EndIf
    \If {$ L(x_i) \geq L(x_{i-1}) - min(\alpha\eta^2/2, \alpha^2 \gamma^3/2) $}
      \Return $x_{i-1}$
-   \EndIf \Snote{I think you can merge the two returns. Just move along the smallest eigenvalue direction, if loss decrement is small, return the previous point.}
+   \EndIf 
+% \Snote{I think you can merge the two returns. Just move along the smallest eigenvalue direction, if loss decrement is small, return the previous point.}
    \EndFor
    \end{algorithmic}
 \end{algorithm}
