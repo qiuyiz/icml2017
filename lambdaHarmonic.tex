@@ -90,7 +90,7 @@ We start by stating a lemma concerning the construction of an almost
 $\lambda$-harmonic function on $\R^d.$ The construction is given in
 Section~\ref{realizable} and uses a linear combination of realizable potentials that correspond to an activation function of the indicator function of a $n$-sphere. By using Fourier analysis and Theorem~\ref{thm:tranReal}, we can finish the construction of our almost $\lambda$-harmonic potential.%
 %
-\begin{restatable}{lemma}{almostharmreal}\label{almostharmreal'}
+\begin{restatable}{lemma}{almostharmreal}\label{almostharmreal}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $1 > \epsilon > 0$, we can construct a radial activation $\sigma_\epsilon(r)$ with corresponding normalized radial potential $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when $r \geq \epsilon$.
 
 Furthermore, we have ${\Phi_\epsilon}^{(d-1)}(r) \geq 0$ for all $r  > 0$ and ${\Phi_\epsilon}^{(k)}(r) \geq 0$ and ${\Phi_\epsilon}^{(k+1)}(r)\leq 0$ for all $r > 0$ and $d - 3 \geq k \geq 0 $ even.
@@ -125,7 +125,20 @@ Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostharmco
 
 Let $\boldsymbol{\theta} = (\theta_1,...\theta_k)$. If there exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$, then we are done. Otherwise, we claim that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\lambda \delta^2/(2k^3d)}$. For the sake of contradiction, assume otherwise. By our algorithm termination conditions, then it must be that after one step of gradient or Hessian descent from $(\boldsymbol{a,\theta})$, we reach some $(\boldsymbol{a',\theta'})$ and $G(\boldsymbol{a',\theta'}) \geq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$.
 
-Now, Lemma~\ref{almostharmreal} ensures all first three derivatives of $\Phi_{\epsilon/k}$ are bounded by $O((dk/\epsilon)^{2d})$, except at $w_1,...,w_k$. Furthermore, since there does not exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| <\epsilon$, $G$ is three-times continuously differentiable within a $\alpha (dk/\epsilon)^{2d} = (d/\epsilon)^{-O(d)}$ neighborhood of $\boldsymbol{\theta}$. Therefore, by Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we must have  we know that $G(\boldsymbol{a',\theta'}) \leq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$. a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G({\bf 0,0})} - \delta$. Finally, we conclude by Lemma \ref{almostHarmRes}.
+Now, Lemma~\ref{almostharmreal} ensures all first three derivatives of
+$\Phi_{\epsilon/k}$ are bounded by $O((dk/\epsilon)^{2d})$, except at
+$w_1,...,w_k$. Furthermore, since there does not exists
+$\theta_i, w_j$ such that $\|\theta_i - w_j\| <\epsilon$, $G$ is
+three-times continuously differentiable within a
+$\alpha (dk/\epsilon)^{2d} = (d/\epsilon)^{-O(d)}$ neighborhood of
+$\boldsymbol{\theta}$. Therefore, by Lemma~\ref{GradDecrease} and
+~\ref{HessianDecrease}, we must have
+$G(\boldsymbol{a',\theta'}) \leq G(\boldsymbol{a,\theta}) -
+\min(\alpha\eta^2/2,\alpha^2\gamma^3/2),$ a contradiction. Lastly,
+since our algorithm maintains that our objective function is
+decreasing, so
+$\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G({\bf 0,0})} -
+\delta$. Finally, we conclude by Lemma \ref{almostHarmRes}.
 \end{proof}
 
 \subsection{Node-by-Node Analysis}
