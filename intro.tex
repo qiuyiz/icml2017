@@ -47,16 +47,16 @@ potential function that depends on $\sigma$.
 \end{theorem}
 %
 
-Our main technical contribution is to prove the existence of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. We then show that this allows us to learn the complete target network one node at a time. We leave open the problem of convergence for forces corresponding to more realistic activation functions.
+Our main technical contribution is to prove the existence of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. We then show that this allows us to learn the complete target network one node at a time. We leave open the problem of convergence for forces corresponding to more realistic activation functions. We assume the sample complexity is close to its infinite limit. 
 %
-{\color{red} We assume the sample complexity is close to its infinite limit.  }
+% {\color{red} }
 %We also derive the force function for several possible activation functions. }
 % Further for a certain synthetic activation function, we prove that the electrodynamic force function results in convergence thus 
 % implying the desired convergence for simplified depth 2 networks with those activation functions 
 
 %
 % \Anote{same problem as the other informal theorem. i don't know what a $\theta$ is. it has only been defined in the text. furthermore, it's far too informal. instead of "carefully" it should give this notion a name. again, better to just blend this content in the rest of the text without calling it an informal theorem.}
-\begin{theorem}[informal statement of Theorem~\ref{eigConv}]
+\begin{theorem}[informal statement of Theorem~\ref{almostHarmSGD}]
 There is an activation function such that upon running gradient
   descent for minimizing the squared loss along with $\ell_2$
   regularization for standard Gaussian inputs, at convergence, 
@@ -71,7 +71,7 @@ There is an activation function such that upon running gradient
 
 \paragraph{Intuition and Techniques.}
 %
-Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed charges and some moving electrons is at equilibrium only when the moving charges coincide with the fixed charges. Given our translation above between electrodynamic systems and depth 2 networks (Section~\ref{}), this would imply learnability of depth 2 networks with gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$. 
+Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed charges and some moving electrons is at equilibrium only when the moving charges coincide with the fixed charges. Given our translation above between electrodynamic systems and depth 2 networks (Section~\ref{sec:epdyn}), this would imply learnability of depth 2 networks with gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$. 
 %
 
 % \paragraph{Organization.} In section 2, we introduce our framework and assumptions, and derive the equivalence between gradient descent and electron-proton dynamics under a suitable potential. 
@@ -83,6 +83,8 @@ The proof of Earnshaw's theorem is based on the fact that the electrostatic pote
 %\Snote{We use recent results on gradient descent~\cite{Rongetal} to show that gradient descent (with perturbations) converges close a stable critical point.}
 
 {\color{red}The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.}
+
+
 
 % Our main tool for analysis is to derive second-order information about our dynamics by using the Laplacian of the Hessian (or a submatrix of the Hessian) of our loss function. 
 % Together with some generalization error bounds and discrete optimization results, we can finally translate these convergence results into finite time convergence rates. 
