@@ -47,23 +47,23 @@ $\mathcal{M}_{G, \epsilon}$, where
   -\epsilon\right\}
   \end{align*}
   %
-Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run second-order GD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
+We show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run second-order GD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
 
 % \Snote{The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.}
 %\Snote{Fix name of Hessian descent}
 %
-\begin{algorithm}[hb]
- \caption{$x = GD(L,x_0, T,\alpha$)}
-   \label{GD}
-\begin{algorithmic}
-   \State {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
-   \State Initialize $x = x_0$
-   \For {$i=1$ {\bfseries to} $T$}
-   \State $x = x - \alpha\nabla L(x)$
-   \State $x = \Pi_\mathcal{M} x$
-   \EndFor
-\end{algorithmic}
-\end{algorithm}
+% \begin{algorithm}[hb]
+%  \caption{$x = GD(L,x_0, T,\alpha$)}
+%    \label{GD}
+% \begin{algorithmic}
+%    \State {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
+%    \State Initialize $x = x_0$
+%    \For {$i=1$ {\bfseries to} $T$}
+%    \State $x = x - \alpha\nabla L(x)$
+%    \State $x = \Pi_\mathcal{M} x$
+%    \EndFor
+% \end{algorithmic}
+% \end{algorithm}
 %
 \alglanguage{pseudocode}
 \begin{algorithm}[hb]
@@ -71,11 +71,11 @@ Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}
    \label{HD}
 \begin{algorithmic}
    \State {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha \in \R$
-   \State Initialize $x = x_0$
+   \State Initialize $x \leftarrow x_0$
    \For {$i=1$ {\bfseries to} $T$}
    \State Find unit eigenvector $v_{min}$ corresponding to $\lambda_{min}(\nabla^2 f(x))$ 
-   \State  $\beta = -\alpha \lambda_{min}(\nabla^2 f(x)) \sign(\nabla f(x)^Tv_{min}) $
-    \State $x = x + \beta v_{min}$
+   \State  $\beta \leftarrow -\alpha \lambda_{min}(\nabla^2 f(x)) \sign(\nabla f(x)^Tv_{min}) $
+    \State $x \leftarrow x + \beta v_{min}$
    \EndFor
 \end{algorithmic}
 \end{algorithm}
@@ -88,9 +88,10 @@ Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}
    \mathcal{M}$; $T\in \N$; $\alpha, \eta, \gamma \in \R$
 %\Snote{Fix $\alpha$ vs $\gamma$}
    \For {$i=1$ {\bfseries to} $T$}
-   \If {$\|\nabla L(x_{i-1})\| \geq  \eta$}\  $x_{i} = GD(L, x_{i-1}, 1, \alpha)$
+   \If {$\|\nabla L(x_{i-1})\| \geq  \eta$}\  $x_{i} \leftarrow
+ x_{i-1} - \alpha \nabla L$
    \Else \
-$x_i = HD(L, x_{i-1}, 1, \alpha)$ 
+$x_i \leftarrow HD(L, x_{i-1}, 1, \alpha)$ 
   \EndIf
    \If {$ L(x_i) \geq L(x_{i-1}) - min(\alpha\eta^2/2, \alpha^2 \gamma^3/2) $}
      \Return $x_{i-1}$
