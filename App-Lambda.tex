@@ -96,7 +96,7 @@ Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\bold
 %%%%%%%%%%%Begin Node Convergence
 \subsection{Node by Node Analysis}
 
-The first few lemmas are similar to the ones proven before in the simultaneous case. The proof are presented for completeness because the regularization terms are removed.
+The first few lemmas are similar to the ones proven before in the simultaneous case. The proof are presented for completeness because the regularization terms are removed. Note that our loss function is quadratic in $\bf{ a}$. Therefore, let $a_1^*(\theta_1)$ denote the optimal value of $a_1$ to minimize our loss. 
 
 \begin{lemma}\label{nodeConv}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L_1$ be the loss restricted to $(a_1,\theta_1)$ corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal} with $\lambda = 1$. For any $\epsilon \in (0,1)$ and $\delta \in (0, 1)$, we can construct $\sigma_\epsilon$ such that if ${(a_1,\theta_1)} \in \mathcal{M}_{L_1,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_1 - w_j\| < \epsilon$ or 2) $a_1^2 < 2d\delta$.

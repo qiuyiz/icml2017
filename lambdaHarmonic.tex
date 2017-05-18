@@ -123,11 +123,11 @@ $\lambda$-harmonic function on $\R^d.$ The construction is given in the appendix
 \begin{restatable}{lemma}{almostharmreal}\label{almostHarmReal}
   Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any
   $\epsilon \in (0,1)$, we can construct a radial activation
-  $\sigma_\epsilon(r)$ with corresponding normalized radial potential
-  $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when
+  $\sigma_\epsilon(r)$ such that the corresponding radial potential
+  $\Phi_\epsilon(r)$  is $\lambda$-harmonic for
   $r \geq \epsilon$.
 
-Furthermore, we have ${\Phi_\epsilon}^{(d-1)}(r) \geq 0$ for all $r  > 0$ and ${\Phi_\epsilon}^{(k)}(r) \geq 0$ and ${\Phi_\epsilon}^{(k+1)}(r)\leq 0$ for all $r > 0$ and $d - 3 \geq k \geq 0 $ even. 
+Furthermore, we have ${\Phi_\epsilon}^{(d-1)}(r) \geq 0$ for all $r  > 0,$  ${\Phi_\epsilon}^{(k)}(r) \geq 0,$ and ${\Phi_\epsilon}^{(k+1)}(r)\leq 0$ for all $r > 0$ and $d - 3 \geq k \geq 0 $ even. 
 
 When $\lambda = 1$, $|{\Phi}_\epsilon^{(k)}(r)| \leq O((d/\epsilon)^{2d})$ for all $0 \leq k \leq d-1$. And when $r \geq \epsilon$, $\Omega(e^{-r}r^{2-d}(d/\epsilon)^{-2d}) \leq {\Phi}_\epsilon(r) \leq O((1+r)^de^{1-r}(r)^{2-d})$ and $ \Omega(e^{-r}r^{1-d}(d/\epsilon)^{-2d}) \leq |{\Phi}_\epsilon'(r)| \leq O((d+r)(1+ r)^de^{1- r} r^{1-d})$
 \end{restatable}
@@ -137,7 +137,13 @@ Our next lemma use the almost $\lambda$-harmonic properties to show that at an a
 %\Snote{Expand this statement, and refer to the theorem below. Interpret that it is an approximate version of the previous exact theorem.}
 %
 \begin{restatable}{lemma}{almostharmconv}\label{almostHarmConv}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $G$ be the regularized loss corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal} with $\lambda =1$. For any $\epsilon \in (0,1)$ and $\delta \in (0, 1)$, if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta$.
+  Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $G$ be the
+  regularized loss corresponding to the activation 
+  $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal} with
+  $\lambda =1$. For any $\epsilon \in (0,1)$ and $\delta \in (0, 1)$,
+  if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for
+  all $i$, either 1) there exists $j$ such that
+  $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta$.
 \end{restatable}
 %
 \begin{restatable}{lemma}{almostharmres}\label{almostHarmRes}
@@ -149,8 +155,8 @@ $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta
  %
  Finally, we guarantee that our initialization substantially decreases our objective function. Together with our previous lemmas, it will imply that we must be close to some $w_j$ upon convergence. This is the overview of the proof of Theorem~\ref{almostHarmSGD}, presented below.
  %
- \begin{restatable}{lemma}{almostharminitialize}[Initialization]\label{almostHarmInitialize}
-Under the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = (d/\epsilon)^{ - O(d)}$.
+ \begin{restatable}{lemma}{almostharminitialize}\label{almostHarmInitialize}
+Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = (d/\epsilon)^{ - O(d)}$.
  \end{restatable}
  %
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
