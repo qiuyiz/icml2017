@@ -142,7 +142,7 @@ $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G({\bf 0,0})} -
 
 \subsection{Node-by-Node Analysis}
 We cannot easily analyze the convergence of gradient descent to the global minima when all $\theta_i$ are simultaneously moving since the pairwise interaction terms between the $\theta_i$ present complications, even with added regularization. Instead, we run a greedy
-node-wise descent \Snote{Use the correct algorithm name} algorithm to learn the hidden weights, i.e. we run a descent algorithm with respect to $(a_i,\theta_i)$ sequentially. The
+node-wise descent (Algorithm~\ref{NodeGDOpt}) to learn the hidden weights, i.e. we run a descent algorithm with respect to $(a_i,\theta_i)$ sequentially. The
 main idea is that after running SGD with respect to $\theta_1$,
 $\theta_1$ should be close to some $w_j$ for some $j$. Then, we can
 carefully induct and show that $\theta_2$ must be some other $w_k$ for
