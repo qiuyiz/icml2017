@@ -33,6 +33,19 @@ Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}
 % \Snote{The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.}
 %\Snote{Fix name of Hessian descent}
 %
+\begin{algorithm}[hb]
+ \caption{$x = GD(L,x_0, T,\alpha$)}
+   \label{GD}
+\begin{algorithmic}
+   \State {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
+   \State Initialize $x = x_0$
+   \For {$i=1$ {\bfseries to} $T$}
+   \State $x = x - \alpha\nabla L(x)$
+   \State $x = \Pi_\mathcal{M} x$
+   \EndFor
+\end{algorithmic}
+\end{algorithm}
+%
 \alglanguage{pseudocode}
 \begin{algorithm}[hb]
  \caption{$x = HD(L,x_0, T,\alpha$)}
@@ -67,18 +80,6 @@ $x_i = HD(L, x_{i-1}, 1, \alpha)$
    \EndFor
    \end{algorithmic}
 %
-\end{algorithm}
-\begin{algorithm}[hb]
- \caption{$x = GD(L,x_0, T,\alpha$)}
-   \label{GD}
-\begin{algorithmic}
-   \State {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
-   \State Initialize $x = x_0$
-   \For {$i=1$ {\bfseries to} $T$}
-   \State $x = x - \alpha\nabla L(x)$
-   \State $x = \Pi_\mathcal{M} x$
-   \EndFor
-\end{algorithmic}
 \end{algorithm}
 %
 %
