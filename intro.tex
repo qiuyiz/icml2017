@@ -47,17 +47,16 @@ potential function that depends on $\sigma$.
 \end{theorem}
 %
 
-Our main technical contribution is to prove the existence of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. We then show that this allows us to learn the complete target network one node at a time. We leave open the problem of convergence for forces corresponding to more realistic activation functions.
+Our main technical contribution is to prove the existence of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. We then show that this allows us to learn the complete target network one node at a time. We leave open the problem of convergence for forces corresponding to more realistic activation functions. We assume the sample complexity is close to its infinite limit. 
 %
-{\color{red} We assume the sample complexity is close to its infinite limit.  }
+% {\color{red} }
 %We also derive the force function for several possible activation functions. }
 % Further for a certain synthetic activation function, we prove that the electrodynamic force function results in convergence thus 
 % implying the desired convergence for simplified depth 2 networks with those activation functions 
 
 %
 % \Anote{same problem as the other informal theorem. i don't know what a $\theta$ is. it has only been defined in the text. furthermore, it's far too informal. instead of "carefully" it should give this notion a name. again, better to just blend this content in the rest of the text without calling it an informal theorem.}
-\Snote{Give theorem reference}
-\begin{theorem}[informal statement of Theorem~\ref{eigConv}]
+\begin{theorem}[informal statement of Theorem~\ref{almostHarmSGD}]
 There is an activation function such that upon running gradient
   descent for minimizing the squared loss along with $\ell_2$
   regularization for standard Gaussian inputs, at convergence, 
