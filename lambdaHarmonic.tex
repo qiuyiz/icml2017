@@ -16,20 +16,22 @@ to the true hidden weights, instead of a bijection.
 
 % Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions.
 }
- 
-In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive our convergence theorem. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run our optimization procedure on $G = L + \|a\|^2$.
+%
+In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are almost $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. Then, we reason similarly about the Laplacian of our loss function to derive our convergence theorem. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run our optimization procedure on $G = L + \|a\|^2$.
 
-Our optimization procedure is a slightly altered version of gradient descent, where we incorportate a second-order method (which we named Hessian descent) are used when the gradient is too small and progress is slow. The descent algorithm (Algorithm~\ref{SecondGD}) allows us to converge to points with small gradient and small negative curvature. Namely, in $\poly(1/\epsilon)$ iterations, we should have reached a point in $\mathcal{M}_{G, \epsilon}$, where 
+Our optimization procedure is a slightly altered version of gradient descent, where we incorportate a second-order method (which we named Hessian descent as in Algorithm~\ref{HD}) are used when the gradient is too small and progress is slow. The descent algorithm (Algorithm~\ref{SecondGD}) allows us to converge to points with small gradient and small negative curvature. Namely, in $\poly(1/\epsilon)$ iterations, we should have reached a point in $\mathcal{M}_{G, \epsilon}$, where 
 %
 %
-\[\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
+\begin{align*}
+\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
   \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 G(x)) \geq
-  -\epsilon\right\}\]
-%
+  -\epsilon\right\}
+  \end{align*}
+  %
 Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run second-order GD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
 
-The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.
-\Snote{Fix name of Hessian descent}
+\Snote{The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.}
+%\Snote{Fix name of Hessian descent}
 %
 \alglanguage{pseudocode}
 \begin{algorithm}[hb]
@@ -51,8 +53,8 @@ The use of second-order methods is not limiting since noisy gradient descent alg
    \label{SecondGD}
 \begin{algorithmic}
    \State {\bfseries Input:} $L:\mathcal{M} \to \R$; $x_0 \in
-   \mathcal{M}$; $T\in \N$; $\alpha \in \R$; $\epsilon\in\R$
-\Snote{Fix $\alpha$ vs $\gamma$}
+   \mathcal{M}$; $T\in \N$; $\alpha, \eta, \gamma \in \R$
+%\Snote{Fix $\alpha$ vs $\gamma$}
    \For {$i=1$ {\bfseries to} $T$}
    \If {$\|\nabla L(x_{i-1})\| \geq  \eta$}\  $x_{i} = GD(L, x_{i-1}, 1, \alpha)$
    \Else \
@@ -84,10 +86,9 @@ $x_i = HD(L, x_{i-1}, 1, \alpha)$
   Let $\mathcal{M} = \R^{d}$ for $d \equiv 3 \mod 4$ and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log d){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
 \end{theorem}
 %
-We start by stating a lemma concerning the construction of an approximately
+We start by stating a lemma concerning the construction of an almost
 $\lambda$-harmonic function on $\R^d.$ The construction is given in
-Section~\ref{realizable} and takes a linear combination of realizable potentials that correspond to the activation function. relies on the characterization theorems such as~\ref{thm:tranReal}. 
-%
+Section~\ref{realizable} and uses a linear combination of realizable potentials that correspond to an activation function of the indicator function of a $n$-sphere. By using Fourier analysis and Theorem~\ref{thm:tranReal}, we can finish the construction of our almost $\lambda$-harmonic potential.%
 %
 \begin{restatable}{lemma}{almostharmreal}\label{almostharmreal'}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $1 > \epsilon > 0$, we can construct a radial activation $\sigma_\epsilon(r)$ with corresponding normalized radial potential $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when $r \geq \epsilon$.
@@ -98,13 +99,12 @@ Lastly, $|{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-
 \end{restatable}
 %
 %
-The proof is similar to Theorem \ref{EigStrict}. \Snote{Expand this statement, and refer to the theorem below. Interpret that it is an approximate version of the previous exact theorem.}
+Our next lemma use the almost $\lambda$-harmonic properties to show that at an almost stationary point of $G$, we must have converged close to some $w_j$ as long as our charges $a_i$ are not too small. The proof is similar to Theorem \ref{EigStrict}. Then, the following lemma relates the magnitude of the charges $a_i$ to the progress made in the objective function. 
+%\Snote{Expand this statement, and refer to the theorem below. Interpret that it is an approximate version of the previous exact theorem.}
 %
 \begin{restatable}{lemma}{almostharmconv}\label{almostharmconv}
 Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $G$ be the regularized loss corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon \in (0,1)$ and $\delta \in (0, 1)$, if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta$.
 \end{restatable}
-%
-The charges are big if we made progress \Snote{Again, needs a good description.}
 %
 \begin{restatable}{lemma}{almostharmres}\label{almostHarmRes}
   Assume the conditions of Lemma~\ref{almostharmconv}. If
@@ -113,7 +113,7 @@ $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta
   then there exists some $i, j$ such that $\|\theta_i - w_j\| <k\epsilon$.
 \end{restatable}
  %
- Next, we guarantee progress.
+ Finally, we guarantee that our initialization substantially decreases our objective function. Together with our previous lemmas, it will imply that we must be close to some $w_j$ upon convergence. This is the overview of the proof of Theorem~\ref{almostHarmSGD}, presented below.
  %
  \begin{restatable}{lemma}{almostharminitialize}[Initialization]\label{almostHarmInitialize}
 Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostharmconv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = (d/\epsilon)^{ - O(d)}$.
@@ -129,9 +129,8 @@ Now, Lemma~\ref{almostharmreal} ensures all first three derivatives of $\Phi_{\e
 \end{proof}
 
 \subsection{Node-by-Node Analysis}
-We cannot easily analyze the convergence of gradient descent to the global minima when all $\theta_i$ are simultaneously moving since the pairwise interaction terms between the $\theta_i$ present complications, even with added regularization. To derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
-node-wise SGD \Snote{Use the correct algorithm name} algorithm to learn the hidden weights, i.e. we run a
-full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
+We cannot easily analyze the convergence of gradient descent to the global minima when all $\theta_i$ are simultaneously moving since the pairwise interaction terms between the $\theta_i$ present complications, even with added regularization. Instead, we run a greedy
+node-wise descent \Snote{Use the correct algorithm name} algorithm to learn the hidden weights, i.e. we run a descent algorithm with respect to $(a_i,\theta_i)$ sequentially. The
 main idea is that after running SGD with respect to $\theta_1$,
 $\theta_1$ should be close to some $w_j$ for some $j$. Then, we can
 carefully induct and show that $\theta_2$ must be some other $w_k$ for
@@ -139,24 +138,22 @@ $k\neq j$ and so on.
 
 %
 \begin{algorithm}[tb]
- \caption{Node-wise Gradient Descent Algorithm with Output Weights Optimization}
+ \caption{Node-wise Descent Algorithm with Output Weights Optimization}
    \label{NodeGDOpt}
 \begin{algorithmic}
   \State {\bfseries Input:}
   $(\boldsymbol{a,\theta}) = (a_1,...,a_k,\theta_1,...,\theta_k), a_i
   \in\R, \theta_i\in\mathcal{M}$;
   $T\in \N$; $L$; $\alpha, \eta, \gamma \in \R$; 
-   \State{\bf Initialize} $\boldsymbol{(a,\theta) = (0,0)}$
   \For {$i=1$ {\bfseries to} $k$} 
-  \State $(a_i, \theta_i) = SecondGD \left(\widehat{L}_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\eta,\gamma \right)$
-   \State    $(a_1,...,a_i) =  GD \left(\widehat{L}_{a_1,..,a_i},
-     (a_1,..,a_i), T , \alpha \right)$\;
+  \State{\bf Initialize} $(a_i, \theta_i)$
+  \State $(a_i, \theta_i) = SecondGD \left(L_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\eta,\gamma \right)$
    \EndFor
    \State {\bf return} $a = (a_1,...,a_k), \theta = (\theta_1,..., \theta_k)$
    \end{algorithmic}
 \end{algorithm}
 
-To apply our node-wise guarantees, we would first need to first tighten the convergence properties of SGD in the case where we have only 1 variable charge, say $\theta_1$. Let $L_1(a_1,\theta_1)$ be the objective $L$ restricted to $a_1,\theta_1$ being variable, and $a_2,...,a_k = 0$ are fixed. Our better control on the movements of $\theta_1$ allows us to remove our regularization. While our previous guarantees before allow us to reach a $\epsilon$-neighborhood of $w_j$ when running SGD on $L_1$, we actually would like to reach a $(d/\epsilon)^{-O(d)}$-neighborhood of $w_j$. This is accomplished by reasoning about the first derivatives of our potential, mainly by showing that in an $\epsilon$-neighborhood of $w_j$, descending along the gradient always brings $\theta_1$ closer to $w_j$.
+Let $L_1(a_1,\theta_1)$ be the objective $L$ restricted to $a_1,\theta_1$ being variable, and $a_2,...,a_k = 0$ are fixed. The tighter control on the movements of $\theta_1$ allows us to remove our regularization. While our previous guarantees before allow us to reach a $\epsilon$-neighborhood of $w_j$ when running SGD on $L_1$, we will strengthen our guarantees to reach a $(d/\epsilon)^{-O(d)}$-neighborhood of $w_j$, by reasoning about the first derivatives of our potential in an $\epsilon$-neighborhood of $w_j$. By similar argumentation as before, we will be able to derive the following convergence guarantees for node-wise training. 
 
 \begin{restatable}{theorem}{nodewise}\label{nodeWise}
 Let $\mathcal{M} = \R^{d}$ and $d \equiv 3 \mod 4$ and let $L$ be as in \ref{errLoss} and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, after running nodewise descent (Algorithm \ref{NodeGDOpt}) on the objective $L$ for at most $\poly(1/\beta,1/\lambda)d^{\sqrt{\lambda}}(d/\epsilon)^{O(d)}$ iterations, $\boldsymbol{(a,\theta)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of the global minima.
