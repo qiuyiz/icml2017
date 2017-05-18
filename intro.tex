@@ -25,29 +25,39 @@ Experimental simulations show that for short depths (say two), and for different
 % Our experimental simulations show that for different widths and heights functions represented by neural networks with random edge weights can be learnt by stochastic gradient descent.
  % Our experimental simulations show that for short depths (say 2) and with random edge weights the error rate drops to a small percentage. 
 %To understand this better, 
-We theoretically investigate this question of convergence for networks of depth two with certain simiplifying assumptions. Specifically, we assume that the top node is a sum node instead of a non linear node and that the training data comes from a standard multivariate Gaussian distribution. 
 
 
 
-\paragraph{Results and Contributions.} Our main conceptual contribution is that for these simplified depth $2$ networks, the question of whether the gradient descent converges to the desired target function is equivalent to a certain question of convergence in electrodynamics: given $n$ fixed protons~\Snote{charges?} in $d$ dimensional Euclidean space and $n$ electrons initialized at random positions with all the electrons moving under the influence of the electrical force of attraction from the protons and repulsion from the remaining electrons. The question of convergence, then, is whether at equilibrium all the electrons will be matched up all the protons upto some permutation. Here $n$ corresponds to the number of hidden units, $d$ is the number of inputs to the deep network, the positions of each proton corresponds to the input weight vector of
+\paragraph{Results and Contributions.} 
+We theoretically investigate the question of convergence for networks of depth two.
+ % with certain simiplifying assumptions.  
+Our main conceptual contribution is that for depth $2$ networks where the top node is a sum node, the question of whether gradient descent converges to the desired target function is equivalent to the following question in electrodynamics: Given $n$ fixed charges in $\rea^d,$ and $n$ mobile chages,
+% initialized at random positions 
+with all the mobile charges moving under the influence of the 
+attractive force between opposite-sign charges, and repulsive force between  same-sign charges,
+% electrical force of attraction from the protons and repulsion from the remaining electrons. 
+at equilibrium, are all the mobile charges matched up with all the fixed charges, upto a permutation? 
+
+In the above, $n$ corresponds to the number of hidden units, $d$ is the number of inputs to the  network, the positions of each fixed charge corresponds to the input weight vector of
 % a  edge weights incident on each of the
-a hidden unit in the target network, and the initial positions of the electrons are the initial values of the edge weights for the hidden units at the beginning of the gradient descent in the learning network. The motion of the electrons essentially tracks the change in the network during gradient descent. The force function between a pair of charges is not given by the standard electrical force of $1/r^2$ (where $r$ is the distance between unit charges), but by another function that is determined by the activation function and the distribution of inputs. Thus the question of convergence in these simplified depth two networks can be resolved by studying the equivalent electrodynamics question with the corresponding force function.
+a hidden unit in the target network, and the initial positions of the mobile charges are the initial values of the edge weights for the hidden units at the beginning of the gradient descent in the learning network. The motion of the charges essentially tracks the change in the network during gradient descent. The force between a pair of charges is not given by the standard electrical force of $1/r^2$ (where $r$ is the distance between unit charges), but by a function determined by the activation and the input distribution. Thus the question of convergence in these simplified depth two networks can be resolved by studying the equivalent electrodynamics question with the corresponding force function.
 %
 % \Anote{If you're going to have an informal theorem statement, they should be understandable without reading the main text. That's because a reader like me will ignore your intro text and just look at the theorem statements to gauge your paper. If the theorems look interesting, then they'll read the paper. This theorem refers to f, which is undefined. it also doesn't explain at all in what way the electrons and protons correspond to f. You should either make this explicit in the informal theorem's statement, or you should just blend this informal theorem into the rest of the section.}
-\begin{theorem}(informal statement of Theorem~\ref{EPDyn})
-Applying gradient descent for learning the output of a neural network
-with one hidden layer and a linear activation function at the output
-node, under standard Gaussian inputs and squared loss, 
+\begin{theorem}[informal statement of Theorem~\ref{EPDyn}]
+Applying gradient descent for learning the output of a depth two network
+with activation $\sigma$ in the hidden layer and a linear output
+node, under squared loss, 
 % two layer
 % neural network 
 % The gradient descent process for learning our neural network $f$ 
-is equivalent to the motion of k electrons in the presence of k fixed
-protons where the force between any pair of charges is given by a
-potential function that depends on $\sigma$.
+is equivalent to the motion of k charges in the presence of k fixed
+charges where the force between any pair of charges is given by a
+potential function that depends on $\sigma$ and the input distribution.
 \end{theorem}
 %
 
-Our main technical contribution is to prove the existence of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. We then show that this allows us to learn the complete target network one node at a time. We leave open the problem of convergence for forces corresponding to more realistic activation functions. We assume the sample complexity is close to its infinite limit. 
+ % and that the training data comes from a standard multivariate Gaussian distribution.
+Our main technical contribution is to prove the existence of an activation function such that the corresponding gradient descent dynamics under standard Gaussian inputs result in learning at least one of the hidden nodes in the target network. We then show that this allows us to learn the complete target network one node at a time. We leave open the problem of convergence for forces corresponding to more realistic activation functions. We assume the sample complexity is close to its infinite limit. 
 %
 % {\color{red} }
 %We also derive the force function for several possible activation functions. }
@@ -57,7 +67,7 @@ Our main technical contribution is to prove the existence of an activation funct
 %
 % \Anote{same problem as the other informal theorem. i don't know what a $\theta$ is. it has only been defined in the text. furthermore, it's far too informal. instead of "carefully" it should give this notion a name. again, better to just blend this content in the rest of the text without calling it an informal theorem.}
 \begin{theorem}[informal statement of Theorem~\ref{almostHarmSGD}]
-There is an activation function such that upon running gradient
+There is an activation function such that running gradient
   descent for minimizing the squared loss along with $\ell_2$
   regularization for standard Gaussian inputs, at convergence, 
 % For some
@@ -67,6 +77,10 @@ There is an activation function such that upon running gradient
   the hidden weights of the target neural network.
 \end{theorem}
 
+
+We  prove that the above result can be iterated to learn the entire network node-by-node using gradient descent (Theorem~\ref{nodeWise}).  Our algorithm learns a network with the same architecture and number of hidden nodes as the target network. This is in contrast to the improper learning setting of many proposed algorithms.
+
+In the supplementary material, we show some weak results for more practical activations. For the sign activation, we show that for the loss with respect to a single node, the only local minima are at the hidden target nodes with high probability if the target network has a randomly picked top layer. For the polynomial activation, we derive a similar result under the assumption that the hidden nodes are orthonormal and show a polynomial convergence of an SGD algorithm to learn these weights.
 
 
 \paragraph{Intuition and Techniques.}
@@ -78,17 +92,15 @@ Note that for the standard electric potential function given by $\Phi = 1/r$ whe
 %  % These convergence results are proven to simply illustrate our ideas. 
 % In Section~\ref{}, we construct a realizable almost $\lambda$-harmonic potential and prove finite convergence guarantees. In section 6, experimental results confirm that depth-2 neural networks can be learned by gradient descent with common activation functions but seem to discredit that claim for higher depth networks. In section 5, we consider more realistic activation functions, such as the sign and polynomial function.
 
-The proof of Earnshaw's theorem is based on the fact that the electrostatic potential is harmonic, \emph{i.e}, its Laplacian (trace of its Hessian) is identically zero. This ensures that at every critical point, there is direction of potential reduction (unless the hessian is identically zero). We generalize these ideas to potential functions that are eigenfunctions of the Laplacians, $\lambda$-harmonic potentials (Section~\ref{sec:lambda}). However, there potentials are unbounded. Subsequently, we construct a non-explicit activation function such that the corresponding potential is bounded and is almost $\lambda$-harmonic, \emph{i.e.}, it is $\lambda$-harmonic outside a small sphere (Section~\ref{}). For this activation function, we show at a stable critical point, we must learn at least one of the hidden nodes. 
+The proof of Earnshaw's theorem is based on the fact that the electrostatic potential is harmonic, \emph{i.e}, its Laplacian (trace of its Hessian) is identically zero. This ensures that at every critical point, there is direction of potential reduction (unless the hessian is identically zero). We generalize these ideas to potential functions that are eigenfunctions of the Laplacians, $\lambda$-harmonic potentials (Section~\ref{sec:earnshaw}). However, there potentials are unbounded. Subsequently, we construct a non-explicit activation function such that the corresponding potential is bounded and is almost $\lambda$-harmonic, \emph{i.e.}, it is $\lambda$-harmonic outside a small sphere (Section~\ref{sec:almost-harmonic}). For this activation function, we show at a stable critical point, we must learn at least one of the hidden nodes. We remark that gradient descent (possibly with some noise, as in~\cite{GeHJY15}) is believed to converge to stable critical points. However, for simplicity, we use second order information to escape saddle points.
 
 %\Snote{We use recent results on gradient descent~\cite{Rongetal} to show that gradient descent (with perturbations) converges close a stable critical point.}
 
 {\color{red}The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.}
 
 
-
 % Our main tool for analysis is to derive second-order information about our dynamics by using the Laplacian of the Hessian (or a submatrix of the Hessian) of our loss function. 
 % Together with some generalization error bounds and discrete optimization results, we can finally translate these convergence results into finite time convergence rates. 
-We remark that our algorithms learn and return a neural network with the same architecture and number of hidden nodes as the target network. This is a big contrast to the improper learning setting of many proposed algorithms. 
 
 
 % We derive some sufficient conditions that characterize potentials
@@ -100,7 +112,6 @@ We remark that our algorithms learn and return a neural network with the same ar
 %
 
 %
-In the supplementary material, we also show some weak results for other more practical activation functions. Specifically, for the sign activation, we show that if we consider the loss function with respect to a single variable $\theta_i$, then the only local minimas are at the true weights $w_j$, with high probability under random initializations of $b_i$. For the polynomial activation, we derive a similar result under the assumption that our weights $w_j$ are orthonormal and show convergence of a SGD algorithm to learn these weights in $\poly(d,1/\epsilon)$ time.
 %
 % \begin{table}[tb]
 % \caption{Activation, Potentials, and Convergence Results Summary}
