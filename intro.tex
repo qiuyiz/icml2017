@@ -30,30 +30,27 @@ Experimental simulations show that for short depths (say two), and for different
 
 \paragraph{Results and Contributions.} 
 We theoretically investigate the question of convergence for networks of depth two.
- % with certain simiplifying assumptions.  
-Our main conceptual contribution is that for depth $2$ networks where the top node is a sum node, the question of whether gradient descent converges to the desired target function is equivalent to the following question in electrodynamics: Given $n$ fixed charges in $\rea^d,$ and $n$ mobile chages,
+ % with certain simplifying assumptions.  
+Our main conceptual contribution is that for depth $2$ networks where the top node is a sum node, the question of whether gradient descent converges to the desired target function is equivalent to the following question in electrodynamics: Given $n$ fixed protons in $\rea^d,$ and $n$ moving electrons,
 % initialized at random positions 
-with all the mobile charges moving under the influence of the 
-attractive force between opposite-sign charges, and repulsive force between  same-sign charges,
-% electrical force of attraction from the protons and repulsion from the remaining electrons. 
-at equilibrium, are all the mobile charges matched up with all the fixed charges, upto a permutation?  \Snote{Need to fix that the merge only happens if opposite signs.}
+with all the electrons moving under the influence of the 
+% electrical attractive force between opposite-sign charges, and repulsive force between same-sign charges,
+electrical force of attraction from the protons and repulsion from the remaining electrons,
+at equilibrium, are all the electrons matched up with all the fixed protons, up to a permutation?  
 
-In the above, $n$ corresponds to the number of hidden units, $d$ is the number of inputs to the  network, the positions of each fixed charge corresponds to the input weight vector of
+In the above, $n$ corresponds to the number of hidden units, $d$ is the number of inputs, the positions of each fixed charge is the input weight vector of
 % a  edge weights incident on each of the
-a hidden unit in the target network, and the initial positions of the mobile charges are the initial values of the edge weights for the hidden units at the beginning of the gradient descent in the learning network. The motion of the charges essentially tracks the change in the network during gradient descent. The force between a pair of charges is not given by the standard electrical force of $1/r^2$ (where $r$ is the distance between unit charges), but by a function determined by the activation and the input distribution. Thus the question of convergence in these simplified depth two networks can be resolved by studying the equivalent electrodynamics question with the corresponding force function.
+a hidden unit in the target network, and the initial positions of the moving charges are the initial values of the weight vectors for the hidden units in the learning network. The motion of the charges essentially tracks the change in the network during gradient descent. The force between a pair of charges is not given by the standard electrical force of $1/r^2$ (where $r$ is the distance between the charges), but by a function determined by the activation and the input distribution. Thus the question of convergence in these simplified depth two networks can be resolved by studying the equivalent electrodynamics question with the corresponding force function.
 %
 % \Anote{If you're going to have an informal theorem statement, they should be understandable without reading the main text. That's because a reader like me will ignore your intro text and just look at the theorem statements to gauge your paper. If the theorems look interesting, then they'll read the paper. This theorem refers to f, which is undefined. it also doesn't explain at all in what way the electrons and protons correspond to f. You should either make this explicit in the informal theorem's statement, or you should just blend this informal theorem into the rest of the section.}
 \begin{theorem}[informal statement of Theorem~\ref{EPDyn}]
 Applying gradient descent for learning the output of a depth two network
-with activation $\sigma$ in the hidden layer and a linear output
-node, under squared loss, 
+with $n$ hidden units with activation $\sigma,$ and a linear output
+node, under squared loss, using a network of the same architecture,
 % two layer
 % neural network 
 % The gradient descent process for learning our neural network $f$ 
-is equivalent to the motion of k charges in the presence of k fixed
-charges where the force between any pair of charges is given by a
-potential function that depends on $\sigma$ and the input distribution.
-\end{theorem}
+is equivalent to the motion of $n$ charges in the presence of $n$ fixed charges where the force between each pair of charges is given by a potential function that depends on $\sigma$ and the input distribution.  \end{theorem}
 %
 
  % and that the training data comes from a standard multivariate Gaussian distribution.
@@ -76,23 +73,24 @@ There is an activation function such that running gradient
   we learn at least one of
   the hidden weights of the target neural network.
 \end{theorem}
-
-
-We  prove that the above result can be iterated to learn the entire network node-by-node using gradient descent (Theorem~\ref{nodeWise}).  Our algorithm learns a network with the same architecture and number of hidden nodes as the target network. This is in contrast to the improper learning setting of many proposed algorithms.
+%
+We  prove that the above result can be iterated to learn the entire network node-by-node using gradient descent (Theorem~\ref{nodeWise}).  Our algorithm learns a network with the same architecture and number of hidden nodes as the target network, 
+in contrast with several existing improper learning results.
+ % This is in contrast to the improper learning setting of many proposed algorithms.
 
 In the supplementary material, we show some weak results for more practical activations. For the sign activation, we show that for the loss with respect to a single node, the only local minima are at the hidden target nodes with high probability if the target network has a randomly picked top layer. For the polynomial activation, we derive a similar result under the assumption that the hidden nodes are orthonormal and show a polynomial convergence of an SGD algorithm to learn these weights.
 
 
 \paragraph{Intuition and Techniques.}
 %
-Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed charges and some moving electrons is at equilibrium only when the moving charges coincide with the fixed charges \Snote{Fix since two mobile charges can also merge}. Given our translation above between electrodynamic systems and depth 2 networks (Section~\ref{sec:epdyn}), this would imply learnability of depth 2 networks with gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$. 
+Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed protons and some moving electrons is at equilibrium only when the moving electrons coincide with the fixed protons. Given our translation above between electrodynamic systems and depth 2 networks (Section~\ref{sec:epdyn}), this would imply learnability of depth 2 networks under gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$.
 %
 
 % \paragraph{Organization.} In section 2, we introduce our framework and assumptions, and derive the equivalence between gradient descent and electron-proton dynamics under a suitable potential. 
 %  % These convergence results are proven to simply illustrate our ideas. 
 % In Section~\ref{}, we construct a realizable almost $\lambda$-harmonic potential and prove finite convergence guarantees. In section 6, experimental results confirm that depth-2 neural networks can be learned by gradient descent with common activation functions but seem to discredit that claim for higher depth networks. In section 5, we consider more realistic activation functions, such as the sign and polynomial function.
 
-The proof of Earnshaw's theorem is based on the fact that the electrostatic potential is harmonic, \emph{i.e}, its Laplacian (trace of its Hessian) is identically zero. This ensures that at every critical point, there is direction of potential reduction (unless the hessian is identically zero). We generalize these ideas to potential functions that are eigenfunctions of the Laplacians, $\lambda$-harmonic potentials (Section~\ref{sec:earnshaw}). However, there potentials are unbounded. Subsequently, we construct a non-explicit activation function such that the corresponding potential is bounded and is almost $\lambda$-harmonic, \emph{i.e.}, it is $\lambda$-harmonic outside a small sphere (Section~\ref{sec:almost-harmonic}). For this activation function, we show at a stable critical point, we must learn at least one of the hidden nodes. Gradient descent (possibly with some noise, as in~\cite{GeHJY15}) is believed to converge to stable critical points. However, for simplicity, we descent along directions of negative curvature to escape saddle points. Our activation lacks some regularity conditions required by \citet{GeHJY15}. We believe the work of \citet{jin2017escape} can be adapted to our setting to prove that perturbed gradient descent converges to stable crtical points.
+The proof of Earnshaw's theorem is based on the fact that the electrostatic potential is harmonic, \emph{i.e}, its Laplacian (trace of its Hessian) is identically zero. This ensures that at every critical point, there is direction of potential reduction (unless the hessian is identically zero). We generalize these ideas to potential functions that are eigenfunctions of the Laplacians, $\lambda$-harmonic potentials (Section~\ref{sec:earnshaw}). However, there potentials are unbounded. Subsequently, we construct a non-explicit activation function such that the corresponding potential is bounded and is almost $\lambda$-harmonic, \emph{i.e.}, it is $\lambda$-harmonic outside a small sphere (Section~\ref{sec:almost-harmonic}). For this activation function, we show at a stable critical point, we must learn at least one of the hidden nodes. Gradient descent (possibly with some noise, as in the work of Ge \emph{et al.}~\cite{GeHJY15}) is believed to converge to stable critical points. However, for simplicity, we descend along directions of negative curvature to escape saddle points. Our activation lacks some regularity conditions required in\cite{GeHJY15}. We believe the results in \cite{jin2017escape} can be adapted to our setting to prove that perturbed gradient descent converges to stable critical points.
 % $M_{G,\epsilon}$ but requires more in-depth analysis.
 
 %\Snote{We use recent results on gradient descent~\cite{Rongetal} to show that gradient descent (with perturbations) converges close a stable critical point.}
