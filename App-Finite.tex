@@ -99,7 +99,18 @@
 %
 %
 %ADDING DETERMINISTIC LEMMAS
-
+\begin{algorithm}[hb]
+ \caption{$x = GD(L,x_0, T,\alpha$)}
+   \label{GD}
+\begin{algorithmic}
+   \State {\bfseries Input:} $L: \mathcal{M} \to \R$; $x_0 \in \mathcal{M}$; $T\in \N$; $\alpha\in \R$
+   \State Initialize $x = x_0$
+   \For {$i=1$ {\bfseries to} $T$}
+   \State $x = x - \alpha\nabla L(x)$
+   \State $x = \Pi_\mathcal{M} x$
+   \EndFor
+\end{algorithmic}
+\end{algorithm}
 
 \begin{lemma}\label{GradDecrease}		
 Let $f :\Omega \to \R$ be a thrice differentiable function such that $|f(y)| \leq B_0, \|\nabla f(y)\| \leq B_1, \|\nabla^2 f(y)\| \leq B_2,\|\nabla^2f (z)-\nabla^2L(y)\| \leq B_3\|z - y\|$ for all $y,z$ in a $(\alpha B_1)$-neighborhood of $x$. If $\|\nabla f (x) \|\geq \eta$ and $x'$ is reached after one iteration of gradient descent (Algorithm \ref{GD}) with stepsize $\alpha \leq \frac{1}{B_2}$, then $\|x' - x\| \leq \alpha B_1$ and $f(x') \leq f(x) - \alpha\eta^2/2$.
