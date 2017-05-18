@@ -1,7 +1,7 @@
 \section{Introduction}
 
 
-Deep learning has resulted in major strides in machine learning applications including speech recognition, image classification, and ad-matching. The simple idea of using multiple layers of nodes with a non-linear activation function at each node allows one to express any function.  To learn a certain target function we just use (stochastic) gradient descent to minimize the loss; this approach has resulted in significantly lower error rates for several real world functions, such as those in the above applications. Naturally the question remains: how close are we to the optimal values of the network weight parameters? Are we stuck in some bad local minima? While there are several recent works \cite{ChoromanskaHMAL14, DauphinPGCGB14, Kawaguchi16a} that have tried to study the presence of local minima the picture is far from clear.
+Deep learning has resulted in major strides in machine learning applications including speech recognition, image classification, and ad-matching. The simple idea of using multiple layers of nodes with a non-linear activation function at each node allows one to express any function.  To learn a certain target function we just use (stochastic) gradient descent to minimize the loss; this approach has resulted in significantly lower error rates for several real world functions, such as those in the above applications. Naturally the question remains: how close are we to the optimal values of the network weight parameters? Are we stuck in some bad local minima? While there are several recent works \cite{ChoromanskaHMAL14, DauphinPGCGB14, Kawaguchi16a} that have tried to study the presence of local minima, the picture is far from clear.
 
 There has been some work on studying how well can neural networks learn some synthetic function classes (e.g. polynomials~\cite{valiant2014learning}, decision trees). 
 In this work we study how well can neural networks learn neural networks with gradient descent?
@@ -36,7 +36,7 @@ Our main conceptual contribution is that for depth $2$ networks where the top no
 with all the mobile charges moving under the influence of the 
 attractive force between opposite-sign charges, and repulsive force between  same-sign charges,
 % electrical force of attraction from the protons and repulsion from the remaining electrons. 
-at equilibrium, are all the mobile charges matched up with all the fixed charges, upto a permutation? 
+at equilibrium, are all the mobile charges matched up with all the fixed charges, upto a permutation?  \Snote{Need to fix that the merge only happens if opposite signs.}
 
 In the above, $n$ corresponds to the number of hidden units, $d$ is the number of inputs to the  network, the positions of each fixed charge corresponds to the input weight vector of
 % a  edge weights incident on each of the
@@ -85,7 +85,7 @@ In the supplementary material, we show some weak results for more practical acti
 
 \paragraph{Intuition and Techniques.}
 %
-Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed charges and some moving electrons is at equilibrium only when the moving charges coincide with the fixed charges. Given our translation above between electrodynamic systems and depth 2 networks (Section~\ref{sec:epdyn}), this would imply learnability of depth 2 networks with gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$. 
+Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed charges and some moving electrons is at equilibrium only when the moving charges coincide with the fixed charges \Snote{Fix since two mobile charges can also merge}. Given our translation above between electrodynamic systems and depth 2 networks (Section~\ref{sec:epdyn}), this would imply learnability of depth 2 networks with gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$. 
 %
 
 % \paragraph{Organization.} In section 2, we introduce our framework and assumptions, and derive the equivalence between gradient descent and electron-proton dynamics under a suitable potential. 

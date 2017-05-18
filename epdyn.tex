@@ -69,12 +69,12 @@ re-parametrize $a$ with $-a$ and expand.
 Given $\mathcal{D},$ the activation function $\sigma$, and the loss
 $L$, we attempt to show that we can use some variant of gradient
 descent to learn, with high probability, an $\epsilon$-approximation
-of $w_j$ for some (or all) $j$. Although our loss is jointly
+of $w_j$ for some (or all) $j$. {\color{red} Although our loss is jointly
 non-convex, it is quadratic in $\boldsymbol{a}$. Therefore we can
 restrict our attention to convergence in $\boldsymbol{\theta}$ to
 $\boldsymbol{w}$, since we have convergence guarantees to
 $\boldsymbol{a^*(\theta)}$, the optimal set of output weights of a
-given $\boldsymbol{\theta}$.
+given $\boldsymbol{\theta}$. }
 
 
 
@@ -148,7 +148,7 @@ that are trying to find $w_i$. The total force on each charge is the
 sum of the pairwise forces, determined by the gradient of $\Phi.$ We
 note that standard dynamics interprets the force between particles as
 an acceleration vector. In gradient descent, it is interpreted as a
-velocity vector.
+velocity vector. 
 %
 \begin{definition}\label{EPDef}
   Given a potential $\Phi$ and particle locations
@@ -165,6 +165,7 @@ velocity vector.
 for all $i \not \in S$, with $\theta_i(0) = \theta_i$. For $i \in S$, $\theta_i(t) =  \theta_i$.
 \end{definition}
 %
+\Snote{Note that the charges are fixed here.}
 \begin{restatable}{theorem}{epdyn}
 \label{EPDyn}
 Let $\Phi$ be a symmetric potential and $L$ be as in \eqref{errLoss}. Running continuous gradient descent on $\frac{1}{2} L$ with respect to $\theta$, initialized at
