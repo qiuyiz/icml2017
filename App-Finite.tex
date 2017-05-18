@@ -156,7 +156,7 @@
 
 
 \begin{lemma}\label{GradDecrease}		
-Let $f :\Omega \to \R$ be a thrice differentiable function such that $|f(x)| \leq B_0, \|\nabla f(x)\| \leq B_1, \|\nabla^2 f(x)\| \leq B_2,\|\nabla^2f (x)-\nabla^2L(y)\| \leq B_3\|x - y\|$ for all $x,y$ in a $(\alpha B_1)$-neighborhood of $x$. If $\|\nabla f (x) \|\geq \eta$ and $x'$ is reached after one iteration of gradient descent (Algorithm \ref{GD}) with stepsize $\alpha \leq \frac{1}{B_2}$, then $\|x' - x\| \leq \alpha B_1$ and $f(x') \leq f(x) - \alpha\eta^2/2$.
+Let $f :\Omega \to \R$ be a thrice differentiable function such that $|f(y)| \leq B_0, \|\nabla f(y)\| \leq B_1, \|\nabla^2 f(y)\| \leq B_2,\|\nabla^2f (z)-\nabla^2L(y)\| \leq B_3\|z - y\|$ for all $y,z$ in a $(\alpha B_1)$-neighborhood of $x$. If $\|\nabla f (x) \|\geq \eta$ and $x'$ is reached after one iteration of gradient descent (Algorithm \ref{GD}) with stepsize $\alpha \leq \frac{1}{B_2}$, then $\|x' - x\| \leq \alpha B_1$ and $f(x') \leq f(x) - \alpha\eta^2/2$.
 \end{lemma} 
 
 \begin{proof}
@@ -169,7 +169,7 @@ For $0 \leq \alpha \leq \frac{1}{B_2}$, we have $\alpha - \alpha^2B_2/2 \geq \al
 \end{proof}
 
 \begin{lemma}\label{HessianDecrease}
-Let $f :\Omega \to \R$ be a thrice differentiable function such that $|f(x)| \leq B_0, \|\nabla f(x)\| \leq B_1, \|\nabla^2 f(x)\| \leq B_2,\|\nabla^2f (x)-\nabla^2L(y)\| \leq B_3\|x - y\|$ for all $x,y$ in a $(\alpha B_2)$-neighborhood of $x$. If $\lambda_{min}(\nabla^2 f (x)) \leq -\gamma$ and $x'$ is reached after one iteration of Hessian descent (Algorithm \ref{HD}) with stepsize $\alpha \leq \frac{1}{B_3}$, then $\|x' - x\| \leq \alpha B_2$ and $f(x') \leq f(x) - \alpha^2 \gamma^3/2$.
+Let $f :\Omega \to \R$ be a thrice differentiable function such that $|f(y)| \leq B_0, \|\nabla f(y)\| \leq B_1, \|\nabla^2 f(y)\| \leq B_2,\|\nabla^2f (z)-\nabla^2L(y)\| \leq B_3\|z - y\|$ for all $y,z$ in a $(\alpha B_2)$-neighborhood of $x$. If $\lambda_{min}(\nabla^2 f (x)) \leq -\gamma$ and $x'$ is reached after one iteration of Hessian descent (Algorithm \ref{HD}) with stepsize $\alpha \leq \frac{1}{B_3}$, then $\|x' - x\| \leq \alpha B_2$ and $f(x') \leq f(x) - \alpha^2 \gamma^3/2$.
 \end{lemma}
 
 \begin{proof}
