@@ -1,20 +1,20 @@
 
 \paragraph{Related Work.}
 If the activation functions are linear or
-if certain independence assumptions are made, Kawaguchi shows that the
+if some independence assumptions are made, Kawaguchi shows that the
 only local minima are the global minima \cite{Kawaguchi16a}. Under the
 spin-glass and other physical models, some have shown that the loss
-landscape admit well-behaving local minima that occur usually when the
+landscape admits well-behaving local minima that occur usually when the
 overall error is small
 \cite{ChoromanskaHMAL14, DauphinPGCGB14}. When only training
 error is considered, some have shown that a global minima can be
 achieved if the neural network contains sufficiently many hidden nodes
-\cite{SoudryC16}. Recently, Daniely has shown that SGD learns the conjugate kernel class \cite{daniely2017sgd}. Under simplifying assumptions, some results for learning ReLU's with gradient descent are given in \cite{tian2017analytical, brutzkus2017globally}. Our research is largely inspired by
-\cite{valiant2014learning}, in which the authors show that when the
-target functions are polynomials, gradient descent on neural networks
-with one hidden layer is shown to converge to low error, given a large
-number of hidden nodes. And when complex perturbations are allowed,
-there is no robust local minima.
+\cite{SoudryC16}. Recently, Daniely has shown that SGD learns the conjugate kernel class \cite{daniely2017sgd}. Under simplifying assumptions, some results for learning ReLU's with gradient descent are given in \cite{tian2017analytical, brutzkus2017globally}. Our research is inspired by
+\cite{valiant2014learning}, where the authors show that for polynomial 
+target functions, gradient descent on neural networks
+with one hidden layer converges to low error, given a large
+number of hidden nodes, and under complex perturbations,
+there are no robust local minima.
 
 Under worst case assumptions, there has been hardness results for even simple networks. A neural network with one hidden unit and sigmoidal activation can admit exponentially many local minima \cite{Auer}. Backprogration has been proven to fail in a simple network due to the abundance of bad local minima \cite{brady1989back}. Training a 3-node neural network with one hidden layer is { NP}-complete \cite{BlumR88}.  But, these and many similar worst-case hardness results are based on worst case training data assumptions. However, by using a result in \cite{klivans2006cryptographic} that learning a neural network with threshold activation functions is equivalent to learning intersection of halfspaces, several authors showed that under certain cryptographic assumptions, depth-two neural networks are not efficiently learnable with smooth activation functions \cite{LivniSS14, ZhangLWJ15, ZhangLJ15}.
 

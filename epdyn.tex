@@ -50,8 +50,9 @@ We define $\Phi,$ the {\bf potential function} {\it corresponding to the activat
   } $\sigma,$ as
 \[\Phi(\theta, w) = \expt_{X\sim D}[ \sigma(X,\theta) \sigma(X,w)].\]
 %
-We work directly with the true squared loss error $L(a,\theta)= \expt_{x \sim \mathcal{D}}[(f - \hat{f})^2]$. To further simplify $L$, let us
-re-parametrize $a$ with $-a$ and expand.
+We work directly with the true squared loss error
+$L(a,\theta)= \expt_{x \sim \mathcal{D}}[(f - \hat{f})^2]$. To
+simplify $L$, we re-parametrize $a$ by $-a$ and expand.
 %
 %\begin{equation}\label{errEmp}
 %\widehat{L}(\boldsymbol{a,\theta})  = \frac{1}{n}\sum_{j=1}^n \left(\sum_{i=1}^k %b_i\sigma(x_j,w_i) - \sum_{i=1}^k a_i \sigma(x_j,\theta_i)\right)^2
@@ -121,7 +122,7 @@ $\FT(\Phi)$ is integrable. Then, $\Phi$ is realizable under standard
 Gaussian inputs if $\mathfrak{F}(\Phi)(\omega) \geq 0$ and the
 corresponding activation is
 $\sigma(x) =
-(2\pi)^{1/4}e^{x^2/4}\mathfrak{F}^{-1}(\sqrt{\mathfrak{F}(\Phi)})(x),
+(2\pi)^{d/4}e^{x^Tx/4}\mathfrak{F}^{-1}(\sqrt{\mathfrak{F}(\Phi)})(x),
 $ where $\mathfrak{F}$ is the generalized Fourier transform in $\R^d.$
 \end{restatable}
 %

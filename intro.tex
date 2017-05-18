@@ -31,26 +31,26 @@ Experimental simulations show that for short depths (say two), and for different
 \paragraph{Results and Contributions.} 
 We theoretically investigate the question of convergence for networks of depth two.
  % with certain simplifying assumptions.  
-Our main conceptual contribution is that for depth $2$ networks where the top node is a sum node, the question of whether gradient descent converges to the desired target function is equivalent to the following question in electrodynamics: Given $n$ fixed protons in $\rea^d,$ and $n$ moving electrons,
+Our main conceptual contribution is that for depth $2$ networks where the top node is a sum node, the question of whether gradient descent converges to the desired target function is equivalent to the following question in electrodynamics: Given $k$ fixed protons in $\rea^d,$ and $k$ moving electrons,
 % initialized at random positions 
 with all the electrons moving under the influence of the 
 % electrical attractive force between opposite-sign charges, and repulsive force between same-sign charges,
 electrical force of attraction from the protons and repulsion from the remaining electrons,
 at equilibrium, are all the electrons matched up with all the fixed protons, up to a permutation?  
 
-In the above, $n$ corresponds to the number of hidden units, $d$ is the number of inputs, the positions of each fixed charge is the input weight vector of
+In the above, $k$ is the number of hidden units, $d$ is the number of inputs, the positions of each fixed charge is the input weight vector of
 % a  edge weights incident on each of the
 a hidden unit in the target network, and the initial positions of the moving charges are the initial values of the weight vectors for the hidden units in the learning network. The motion of the charges essentially tracks the change in the network during gradient descent. The force between a pair of charges is not given by the standard electrical force of $1/r^2$ (where $r$ is the distance between the charges), but by a function determined by the activation and the input distribution. Thus the question of convergence in these simplified depth two networks can be resolved by studying the equivalent electrodynamics question with the corresponding force function.
 %
 % \Anote{If you're going to have an informal theorem statement, they should be understandable without reading the main text. That's because a reader like me will ignore your intro text and just look at the theorem statements to gauge your paper. If the theorems look interesting, then they'll read the paper. This theorem refers to f, which is undefined. it also doesn't explain at all in what way the electrons and protons correspond to f. You should either make this explicit in the informal theorem's statement, or you should just blend this informal theorem into the rest of the section.}
 \begin{theorem}[informal statement of Theorem~\ref{EPDyn}]
 Applying gradient descent for learning the output of a depth two network
-with $n$ hidden units with activation $\sigma,$ and a linear output
+with $k$ hidden units with activation $\sigma,$ and a linear output
 node, under squared loss, using a network of the same architecture,
 % two layer
 % neural network 
 % The gradient descent process for learning our neural network $f$ 
-is equivalent to the motion of $n$ charges in the presence of $n$ fixed charges where the force between each pair of charges is given by a potential function that depends on $\sigma$ and the input distribution.  \end{theorem}
+is equivalent to the motion of $k$ charges in the presence of $k$ fixed charges where the force between each pair of charges is given by a potential function that depends on $\sigma$ and the input distribution.  \end{theorem}
 %
 
  % and that the training data comes from a standard multivariate Gaussian distribution.
@@ -90,7 +90,8 @@ Note that for the standard electric potential function given by $\Phi = 1/r$ whe
 %  % These convergence results are proven to simply illustrate our ideas. 
 % In Section~\ref{}, we construct a realizable almost $\lambda$-harmonic potential and prove finite convergence guarantees. In section 6, experimental results confirm that depth-2 neural networks can be learned by gradient descent with common activation functions but seem to discredit that claim for higher depth networks. In section 5, we consider more realistic activation functions, such as the sign and polynomial function.
 
-The proof of Earnshaw's theorem is based on the fact that the electrostatic potential is harmonic, \emph{i.e}, its Laplacian (trace of its Hessian) is identically zero. This ensures that at every critical point, there is direction of potential reduction (unless the hessian is identically zero). We generalize these ideas to potential functions that are eigenfunctions of the Laplacians, $\lambda$-harmonic potentials (Section~\ref{sec:earnshaw}). However, there potentials are unbounded. Subsequently, we construct a non-explicit activation function such that the corresponding potential is bounded and is almost $\lambda$-harmonic, \emph{i.e.}, it is $\lambda$-harmonic outside a small sphere (Section~\ref{sec:almost-harmonic}). For this activation function, we show at a stable critical point, we must learn at least one of the hidden nodes. Gradient descent (possibly with some noise, as in the work of Ge \emph{et al.}~\cite{GeHJY15}) is believed to converge to stable critical points. However, for simplicity, we descend along directions of negative curvature to escape saddle points. Our activation lacks some regularity conditions required in\cite{GeHJY15}. We believe the results in \cite{jin2017escape} can be adapted to our setting to prove that perturbed gradient descent converges to stable critical points.
+The proof of Earnshaw's theorem is based on the fact that the electrostatic potential is harmonic, \emph{i.e}, its Laplacian (trace of its Hessian) is identically zero. This ensures that at every critical point, there is direction of potential reduction (unless the hessian is identically zero). We generalize these ideas to potential functions that are eigenfunctions of the Laplacians, $\lambda$-harmonic potentials (Section~\ref{sec:earnshaw}). However, these potentials are unbounded. Subsequently, we construct a non-explicit activation function such that the corresponding potential is bounded and is almost $\lambda$-harmonic, \emph{i.e.}, it is $\lambda$-harmonic outside a small sphere (Section~\ref{sec:almost-harmonic}). For this activation function, we show at a stable critical point, we must learn at least one of the hidden nodes. Gradient descent (possibly with some noise, as in the work of Ge \emph{et al.}~\cite{GeHJY15}) is believed to converge to stable critical points. However, for simplicity, we descend along directions of negative curvature to escape saddle points. Our activation lacks some regularity conditions required in\cite{GeHJY15}. We believe the results in \cite{jin2017escape} can be adapted to our setting to prove that perturbed gradient descent converges to stable critical points.
+
 % $M_{G,\epsilon}$ but requires more in-depth analysis.
 
 %\Snote{We use recent results on gradient descent~\cite{Rongetal} to show that gradient descent (with perturbations) converges close a stable critical point.}
@@ -141,7 +142,7 @@ The proof of Earnshaw's theorem is based on the fact that the electrostatic pote
 % %
 
 
-We acknowledge that there is still a large gap between our developed theory and practice. However, our work can offer theoretical explanations and guidelines for the design of better activation functions or gradient-based training algorithms. For example, better accuracy and training speed were reported when using the newly discovered exponential linear unit (ELU) activation function in \cite{ClevertUH15, ShahKSS16}. We hope for more theory-backed answers to these and many other questions in deep learning.
+There is still a large gap between theory and practice. However, we believe our work can offer some theoretical explanations and guidelines for the design of better activation functions for gradient-based training algorithms. For example, better accuracy and training speed were reported when using the newly discovered exponential linear unit (ELU) activation function in \cite{ClevertUH15, ShahKSS16}. We hope for more theory-backed answers to these and many other questions in deep learning.
 
 
 
