@@ -1,33 +1,36 @@
 \begin{thebibliography}{10}
 
 \bibitem{ChoromanskaHMAL14}
-Anna Choromanska, Mikael Henaff, Micha{\"{e}}l Mathieu, G{\'{e}}rard~Ben Arous,
-  and Yann LeCun.
-\newblock The loss surface of multilayer networks.
-\newblock {\em CoRR}, abs/1412.0233, 2014.
+Anna Choromanska, Mikael Henaff, Michael Mathieu, G{\'e}rard~Ben Arous, and
+  Yann LeCun.
+\newblock The loss surfaces of multilayer networks.
+\newblock In {\em AISTATS}, 2015.
 
 \bibitem{DauphinPGCGB14}
-Yann Dauphin, Razvan Pascanu, {\c{C}}aglar G{\"{u}}l{\c{c}}ehre, Kyunghyun Cho,
-  Surya Ganguli, and Yoshua Bengio.
+Yann~N Dauphin, Razvan Pascanu, Caglar Gulcehre, Kyunghyun Cho, Surya Ganguli,
+  and Yoshua Bengio.
 \newblock Identifying and attacking the saddle point problem in
   high-dimensional non-convex optimization.
-\newblock {\em CoRR}, abs/1406.2572, 2014.
+\newblock In {\em Advances in neural information processing systems}, pages
+  2933--2941, 2014.
 
 \bibitem{Kawaguchi16a}
 Kenji Kawaguchi.
 \newblock Deep learning without poor local minima.
-\newblock {\em CoRR}, abs/1605.07110, 2016.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  586--594, 2016.
 
 \bibitem{valiant2014learning}
 Alexandr Andoni, Rina Panigrahy, Gregory Valiant, and Li~Zhang.
 \newblock Learning polynomials with neural networks.
-\newblock 2014.
+\newblock In {\em International Conference on Machine Learning}, pages
+  1908--1916, 2014.
 
 \bibitem{GeHJY15}
 Rong Ge, Furong Huang, Chi Jin, and Yang Yuan.
-\newblock Escaping from saddle points - online stochastic gradient for tensor
+\newblock Escaping from saddle points-online stochastic gradient for tensor
   decomposition.
-\newblock {\em CoRR}, abs/1503.02101, 2015.
+\newblock In {\em COLT}, pages 797--842, 2015.
 
 \bibitem{jin2017escape}
 Chi Jin, Rong Ge, Praneeth Netrapalli, Sham~M Kakade, and Michael~I Jordan.
@@ -41,15 +44,32 @@ Djork{-}Arn{\'{e}} Clevert, Thomas Unterthiner, and Sepp Hochreiter.
 \newblock {\em CoRR}, abs/1511.07289, 2015.
 
 \bibitem{ShahKSS16}
-Anish Shah, Eashan Kadam, Hena Shah, and Sameer Shinde.
+Anish Shah, Eashan Kadam, Hena Shah, Sameer Shinde, and Sandip Shingade.
 \newblock Deep residual networks with exponential linear unit.
-\newblock {\em CoRR}, abs/1604.04112, 2016.
+\newblock In {\em Proceedings of the Third International Symposium on Computer
+  Vision and the Internet}, pages 59--65. ACM, 2016.
 
 \bibitem{SoudryC16}
 Daniel Soudry and Yair Carmon.
 \newblock No bad local minima: Data independent training error guarantees for
   multilayer neural networks.
 \newblock {\em CoRR}, abs/1605.08361, 2016.
+
+\bibitem{daniely2017sgd}
+Amit Daniely.
+\newblock Sgd learns the conjugate kernel class of the network.
+\newblock {\em arXiv preprint arXiv:1702.08503}, 2017.
+
+\bibitem{tian2017analytical}
+Yuandong Tian.
+\newblock An analytical formula of population gradient for two-layered relu
+  network and its applications in convergence and critical point analysis.
+\newblock {\em arXiv preprint arXiv:1703.00560}, 2017.
+
+\bibitem{brutzkus2017globally}
+Alon Brutzkus and Amir Globerson.
+\newblock Globally optimal gradient descent for a convnet with gaussian inputs.
+\newblock {\em arXiv preprint arXiv:1702.07966}, 2017.
 
 \bibitem{Auer}
 Peter Auer, Mark Herbster, and Manfred~K Warmuth.
@@ -74,9 +94,10 @@ Adam~R Klivans and Alexander~A Sherstov.
   Science (FOCS'06)}, pages 553--562. IEEE, 2006.
 
 \bibitem{LivniSS14}
-Roi Livni, Shai Shalev{-}Shwartz, and Ohad Shamir.
+Roi Livni, Shai Shalev-Shwartz, and Ohad Shamir.
 \newblock On the computational efficiency of training neural networks.
-\newblock {\em CoRR}, abs/1410.1141, 2014.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  855--863, 2014.
 
 \bibitem{ZhangLWJ15}
 Yuchen Zhang, Jason~D. Lee, Martin~J. Wainwright, and Michael~I. Jordan.
@@ -84,10 +105,11 @@ Yuchen Zhang, Jason~D. Lee, Martin~J. Wainwright, and Michael~I. Jordan.
 \newblock {\em CoRR}, abs/1511.07948, 2015.
 
 \bibitem{ZhangLJ15}
-Yuchen Zhang, Jason~D. Lee, and Michael~I. Jordan.
+Yuchen Zhang, Jason~D Lee, and Michael~I Jordan.
 \newblock l1-regularized neural networks are improperly learnable in polynomial
   time.
-\newblock {\em CoRR}, abs/1510.03528, 2015.
+\newblock In {\em International Conference on Machine Learning}, pages
+  993--1001, 2016.
 
 \bibitem{JanzaminSA15}
 Majid Janzamin, Hanie Sedghi, and Anima Anandkumar.
@@ -98,7 +120,7 @@ Majid Janzamin, Hanie Sedghi, and Anima Anandkumar.
 \bibitem{AroraBGM13}
 Sanjeev Arora, Aditya Bhaskara, Rong Ge, and Tengyu Ma.
 \newblock Provable bounds for learning some deep representations.
-\newblock {\em CoRR}, abs/1310.6343, 2013.
+\newblock In {\em ICML}, pages 584--592, 2014.
 
 \bibitem{shalev2011learning}
 Shai Shalev-Shwartz, Ohad Shamir, and Karthik Sridharan.
@@ -108,7 +130,7 @@ Shai Shalev-Shwartz, Ohad Shamir, and Karthik Sridharan.
 \bibitem{GoelKKT16}
 Surbhi Goel, Varun Kanade, Adam Klivans, and Justin Thaler.
 \newblock Reliably learning the relu in polynomial time.
-\newblock {\em CoRR}, abs/1611.10258, 2016.
+\newblock {\em arXiv preprint arXiv:1611.10258}, 2016.
 
 \bibitem{arnold1985mathematical}
 Vladimir~I Arnold, Valery~V Kozlov, and Anatoly~I Neishtadt.
@@ -119,6 +141,7 @@ Vladimir~I Arnold, Valery~V Kozlov, and Anatoly~I Neishtadt.
 Amit Daniely, Roy Frostig, and Yoram Singer.
 \newblock Toward deeper understanding of neural networks: The power of
   initialization and a dual view on expressivity.
-\newblock {\em CoRR}, abs/1602.05897, 2016.
+\newblock In {\em Advances In Neural Information Processing Systems}, pages
+  2253--2261, 2016.
 
 \end{thebibliography}
