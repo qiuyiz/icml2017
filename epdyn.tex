@@ -70,12 +70,9 @@ simplify $L$, we re-parametrize $a$ by $-a$ and expand.
 Given $\mathcal{D},$ the activation function $\sigma$, and the loss
 $L$, we attempt to show that we can use some variant of gradient
 descent to learn, with high probability, an $\epsilon$-approximation
-of $w_j$ for some (or all) $j$. {\color{red} Although our loss is jointly
-non-convex, it is quadratic in $\boldsymbol{a}$. Therefore we can
-restrict our attention to convergence in $\boldsymbol{\theta}$ to
-$\boldsymbol{w}$, since we have convergence guarantees to
-$\boldsymbol{a^*(\theta)}$, the optimal set of output weights of a
-given $\boldsymbol{\theta}$. }
+of $w_j$ for some (or all) $j$. 
+Note that our loss is jointly convex, though it is quadratic in
+$\boldsymbol{a}$. 
 
 
 
@@ -165,7 +162,13 @@ velocity vector.
 for all $i \not \in S$, with $\theta_i(0) = \theta_i$. For $i \in S$, $\theta_i(t) =  \theta_i$.
 \end{definition}
 %
-\Snote{Note that the charges are fixed here.}
+For the following theorem, we assume that $\boldsymbol{\theta}$ is fixed.
+%  ${\color{red} Although our loss is jointly
+% non-convex, it is quadratic in Therefore we can
+% restrict our attention to convergence in $\boldsymbol{\theta}$ to
+% $\boldsymbol{w}$, since we have convergence guarantees to
+% $\boldsymbol{a^*(\theta)}$, the optimal set of output weights of a
+% given. }
 \begin{restatable}{theorem}{epdyn}
 \label{EPDyn}
 Let $\Phi$ be a symmetric potential and $L$ be as in \eqref{errLoss}. Running continuous gradient descent on $\frac{1}{2} L$ with respect to $\theta$, initialized at
