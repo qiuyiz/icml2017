@@ -226,6 +226,19 @@ Therefore, we conclude with induction.
 \almostharmreal*
 
 \begin{proof}
+This is a special case of the following lemma.
+\end{proof}
+
+\begin{lemma}
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $1 > \epsilon > 0$, we can construct a radial activation $\sigma_\epsilon(r)$ with corresponding normalized radial potential $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when $r \geq \epsilon$.
+
+Furthermore, we have ${\Phi_\epsilon}^{(d-1)}(r) \geq 0$ for all $r  > 0$ and ${\Phi_\epsilon}^{(k)}(r) \geq 0$ and ${\Phi_\epsilon}^{(k+1)}(r)\leq 0$ for all $r > 0$ and $d - 3 \geq k \geq 0 $ even. 
+
+Also, $|{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-2d}e^{\sqrt{\lambda}}$ for all $0 \leq k \leq d-1$. And for $r \geq \epsilon$, $e^{-\sqrt{\lambda}r}r^{2-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3\leq {\Phi}_\epsilon(r) \leq (1+r\sqrt{\lambda})^de^{\sqrt{\lambda}(1-r)}(r)^{2-d}$. Also for $r \geq \epsilon$, $ e^{-\sqrt{\lambda}r}r^{1-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3 \leq |{\Phi}_\epsilon'(r)| \leq (d+\sqrt{\lambda}r)(1+ r\sqrt{\lambda})^de^{\sqrt{\lambda}(1- r)} r^{1-d}$
+\end{lemma}
+
+
+\begin{proof}
 Consider a potential of the form $\Phi(r) = p(r)e^{-\sqrt{\lambda}r}/r^{d-2}$. We claim that there exists a polynomial $p$ of degree $k = (d-3)/2$ with non-negative coefficients and $p(0) = 1$ such that $\Phi$ is $\lambda$-harmonic. Furthermore, we will also show along the way that $p(r) \leq (1+\sqrt{\lambda}r)^d$.
 
 When $d = 3$, it is easy to check that $\Phi(r) = e^{(-\sqrt{\lambda})r}/r$ is our desired potential. Otherwise, by our formula for the radial Laplacian in $d$ dimensions, we want to solve the following differential equation:
@@ -283,7 +296,7 @@ And lastly, we derive some lower bounds on $\widetilde{\Phi}_\epsilon$ and the f
 
 
 \begin{lemma}\label{3dlambdaharmonic}
-The lambda-harmonic radial potential $\Phi(r) = e^{-r}/r$ in $3$-dimensions is realizable by the activation 
+The $\lambda$-harmonic radial potential $\Phi(r) = e^{-r}/r$ in $3$-dimensions is realizable by the activation 
 $\sigma(r) = K_1(r)/r$.
 \end{lemma}
 
