@@ -73,7 +73,9 @@ This gives a contradiction, so we conclude that there must exist $i, j$ such tha
    \Phi_\epsilon({\bf 0},w_j)\right)^2 
 \end{align*}
 
-Because $w_j$ are random Gaussians with variance $O(d \log d)$, we have $\|w_j\| \leq O(d\log d)$ \Snote{Isn't there a squareroot missing?} with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq (d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left( \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq (d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality for independent uniform variables. \Snote{State the random variable and its expectation, and what is high probability.}
+Because $w_j$ are random Gaussians with variance $O(d \log d)$, we have $\|w_j\| \leq O(d\log d)$ \Snote{Isn't there a squareroot missing?} with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq (d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left( \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq (d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality on the squared term. 
+
+%\Snote{State the random variable and its expectation, and what is high probability.}
 
 Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{2}(d/\epsilon)^{ - O(d)}$. Let $\sqrt{G(a_1, {\bf 0})} = \sqrt{G(\boldsymbol{0,0})} - \Delta \geq 0$. Squaring and rearranging gives $\Delta \geq \frac{1}{4\sqrt{G({\bf 0, 0})}}(d/\epsilon)^{ - O(d)}$. Since $G(\boldsymbol{0,0}) \leq O(k) = O(\poly(d))$, we are done. 
 \end{proof}
@@ -94,12 +96,14 @@ Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\bold
 %%%%%%%%%%%Begin Node Convergence
 \subsection{Node by Node Analysis}
 
+The first few lemmas are similar to the ones proven before in the simultaneous case. The proof are presented for completeness because the regularization terms are removed.
+
 \begin{lemma}\label{nodeConv}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L_1$ be the loss restricted to $(a_1,\theta_1)$ corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal} with $\lambda = 1$. For any $\epsilon \in (0,1)$ and $\delta \in (0, 2d/\lambda)$, we can construct $\sigma_\epsilon$ such that if $\boldsymbol{(a_1,\theta_1)} \in \mathcal{M}_{L_1,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_1 - w_j\| < \epsilon$ or 2) $a_1^2 < 2d\delta$.
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L_1$ be the loss restricted to $(a_1,\theta_1)$ corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal} with $\lambda = 1$. For any $\epsilon \in (0,1)$ and $\delta \in (0, 1)$, we can construct $\sigma_\epsilon$ such that if ${(a_1,\theta_1)} \in \mathcal{M}_{L_1,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_1 - w_j\| < \epsilon$ or 2) $a_1^2 < 2d\delta$.
 \end{lemma}
 
 \begin{proof}
-The proof is similar to Lemma~\ref{almostHarmConv}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $(a_1,\theta_1) \in \mathcal{M}_{L,\delta}$. Assume that there does exist $w_j$ such that $\|\theta_1 - w_j\| < \epsilon$. 
+The proof is similar to Lemma~\ref{almostHarmConv}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $(a_1,\theta_1) \in \mathcal{M}_{L_1,\delta}$. Assume that there does exist $w_j$ such that $\|\theta_1 - w_j\| < \epsilon$. 
  
 The optimality condition on ${ a_1}$ is
 \begin{align*}
@@ -114,15 +118,13 @@ Next, since $\Phi_\epsilon(r)$ is $\lambda$-harmonic for $r \geq \epsilon$, we m
  \leq  -2\lambda a_1^2 + \delta \lambda |a_1| 
 \end{align*} 
 %
-The second line follows from our optimality conditions. Since ${(a_1,\theta_1)} \in \mathcal{M}_{L,\delta}$, we have $\Delta_{\theta_1} L \geq - 2d\delta$. When $a_1^2 \geq \delta^2$, we see that $-\lambda a_1^2 \geq -2 \lambda a_1^2 + \delta\lambda |a_1| \geq -2d\delta$. Therefore, $a_1^2 \leq 2d\delta/\lambda$. We conclude that $a_1^2 \leq \max(\delta^2, 2d\delta/\lambda) \leq 2d\delta/\lambda$ for $\delta\leq 2d \leq 2d/\lambda$ since $\lambda = 1$. Therefore, $a_1^2 \leq 2d\delta$.
+The inequality follows from our optimality conditions. Since ${(a_1,\theta_1)} \in \mathcal{M}_{L,\delta}$, we have $\Delta_{\theta_1} L \geq - 2d\delta$. When $a_1^2 \geq \delta^2$, we see that $-\lambda a_1^2 \geq -2 \lambda a_1^2 + \delta\lambda |a_1| \geq -2d\delta$. Therefore, $a_1^2 \leq 2d\delta/\lambda$. We conclude that $a_1^2 \leq \max(\delta^2, 2d\delta/\lambda) \leq 2d\delta/\lambda$ for $\delta\leq 2d \leq 2d/\lambda$ since $\lambda = 1$. Therefore, $a_1^2 \leq 2d\delta$.
 \end{proof}
-
-The charges are big if we made progress
 %
 \begin{lemma}\label{nodeRes}
-  Assume the conditions of Lemma. If
+Assume the conditions of Lemma~\ref{nodeConv}. If
 $\sqrt{L_1(a_1,\theta_1)} \leq \sqrt{L_1(0, 0)} - \delta$
-  and $(a_1,\theta_1) \in \mathcal{M}_{G,\lambda \delta^2/(2d)}$,
+  and $(a_1,\theta_1) \in \mathcal{M}_{G,\delta^2/(2d)}$,
   then there exists some $j$ such that $\|\theta_1 - w_j\| <\epsilon$.
 \end{lemma}
 %
@@ -130,10 +132,10 @@ $\sqrt{L_1(a_1,\theta_1)} \leq \sqrt{L_1(0, 0)} - \delta$
 The proof follows similarly from Lemma \ref{almostHarmRes}.
 \end{proof}
  %
- Next, we guarantee progress. We first prove a lemma about gradients of the potential $\Phi_\epsilon$.
-
+ Now, our main observation is below, showing that in a neighborhood around $w_j$, descending along the gradient direction will move $\theta_1$ closer to $w_j$. Our tighter control of the gradient of $\Phi_{\epsilon}$ around $w_j$ will eventually allow us to show that $\theta_1$ converges to a small neighborhood around $w_j$. 
+ 
 \begin{lemma}\label{nodeGradient}
-Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma~\ref{almostHarmConv}. If $\|\theta_1 - w_j\| \leq d$ and $|b_j|\geq 1/\poly(d)$ and $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$ is almost optimal and for $i$, $\|w_i - w_j\| \geq \Omega(d \log d)$, then $-\nabla_{\theta_1}L_1 = \zeta \frac{w_j - \theta_1}{\|\theta_1 - w_j\|} + \xi$ and $\zeta \geq  \frac{1}{\poly(d)}(d/\epsilon)^{-8d}$ and $\xi \leq (d/\epsilon)^{-O(d)}$. 
+Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma~\ref{nodeConv}. If $\|\theta_1 - w_j\| \leq d$ and $|b_j|\geq 1/\poly(d)$ and $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$ is almost optimal and for $i$, $\|w_i - w_j\| \geq \Omega(d \log d)$, then $-\nabla_{\theta_1}L_1 = \zeta \frac{w_j - \theta_1}{\|\theta_1 - w_j\|} + \xi$ with $\zeta \geq  \frac{1}{\poly(d)}(d/\epsilon)^{-8d}$ and $\xi \leq (d/\epsilon)^{-O(d)}$. 
 \end{lemma}
 
 \begin{proof}
@@ -144,29 +146,27 @@ Through the proof, we assume $k = \poly(d)$. Now, our gradient with respect to $
 \end{align*}
 %
 
-Since $\|\theta_1 - w_j\| \leq d$, we may lower bound $|\Phi_\epsilon'(\|\theta_1 - w_j\|)| \geq e^{-\sqrt{\lambda}d}d^{1-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3 \geq O((d/\epsilon)^{-4d})$. Similarly, $\Phi_\epsilon(\|\theta_1 - w_j\|) \geq O((d/\epsilon)^{-4d})$. On the other hand since $|b_j| \geq 1/\poly(d)$, we assumed that $\|w_i - w_j\| \geq \Omega(d \log d)$ for all $i \neq j$. Therefore, we may upper bound $|\Phi_{\epsilon}(\|\theta_1 - w_i\|)| \leq (d/\epsilon)^{-O(d)}$. 
+Since $\|\theta_1 - w_j\| \leq d$, we may lower bound $|\Phi_\epsilon'(\|\theta_1 - w_j\|)| \geq e^{-\sqrt{\lambda}d}d^{1-d}(2d+\sqrt{\lambda})^{-2d}\epsilon^{2d}/3 \geq \Omega((d/\epsilon)^{-4d})$. Similarly, $\Phi_\epsilon(\|\theta_1 - w_j\|) \geq \Omega((d/\epsilon)^{-4d})$. On the other hand since $\|w_i - w_j\| \geq \Omega(d \log d)$ for all $i \neq j$, we may upper bound $|\Phi_{\epsilon}(\|\theta_1 - w_i\|)| \leq (d/\epsilon)^{-O(d)}$ and $|\Phi_{\epsilon}'(\|\theta_1 - w_i\|)| \leq (d/\epsilon)^{-O(d)}$. Together, we conclude that $\nabla_{\theta_1} L_1 = 2a_1b_j \Phi_\epsilon'(\|\theta_1 - w_j\|) \frac{\theta_1 - w_j}{\|\theta_1 - w_j\|} + 2a_1\xi$, where $\|\xi\| \leq (d/\epsilon)^{-O(d)}$.
 
-Together, we conclude that $\nabla_{\theta_1} L_1 = 2a_1b_j \Phi_\epsilon'(\|\theta_1 - w_j\|) \frac{\theta_1 - w_j}{\|\theta_1 - w_j\|} + 2a_1\xi$, where $\|\xi\| \leq (d/\epsilon)^{-O(d)}$.
-
-And since $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$, we know that
+By assumption, $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$, so 
 %
 \begin{align*}
    \abs{\pd{L_1}{a_1}} & = \lvert 2a_1 + 2b_j \Phi_\epsilon(\|\theta_1 - w_j\|) + 2\sum_{i \neq j} b_i \Phi_\epsilon(\|\theta_1 - w_i\|) \rvert \leq (d/\epsilon)^{-O(d)}
 \end{align*}
 
-By a similar argument as on the derivative, we see that $a_1 = -b_j \Phi_\epsilon(\|\theta_1 - w_j\|) + O(d/\epsilon)^{-O(d)}$. Therefore, the direction of $-\nabla_{\theta_1} L_1$ is moving $\theta_1$ closer to $w_j$ since 
+By a similar argument as on the derivative, we see that $a_1 = -b_j \Phi_\epsilon(\|\theta_1 - w_j\|) + (d/\epsilon)^{-O(d)}$. Therefore, the direction of $-\nabla_{\theta_1} L_1$ is moving $\theta_1$ closer to $w_j$ since 
 %
 \begin{align*}
 -\nabla_{\theta_1} L_1 &=  b_j^2\Phi_\epsilon(\|\theta_1-w_j\|)\Phi_\epsilon'(\|\theta_1 - w_j\|) \frac{\theta_1 - w_j}{\|\theta_1 - w_j\|} + (d/\epsilon)^{-O(d)} 
 \end{align*}
 
-and $\Phi_\epsilon > 0$ and $\Phi_\epsilon' < 0$. Finally, with high probability, $-b_j^2\Phi_\epsilon(\|\theta_1-w_j\|)\Phi_\epsilon'(\|\theta_1 - w_j\|) \geq 1/\poly(d)(d/\epsilon)^{-8d}$.
+and we know $\Phi_\epsilon > 0$ and $\Phi_\epsilon' < 0$, thereby $-b_j^2\Phi_\epsilon(\|\theta_1-w_j\|)\Phi_\epsilon'(\|\theta_1 - w_j\|) \geq 1/\poly(d)(d/\epsilon)^{-8d}$.
 \end{proof}
 
  
  %
- \begin{lemma}[Initialization]\label{nodeInitialize}
-Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma. With high probability, we can initialize $(a_1^{(0)},\theta_1^{(0)})$ such that $\sqrt{L(a_1^{(0)},\theta_1^{(0)})} \leq \sqrt{L({0,0})} -\delta$ with $\delta = \frac{1}{\poly(d)}(d/\epsilon)^{ -18d}$ in time $\log(d)^{O(d)}$.
+ \begin{lemma}[Node-wise Initialization]\label{nodeInitialize}
+Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma~\ref{nodeConv}. With high probability, we can initialize $(a_1^{(0)},\theta_1^{(0)})$ such that $\sqrt{L(a_1^{(0)},\theta_1^{(0)})} \leq \sqrt{L({0,0})} -\delta$ with $\delta = \frac{1}{\poly(d)}(d/\epsilon)^{ -18d}$ in time $\log(d)^{O(d)}$.
  \end{lemma}
 
 \begin{proof}
@@ -179,7 +179,7 @@ But since $L_1(a_1^*(\theta_1),\theta_1)\leq L_1(0,0)$, we conclude that $L_1(a_
 \end{proof}
 %
 \begin{lemma}\label{nodewiseSGD}
-Let $\mathcal{M} = \R^{d}$ and $d\equiv 3 \mod 4$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ and given $b_1,...,b_k$ are any numbers in $[-1,1]$ and $w_1,...,w_k \in \R^d$ satisfy $\|w_i\|\leq O(d\log d)$ for all $i$ and there exists some $|b_j| \geq 1/\poly(d)$ with $\|w_i - w_j\| \geq \Omega(d\log d)$ for all $i$.
+Let $\mathcal{M} = \R^{d}$ and $d\equiv 3 \mod 4$. For all $\epsilon \in (0,1),$ we can construct an activation $\sigma_\epsilon$ and assume $b_1,...,b_k$ are any numbers in $[-1,1]$ and $w_1,...,w_k \in \R^d$ satisfy $\|w_i\|\leq O(d\log d)$ for all $i$ and there exists some $|b_j| \geq 1/\poly(d)$ with $\|w_i - w_j\| \geq \Omega(d\log d)$ for all $i$.
 
 Then with high probability, we can choose an initial point $(a_1^{(0)}, \theta_1^{(0)})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the restricted regularized objective $L_1(a_1,\theta_1)$ for at most $(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < \epsilon$. Furthermore, if $|b_j| \geq 1/\poly(d)$ and $\|w_i - w_j\| \geq \Omega(d\log d)$ for all $i$, then $\|\theta - w_j\| < (d/\epsilon)^{-O(d)}$ and $|a + b_j| < (d/\epsilon)^{-O(d)}$.
 \end{lemma}
