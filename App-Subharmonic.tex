@@ -101,8 +101,6 @@ Therefore, $\nabla^2 L$ must admit a strictly negative eigenvalue that
 is less than $e^{-c_3 d}$, which implies our claim (we drop the
 $\poly(d,k)$ terms).
 
-\Qnote{Add more rigor/sample complexity later if we want to keep this}
 
-To use Thm \ref{strongConverge}, we check the regularity conditions: note that we can choose $L, B, \rho$ to be $\poly(d)$ since the first, second and third partials of $\Phi$ are all bounded by $\poly(d)$. Now, by choosing $\epsilon = e^{-O(d)}$ for some $c$, we know that with high probability, running SGD in $T = e^{O(d)}$ iterations will output $\theta_1$ such that 1) $\|\nabla L (\theta_1)\| < e^{-O(d)}$ and 2) $\lambda_{min}(\nabla^2L(\theta_1)) > -e^{-O(d)}$.
 \end{proof}
 

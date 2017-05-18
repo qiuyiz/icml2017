@@ -1,7 +1,4 @@
 \section{Common Activations}
-\Snote{Collect and organize all the results for ``realistic''
-  activation functions in one section. Merge the proofs at their right
-places.}
 First, we consider the sign activation function. Under restrictions on the size of the input dimension or the number of hidden units, we can prove convergence results under the sign activation function, as it gives rise to a harmonic potential.
 
 \Anote{ythis theorem is about $\theta\in R$, which is not of any practical interest. you should remove it.}
@@ -19,15 +16,11 @@ We cannot simply analyze the convergence of GD
 on all $\theta_i$ simultaneously since as before, the pairwise
 interaction terms between the $\theta_i$ present complications. To
 derive a tighter control on $(\boldsymbol{a,\theta})$, we run a greedy
-node-wise SGD algorithm to learn the hidden weights, i.e. we run a
-full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
+node-wise second-order gradient descent (SGD) algorithm to learn the hidden weights, i.e. we run a full SGD algorithm with respect to $(a_i,\theta_i)$ sequentially. The
 main idea is that after running SGD with respect to $\theta_1$,
 $\theta_1$ should be close to some $w_j$ for some $j$. Then, we can
 carefully induct and show that $\theta_2$ must be some other $w_k$ for
-$k\neq j$ and so on. The pseudocode of the exact node-wise SGD
-algorithm as well as the full theorems of the convergence results, as
-mentioned in Table~\ref{table1}, is given in the supplementary
-material
+$k\neq j$ and so on. 
 
 In this section, we only consider the convergence guarantee of gradient descent on the first node, $\theta_1$, to some $w_j$, while the other nodes are inactive (i.e. $a_2,...,a_k = 0$). In essence, we are working with the following simplified loss function.
 %

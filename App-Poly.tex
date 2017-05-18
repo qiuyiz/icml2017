@@ -20,12 +20,6 @@ Now, there must exist a vector $v \in S^{d-1}$ such that $v_k = 0$ for $k \neq i
 When the output weights are variable, notice that our convergence results often rely on the optimality of the output weights. For this reason, we will optimize the output weights at every gradient descent step, by carefully choosing the stepsize. As our loss function \eqref{errLoss} is quadratic in $a$, we know that gradient descent will find the optimal $a$ efficiently. The pseudocode of our SGD algorithm is given in Algorithm \ref{NodeGDOpt}. 
 
 
-
-
-
-
-First, we need some control on the size of the squares of variable charges, $a_i^2$. Node-wise gradient descent allows us to maintain that control. We will work with \eqref{errEmp} and let $\widehat{\Phi}$ be the empirical potential function.
-
 \begin{theorem}\label{nonDecrease} \Rnote{Can be simplified}
   Let $\widehat{\Phi}(\theta, w)$ be $\poly(d)$-Lipschitz in $\theta$,
   $|\widehat{\Phi}| \leq \poly(d)$ on $\mathcal{M}$, and $\sum_{j \neq i} |a_j| + \sum_j |b_j| \leq \poly(d)$. Also, assume that if $\theta_i$ is drawn uniformly on $\mathcal{M}$,
