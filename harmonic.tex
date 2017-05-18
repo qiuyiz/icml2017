@@ -6,7 +6,8 @@ can and do get stuck at a local minima. In this section, we use
 second-order information to deduce that the local
 minima for these certain classes of potentials occur only when certain convergence statements hold. In these section, these potentials are often {\it non-smooth, unbounded and un-realizable}. However, in the later sections, we apply insights developed here to derive similar convergence results for approximations of these potentials.
 %
-\subsection{Earnshaw's Theorem}
+
+% \subsection{Earnshaw's Theorem}
 %
 Earnshaw's theorem in electrodynamics shows that there is no stable
 local minima for electron-proton dynamics. This hinges on the property
@@ -130,13 +131,13 @@ $\theta_1, \ldots, \theta_{l}$ by the same $v$ and define
 $H({\bf a}, v) = L({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
 \ldots, \theta_k).$
 
-The optimality conditions on ${\bf a}$ are 
-\begin{align*}
+The optimality conditions on ${\bf a}$ are
+$
 0 = \pd{L}{a_i} =  2\sum_{j} a_j \Phi(\theta_i,\theta_j)
   + 2\sum_{j=1}^k b_j \Phi(\theta_i,w_j).
-\end{align*}
+$
 %
-Next, by $\lambda$-harmonic definition, we may differentiate as $\theta_i \neq w_j$ and compute the Laplacian as 
+Thus, by the definition of $\lambda$-harmonic potentials, we may differentiate as $\theta_i \neq w_j$ and compute the Laplacian as 
 \begin{align*}
 \Delta_v H & = \lambda\sum_{i=1}^l a_i \left(2\sum_{j=1}^k b_j
   \Phi(\theta_i, w_j) + 2\sum_{j=l+1}^k a_j

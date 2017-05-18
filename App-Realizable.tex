@@ -1,6 +1,6 @@
 
 \section{Realizable Potentials}
-\label{realizable}
+\label{sec:realizable}
 
 \subsection{Activation-Potential Calculations}
 First define the {\it dual} of a function $f: \R \to \R$ is defined to be 
@@ -69,8 +69,22 @@ Note that $\ast$ denotes function convolution.
 
 
 
+When our relevant space is $\mathcal{M} = S^{d-1},$ we let
+$\Pi_\mathcal{M}$ be the projection operator on $\mathcal{M}$. The
+simplest way to define the gradident on
+$S^{d-1}$ is $\nabla_{S^{d-1}} f(x) = \nabla_{\R^d} f(x/\|x\|)$, where
+$\| \cdot \|$ denotes the $l_2$ norm and $x \in S^{d-1}$. 
+The Hessian and Laplacian are analogously defined and the subscripts
+are usually dropped where clear from context.
+%
+\begin{restatable}{theorem}{rotreal}
+\label{thm:rotReal}
+Let $\mathcal{M} = S^{d-1}$ and $\Phi(\theta,w) = f(\theta^Tw)$. Then,
+$\Phi$ is realizable if $f$ has non-negative Taylor coefficients, $c_i
+\geq 0$ , and the corresponding activation $\sigma(x) = \sum_{i=1}^\infty \sqrt{c_i} h_i(x)$
+converges almost everywhere, where $h_i(x)$ is the i-th Hermite polynomial.
+\end{restatable}
 
-\rotreal*
 
 \begin{proof}
 By \ref{rotLem} and due to the orthogonality of hermite polynomials, if $f = \sum_i a_i h_i$, where $h_i(x)$ is the i-th Hermite polynomial, then
