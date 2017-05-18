@@ -73,7 +73,9 @@ This gives a contradiction, so we conclude that there must exist $i, j$ such tha
    \Phi_\epsilon({\bf 0},w_j)\right)^2 
 \end{align*}
 
-Because $w_j$ are random Gaussians with variance $O(d \log d)$, we have $\|w_j\| \leq O(d\log d)$ \Snote{Isn't there a squareroot missing?} with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq (d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left( \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq (d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality for independent uniform variables. \Snote{State the random variable and its expectation, and what is high probability.}
+Because $w_j$ are random Gaussians with variance $O(d \log d)$, we have $\|w_j\| \leq O(d\log d)$ \Snote{Isn't there a squareroot missing?} with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq (d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left( \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq (d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality on the squared term. 
+
+%\Snote{State the random variable and its expectation, and what is high probability.}
 
 Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{2}(d/\epsilon)^{ - O(d)}$. Let $\sqrt{G(a_1, {\bf 0})} = \sqrt{G(\boldsymbol{0,0})} - \Delta \geq 0$. Squaring and rearranging gives $\Delta \geq \frac{1}{4\sqrt{G({\bf 0, 0})}}(d/\epsilon)^{ - O(d)}$. Since $G(\boldsymbol{0,0}) \leq O(k) = O(\poly(d))$, we are done. 
 \end{proof}
@@ -120,7 +122,7 @@ The inequality follows from our optimality conditions. Since ${(a_1,\theta_1)} \
 \end{proof}
 %
 \begin{lemma}\label{nodeRes}
-  Assume the conditions of Lemma. If
+Assume the conditions of Lemma~\ref{nodeConv}. If
 $\sqrt{L_1(a_1,\theta_1)} \leq \sqrt{L_1(0, 0)} - \delta$
   and $(a_1,\theta_1) \in \mathcal{M}_{G,\delta^2/(2d)}$,
   then there exists some $j$ such that $\|\theta_1 - w_j\| <\epsilon$.
@@ -133,7 +135,7 @@ The proof follows similarly from Lemma \ref{almostHarmRes}.
  Now, our main observation is below, showing that in a neighborhood around $w_j$, descending along the gradient direction will move $\theta_1$ closer to $w_j$. Our tighter control of the gradient of $\Phi_{\epsilon}$ around $w_j$ will eventually allow us to show that $\theta_1$ converges to a small neighborhood around $w_j$. 
  
 \begin{lemma}\label{nodeGradient}
-Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma~\ref{almostHarmConv}. If $\|\theta_1 - w_j\| \leq d$ and $|b_j|\geq 1/\poly(d)$ and $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$ is almost optimal and for $i$, $\|w_i - w_j\| \geq \Omega(d \log d)$, then $-\nabla_{\theta_1}L_1 = \zeta \frac{w_j - \theta_1}{\|\theta_1 - w_j\|} + \xi$ with $\zeta \geq  \frac{1}{\poly(d)}(d/\epsilon)^{-8d}$ and $\xi \leq (d/\epsilon)^{-O(d)}$. 
+Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma~\ref{nodeConv}. If $\|\theta_1 - w_j\| \leq d$ and $|b_j|\geq 1/\poly(d)$ and $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$ is almost optimal and for $i$, $\|w_i - w_j\| \geq \Omega(d \log d)$, then $-\nabla_{\theta_1}L_1 = \zeta \frac{w_j - \theta_1}{\|\theta_1 - w_j\|} + \xi$ with $\zeta \geq  \frac{1}{\poly(d)}(d/\epsilon)^{-8d}$ and $\xi \leq (d/\epsilon)^{-O(d)}$. 
 \end{lemma}
 
 \begin{proof}
@@ -163,8 +165,8 @@ and we know $\Phi_\epsilon > 0$ and $\Phi_\epsilon' < 0$, thereby $-b_j^2\Phi_\e
 
  
  %
- \begin{lemma}[Initialization]\label{nodeInitialize}
-Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma. With high probability, we can initialize $(a_1^{(0)},\theta_1^{(0)})$ such that $\sqrt{L(a_1^{(0)},\theta_1^{(0)})} \leq \sqrt{L({0,0})} -\delta$ with $\delta = \frac{1}{\poly(d)}(d/\epsilon)^{ -18d}$ in time $\log(d)^{O(d)}$.
+ \begin{lemma}[Node-wise Initialization]\label{nodeInitialize}
+Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma~\ref{nodeConv}. With high probability, we can initialize $(a_1^{(0)},\theta_1^{(0)})$ such that $\sqrt{L(a_1^{(0)},\theta_1^{(0)})} \leq \sqrt{L({0,0})} -\delta$ with $\delta = \frac{1}{\poly(d)}(d/\epsilon)^{ -18d}$ in time $\log(d)^{O(d)}$.
  \end{lemma}
 
 \begin{proof}
@@ -177,7 +179,7 @@ But since $L_1(a_1^*(\theta_1),\theta_1)\leq L_1(0,0)$, we conclude that $L_1(a_
 \end{proof}
 %
 \begin{lemma}\label{nodewiseSGD}
-Let $\mathcal{M} = \R^{d}$ and $d\equiv 3 \mod 4$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ and given $b_1,...,b_k$ are any numbers in $[-1,1]$ and $w_1,...,w_k \in \R^d$ satisfy $\|w_i\|\leq O(d\log d)$ for all $i$ and there exists some $|b_j| \geq 1/\poly(d)$ with $\|w_i - w_j\| \geq \Omega(d\log d)$ for all $i$.
+Let $\mathcal{M} = \R^{d}$ and $d\equiv 3 \mod 4$. For all $\epsilon \in (0,1),$ we can construct an activation $\sigma_\epsilon$ and assume $b_1,...,b_k$ are any numbers in $[-1,1]$ and $w_1,...,w_k \in \R^d$ satisfy $\|w_i\|\leq O(d\log d)$ for all $i$ and there exists some $|b_j| \geq 1/\poly(d)$ with $\|w_i - w_j\| \geq \Omega(d\log d)$ for all $i$.
 
 Then with high probability, we can choose an initial point $(a_1^{(0)}, \theta_1^{(0)})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the restricted regularized objective $L_1(a_1,\theta_1)$ for at most $(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta - w_j\| < \epsilon$. Furthermore, if $|b_j| \geq 1/\poly(d)$ and $\|w_i - w_j\| \geq \Omega(d\log d)$ for all $i$, then $\|\theta - w_j\| < (d/\epsilon)^{-O(d)}$ and $|a + b_j| < (d/\epsilon)^{-O(d)}$.
 \end{lemma}

@@ -83,12 +83,11 @@ $x_i = HD(L, x_{i-1}, 1, \alpha)$
 %
 %
 \begin{theorem}\label{almostHarmSGD}
-  Let $\mathcal{M} = \R^{d}$ for $d \equiv 3 \mod 4$ and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log d){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
+  Let $\mathcal{M} = \R^{d}$ for $d \equiv 3 \mod 4$ and $k = \poly(d)$. For all $\epsilon \in (0,1),$ we can construct an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log d){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, we can choose an initial point $(\boldsymbol{a^{(0)}, \theta^{(0)}})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the regularized objective $G(\boldsymbol{a,\theta})$ for at most $(d/\epsilon)^{O(d)}$ iterations, there exists an $i, j$ such that $\|\theta_i - w_j\| <  \epsilon$.
 \end{theorem}
 %
 We start by stating a lemma concerning the construction of an almost
-$\lambda$-harmonic function on $\R^d.$ The construction is given in
-Section~\ref{realizable} and uses a linear combination of realizable potentials that correspond to an activation function of the indicator function of a $n$-sphere. By using Fourier analysis and Theorem~\ref{thm:tranReal}, we can finish the construction of our almost $\lambda$-harmonic potential.%
+$\lambda$-harmonic function on $\R^d.$ The construction is given in the appendix and uses a linear combination of realizable potentials that correspond to an activation function of the indicator function of a $n$-sphere. By using Fourier analysis and Theorem~\ref{thm:tranReal}, we can finish the construction of our almost $\lambda$-harmonic potential.%
 %
 \begin{restatable}{lemma}{almostharmreal}
 \label{almostHarmReal}
@@ -103,12 +102,12 @@ Lastly, $|{\Phi}_\epsilon^{(k)}(r)| \leq 3(2d + \sqrt{\lambda})^{2d} \epsilon^{-
 Our next lemma use the almost $\lambda$-harmonic properties to show that at an almost stationary point of $G$, we must have converged close to some $w_j$ as long as our charges $a_i$ are not too small. The proof is similar to Theorem \ref{EigStrict}. Then, the following lemma relates the magnitude of the charges $a_i$ to the progress made in the objective function. 
 %\Snote{Expand this statement, and refer to the theorem below. Interpret that it is an approximate version of the previous exact theorem.}
 %
-\begin{restatable}{lemma}{almostharmconv}\label{almostharmconv}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $G$ be the regularized loss corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal}. For any $\epsilon \in (0,1)$ and $\delta \in (0, 1)$, if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta$.
+\begin{restatable}{lemma}{almostharmconv}\label{almostHarmConv}
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $G$ be the regularized loss corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal} with $\lambda =1$. For any $\epsilon \in (0,1)$ and $\delta \in (0, 1)$, if $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_i - w_j\| < k\epsilon$ or 2) $a_i^2 < 2kd\delta$.
 \end{restatable}
 %
 \begin{restatable}{lemma}{almostharmres}\label{almostHarmRes}
-  Assume the conditions of Lemma~\ref{almostharmconv}. If
+  Assume the conditions of Lemma~\ref{almostHarmConv}. If
 $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta$
   and $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G,\delta^2/(2k^3d)}$,
   then there exists some $i, j$ such that $\|\theta_i - w_j\| <k\epsilon$.
@@ -117,16 +116,16 @@ $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta
  Finally, we guarantee that our initialization substantially decreases our objective function. Together with our previous lemmas, it will imply that we must be close to some $w_j$ upon convergence. This is the overview of the proof of Theorem~\ref{almostHarmSGD}, presented below.
  %
  \begin{restatable}{lemma}{almostharminitialize}[Initialization]\label{almostHarmInitialize}
-Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostharmconv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = (d/\epsilon)^{ - O(d)}$.
+Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = (d/\epsilon)^{ - O(d)}$.
  \end{restatable}
  %
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
 % \Snote{Richard: I don't think you have updated the theorem below using the changes in the previous lemmas. E.g. the incorrect initialization condition is used here. Please make sure it's all consistent with the updated lemmas.}
-  Let our potential $\Phi_{\epsilon/k}$ be the one as constructed in Lemma~\ref{almostharmreal} that is $1$-harmonic for all $r \geq \epsilon/k$ and as always, $k = \poly(d)$.  First, by Lemma~\ref{almostHarmInitialize}, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G(\boldsymbol{a^{(0)},\theta^{(0)}})} \leq \sqrt{G({\bf 0,0})} - \delta$ for $\delta = (d/\epsilon)^{-O(d)}$. If we set $\alpha = (d/\epsilon)^{-O(d)}$ and $\eta = \gamma = \delta^2/(2k^3d)$, then running Algorithm~\ref{SecondGD} will terminate and return some $(\boldsymbol{a,\theta})$ in at most $(d/\epsilon)^{O(d)}$ iterations. This is because our algorithm ensures that our objective function decreases by at least $\min(\alpha \eta^2/2, \alpha^2\gamma^3/2)$ at each iteration, $G({\bf 0, 0})$ is bounded by $O(k),$ and $G \geq 0$ is non-negative.
+  Let our potential $\Phi_{\epsilon/k}$ be the one as constructed in Lemma~\ref{almostHarmReal} that is $1$-harmonic for all $r \geq \epsilon/k$ and as always, $k = \poly(d)$.  First, by Lemma~\ref{almostHarmInitialize}, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G(\boldsymbol{a^{(0)},\theta^{(0)}})} \leq \sqrt{G({\bf 0,0})} - \delta$ for $\delta = (d/\epsilon)^{-O(d)}$. If we set $\alpha = (d/\epsilon)^{-O(d)}$ and $\eta = \gamma = \delta^2/(2k^3d)$, then running Algorithm~\ref{SecondGD} will terminate and return some $(\boldsymbol{a,\theta})$ in at most $(d/\epsilon)^{O(d)}$ iterations. This is because our algorithm ensures that our objective function decreases by at least $\min(\alpha \eta^2/2, \alpha^2\gamma^3/2)$ at each iteration, $G({\bf 0, 0})$ is bounded by $O(k),$ and $G \geq 0$ is non-negative.
 
 Let $\boldsymbol{\theta} = (\theta_1,...\theta_k)$. If there exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| < \epsilon$, then we are done. Otherwise, we claim that $(\boldsymbol{a,\theta}) \in \mathcal{M}_{G, \delta^2/(2k^3d)}$. For the sake of contradiction, assume otherwise. By our algorithm termination conditions, then it must be that after one step of gradient or Hessian descent from $(\boldsymbol{a,\theta})$, we reach some $(\boldsymbol{a',\theta'})$ and $G(\boldsymbol{a',\theta'}) \geq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$.
 
-Now, Lemma~\ref{almostharmreal} ensures all first three derivatives of $\Phi_{\epsilon/k}$ are bounded by $O((dk/\epsilon)^{2d})$, except at $w_1,...,w_k$. Furthermore, since there does not exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| <\epsilon$, $G$ is three-times continuously differentiable within a $\alpha (dk/\epsilon)^{2d} = (d/\epsilon)^{-O(d)}$ neighborhood of $\boldsymbol{\theta}$. Therefore, by Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we must have  we know that $G(\boldsymbol{a',\theta'}) \leq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$. a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G({\bf 0,0})} - \delta$. Finally, we conclude by Lemma \ref{almostHarmRes}.
+Now, Lemma~\ref{almostHarmReal} ensures all first three derivatives of $\Phi_{\epsilon/k}$ are bounded by $O((dk/\epsilon)^{2d})$, except at $w_1,...,w_k$. Furthermore, since there does not exists $\theta_i, w_j$ such that $\|\theta_i - w_j\| <\epsilon$, $G$ is three-times continuously differentiable within a $\alpha (dk/\epsilon)^{2d} = (d/\epsilon)^{-O(d)}$ neighborhood of $\boldsymbol{\theta}$. Therefore, by Lemma~\ref{GradDecrease} and ~\ref{HessianDecrease}, we must have  we know that $G(\boldsymbol{a',\theta'}) \leq G(\boldsymbol{a,\theta}) - \min(\alpha\eta^2/2,\alpha^2\gamma^3/2)$. a contradiction. Lastly, since our algorithm maintains that our objective function is decreasing, so $\sqrt{G(\boldsymbol{a,\theta})} \leq \sqrt{G({\bf 0,0})} - \delta$. Finally, we conclude by Lemma \ref{almostHarmRes}.
 \end{proof}
 
 \subsection{Node-by-Node Analysis}
@@ -157,7 +156,7 @@ $k\neq j$ and so on.
 Let $L_1(a_1,\theta_1)$ be the objective $L$ restricted to $a_1,\theta_1$ being variable, and $a_2,...,a_k = 0$ are fixed. The tighter control on the movements of $\theta_1$ allows us to remove our regularization. While our previous guarantees before allow us to reach a $\epsilon$-neighborhood of $w_j$ when running SGD on $L_1$, we will strengthen our guarantees to reach a $(d/\epsilon)^{-O(d)}$-neighborhood of $w_j$, by reasoning about the first derivatives of our potential in an $\epsilon$-neighborhood of $w_j$. By similar argumentation as before, we will be able to derive the following convergence guarantees for node-wise training. 
 
 \begin{restatable}{theorem}{nodewise}\label{nodeWise}
-Let $\mathcal{M} = \R^{d}$ and $d \equiv 3 \mod 4$ and let $L$ be as in \ref{errLoss} and $k = \poly(d)$. For all $\epsilon \in (0,1),$ there exists an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, after running nodewise descent (Algorithm \ref{NodeGDOpt}) on the objective $L$ for at most $(d/\epsilon)^{O(d)}$ iterations, $\boldsymbol{(a,\theta)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of the global minima.
+Let $\mathcal{M} = \R^{d}$ and $d \equiv 3 \mod 4$ and let $L$ be as in \ref{errLoss} and $k = \poly(d)$. For all $\epsilon \in (0,1),$ we can construct an activation $\sigma_\epsilon$ such that if $w_1,...,w_k \in \R^d$ with $w_i$ randomly chosen from $w_i \sim  \mathcal{N}({\bf 0}, O(d\log k){\bf I_{d\times d}})$ and $b_1,...,b_k$ be randomly chosen at uniform from $[-1,1]$, then with high probability, after running nodewise descent (Algorithm \ref{NodeGDOpt}) on the objective $L$ for at most $(d/\epsilon)^{O(d)}$ iterations, $\boldsymbol{(a,\theta)}$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of the global minima.
 \end{restatable}
 
 %

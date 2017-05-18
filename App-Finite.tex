@@ -1,162 +1,162 @@
 
-\section{Generalization Error and Iteration Bounds}
+\section{Iteration Bounds}
 \Snote{Please comment out results and sections that are not relevant.}
-\label{finite}
- 
-The design and analysis of gradient descent has so far assumed that we can calculate expectations perfectly. In reality, these expectations are instead replaced with empirical means. The approximate calculation of our potential and all its derivatives with samples are justified by the generalization error bounds implied by Rademacher complexities. 
-
-Unfortunately, we cannot directly use the Gaussian distribution as it is unbounded. Therefore, we assume that our drawing distribution is the truncated Gaussian distribution in $\R^d$ such that our samples are always bounded in $l_2$ norm by $B$. We will show that applying this truncation will not affect the expectation very much. 
-
-\begin{definition}
-$Y$ follows a truncated Gaussian distribution at $B$ in $\R^d$ if $Y = X | ( \|X\| \leq B)$, where $X$ is a standard Gaussian in $\R^d$ and $ X \Big|S$ indicates the random variable $X$ conditioned on event $S$.
-\end{definition}
+%\label{finite}
+% 
+%The design and analysis of gradient descent has so far assumed that we can calculate expectations perfectly. In reality, these expectations are instead replaced with empirical means. The approximate calculation of our potential and all its derivatives with samples are justified by the generalization error bounds implied by Rademacher complexities. 
 %
-\begin{lemma}
-\label{choppedLem}
-Let $f : \R^d \to \R$ be a function such that $|f(x)| \leq c\|x\|^p$. Let $X$ be a standard Gaussian in $\R^d$ and let $Y$ be a truncated Gaussian at $B$. Then, there exists $B = \poly(d,p,\log(c), \log(1/\epsilon))$ such that 
-\[ \left|\expt[f(X)] - \expt[f(Y)] \right| \leq \epsilon\]
-\end{lemma}
-
-\begin{proof}
-By standard concentration bounds and analysis, 
-\begin{align*}
-& |E[f(X)] - E[f(X)| \|X\|\leq B]| \\
-& \qquad \leq (\frac{1}{P(\|X\|\leq B)}- 1) E[|f(X)|{\bf 1}_{\|X\|\leq B}]| \\
-& \qquad \qquad + |E[f(X){\bf 1}_{\|X\|>B}]| \\
-& \qquad \leq E[|f(X)|{\bf 1}_{\|X\|>B}] + 2cB^pe^{-B^2/8d}
-\end{align*}
-
-
-Taking $B = \poly(d,p,\log(c), \log(1/\epsilon))$ will make the second term $< \epsilon/2$, then the first term is also bounded by:
-\begin{align*}
-  \expt[|f(X)|{\bf 1}_{\|X\|>B}] & \leq (2\pi)^d \int_B^\infty cr^pe^{-r^2/2}r^{d-1}\,dr \\
-                                  &\leq C(2\pi)^dB^{p+d}e^{-B^2/2} < \epsilon/2
-\end{align*}
-\end{proof}
-
-Next, we can appeal to the following well-cited theorems and standard techniques. For a better understanding of the notation and theorems used, we refer the refer to \cite{bartlett2002rademacher}.
+%Unfortunately, we cannot directly use the Gaussian distribution as it is unbounded. Therefore, we assume that our drawing distribution is the truncated Gaussian distribution in $\R^d$ such that our samples are always bounded in $l_2$ norm by $B$. We will show that applying this truncation will not affect the expectation very much. 
 %
-\begin{theorem}[\cite{bartlett2002rademacher}]\label{rademacher}
-Consider a function class $\mathcal{F}$ of functions $f : \mathcal{X} \to [0,1]$. And let $ x_1,...,x_n \in \mathcal{X}$ be i.i.d. samples selected according to some distribution $\mathcal{D}$. Let the Rademacher complexity of $\mathcal{F}$ to be 
-\[R_n (\mathcal{F}) = E_{x_i,\sigma_i}\left[\sup_{f \in \mathcal{F}} \left|\frac{2}{n}\sum_{i=1}^nf(x_i)\sigma_i\right|\right]\]
-
-where $\sigma_i$ are Rademacher variables. Then, for any $n$ and $\delta \in (0,1)$, with probability at least $1-\delta$, 
-\[|E_{X}[f(X)]  - \frac{1}{n}\sum_{i=1}^n f(x_i)| \leq R_n(\mathcal{F}) + \sqrt{\frac{8\ln(2/\delta)}{n}} \]
-for all $f \in\mathcal{F}$ simultaneously.
-\end{theorem}
-
-For all of our polynomial time bounds, whether we are calculating the potential or its derivatives, we are interested in bounding the Rademacher complexity of the class of functions of the form $\sigma_1(x^T\theta) \sigma_2(x^Tw)$, where $\sigma_1,\sigma_2$ are scalar functions. Let $f \circ g$ denote the composition of functions $f(x)$ and $g(x)$. If $\mathcal{G}$ is a class of functions, let $f \circ \mathcal{G}$ denote the class of functions $f \circ g$ for all $g \in \mathcal{G}$. 
+%\begin{definition}
+%$Y$ follows a truncated Gaussian distribution at $B$ in $\R^d$ if $Y = X | ( \|X\| \leq B)$, where $X$ is a standard Gaussian in $\R^d$ and $ X \Big|S$ indicates the random variable $X$ conditioned on event $S$.
+%\end{definition}
+%%
+%\begin{lemma}
+%\label{choppedLem}
+%Let $f : \R^d \to \R$ be a function such that $|f(x)| \leq c\|x\|^p$. Let $X$ be a standard Gaussian in $\R^d$ and let $Y$ be a truncated Gaussian at $B$. Then, there exists $B = \poly(d,p,\log(c), \log(1/\epsilon))$ such that 
+%\[ \left|\expt[f(X)] - \expt[f(Y)] \right| \leq \epsilon\]
+%\end{lemma}
 %
-\begin{theorem}\label{complexity}
-Let $\mathcal{X} = \{x \in \R^d, \|x\|_2\leq B\}$ and let $\sigma_1,\sigma_2 : \R \to [-C,C]$ be $L$-Lipschitz functions. Consider the following class of functions
+%\begin{proof}
+%By standard concentration bounds and analysis, 
+%\begin{align*}
+%& |E[f(X)] - E[f(X)| \|X\|\leq B]| \\
+%& \qquad \leq (\frac{1}{P(\|X\|\leq B)}- 1) E[|f(X)|{\bf 1}_{\|X\|\leq B}]| \\
+%& \qquad \qquad + |E[f(X){\bf 1}_{\|X\|>B}]| \\
+%& \qquad \leq E[|f(X)|{\bf 1}_{\|X\|>B}] + 2cB^pe^{-B^2/8d}
+%\end{align*}
 %
-\[\mathcal{F}_{\sigma_1,\sigma_2} = \{x\to\sigma_1(x^T\theta) \sigma_2(x^Tw) | x\in\mathcal{X}, \theta, w \in S^{d-1}\}.\]
-Then, \[R_n(\mathcal{F}_{\sigma_1,\sigma_2}) \leq 48CLB\sqrt{\frac{2}{n}}\]
-\end{theorem}
-\begin{proof}
-First, let's define a simpler function class: $\mathcal{G} = \{x\to x^T\theta  | x\in\mathcal{X}, \theta \in S^{d-1}\}$. By simple Rademacher bounds on the class of linear functions \cite{kakade2009complexity}, 
- %
- \[R_n(\mathcal{G}) \leq B\sqrt{\frac{2}{n}}\]
 %
-Since $\sigma_1,\sigma_2$ are L-lipschitz, we apply standard structural results in \cite{bartlett2002rademacher}
+%Taking $B = \poly(d,p,\log(c), \log(1/\epsilon))$ will make the second term $< \epsilon/2$, then the first term is also bounded by:
+%\begin{align*}
+%  \expt[|f(X)|{\bf 1}_{\|X\|>B}] & \leq (2\pi)^d \int_B^\infty cr^pe^{-r^2/2}r^{d-1}\,dr \\
+%                                  &\leq C(2\pi)^dB^{p+d}e^{-B^2/2} < \epsilon/2
+%\end{align*}
+%\end{proof}
 %
-\[R_n(\sigma_i\circ \mathcal{G}) \leq 2LB\sqrt{\frac{2}{n}}\]
+%Next, we can appeal to the following well-cited theorems and standard techniques. For a better understanding of the notation and theorems used, we refer the refer to \cite{bartlett2002rademacher}.
+%%
+%\begin{theorem}[\cite{bartlett2002rademacher}]\label{rademacher}
+%Consider a function class $\mathcal{F}$ of functions $f : \mathcal{X} \to [0,1]$. And let $ x_1,...,x_n \in \mathcal{X}$ be i.i.d. samples selected according to some distribution $\mathcal{D}$. Let the Rademacher complexity of $\mathcal{F}$ to be 
+%\[R_n (\mathcal{F}) = E_{x_i,\sigma_i}\left[\sup_{f \in \mathcal{F}} \left|\frac{2}{n}\sum_{i=1}^nf(x_i)\sigma_i\right|\right]\]
 %
-Let $s(x) = x^2$, then $s$ is $2C$-Lipschitz when $|x|\leq C$, so 
+%where $\sigma_i$ are Rademacher variables. Then, for any $n$ and $\delta \in (0,1)$, with probability at least $1-\delta$, 
+%\[|E_{X}[f(X)]  - \frac{1}{n}\sum_{i=1}^n f(x_i)| \leq R_n(\mathcal{F}) + \sqrt{\frac{8\ln(2/\delta)}{n}} \]
+%for all $f \in\mathcal{F}$ simultaneously.
+%\end{theorem}
 %
-\[R_n(s\circ \sigma_i\circ\mathcal{G}) \leq 8CLB\sqrt{\frac{2}{n}},
-R_n(s\circ(\sigma_1\circ \mathcal{G} +\sigma_2\circ \mathcal{G})) \leq
-32 CLB\sqrt{\frac{2}{n}}\]
- 
-Since $2\sigma_1(x^T\theta)\sigma_2(x^Tw) = (\sigma_1(x^T\theta)+\sigma_2(x^Tw))^2 - \sigma_1(x^T\theta)^2 - \sigma_2(x^Tw)^2$, we conclude that 
-\[R_n (\mathcal{F}_{\sigma_1,\sigma_2}) \leq 48CLB\sqrt{\frac{2}{n}}\]
-\end{proof}
-
-\begin{theorem}
-\label{genErrBound}
-Let $\mathcal{M} = S^{d-1}$ and $L$ be as in \ref{errLoss} with potential function $\Phi$ corresponding to activation $\sigma$. Let ${\bf b}$ be $\poly(d)$-bounded and $|\sigma(x)|, |\sigma'(x)|,|\sigma''(x)|, |\sigma'''(x)|$ are all bounded by $c|x|^m$  
-
-Then, in $\poly(d^m, c, 1/\epsilon, \log(1/\zeta))$ samples, we can compute $\hat{L}$ such that with probability $1-\zeta$, we have simultaneously $\|\widehat{L}(\boldsymbol{ a, \theta}) -L(\boldsymbol{ a, \theta})\|, \|\nabla \widehat{L}(\boldsymbol{ a, \theta}) = L(\boldsymbol{ a, \theta})\|, \|\nabla^2\widehat{L}(\boldsymbol{ a, \theta}) -\nabla^2 L(\boldsymbol{ a, \theta})\| \leq \epsilon$ for all $\boldsymbol{a,\theta}$ where $\|{\bf a}\| \leq \poly(d)$. 
-\end{theorem}
-
-\begin{proof}
-  We first bound the generalization error of each $\Phi$. Notice that
-  our approximation to $\Phi$ is done by first drawing $n$
-  i.i.d. samples $x_i \sim \mathcal{D}_B$, where $\mathcal{D}_B$ is
-  the Gaussian in $\R^d$ truncated by the ball of radius
-  $B = \poly(d,m,\log(c),\log(1/\epsilon))$. Then, we calculate the empirical
-  average.
+%For all of our polynomial time bounds, whether we are calculating the potential or its derivatives, we are interested in bounding the Rademacher complexity of the class of functions of the form $\sigma_1(x^T\theta) \sigma_2(x^Tw)$, where $\sigma_1,\sigma_2$ are scalar functions. Let $f \circ g$ denote the composition of functions $f(x)$ and $g(x)$. If $\mathcal{G}$ is a class of functions, let $f \circ \mathcal{G}$ denote the class of functions $f \circ g$ for all $g \in \mathcal{G}$. 
+%%
+%\begin{theorem}\label{complexity}
+%Let $\mathcal{X} = \{x \in \R^d, \|x\|_2\leq B\}$ and let $\sigma_1,\sigma_2 : \R \to [-C,C]$ be $L$-Lipschitz functions. Consider the following class of functions
+%%
+%\[\mathcal{F}_{\sigma_1,\sigma_2} = \{x\to\sigma_1(x^T\theta) \sigma_2(x^Tw) | x\in\mathcal{X}, \theta, w \in S^{d-1}\}.\]
+%Then, \[R_n(\mathcal{F}_{\sigma_1,\sigma_2}) \leq 48CLB\sqrt{\frac{2}{n}}\]
+%\end{theorem}
+%\begin{proof}
+%First, let's define a simpler function class: $\mathcal{G} = \{x\to x^T\theta  | x\in\mathcal{X}, \theta \in S^{d-1}\}$. By simple Rademacher bounds on the class of linear functions \cite{kakade2009complexity}, 
+% %
+% \[R_n(\mathcal{G}) \leq B\sqrt{\frac{2}{n}}\]
+%%
+%Since $\sigma_1,\sigma_2$ are L-lipschitz, we apply standard structural results in \cite{bartlett2002rademacher}
+%%
+%\[R_n(\sigma_i\circ \mathcal{G}) \leq 2LB\sqrt{\frac{2}{n}}\]
+%%
+%Let $s(x) = x^2$, then $s$ is $2C$-Lipschitz when $|x|\leq C$, so 
+%%
+%\[R_n(s\circ \sigma_i\circ\mathcal{G}) \leq 8CLB\sqrt{\frac{2}{n}},
+%R_n(s\circ(\sigma_1\circ \mathcal{G} +\sigma_2\circ \mathcal{G})) \leq
+%32 CLB\sqrt{\frac{2}{n}}\]
+% 
+%Since $2\sigma_1(x^T\theta)\sigma_2(x^Tw) = (\sigma_1(x^T\theta)+\sigma_2(x^Tw))^2 - \sigma_1(x^T\theta)^2 - \sigma_2(x^Tw)^2$, we conclude that 
+%\[R_n (\mathcal{F}_{\sigma_1,\sigma_2}) \leq 48CLB\sqrt{\frac{2}{n}}\]
+%\end{proof}
 %
-\[\widehat{\Phi}(\theta,w) = \frac{1}{n}\sum_{i=1}^n \sigma(x_i^T\theta)\sigma(x_i^Tw) \]
-
-Since $|x_i^T\theta|\leq B$, we conclude that $\sigma, \sigma'$ is bounded by $\poly(B^m,c)$. Therefore, by Theorem \ref{rademacher}, \ref{complexity} and by simple union bounds over the $\poly(k) = \poly(d)$ sum of $\Phi$, we conclude that with probability $1-\zeta$, if we choose $n = \poly(d^p,c, 1/\epsilon, \log(1/\zeta))$, we have 
+%\begin{theorem}
+%\label{genErrBound}
+%Let $\mathcal{M} = S^{d-1}$ and $L$ be as in \ref{errLoss} with potential function $\Phi$ corresponding to activation $\sigma$. Let ${\bf b}$ be $\poly(d)$-bounded and $|\sigma(x)|, |\sigma'(x)|,|\sigma''(x)|, |\sigma'''(x)|$ are all bounded by $c|x|^m$  
 %
-\[|E_{X\sim \mathcal{D}_B}[\sigma(X^Tw)\sigma(X^T\theta)] -
-\widehat{\Phi}(\theta^Tw)| \leq \epsilon/\poly(d),\]
-for all $\theta, w \in \mathcal{M}$. And combining with Lemma
-\ref{choppedLem}, we conclude that
-$|\widehat{\Phi}(\theta,w) - \Phi(\theta,w)|\leq \epsilon/\poly(d)$. Now, since $L(\boldsymbol{a,\theta})$ is a sum of $\poly(d)$ number of $\Phi$ weighted by scalars bounded by $\poly(d)$, we can apply a union bound and triangle inequality to conclude $\|\widehat{L} - L\| \leq \epsilon$ for all $\boldsymbol{a,\theta}$ where $\|{\bf a}\| \leq \poly(d)$.  We proceed with the same proof for the first and second derivatives and use a
-union bound to derive our claim.
-\end{proof}
-
-
-\subsection{Finite Iteration Bounds} 
-To derive a finite iteration bound, we will apply stochastic gradient descent to our objective function and use standard martingale techniques for analysis. We will need to slightly alter the main result in \cite{GeHJY15} because we lack strong convexity assumptions. Also, we will accordingly alter the stochastic gradient descent algorithm to terminate upon finding a critical point that is $\gamma$-strict, for small $\gamma$.
+%Then, in $\poly(d^m, c, 1/\epsilon, \log(1/\zeta))$ samples, we can compute $\hat{L}$ such that with probability $1-\zeta$, we have simultaneously $\|\widehat{L}(\boldsymbol{ a, \theta}) -L(\boldsymbol{ a, \theta})\|, \|\nabla \widehat{L}(\boldsymbol{ a, \theta}) = L(\boldsymbol{ a, \theta})\|, \|\nabla^2\widehat{L}(\boldsymbol{ a, \theta}) -\nabla^2 L(\boldsymbol{ a, \theta})\| \leq \epsilon$ for all $\boldsymbol{a,\theta}$ where $\|{\bf a}\| \leq \poly(d)$. 
+%\end{theorem}
 %
-
-
-
-
-
-
-\begin{theorem}\label{strongConverge}
-  Let $L :\Omega \to \R$ be a thrice differentiable function such that
-  $|L(x)| \leq B_0, \|\nabla L(x)\| \leq B_1, \|\nabla^2 L(x)\| \leq B_2,\|\nabla^2L(x)
-  -\nabla^2L(y)\| \leq B_3\|x - y\|$
-  for all $x,y\in\Omega$. Also, assume that we access to stochastic
-  function $\widehat{L}$ such that
-  $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) - L(x)\|,
-  \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$
-  for some $\epsilon < 1$ for all $x\in \Omega$.
-
-Then, we can choose stepsize $\eta = 1/\poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{L, \epsilon}$ after at most $T = \poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon, \log(1/\zeta))$ iterations. Furthermore, $L(a,x_T) \leq L(a, x_0)$ with high probability.
-\end{theorem}
-
-The theorem proof builds on the following two lemmas in\cite{GeHJY15} , which allows us to make significant progress on the objective function. We adopt the notation in the paper where $\widetilde{O}, \widetilde{\Omega}$ drops factors polynomially dependent on parameters other than $\eta$. 
-
-\begin{lemma}(Lemma 7 in \cite{GeHJY15})\label{GeLem7}		
-Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq C\sqrt{\eta}$ and $C\sqrt{\eta} \leq \epsilon$, after one iteration $\expt[f(w_{t+1})] \leq f(w_t) - \widetilde{\Omega}(\eta^2)$.
-\end{lemma} \Snote{I assume this $\eta$ is not the same as in the
-  algorithm. Fix} \Rnote{It's the same as in Thm \ref{strongConverge}}
-
-\begin{lemma}(Lemma 9 in \cite{GeHJY15})\label{GeLem9}
-Under the assumptions of Theorem \ref{strongConverge}, for any point where $\|\nabla f(w_t)\|\leq C\sqrt{\eta}$ and $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, there is a number of steps $T$ such that $E[f(w_{t+T})] \leq f(w_t) - \widetilde{\Omega}(\eta)$ and $T \leq \widetilde{O}(1/\eta)$. Furthermore, $\|w_t - w_{t+i}\| \leq O(\eta^{1/2})$ for all $1 \leq i \leq T$.
-\end{lemma}
-
-\begin{proof}
-If Algorithm \ref{SGD} succeeds, then by triangle inequality and our error bounds on the stochastic function $\widehat{L}$ and its derivatives, we know that $x \in \mathcal{M}_\epsilon$. So, it suffices to argue that our algorithm succeeds with high probability.
-
-By Lemma \ref{GeLem7} and \ref{GeLem9}, we see that if
-$x_i \not \in\mathcal{M}_{\epsilon/3}$ for all the iterations, then in
-expectation, our objective function decreases by $poly(\eta)$ and is a strict supermartingale. By using Azuma's inequality, this occurs with probability
-$1-\zeta$ in $poly(\eta,\log(1/\zeta))$ iterations. Since our objective function is bounded by $\poly(d,B)$, we conclude that stochastic gradient descent must have encountered a
-point $x_i$ such that $x_i \in \mathcal{M}_{\epsilon/3}$ after at most
-$\poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. These lemmas also imply that $L(x_i) \leq L(x_0)$ with high probability.
-
-Finally, by our bounds on $\widehat{L}$ and $L$, we conclude that both
-$\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and $\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our algorithm succeeds with high probability.
-\end{proof}
-
-
-\begin{proof}
-We will choose $\delta, \alpha = 1/\poly(d,1/\epsilon)$ and $m = O(\log d \log (1/\delta)/\epsilon)$. First, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi_m$ and the second and third partials of $\Phi_m$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}\Rnote{cite something better than wikipedia, a}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon/3$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon,1/\delta)$ iterations.
-\end{proof}
-
-ADDING DETERMINISTIC LEMMAS
+%\begin{proof}
+%  We first bound the generalization error of each $\Phi$. Notice that
+%  our approximation to $\Phi$ is done by first drawing $n$
+%  i.i.d. samples $x_i \sim \mathcal{D}_B$, where $\mathcal{D}_B$ is
+%  the Gaussian in $\R^d$ truncated by the ball of radius
+%  $B = \poly(d,m,\log(c),\log(1/\epsilon))$. Then, we calculate the empirical
+%  average.
+%%
+%\[\widehat{\Phi}(\theta,w) = \frac{1}{n}\sum_{i=1}^n \sigma(x_i^T\theta)\sigma(x_i^Tw) \]
+%
+%Since $|x_i^T\theta|\leq B$, we conclude that $\sigma, \sigma'$ is bounded by $\poly(B^m,c)$. Therefore, by Theorem \ref{rademacher}, \ref{complexity} and by simple union bounds over the $\poly(k) = \poly(d)$ sum of $\Phi$, we conclude that with probability $1-\zeta$, if we choose $n = \poly(d^p,c, 1/\epsilon, \log(1/\zeta))$, we have 
+%%
+%\[|E_{X\sim \mathcal{D}_B}[\sigma(X^Tw)\sigma(X^T\theta)] -
+%\widehat{\Phi}(\theta^Tw)| \leq \epsilon/\poly(d),\]
+%for all $\theta, w \in \mathcal{M}$. And combining with Lemma
+%\ref{choppedLem}, we conclude that
+%$|\widehat{\Phi}(\theta,w) - \Phi(\theta,w)|\leq \epsilon/\poly(d)$. Now, since $L(\boldsymbol{a,\theta})$ is a sum of $\poly(d)$ number of $\Phi$ weighted by scalars bounded by $\poly(d)$, we can apply a union bound and triangle inequality to conclude $\|\widehat{L} - L\| \leq \epsilon$ for all $\boldsymbol{a,\theta}$ where $\|{\bf a}\| \leq \poly(d)$.  We proceed with the same proof for the first and second derivatives and use a
+%union bound to derive our claim.
+%\end{proof}
+%
+%
+%\subsection{Finite Iteration Bounds} 
+%To derive a finite iteration bound, we will apply stochastic gradient descent to our objective function and use standard martingale techniques for analysis. We will need to slightly alter the main result in \cite{GeHJY15} because we lack strong convexity assumptions. Also, we will accordingly alter the stochastic gradient descent algorithm to terminate upon finding a critical point that is $\gamma$-strict, for small $\gamma$.
+%%
+%
+%
+%
+%
+%
+%
+%\begin{theorem}\label{strongConverge}
+%  Let $L :\Omega \to \R$ be a thrice differentiable function such that
+%  $|L(x)| \leq B_0, \|\nabla L(x)\| \leq B_1, \|\nabla^2 L(x)\| \leq B_2,\|\nabla^2L(x)
+%  -\nabla^2L(y)\| \leq B_3\|x - y\|$
+%  for all $x,y\in\Omega$. Also, assume that we access to stochastic
+%  function $\widehat{L}$ such that
+%  $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) - L(x)\|,
+%  \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$
+%  for some $\epsilon < 1$ for all $x\in \Omega$.
+%
+%Then, we can choose stepsize $\eta = 1/\poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{L, \epsilon}$ after at most $T = \poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon, \log(1/\zeta))$ iterations. Furthermore, $L(a,x_T) \leq L(a, x_0)$ with high probability.
+%\end{theorem}
+%
+%The theorem proof builds on the following two lemmas in\cite{GeHJY15} , which allows us to make significant progress on the objective function. We adopt the notation in the paper where $\widetilde{O}, \widetilde{\Omega}$ drops factors polynomially dependent on parameters other than $\eta$. 
+%
+%\begin{lemma}(Lemma 7 in \cite{GeHJY15})\label{GeLem7}		
+%Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq C\sqrt{\eta}$ and $C\sqrt{\eta} \leq \epsilon$, after one iteration $\expt[f(w_{t+1})] \leq f(w_t) - \widetilde{\Omega}(\eta^2)$.
+%\end{lemma} \Snote{I assume this $\eta$ is not the same as in the
+%  algorithm. Fix} \Rnote{It's the same as in Thm \ref{strongConverge}}
+%
+%\begin{lemma}(Lemma 9 in \cite{GeHJY15})\label{GeLem9}
+%Under the assumptions of Theorem \ref{strongConverge}, for any point where $\|\nabla f(w_t)\|\leq C\sqrt{\eta}$ and $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, there is a number of steps $T$ such that $E[f(w_{t+T})] \leq f(w_t) - \widetilde{\Omega}(\eta)$ and $T \leq \widetilde{O}(1/\eta)$. Furthermore, $\|w_t - w_{t+i}\| \leq O(\eta^{1/2})$ for all $1 \leq i \leq T$.
+%\end{lemma}
+%
+%\begin{proof}
+%If Algorithm \ref{SGD} succeeds, then by triangle inequality and our error bounds on the stochastic function $\widehat{L}$ and its derivatives, we know that $x \in \mathcal{M}_\epsilon$. So, it suffices to argue that our algorithm succeeds with high probability.
+%
+%By Lemma \ref{GeLem7} and \ref{GeLem9}, we see that if
+%$x_i \not \in\mathcal{M}_{\epsilon/3}$ for all the iterations, then in
+%expectation, our objective function decreases by $poly(\eta)$ and is a strict supermartingale. By using Azuma's inequality, this occurs with probability
+%$1-\zeta$ in $poly(\eta,\log(1/\zeta))$ iterations. Since our objective function is bounded by $\poly(d,B)$, we conclude that stochastic gradient descent must have encountered a
+%point $x_i$ such that $x_i \in \mathcal{M}_{\epsilon/3}$ after at most
+%$\poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. These lemmas also imply that $L(x_i) \leq L(x_0)$ with high probability.
+%
+%Finally, by our bounds on $\widehat{L}$ and $L$, we conclude that both
+%$\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and $\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our algorithm succeeds with high probability.
+%\end{proof}
+%
+%
+%\begin{proof}
+%We will choose $\delta, \alpha = 1/\poly(d,1/\epsilon)$ and $m = O(\log d \log (1/\delta)/\epsilon)$. First, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi_m$ and the second and third partials of $\Phi_m$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}\Rnote{cite something better than wikipedia, a}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon/3$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon,1/\delta)$ iterations.
+%\end{proof}
+%
+%ADDING DETERMINISTIC LEMMAS
 
 
 \begin{lemma}\label{GradDecrease}		
-Let the assumptions of Theorem \ref{strongConverge} hold in a $(\alpha B_1)$-neighborhood of $x$. If $\|\nabla f (x) \|\geq \eta$ and $x'$ is reached after one iteration of gradient descent (Algorithm \ref{GD}) with stepsize $\alpha \leq \frac{1}{B_2}$, then $\|x' - x\| \leq \alpha B_1$ and $f(x') \leq f(x) - \alpha\eta^2/2$.
+Let $f :\Omega \to \R$ be a thrice differentiable function such that $|f(x)| \leq B_0, \|\nabla f(x)\| \leq B_1, \|\nabla^2 f(x)\| \leq B_2,\|\nabla^2f (x)-\nabla^2L(y)\| \leq B_3\|x - y\|$ for all $x,y$ in a $(\alpha B_1)$-neighborhood of $x$. If $\|\nabla f (x) \|\geq \eta$ and $x'$ is reached after one iteration of gradient descent (Algorithm \ref{GD}) with stepsize $\alpha \leq \frac{1}{B_2}$, then $\|x' - x\| \leq \alpha B_1$ and $f(x') \leq f(x) - \alpha\eta^2/2$.
 \end{lemma} 
 
 \begin{proof}
@@ -169,7 +169,7 @@ For $0 \leq \alpha \leq \frac{1}{B_2}$, we have $\alpha - \alpha^2B_2/2 \geq \al
 \end{proof}
 
 \begin{lemma}\label{HessianDecrease}
-Let the assumptions of Theorem \ref{strongConverge} hold in a $(\alpha B_2)$-neighborhood of $x$. If $\lambda_{min}(\nabla^2 f (x)) \leq -\gamma$ and $x'$ is reached after one iteration of Hessian descent (Algorithm \ref{HD}) with stepsize $\alpha \leq \frac{1}{B_3}$, then $\|x' - x\| \leq \alpha B_2$ and $f(x') \leq f(x) - \alpha^2 \gamma^3/2$.
+Let $f :\Omega \to \R$ be a thrice differentiable function such that $|f(x)| \leq B_0, \|\nabla f(x)\| \leq B_1, \|\nabla^2 f(x)\| \leq B_2,\|\nabla^2f (x)-\nabla^2L(y)\| \leq B_3\|x - y\|$ for all $x,y$ in a $(\alpha B_2)$-neighborhood of $x$. If $\lambda_{min}(\nabla^2 f (x)) \leq -\gamma$ and $x'$ is reached after one iteration of Hessian descent (Algorithm \ref{HD}) with stepsize $\alpha \leq \frac{1}{B_3}$, then $\|x' - x\| \leq \alpha B_2$ and $f(x') \leq f(x) - \alpha^2 \gamma^3/2$.
 \end{lemma}
 
 \begin{proof}
