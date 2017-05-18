@@ -15,16 +15,18 @@ to the true hidden weights, instead of a bijection.
 
 % Next, we provide a partial theoretical justification for this phenomena with simplifying assumptions.
 }
- 
+%
 In this section, we derive convergence guarantees for a class of realizable potentials that closely approximate $\lambda$-harmonic potentials. First, we construct realizable potentials with corresponding activation functions that are approximately $\lambda$-harmonic, specifically they are $\lambda$-harmonic outside of a small neighborhood around the center. We will defer the details of the technical construction to the appendix. Then, we reason similarly about the Laplacian of our loss function to derive our convergence theorem. To make sure that $\|a\|$ remains controlled throughout the optimization process, we add a quadratic regularization term to $L$ and instead run our optimization procedure on $G = L + \|a\|^2$.
 
-Our optimization procedure is a slightly altered version of gradient descent, where we incorportate a second-order method (which we named Hessian descent) are used when the gradient is too small and progress is slow. The descent algorithm (Algorithm~\ref{SecondGD}) allows us to converge to points with small gradient and small negative curvature. Namely, in $\poly(1/\epsilon)$ iterations, we should have reached a point in $\mathcal{M}_{G, \epsilon}$, where 
+Our optimization procedure is a slightly altered version of gradient descent, where we incorportate a second-order method (which we named Hessian descent as in Algorithm~\ref{HD}) are used when the gradient is too small and progress is slow. The descent algorithm (Algorithm~\ref{SecondGD}) allows us to converge to points with small gradient and small negative curvature. Namely, in $\poly(1/\epsilon)$ iterations, we should have reached a point in $\mathcal{M}_{G, \epsilon}$, where 
 %
 %
-\[\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
+\begin{align*}
+\mathcal{M}_{G, \epsilon} = \left\{x\in \mathcal{M} \Big| \|\nabla G(x)\|
   \leq \epsilon \text{ and } \lambda_{min}(\nabla^2 G(x)) \geq
-  -\epsilon\right\}\]
-%
+  -\epsilon\right\}
+  \end{align*}
+  %
 Then, we show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for $\epsilon$ small, then $\theta_i$ is close to $w_j$ for some $j$. Finally, we show how to initialize $(\boldsymbol{a^{(0)},\theta^{(0)}})$ and run second-order GD to converge to $\mathcal{M}_{G,\epsilon}$, proving our main theorem.
 
 The use of second-order methods is not limiting since noisy gradient descent algorithms can descent along negative curvature directions. Therefore, stochastic gradient descent should also converge to $M_{G,\epsilon}$ \cite{GeHJY15}, although we lack some regularity conditions. Furthermore, a more controlled perturbed gradient descent \cite{jin2017escape} can be applied in our setting to reach $M_{G,\epsilon}$ but requires more in-depth analysis.
@@ -133,8 +135,8 @@ $k\neq j$ and so on.
   $T\in \N$; $L$; $\alpha, \eta, \gamma \in \R$; 
    \State{\bf Initialize} $\boldsymbol{(a,\theta) = (0,0)}$
   \For {$i=1$ {\bfseries to} $k$} 
-  \State $(a_i, \theta_i) = SecondGD \left(\widehat{L}_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\eta,\gamma \right)$
-   \State    $(a_1,...,a_i) =  GD \left(\widehat{L}_{a_1,..,a_i},
+  \State $(a_i, \theta_i) = SecondGD \left(L_{a_i, \theta_i},(a_i,\theta_i),T, \alpha,\eta,\gamma \right)$
+   \State    $(a_1,...,a_i) =  GD \left(L_{a_1,..,a_i},
      (a_1,..,a_i), T , \alpha \right)$\;
    \EndFor
    \State {\bf return} $a = (a_1,...,a_k), \theta = (\theta_1,..., \theta_k)$
