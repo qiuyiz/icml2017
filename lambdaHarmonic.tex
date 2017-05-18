@@ -121,7 +121,11 @@ We start by stating a lemma concerning the construction of an almost
 $\lambda$-harmonic function on $\R^d.$ The construction is given in the appendix and uses a linear combination of realizable potentials that correspond to an activation function of the indicator function of a $n$-sphere. By using Fourier analysis and Theorem~\ref{thm:tranReal}, we can finish the construction of our almost $\lambda$-harmonic potential.%
 %
 \begin{restatable}{lemma}{almostharmreal}\label{almostHarmReal}
-Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any $1 > \epsilon > 0$, we can construct a radial activation $\sigma_\epsilon(r)$ with corresponding normalized radial potential $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when $r \geq \epsilon$.
+  Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any
+  $\epsilon \in (0,1)$, we can construct a radial activation
+  $\sigma_\epsilon(r)$ with corresponding normalized radial potential
+  $\Phi_\epsilon(r)$ that is $\lambda$-harmonic when
+  $r \geq \epsilon$.
 
 Furthermore, we have ${\Phi_\epsilon}^{(d-1)}(r) \geq 0$ for all $r  > 0$ and ${\Phi_\epsilon}^{(k)}(r) \geq 0$ and ${\Phi_\epsilon}^{(k+1)}(r)\leq 0$ for all $r > 0$ and $d - 3 \geq k \geq 0 $ even. 
 
@@ -146,7 +150,7 @@ $\sqrt{G({\bf a, \boldsymbol{\theta}})} \leq \sqrt{G(\boldsymbol{0,0})} - \delta
  Finally, we guarantee that our initialization substantially decreases our objective function. Together with our previous lemmas, it will imply that we must be close to some $w_j$ upon convergence. This is the overview of the proof of Theorem~\ref{almostHarmSGD}, presented below.
  %
  \begin{restatable}{lemma}{almostharminitialize}[Initialization]\label{almostHarmInitialize}
-Assume the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = (d/\epsilon)^{ - O(d)}$.
+Under the conditions of Theorem~\ref{almostHarmSGD} and Lemma~\ref{almostHarmConv}. With high probability, we can initialize $\boldsymbol{(a^{(0)},\theta^{(0)})}$ such that $\sqrt{G({\bf a^{(0)}}, \boldsymbol{\theta^{(0)}})} \leq \sqrt{G(\boldsymbol{0,0})} -\delta$ with $\delta = (d/\epsilon)^{ - O(d)}$.
  \end{restatable}
  %
 \begin{proof}[Proof of Theorem \ref{almostHarmSGD}]
