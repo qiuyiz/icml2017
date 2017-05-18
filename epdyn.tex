@@ -76,11 +76,11 @@ Given $\mathcal{D},$ the activation function $\sigma$, and the loss $L$, we atte
 
 
 % \subsection{Activation-Potential Correspondence}
-We restrict our attention to translationally invariant activations
+In this paper, we restrict our attention to translationally invariant activations
 and potentials.
 %
 % We restrict our attention to potential (and activation) functions with some natural symmetry, so they are either {\it translationally or rotationally invariant}.
-Specifically, we may write $\Phi= h(\theta-w)$ for some function $h(x).$
+Specifically, we may write $\Phi= h(\theta-w)$ for some function $h(x).$ Furthermore, a translationally invariant function $\Phi(r)$ is {\it radial} if it is a function of $r = \|x - y \|$.
 %   in the first case, with $\theta, w \in \R^d$. In the second case, $\Phi = h(\theta^Tw)$ and we enforce $\theta, w \in S^{d-1}$. Such potentials are called {\bf symmetric}. Our results focus on rotationally invariant potentials, as they correspond to classical neural networks.
 
 {\bf Remark}: Translationally symmetric potentials satisfy
@@ -97,7 +97,8 @@ halfspaces \cite{klivans2006cryptographic}.
 We call a potential function {\bf realizable} if it corresponds to
 some activation $\sigma$.  The following theorem characterizes
 realizable translationally invariant potentials under standard
-Gaussian inputs.
+Gaussian inputs. Proofs and a similar characterization for rotationally invariant
+potentials can be found in Appendix~\ref{sec:realizable}.
 %  We briefly state some results about
 % characterizations of realizable potentials for translationally and
 % rotationally invariant potentials. Full proofs and calculations of
@@ -116,8 +117,6 @@ $\sigma(x) =
 $ where $\mathfrak{F}$ is the generalized Fourier transform in $\R^d.$
 \end{restatable}
 %
-Proofs and a similar characterization for rotationally invariant
-potentials can be found in Appendix~\ref{sec:realizable}.
 
 % \Anote{give examples of phi's and corresponding sigmas in in a paragraph.}
 %
