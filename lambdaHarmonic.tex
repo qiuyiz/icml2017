@@ -89,7 +89,7 @@ We show that if $(\boldsymbol{a,\theta})$ is in $\mathcal{M}_{G, \epsilon}$ for 
 %\Snote{Fix $\alpha$ vs $\gamma$}
    \For {$i=1$ {\bfseries to} $T$}
    \If {$\|\nabla L(x_{i-1})\| \geq  \eta$}\  $x_{i} \leftarrow
- x_{i-1} - \alpha \nabla L$
+ x_{i-1} - \alpha \nabla L(x_{i-1})$
    \Else \
 $x_i \leftarrow HD(L, x_{i-1}, 1, \alpha)$ 
   \EndIf
@@ -119,7 +119,7 @@ $x_i \leftarrow HD(L, x_{i-1}, 1, \alpha)$
 \end{theorem}
 %
 We start by stating a lemma concerning the construction of an almost
-$\lambda$-harmonic function on $\R^d.$ The construction is given in the appendix and uses a linear combination of realizable potentials that correspond to an activation function of the indicator function of a $n$-sphere. By using Fourier analysis and Theorem~\ref{thm:tranReal}, we can finish the construction of our almost $\lambda$-harmonic potential.%
+$\lambda$-harmonic function on $\R^d.$ The construction is given in \supmaterial{Appendix~\ref{sec:realizable}} and uses a linear combination of realizable potentials that correspond to an activation function of the indicator function of a $n$-sphere. By using Fourier analysis and Theorem~\ref{thm:tranReal}, we can finish the construction of our almost $\lambda$-harmonic potential.%
 %
 \begin{restatable}{lemma}{almostharmreal}\label{almostHarmReal}
   Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$. Then, for any
@@ -173,7 +173,7 @@ $\theta_i, w_j$ such that $\|\theta_i - w_j\| <\epsilon$, $G$ is
 three-times continuously differentiable within a
 $\alpha (dk/\epsilon)^{2d} = (d/\epsilon)^{-O(d)}$ neighborhood of
 $\boldsymbol{\theta}$. Therefore, by Lemma~\ref{GradDecrease} and
-~\ref{HessianDecrease}, we must have
+~\ref{HessianDecrease} in the \supmaterial{appendix}, we must have
 $G(\boldsymbol{a',\theta'}) \leq G(\boldsymbol{a,\theta}) -
 \min(\alpha\eta^2/2,\alpha^2\gamma^3/2),$ a contradiction. Lastly,
 since our algorithm maintains that our objective function is

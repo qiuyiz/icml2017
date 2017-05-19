@@ -95,7 +95,9 @@
 
 \def\showauthornotes{1}
 \def\showdraftbox{0}
+\def\showsupmaterial{1}
 \input{macros}
+\newcommand{\supmaterial}[1]{\ifnum\showsupmaterial =1 supplementary material \else #1 \fi}
 
 \newcommand{\Anote}{\Authornote{A}}
 \newcommand{\Qnote}{\Authornote{Q}}
@@ -175,7 +177,7 @@ the force  is
 % function that is 
 determined by the activation function and the
 input distribution.  
-Building on this equivalance, we prove the
+Building on this equivalence, we prove the
 existence of an activation function such that 
 % the corresponding
 gradient descent learns

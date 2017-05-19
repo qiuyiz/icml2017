@@ -138,58 +138,58 @@ f(x') &\leq f(x) + \beta\nabla f(x)^Tv_{min} + \beta^2 v_{min}^T\nabla^2f(x)v_{m
 The last inequality holds since the sign of $\beta$ is chosen so that $\beta \nabla f(x)^Tv_{min} \leq 0$. Now, since $|\beta| = \alpha \gamma \leq \frac{\gamma}{B_3}$, $-|\beta|^2\gamma + \frac{B_3}{6} |\beta|^3 \leq - \alpha^2 \gamma^3/2$. 
 \end{proof}
 
-\subsection{Finite Iteration Bounds} 
-To derive a finite iteration bound, we will apply stochastic gradient descent to our objective function and use standard martingale techniques for analysis. We will need to slightly alter the main result in \cite{GeHJY15} because we lack strong convexity assumptions. Also, we will accordingly alter the stochastic gradient descent algorithm to terminate upon finding a critical point that is $\gamma$-strict, for small $\gamma$.
+%\subsection{Finite Iteration Bounds} 
+%To derive a finite iteration bound, we will apply stochastic gradient descent to our objective function and use standard martingale techniques for analysis. We will need to slightly alter the main result in \cite{GeHJY15} because we lack strong convexity assumptions. Also, we will accordingly alter the stochastic gradient descent algorithm to terminate upon finding a critical point that is $\gamma$-strict, for small $\gamma$.
+%%
 %
-
-
-
-
-
-
-\begin{theorem}\label{strongConverge}
-  Let $L :\Omega \to \R$ be a thrice differentiable function such that
-  $|L(x)| \leq B_0, \|\nabla L(x)\| \leq B_1, \|\nabla^2 L(x)\| \leq B_2,\|\nabla^2L(x)
-  -\nabla^2L(y)\| \leq B_3\|x - y\|$
-  for all $x,y\in\Omega$. Also, assume that we access to stochastic
-  function $\widehat{L}$ such that
-  $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) - L(x)\|,
-  \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$
-  for some $\epsilon < 1$ for all $x\in \Omega$.
-
-Then, we can choose stepsize $\eta = 1/\poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{L, \epsilon}$ after at most $T = \poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon, \log(1/\zeta))$ iterations. Furthermore, $L(a,x_T) \leq L(a, x_0)$ with high probability.
-\end{theorem}
-
-The theorem proof builds on the following two lemmas in\cite{GeHJY15} , which allows us to make significant progress on the objective function. We adopt the notation in the paper where $\widetilde{O}, \widetilde{\Omega}$ drops factors polynomially dependent on parameters other than $\eta$. 
-
-\begin{lemma}(Lemma 7 in \cite{GeHJY15})\label{GeLem7}		
-Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq C\sqrt{\eta}$ and $C\sqrt{\eta} \leq \epsilon$, after one iteration $\expt[f(w_{t+1})] \leq f(w_t) - \widetilde{\Omega}(\eta^2)$.
-\end{lemma} \Snote{I assume this $\eta$ is not the same as in the
-  algorithm. Fix} \Rnote{It's the same as in Thm \ref{strongConverge}}
-
-\begin{lemma}(Lemma 9 in \cite{GeHJY15})\label{GeLem9}
-Under the assumptions of Theorem \ref{strongConverge}, for any point where $\|\nabla f(w_t)\|\leq C\sqrt{\eta}$ and $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, there is a number of steps $T$ such that $E[f(w_{t+T})] \leq f(w_t) - \widetilde{\Omega}(\eta)$ and $T \leq \widetilde{O}(1/\eta)$. Furthermore, $\|w_t - w_{t+i}\| \leq O(\eta^{1/2})$ for all $1 \leq i \leq T$.
-\end{lemma}
-
-\begin{proof}
-If Algorithm \ref{SGD} succeeds, then by triangle inequality and our error bounds on the stochastic function $\widehat{L}$ and its derivatives, we know that $x \in \mathcal{M}_\epsilon$. So, it suffices to argue that our algorithm succeeds with high probability.
-
-By Lemma \ref{GeLem7} and \ref{GeLem9}, we see that if
-$x_i \not \in\mathcal{M}_{\epsilon/3}$ for all the iterations, then in
-expectation, our objective function decreases by $poly(\eta)$ and is a strict supermartingale. By using Azuma's inequality, this occurs with probability
-$1-\zeta$ in $poly(\eta,\log(1/\zeta))$ iterations. Since our objective function is bounded by $\poly(d,B)$, we conclude that stochastic gradient descent must have encountered a
-point $x_i$ such that $x_i \in \mathcal{M}_{\epsilon/3}$ after at most
-$\poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. These lemmas also imply that $L(x_i) \leq L(x_0)$ with high probability.
-
-Finally, by our bounds on $\widehat{L}$ and $L$, we conclude that both
-$\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and $\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our algorithm succeeds with high probability.
-\end{proof}
-
-
-\begin{proof}
-We will choose $\delta, \alpha = 1/\poly(d,1/\epsilon)$ and $m = O(\log d \log (1/\delta)/\epsilon)$. First, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi_m$ and the second and third partials of $\Phi_m$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}\Rnote{cite something better than wikipedia, a}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon/3$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon,1/\delta)$ iterations.
-\end{proof}
-
+%
+%
+%
+%
+%
+%\begin{theorem}\label{strongConverge}
+%  Let $L :\Omega \to \R$ be a thrice differentiable function such that
+%  $|L(x)| \leq B_0, \|\nabla L(x)\| \leq B_1, \|\nabla^2 L(x)\| \leq B_2,\|\nabla^2L(x)
+%  -\nabla^2L(y)\| \leq B_3\|x - y\|$
+%  for all $x,y\in\Omega$. Also, assume that we access to stochastic
+%  function $\widehat{L}$ such that
+%  $\|\widehat{L}(x) -L(x)\|, \|\nabla \widehat{L}(x) - L(x)\|,
+%  \|\nabla^2\widehat{L}(x) -\nabla^2 L(x)\| \leq \epsilon/3$
+%  for some $\epsilon < 1$ for all $x\in \Omega$.
+%
+%Then, we can choose stepsize $\eta = 1/\poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon,\log(1/\zeta))$, such that with probability at least $1-\zeta$, running Algorithm \ref{SGD} on $\widehat{L}$ initialized at $x_0$ with stepsize $\eta$  returns a point $x_\eta$ that is in $\mathcal{M}_{L, \epsilon}$ after at most $T = \poly(d,B_0, B_1, B_2, B_3,\rho,1/\epsilon, \log(1/\zeta))$ iterations. Furthermore, $L(a,x_T) \leq L(a, x_0)$ with high probability.
+%\end{theorem}
+%
+%The theorem proof builds on the following two lemmas in\cite{GeHJY15} , which allows us to make significant progress on the objective function. We adopt the notation in the paper where $\widetilde{O}, \widetilde{\Omega}$ drops factors polynomially dependent on parameters other than $\eta$. 
+%
+%\begin{lemma}(Lemma 7 in \cite{GeHJY15})\label{GeLem7}		
+%Under the assumptions of Theorem \ref{strongConverge}, for any point with $\|\nabla f (w_t) \|\geq C\sqrt{\eta}$ and $C\sqrt{\eta} \leq \epsilon$, after one iteration $\expt[f(w_{t+1})] \leq f(w_t) - \widetilde{\Omega}(\eta^2)$.
+%\end{lemma} \Snote{I assume this $\eta$ is not the same as in the
+%  algorithm. Fix} \Rnote{It's the same as in Thm \ref{strongConverge}}
+%
+%\begin{lemma}(Lemma 9 in \cite{GeHJY15})\label{GeLem9}
+%Under the assumptions of Theorem \ref{strongConverge}, for any point where $\|\nabla f(w_t)\|\leq C\sqrt{\eta}$ and $\lambda_{min}(\nabla^2 f (w_t)) \leq -\gamma$, there is a number of steps $T$ such that $E[f(w_{t+T})] \leq f(w_t) - \widetilde{\Omega}(\eta)$ and $T \leq \widetilde{O}(1/\eta)$. Furthermore, $\|w_t - w_{t+i}\| \leq O(\eta^{1/2})$ for all $1 \leq i \leq T$.
+%\end{lemma}
+%
+%\begin{proof}
+%If Algorithm \ref{SGD} succeeds, then by triangle inequality and our error bounds on the stochastic function $\widehat{L}$ and its derivatives, we know that $x \in \mathcal{M}_\epsilon$. So, it suffices to argue that our algorithm succeeds with high probability.
+%
+%By Lemma \ref{GeLem7} and \ref{GeLem9}, we see that if
+%$x_i \not \in\mathcal{M}_{\epsilon/3}$ for all the iterations, then in
+%expectation, our objective function decreases by $poly(\eta)$ and is a strict supermartingale. By using Azuma's inequality, this occurs with probability
+%$1-\zeta$ in $poly(\eta,\log(1/\zeta))$ iterations. Since our objective function is bounded by $\poly(d,B)$, we conclude that stochastic gradient descent must have encountered a
+%point $x_i$ such that $x_i \in \mathcal{M}_{\epsilon/3}$ after at most
+%$\poly(d,B,C,\rho,1/\epsilon,1/\gamma, \log(1/\zeta))$. These lemmas also imply that $L(x_i) \leq L(x_0)$ with high probability.
+%
+%Finally, by our bounds on $\widehat{L}$ and $L$, we conclude that both
+%$\|\nabla\widehat{L}(x_i)\| \leq 2\epsilon/3$ and $\lambda_{min}(\nabla^2 \widehat{L}(x_i)) \geq -2\epsilon/3$. So, our algorithm succeeds with high probability.
+%\end{proof}
+%
+%
+%\begin{proof}
+%We will choose $\delta, \alpha = 1/\poly(d,1/\epsilon)$ and $m = O(\log d \log (1/\delta)/\epsilon)$. First, to use Theorem \ref{strongConverge}, we check the regularity conditions. By assumption, we can choose $B, L, \rho$ to be $\poly(d,1/\epsilon)$ since $\Phi_m$ and the second and third partials of $\Phi_m$ are all bounded by $\poly(d,1/\epsilon)$ in $\mathcal{M}$. Furthermore, our activation function $\sigma$ and its derivatives are bounded in magnitude by $c|x|^{m}$, where $m = O(\log d \log (1/\delta)/\epsilon)$ and by \cite{Hermite}\Rnote{cite something better than wikipedia, a}, we can let $c = O(m^m)$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\epsilon/3$ error with sample complexity $d^{poly(d,1/\epsilon)}$. Therefore, we conclude by Theorem \ref{strongConverge} that we are in $\mathcal{M}_{G,\delta^2/(4\poly(d))}$ in $\poly(d,1/\epsilon,1/\delta)$ iterations.
+%\end{proof}
+%
 
 
 %%% Local Variables:
