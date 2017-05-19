@@ -93,9 +93,9 @@
 \newif\ifshort
 \shorttrue
 
-\def\showauthornotes{1}
+\def\showauthornotes{0}
 \def\showdraftbox{0}
-\def\showsupmaterial{1}
+\def\showsupmaterial{0}
 \input{macros}
 \newcommand{\supmaterial}[1]{\ifnum\showsupmaterial =1 supplementary material \else #1 \fi}
 
@@ -214,7 +214,7 @@ descent can be used to learn the entire network one node at a time.
 
 \newpage
 \appendix
-
+%
 \input{App-Sec2}
 \input{App-Realizable}
 \input{App-Earnshaw}
