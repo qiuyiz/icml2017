@@ -80,6 +80,7 @@ in contrast with several existing improper learning results.
 In the supplementary material, we show some weak results for more practical activations. For the sign activation, we show that for the loss with respect to a single node, the only local minima are at the hidden target nodes with high probability if the target network has a randomly picked top layer. For the polynomial activation, we derive a similar result under the assumption that the hidden nodes are orthonormal and show a polynomial convergence of an SGD algorithm to learn these weights.
 
 
+
 \paragraph{Intuition and Techniques.}
 %
 Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed protons and some moving electrons is at equilibrium only when the moving electrons coincide with the fixed protons. Given our translation above between electrodynamic systems and depth 2 networks (Section~\ref{sec:epdyn}), this would imply learnability of depth 2 networks under gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$.
@@ -112,33 +113,32 @@ The proof of Earnshaw's theorem is based on the fact that the electrostatic pote
 
 %
 %
-% \begin{table}[tb]
-% \caption{Activation, Potentials, and Convergence Results Summary}
-% \label{table1}
-% \noindent
-% \vskip 0.1in
-% \begin{center}
-% \begin{small}
-% \begin{sc}
-% \begin{tabular}{
-%   |p{\dimexpr.3\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 1
-%   |p{\dimexpr.37\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 2
-%   |p{\dimexpr.33\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 3
-%   }
-%    \hline 
-%         Name of Activation&  Potential  ($\Phi(\theta,w)$)    & Convergence? \\ \hline 
-%         Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes d = 2, \ref{signCon} \ref{SignConv}\\ 
-%         Polynomial  & $(\theta^Tw)^m$       & Yes, $\poly(d,\frac{1}{\epsilon}) \ref{PolyConv}$  \\        
-%         Almost   $\lambda$-harmonic  & Poly($\theta^Tw$), \ref{AlmostHarmonic}  & Yes, $\poly(d,\frac{1}{\epsilon})$ \\
-%          % Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
-%         \hline
-% \end{tabular}
-% \end{sc}
-% \end{small}
-% \end{center}
-% \vskip -0.1in
-% \end{table} 
-% %
+ \begin{table}[tb]
+ \caption{Activation, Potentials, and Convergence Results Summary}
+ \label{table1}
+ \noindent
+ \vskip 0.1in
+ \begin{center}
+ \begin{small}
+ \begin{sc}
+ \begin{tabular}{
+   |p{\dimexpr.3\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 1
+   |p{\dimexpr.37\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 2
+   |p{\dimexpr.33\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 3
+   }
+    \hline 
+         Name of Activation&  Potential  ($\Phi(\theta,w)$)    & Convergence? \\ \hline 
+         Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes for d = 2 \\ 
+          Almost   $\lambda$-harmonic  & Complicated & Yes \\
+Polynomial  & $(\theta^Tw)^m$       & Yes  \\        
+                  % Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
+         \hline
+ \end{tabular}
+ \end{sc}
+ \end{small}
+ \end{center}
+ \vskip -0.1in
+ \end{table} 
 
 
 There is still a large gap between theory and practice. However, we believe our work can offer some theoretical explanations and guidelines for the design of better activation functions for gradient-based training algorithms. For example, better accuracy and training speed were reported when using the newly discovered exponential linear unit (ELU) activation function in \cite{ClevertUH15, ShahKSS16}. We hope for more theory-backed answers to these and many other questions in deep learning.
