@@ -23,14 +23,15 @@ Specifically, if the target function is a neural network with randomly initializ
 
 
 
-Experimental simulations  (see Figure~\ref{expconverge}, section~\ref{experiments} for further details) show that for short depths (say two), and for different widths, with random network weights, stochastic gradient descent of a hypothesis network with the same architecture converges to an $\ell_2$ error that is a small percentage of a random network, indicating that SGD can learn these shallow networks with random weights.  With a binary output at the top layer, the training error (misclassification rate) starting from a value of about $50\%$ (that would be achived by a random guess) diminishes  quickly to under $0.2\%$. This seems to hold even when the width, the number of hidden nodes, is substantially increased (even up to 125 nodes), but depth is held constant at $2$. 
+Experimental simulations  (see Figure~\ref{expconverge}, section~\ref{experiments} for further details) show that for depth 2 networks of different widths, with random network weights, stochastic gradient descent of a hypothesis network with the same architecture converges to an squared $\ell_2$ error that is a small percentage of a random network, indicating that SGD can learn these shallow networks with random weights. Because our activations are sigmoidal from -1 to 1, the training error starts from a value of about $1$ (random guessing) and diminishes quickly to under $0.002$. This seems to hold even when the width, the number of hidden nodes, is substantially increased (even up to 125 nodes), but depth is held constant at $2$. 
 
 In this paper, we will try to understand this phenomena theoretically. We will show that under some assumptions neural networks of depth $2$ can learn functions from the same class with vanishingly small error using gradient descent.
 
-\begin{figure}[h]\label{expconverge}
+\begin{figure}[h]
 \centering
-\includegraphics[width = 3.5in]{plotChangeWidth.jpg}
-\caption{Test Error of Networks of Varying Width.}
+\includegraphics[width = 4.5in]{plotChangeWidth.jpg}
+\caption{Test Error of Depth 2 Networks of Varying Width.}
+\label{expconverge}
 %  \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
 \end{figure}
 
@@ -90,9 +91,34 @@ We  prove that the above result can be iterated to learn the entire network node
 in contrast with several existing improper learning results.
  % This is in contrast to the improper learning setting of many proposed algorithms.
 
-In the supplementary material, we show some weak results for more practical activations. For the sign activation, we show that for the loss with respect to a single node, the only local minima are at the hidden target nodes with high probability if the target network has a randomly picked top layer. For the polynomial activation, we derive a similar result under the assumption that the hidden nodes are orthonormal and show a polynomial convergence of an SGD algorithm to learn these weights.
+In the supplementary material, we show some weak results for more practical activations. For the sign activation, we show that for the loss with respect to a single node, the only local minima are at the hidden target nodes with high probability if the target network has a randomly picked top layer. For the polynomial activation, we derive a similar result under the assumption that the hidden nodes are orthonormal and using an extension of our techniques, a polynomial convergence of an SGD algorithm can be shown to learn these weights.
 
 
+ \begin{table}[h!]
+ \noindent
+ \vskip 0.1in
+ \begin{center}
+ \begin{small}
+ \begin{sc}
+ \begin{tabular}{
+   |p{\dimexpr.3\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 1
+   |p{\dimexpr.37\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 2
+   |p{\dimexpr.33\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 3
+   }
+    \hline 
+         Name of Activation&  Potential  ($\Phi(\theta,w)$)    & Convergence? \\ \hline 
+        Almost   $\lambda$-harmonic  & Complicated & Yes, Thm~\ref{nodeWise}\\
+         Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes for d = 2, Lem~\ref{SignConv} \\   
+Polynomial  & $(\theta^Tw)^m$       & Yes, Lem~\ref{PolyStrict}  \\        
+                  % Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
+         \hline
+ \end{tabular}
+ \end{sc}
+ \end{small}
+ \end{center}
+ \caption{Activation, Potentials, and Convergence Results Summary}
+ \label{table1}
+ \end{table} 
 
 \paragraph{Intuition and Techniques.}
 %
@@ -126,32 +152,6 @@ The proof of Earnshaw's theorem is based on the fact that the electrostatic pote
 
 %
 %
- \begin{table}[tb]
- \caption{Activation, Potentials, and Convergence Results Summary}
- \label{table1}
- \noindent
- \vskip 0.1in
- \begin{center}
- \begin{small}
- \begin{sc}
- \begin{tabular}{
-   |p{\dimexpr.3\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 1
-   |p{\dimexpr.37\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 2
-   |p{\dimexpr.33\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 3
-   }
-    \hline 
-         Name of Activation&  Potential  ($\Phi(\theta,w)$)    & Convergence? \\ \hline 
-         Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes for d = 2 \\ 
-          Almost   $\lambda$-harmonic  & Complicated & Yes \\
-Polynomial  & $(\theta^Tw)^m$       & Yes  \\        
-                  % Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
-         \hline
- \end{tabular}
- \end{sc}
- \end{small}
- \end{center}
- \vskip -0.1in
- \end{table} 
 
 
 There is still a large gap between theory and practice. However, we believe our work can offer some theoretical explanations and guidelines for the design of better activation functions for gradient-based training algorithms. For example, better accuracy and training speed were reported when using the newly discovered exponential linear unit (ELU) activation function in \cite{ClevertUH15, ShahKSS16}. We hope for more theory-backed answers to these and many other questions in deep learning.

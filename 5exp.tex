@@ -2,11 +2,18 @@
 
 \section{Experiments}
 \label{experiments}
-For our experiments, our training data is given by $(x_i, f(x_i))$, where $x_i$ are randomly chosen from a standard Gaussian in $\R^d$ and $f$ is a randomly generated neural network with weights chosen from a standard Gaussian. We run gradient descent (Algorithm \ref{GD}) on the empirical loss, with stepsize around $\alpha = 10^{-5}$, for $T = 10^6$ iterations. The nonlinearity used at each node is sigmoid, and further, unlike the assumptions in the theoretical analysis, the top node is a sign function outputing binary variable. Thus a random guess for the network will result in a error rate of $0.5$ ($50\%$) Our experiments show that for depth-2 neural networks, even with non-linear outputs, the training error starting from a value of about $50\%$ diminishes quickly to under $2\%$. This seems to hold even when the width, the number of hidden nodes, is substantially increased (even up to 125 nodes), but depth is held constant; although as the number of nodes increases, the rate of decrease is slower. This substantiates our claim that depth-2 neural networks are learnable.
+For our experiments, our training data is given by $(x_i, f(x_i))$, where $x_i$ are randomly chosen from a standard Gaussian in $\R^d$ and $f$ is a randomly generated neural network with weights chosen from a standard Gaussian. We run gradient descent (Algorithm \ref{GD}) on the empirical loss, with stepsize around $\alpha = 10^{-5}$, for $T = 10^6$ iterations. The nonlinearity used at each node is sigmoid from -1 to 1, including the output node, unlike the assumptions in the theoretical analysis. A random guess for the network will result in a mean squared error of around 1. Our experiments (see Fig~\ref{expconverge}) show that for depth-2 neural networks, even with non-linear outputs, the training error diminishes quickly to under $0.002$. This seems to hold even when the width, the number of hidden nodes, is substantially increased (even up to 125 nodes), but depth is held constant; although as the number of nodes increases, the rate of decrease is slower. This substantiates our claim that depth-2 neural networks are learnable.
 
-However, it seems that for depth greater than 2, the test error becomes significant  when width is high. When the width is a small constant, the increase in depth also impedes the learnability of the neural network and the training error does not get close enough to 0. It seems that for neural networks with greater depth, positive convergence results in practice are elusive. We note that we are using training error as a measure of success, but it's possible that the true underlying parameters are not learned. 
-\begin{table}[hb]
-\caption{Test Error of Learning Neural Networks of Various Depth and Width}
+However, it seems that for depth greater than 2, the test error becomes significant  when width is high (see Fig~\ref{tablePlot}). Even for depth 3 networks, the increase in depth impedes the learnability of the neural network and the training error does not get close enough to 0. It seems that for neural networks with greater depth, positive convergence results in practice are elusive. We note that we are using training error as a measure of success, so it's possible that the true underlying parameters are not learned. 
+
+\begin{figure}[h!]
+  \centering
+\includegraphics[width = 4.5in]{tablePlot.jpg}
+\caption{Test Error of Varying-Depth Networks vs. Width}
+\label{tablePlot}
+\end{figure}
+
+\begin{table}[h!]
 \vskip 0.1in
 \begin{center}
 \begin{small}
@@ -30,6 +37,7 @@ However, it seems that for depth greater than 2, the test error becomes signific
 \end{sc}
 \end{small}
 \end{center}
+\caption{Test Error of Learning Neural Networks of Various Depth and Width}
 \vskip -0.1in
 \end{table}
 
@@ -40,12 +48,12 @@ However, it seems that for depth greater than 2, the test error becomes signific
 % \Snote{Do we need the figure? Figures should be the same size. Make the fonts larger, they
 %   are hard to read. The figure caption should read training error
 %   rather than test error.}
-\begin{figure}[h]
-  \centering
-\includegraphics[width = 3.2in]{plotChangeDepth.jpg}\includegraphics[width = 3.5in]{plotChangeWidth.jpg}
-\caption{Left:Test Error of Networks of Varying Depth. Right: Test Error of Networks of Varying Width.}
-%  \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-\end{figure}
+%\begin{figure}[h!]
+%  \centering
+%\includegraphics[width = 3.2in]{plotChangeDepth.jpg}\includegraphics[width = 3.5in]{plotChangeWidth.jpg}
+%\caption{Test Error of Varying-Depth Networks vs. Width} 
+%%  \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
+%\end{figure}
 
 
 %%% Local Variables:
