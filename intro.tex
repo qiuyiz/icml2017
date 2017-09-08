@@ -91,7 +91,7 @@ We  prove that the above result can be iterated to learn the entire network node
 in contrast with several existing improper learning results.
  % This is in contrast to the improper learning setting of many proposed algorithms.
 
-In the supplementary material, we show some weak results for more practical activations. For the sign activation, we show that for the loss with respect to a single node, the only local minima are at the hidden target nodes with high probability if the target network has a randomly picked top layer. For the polynomial activation, we derive a similar result under the assumption that the hidden nodes are orthonormal and using an extension of our techniques, a polynomial convergence of an SGD algorithm can be shown to learn these weights.
+In the appendix, we show some weak results for more practical activations. For the sign activation, we show that for the loss with respect to a single node, the only local minima are at the hidden target nodes with high probability if the target network has a randomly picked top layer. For the polynomial activation, we derive a similar result under the assumption that the hidden nodes are orthonormal and using an extension of our techniques, a polynomial convergence of an SGD algorithm can be shown to learn these weights.
 
 
  \begin{table}[h!]
@@ -107,7 +107,7 @@ In the supplementary material, we show some weak results for more practical acti
    }
     \hline 
          Name of Activation&  Potential  ($\Phi(\theta,w)$)    & Convergence? \\ \hline 
-        Almost   $\lambda$-harmonic  & Complicated & Yes, Thm~\ref{nodeWise}\\
+        Almost   $\lambda$-harmonic  & Complicated  (see Lem~\ref{almostHarmReal}) & Yes, Thm~\ref{nodeWise}\\
          Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes for d = 2, Lem~\ref{SignConv} \\   
 Polynomial  & $(\theta^Tw)^m$       & Yes, Lem~\ref{PolyStrict}  \\        
                   % Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
