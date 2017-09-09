@@ -133,15 +133,15 @@ In the appendix, we show some weak results for more practical activations. For t
  \begin{small}
  \begin{sc}
  \begin{tabular}{
-   |p{\dimexpr.3\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 1
-   |p{\dimexpr.37\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 2
-   |p{\dimexpr.33\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 3
+   |p{\dimexpr.28\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 1
+   |p{\dimexpr.30\linewidth-2\tabcolsep-1.3333\arrayrulewidth}% column 2
+   |p{\dimexpr.42\linewidth-2\tabcolsep-1.3333\arrayrulewidth}|% column 3
    }
     \hline 
          Name of Activation&  Potential  ($\Phi(\theta,w)$)    & Convergence? \\ \hline 
         Almost   $\lambda$-harmonic  & Complicated  (see Lem~\ref{almostHarmReal}) & Yes, Thm~\ref{nodeWise}\\
          Sign & $1 - \frac{2}{\pi}\cos^{-1}(\theta^Tw)$       & Yes for d = 2, Lem~\ref{SignConv} \\   
-Polynomial  & $(\theta^Tw)^m$       & Yes, Lem~\ref{PolyStrict}  \\        
+Polynomial  & $(\theta^Tw)^m$       & Yes, for orthonormal $w_i.$ Lem~\ref{PolyStrict}  \\        
                   % Bessel    &  $e^{-\|\theta-w\|_1}$        & Yes for $d=1$  \\   
          \hline
  \end{tabular}
@@ -161,7 +161,7 @@ Note that for the standard electric potential function given by $\Phi = 1/r$ whe
 %  % These convergence results are proven to simply illustrate our ideas. 
 % In Section~\ref{}, we construct a realizable almost $\lambda$-harmonic potential and prove finite convergence guarantees. In section 6, experimental results confirm that depth-2 neural networks can be learned by gradient descent with common activation functions but seem to discredit that claim for higher depth networks. In section 5, we consider more realistic activation functions, such as the sign and polynomial function.
 
-The proof of Earnshaw's theorem is based on the fact that the electrostatic potential is harmonic, \emph{i.e}, its Laplacian (trace of its Hessian) is identically zero. This ensures that at every critical point, there is direction of potential reduction (unless the hessian is identically zero). We generalize these ideas to potential functions that are eigenfunctions of the Laplacians, $\lambda$-harmonic potentials (Section~\ref{sec:earnshaw}). However, these potentials are unbounded. Subsequently, we construct a non-explicit activation function such that the corresponding potential is bounded and is almost $\lambda$-harmonic, \emph{i.e.}, it is $\lambda$-harmonic outside a small sphere (Section~\ref{sec:almost-harmonic}). For this activation function, we show at a stable critical point, we must learn at least one of the hidden nodes. Gradient descent (possibly with some noise, as in the work of Ge \emph{et al.}~\cite{GeHJY15}) is believed to converge to stable critical points. However, for simplicity, we descend along directions of negative curvature to escape saddle points. Our activation lacks some regularity conditions required in\cite{GeHJY15}. We believe the results in \cite{jin2017escape} can be adapted to our setting to prove that perturbed gradient descent converges to stable critical points.
+The proof of Earnshaw's theorem is based on the fact that the electrostatic potential is harmonic, \emph{i.e}, its Laplacian (trace of its Hessian) is identically zero. This ensures that at every critical point, there is direction of potential reduction (unless the hessian is identically zero). We generalize these ideas to potential functions that are eigenfunctions of the Laplacians, $\lambda$-harmonic potentials (Section~\ref{sec:earnshaw}). However, these potentials are unbounded. Subsequently, we construct a non-explicit activation function such that the corresponding potential is bounded and is almost $\lambda$-harmonic, \emph{i.e.}, it is $\lambda$-harmonic outside a small sphere (Section~\ref{sec:almost-harmonic}). For this activation function, we show at a stable critical point, we must learn at least one of the hidden nodes. Gradient descent (possibly with some noise, as in the work of Ge \emph{et al.}~\cite{GeHJY15}) is believed to converge to stable critical points. However, for simplicity, we descend along directions of negative curvature to escape saddle points. Our activation lacks some regularity conditions required in~\cite{GeHJY15}. We believe the results in \cite{jin2017escape} can be adapted to our setting to prove that perturbed gradient descent converges to stable critical points.
 
 % $M_{G,\epsilon}$ but requires more in-depth analysis.
 
