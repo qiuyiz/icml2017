@@ -1,0 +1,353 @@
+\documentclass[a4paper,UKenglish]{lipics-v2016}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+%\usepackage{nips_2017}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+% \usepackage[final]{nips_2017}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{color}
+
+\usepackage{graphicx} % more modern
+
+\usepackage{amsthm}
+\usepackage{amssymb}
+% For algorithms
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{nicefrac}
+%\usepackage{algorithmic}
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{amsmath}
+\usepackage{thmtools, thm-restate}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{color}
+%\usepackage[small]{caption}
+%\usepackage[ruled,vlined]{algorithm2e}
+
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{fact}[theorem]{Fact}
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{observation}[theorem]{Observation}
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem{remark}[theorem]{Remark}
+%\newtheorem{conjecture}[theorem]{Conjecture}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{claim}[theorem]{Claim}
+\newtheorem{assumption}{Assumption}
+
+%%%%%%%%%%%%% Macros %%%%%%%%%%%%% 
+\newcommand{\llabel}[1]{\label{#1}}
+\newcommand{\heading}[1]{{\bf #1}}
+
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\mzo}{\{-1,+1\}}
+\newcommand{\F}{{\mathbb{F}}}
+\newcommand{\FT}{{\mathfrak{F}}}
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\beq}{\begin{eqnarray}}
+\newcommand{\eeq}{\end{eqnarray}}
+\newcommand{\tO}{\tilde{O}}
+\newcommand{\bt}{\tilde{b}}
+\newcommand{\vb}{{\bar b}}
+\newcommand{\sign}{\text{sign}}
+\newcommand{\T}{T}
+\newcommand{\ip}[1]{\langle #1 \rangle}
+\DeclareMathOperator{\Tr}{Tr}
+\newcommand{\Var}{\mathrm{Var}}
+
+\newcommand{\Vol}{\mathop\mathrm{Vol}\nolimits}
+\newcommand{\Const}{\mathop\mathrm{Const}\nolimits}
+\DeclareMathOperator*{\expt}{\mathbb{E}}
+\DeclareMathOperator*{\prob}{\mathbb{P}}
+\newcommand{\E}[2]{{\mathbb{E}_{#1}\left[#2\right]}}
+\newcommand{\EE}[2]{{\expt_{#1}{#2}}}
+\newcommand{\EX}{{\mathbb E}}
+\newcommand{\Sur}{\mathop\mathrm{Sur}\nolimits}
+\newcommand{\polylog}{\mathop\mathrm{polylog}\nolimits}
+\newcommand{\xor}{\oplus}
+\newcommand{\conj}[1]{{\overline {#1}}} %% conjugate
+\newcommand{\pd}[2]{\frac{\partial#1}{\partial#2}}
+\newif\ifshort
+\shorttrue
+
+\def\showauthornotes{0}
+\def\showdraftbox{0}
+\def\showsupmaterial{0}
+\input{macros}
+\newcommand{\supmaterial}[1]{\ifnum\showsupmaterial =1 supplementary material \else #1 \fi}
+
+\newcommand{\Anote}{\Authornote{A}}
+\newcommand{\Qnote}{\Authornote{Q}}
+\newcommand{\Rnote}{\Authornote{R}}
+\newcommand{\Snote}{\Authornote{S}}
+
+%\allowdisplaybreaks[3]
+\title{Convergence Results for Neural Networks via Electrodynamics}
+
+\author[1]{Rina Panigrahy}
+\author[2]{Ali Rahimi}
+\author[3]{Sushant Sachdeva}
+\author[4]{Qiuyi Zhang}
+\affil[1]{ Google Inc., Mountain View, CA \\
+  \texttt{rinap@google.com}}
+\affil[2]{Google Inc., Mountain View, CA \\
+  \texttt{arahimi@google.com}}
+ \affil[3]{University of Toronto, Toronto, Canada\\
+  \texttt{sachdeva@cs.toronto.edu}}
+  \affil[4]{University of California Berkeley, Berkeley, CA \\
+  \texttt{10zhangqiuyi@berkeley.edu} }
+\authorrunning{R. Panigrahy, A. Rahimi, S. Sachdeva and Q. Zhang}
+
+\Copyright{Rina Panigrahy, Ali Rahimi, Sushant Sachdeva and Qiuyi Zhang}
+
+\subjclass{Machine Learning Theory}% mandatory: Please choose ACM 1998 classifications from http://www.acm.org/about/class/ccs98-html . E.g., cite as "F.1.1 Models of Computation". 
+\keywords{Deep Learning, Learning Theory, Optimization}
+
+\EventEditors{Anna R. Karlin}
+\EventNoEds{1}
+\EventLongTitle{9th Innovations in Theoretical Computer Science Conference (ITCS
+2018)}
+\EventShortTitle{ITCS 2018}
+\EventAcronym{ITCS}
+\EventYear{2018}
+\EventDate{January 11--14, 2018}
+\EventLocation{Cambridge, MA, USA}
+\EventLogo{}
+\SeriesVolume{94}
+\ArticleNo{22}
+
+\begin{document} 
+
+\maketitle
+
+\begin{abstract} 
+We study whether a depth two neural network can learn another 
+depth two network using gradient descent.
+% We study the problem of learning a depth two neural network with
+% another
+% randomly initialized
+ % depth two network using gradient descent.
+  % We study the problem of learning a function using a neural network
+  % of a certain depth and width assuming it can be represented using
+  % such a network.  
+Assuming a linear output node,
+% the output node of the network
+% is linear, 
+we show that
+% We show that for networks of depth two with certain
+%   simplifying assumptions 
+the question of whether gradient descent converges to the 
+target function is equivalent to the following question in
+electrodynamics: 
+Given $k$ fixed protons in $\rea^d,$ and $k$ electrons,
+% initialized at random positions 
+% with the electrons moving due to 
+% under the influence of the 
+%electrical
+each moving due to the attractive force from the protons and repulsive
+force from the remaining electrons,
+%. The question of convergence, then, is 
+whether at equilibrium all the electrons will be matched up with
+%to all the
+the protons, up to a permutation. 
+Under the standard electrical
+force, this follows from the classic Earnshaw's theorem. In our setting,
+the force  is 
+% If the force function between a pair of
+% charges is not given by the standard electrical force of $1/r^2$
+% (where $r$ is the distance between unit charges), but by another
+% function that is 
+determined by the activation function and the
+input distribution.  
+Building on this equivalence, we prove the
+existence of an activation function such that 
+% the corresponding
+gradient descent learns
+% dynamics 
+% result in learning 
+at least one of the
+hidden nodes in the target network. 
+Iterating, we show that gradient
+descent can be used to learn the entire network one node at a time.
+\end{abstract} 
+
+\input{intro.tex}
+\input{litsurvey}
+\input{epdyn.tex}
+\input{harmonic.tex}
+\input{lambdaHarmonic.tex}
+\input{5exp}
+
+% \section{Conclusion}
+
+% We studied the problem of learning a function using a neural network of a certain depth and width assuming it can
+% be represented using such a network.   We show that for networks of depth two with certain simplifying assumptions  the question of whether the gradient descent converges to the desired target function is equivalent to a certain question of convergence in electrodynamics.  Given $n$  fixed protons and $n$ mobile under the influence of the electrical force of attraction from the protons and repulsion from the remaining electrons will all the electrons will be matched up all the protons upto some permutation. Based on this equivalance, we proved the existence of an activation function such that the corresponding gradient descent dynamics result in learning at least one of the hidden nodes in the target network. 
+
+
+%In this work, we view deep learning of neural networks in the context of electron-proton dynamics and analyzed the convergence of the underlying weight parameters of the neural network using arguments inspired from physics and non-convex optimization. To do so, we first established mathematical relationship between activation functions and their corresponding potentials. Next, we interpreted gradient descent as electrodynamics under a certain potential. Finally, we discovered classes of activation functions that give rise to positive convergence results, some of which relate to very commonplace activations, such as the sign and polynomial. For these classes of depth-2 neural networks, our results imply that they are provably learnable by deep learning. Our experiments seem to imply that higher depth neural networks are not learnable. 
+
+%However, 
+% We believe that convergence results for depth-2 neural networks can be extended to even more activation functions, such as the sigmoid or the ReLU. Also, we believe these convergence results can be proven with minimal assumptions.
+
+
+{\small
+\bibliography{biblio}
+\bibliographystyle{plainurl}}
+
+\newpage
+\appendix
+%
+\input{App-Sec2}
+\input{App-Realizable}
+\input{App-Earnshaw}
+\input{App-Finite}
+\input{App-Lambda}
+%\input{App-Subharmonic}
+\input{4common}
+\input{App-Sign}
+\input{App-Poly}
+%\input{App-Unique}
+
+
+
+
+% \input{3res.tex}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%Not in paper but could be useful
+\if{1}
+
+\subsection{Infinite Iteration Bounds} 
+\label{InfIter}
+
+
+\begin{theorem}\cite{lee2016gradient, PanageasP16}\label{convStrict}
+  Let $f :\Omega \to \R$ be a twice differentiable function such that
+  $\sup_{x \in \Omega} \|\nabla^2 f\| \leq L$. Let
+  $\mathcal{S} \subseteq \Omega$ be the set of critical points of $f$
+  that are not local minima. Also, if
+  $g(x) = x - \frac{1}{2L} \nabla f(x)$, then
+  $g(\Omega) \subseteq \Omega$.
+
+  Then, running Algorithm \ref{GD} with gradient input $\nabla f$ and
+  stepsize $\alpha = 1/(2L)$, as the iteration $T \to\infty$, will
+  converge to a point $x_\infty$ outside of $S$ almost surely over
+  randomly chosen initial points $x_0$.
+\end{theorem}
+
+\begin{corollary}
+Assume all the assumptions of Theorem \ref{convStrict} and let $f$ admit a global minima in $\overline{\Omega}$. Assume all critical points of $f$ in $\Omega$ are not local minima, except at the global minima. Then, running Algorithm \ref{GD} with gradient input $\nabla f$ and stepsize $\alpha = 1/(2L)$ will converge to the global minima almost surely as the iteration count $T \to\infty$.
+\end{corollary}
+\fi
+
+
+\if{1}
+\begin{theorem}
+For any $\epsilon < 1/\poly(d)$, we can construct a realizable potential $\Phi$ such that with high probability, running Algorithm \ref{NodeGDOpt} on \eqref{errLoss} with error $\delta = \poly(\epsilon,1/d)$, $\gamma = \epsilon$ and stepsize $\alpha = 1/\poly(d,1/\epsilon)$ converges in $T = \poly(d, 1/\epsilon)$ iterations to $(\boldsymbol{a,\theta})$ such that either  $\theta$ is within $\epsilon$-neighborhood of the global minima or there exists $i$ such that if $\theta_i$ is picked uniformly in $\mathcal{M}$
+%
+\[ \expt\left[\left( \sum_{j < i} a_j \Phi(\theta_i,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon\]
+
+The sample complexity is $d^{O(\log(d)/\epsilon)}$.
+\end{theorem}
+
+\begin{proof}
+Let $\Phi_m$ be the $(1,m)$-Harmonic potential in Theorem \ref{eigConv} with $m = \poly(d,1/\epsilon)$ and $m$ odd. We first consider the algorithm on node $\theta_1$ and claim that it will merge with some $w_j$ and then we will proceed with induction. 
+
+
+If
+%
+\[ \expt\left[\left( \sum_{j < 1} a_j \Phi(\theta_i,\theta_j) +
+    \sum_{j=1}^k b_j \Phi(\theta_i,w_j)\right)^2\right] < \epsilon,\]
+then we are done. Otherwise, with high probability, Theorem
+\ref{nonDecrease} allows us to deduce that throughout the SGD
+algorithm applied on $\theta_1$, $a_1^2 = \Omega(\epsilon)$.
+
+Now we want to apply Theorem \ref{strongConverge}, so we check the regularity conditions. Since $\mathcal{M} = S^{d-1}$, then we can choose $B, L, \rho$ to be $\poly(d)$ since $\Phi$ and the second and third partials of $\Phi$ are all bounded by $\poly(d)$. Furthermore, by our construction, our activation function $\sigma(x)$ and its derivatives are $O(|x|^{\poly(d,1/\epsilon)})$. By Theorem \ref{genErrBound}, with high probability, we can construct a stochastic oracle up to $\poly(\epsilon,1/d)$ error with sample complexity $d^{\poly(d,1/\epsilon)}$.
+
+
+Therefore, by Theorem \ref{strongConverge} we conclude that we converge to $\theta_1 \in \mathcal{M}_{\poly(\epsilon,1/d)}$. By Theorem \ref{eigConv}, since $|a_i| = \Omega(\sqrt{\epsilon})$, this implies that it is in an $\poly(\epsilon,1/d)$-neighborhood of some $w_{i}$ in $\poly(d,1/\epsilon)$ time. Note that $\theta_1$ will close to with $\pm w_j$ for some $j$ but since $\Phi_m$ is odd, WLOG, it is close to $w_j$. 
+
+Furthermore, note that $|a_1| \leq \poly(d)$ by using the explicit formula. And lastly, by Theorem \ref{quadConverge}, since the maximum eigenvalue of our matrix $A$ is bounded by \poly(d), our gradient descent steps on the quadratic loss $L_{a_1}$ will converge to the optimum in $\Omega = \{a \in \R^n | \|a\| \leq \poly(d)\}$ with $O(\epsilon)$ error in $T$ iterations.
+
+Now, we proceed with induction and repeat the same argument on $\theta_2$. We can simply treat $\theta_1$ as $w_{k+1}$ and so applying the same argument tells us that $\theta_2$ is close to some $w_j$ for some $j$. The issue is that $\theta_2$ could be in a $\poly(\epsilon,1/d)$-neighborhood of $w_{k+1} = \theta_1$ or $w_i$. We claim that this will not occur. First, since $w_i, w_{k+1}$ are in a $\poly(\epsilon,1/d)$-neighborhood of each other, we will assume WLOG that $\theta_2$ is close to $\theta_1$.
+
+Now, by the optimality of $a_1$, we know that $L(a_1,\theta_1) \leq \min_{a \in \Omega} L(a,\theta_1) + O(\epsilon)$. We claim that if $\theta_2$ is close to $\theta_1$, then $L(a_1+a_2,\theta_1) \leq L(a_1,\theta_1) - \Omega(\epsilon)$. This, combined with the fact that $a_1 + a_2$ is bounded by \poly(d), would lead to a contradiction.
+
+First, notice that since $a_2$ is always optimal, we have
+\begin{align*}
+& L(a_1,\theta_1) - L(a_1,\theta_1,a_2,\theta_2) \\
+& \qquad \qquad = a_2^2 + 2a_2 (\sum_{j < 2} \Phi(\theta_2,\theta_j) + \sum_{j=1}^k b_j \Phi(\theta_2,w_j)) \\
+& \qquad \qquad = -a_2^2 = \Omega(\epsilon)
+\end{align*}
+
+Therefore, it suffices to show that $|L(a_1+a_2,\theta_1) - L(a_1,\theta_1,a_2,\theta_2) | \leq O(\epsilon)$. Since $L(a_1+a_2,\theta) = L(a_1,\theta_1,a_2,\theta_1)$, this follows immediately from the $\poly(d)$-Lipschitz of $\Phi$ and the fact that $\theta_2$ is in a $\poly(d,1/\epsilon)$-neighborhood of $\theta_1$. We conclude that $\theta_2$ cannot be in a $\poly(\epsilon,1/d)$-neighborhood of $\theta_1$ but converges to a point close to $w_{j}$, $j\neq i,k+1$. Therefore, the no two $\theta_i$ are matched to one $w_j$. 
+
+By applying this logic to all $\theta_i$ through induction, we deduce that $\theta$ is within $\epsilon$ of the global minima.
+\end{proof}
+\fi
+
+
+
+\end{document} 
+
+
+
+
+
+
+% This document was modified from the file originally made available by
+% Pat Langley and Andrea Danyluk for ICML-2K. This version was
+% created by Lise Getoor and Tobias Scheffer, it was slightly modified  
+% from the 2010 version by Thorsten Joachims & Johannes Fuernkranz, 
+% slightly modified from the 2009 version by Kiri Wagstaff and 
+% Sam Roweis's 2008 version, which is slightly modified from 
+% Prasad Tadepalli's 2007 version which is a lightly 
+% changed version of the previous year's version by Andrew Moore, 
+% which was in turn edited from those of Kristian Kersting and 
+% Codrina Lauth. Alex Smola contributed to the algorithmic style files.  
