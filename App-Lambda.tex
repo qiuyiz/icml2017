@@ -51,9 +51,7 @@ We conclude that $S \leq \max(\delta^2k, 2kd\delta/\lambda) \leq 2kd\delta/\lamb
    norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
    target function, we conclude that by triangle inequality
 \begin{align*}
-\sqrt{G(\boldsymbol{a,\theta})}  & \geq \norm{\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)}_X \\
-&\geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \\
-& \geq
+\sqrt{G(\boldsymbol{a,\theta})}  & \geq \norm{\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)}_X \geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \geq
   \sqrt{G(\boldsymbol{0,0})} - \delta
 \end{align*}
 This gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $k\epsilon$ neighborhood of $w_j$.
@@ -212,7 +210,6 @@ By optimality conditions on $a_2$, we see that
 \begin{align*}
 a_2^*(\theta_2) = a_1 \Phi_{\epsilon}(\|\theta_2 - \theta_1\|) + b_j \Phi_{\epsilon}(\|\theta_1 - w_j\|) +  \sum_{i \neq j} b_i \Phi_{\epsilon}(\|\theta_1 - w_i\|)
 \end{align*}
-
 If $w_{\pi(1)} = w_{\pi(2)}$, then note that $\|\theta_1 - w_i \| \geq \Omega(d\log d)$ for all $i \neq \pi(1)$. Therefore, $2 \sum_{i \neq j} b_i \Phi_{\epsilon}(\|\theta_1 - w_i\|) = (d/\epsilon)^{-O(d)}$. And by our convergence guarantees and the $(d/\epsilon)^{2d}$-Lipschitzness of $\Phi_{\epsilon}$, $ a_1 \Phi_{\epsilon}(\|\theta_2 - \theta_1\|) + b_j \Phi_{\epsilon}(\|\theta_1 - w_j\|) \leq (d/\epsilon)^{-O(d)}$. Therefore, $a_2^*(\theta_2) \leq (d/\epsilon)^{-O(d)}$. 
 
 However, we see that $L_2(a_2, \theta_2) \geq L_2(a_2^*(\theta_2),\theta_2) = L_2(0,0) - \frac{1}{2}a_2^*(\theta_2)^2 \geq L_2(0,0) - (d/\epsilon)^{-O(d)}$. But since $L_2$ is non-increasing, this contradicts our initialization and therefore $\pi(1) \neq \pi(2)$. Therefore, our claim is done and by Lemma~\ref{nodewiseSGD}, we see that since $|b_{\pi(2)}| \geq 1/\poly(d)$ and for all $i$, $\|w_i - w_{\pi(2)}\| \geq \Omega(d \log d)$ and $\|\theta_1 - w_{\pi(2)}\| \geq \Omega(d\log d)$, we conclude that $(a_2,\theta_2)$ is in a $(d/\epsilon)^{-O(d)}$ neighborhood of $(b_{\pi(2)}, \theta_{\pi(2)})$. Finally, we induct and by similar reasoning, $\pi$ is a permutation. Now, our theorem follows. 

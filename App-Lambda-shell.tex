@@ -1,0 +1,133 @@
+
+
+\section{Convergence of Almost $\lambda$-Harmonic Potentials}\label{App:EigenFunc}
+
+\almostharmconv*
+
+\begin{proof}
+ The proof is similar to Theorem \ref{EigStrict}. Let $\Phi_\epsilon$ be the realizable potential in \ref{almostHarmReal} such that $\Phi_\epsilon(r)$ is $\lambda$-harmonic when $r \geq \epsilon$ with $\lambda = 1$. Note that $\Phi_\epsilon(0) = 1$ is normalized. And let $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$. 
+ 
+WLOG, consider $\theta_1$ and a initial set $S_0 = \{ \theta_1\}$ containing it. For a finite set of points $S$ and a point $x$, define $d(x,S) = \min_{y \in S} \| x - y\|$. Then, we consider the following set growing process. If there exists $\theta_i, w_i \not \in S_j$ such that $d(\theta_i, S_j) < \epsilon$ or $d(w_i, S_j) < \epsilon$, add $\theta_i, w_i$ to $S_j$ to form $S_{j+1}$. Otherwise, we stop the process. We grow $S_0$ to until the process terminates and we have the grown set $S$.
+
+If there is some $w_j \in S$, then it must be the case that there exists ${j_1},\cdots {j_q}$ such that $\|\theta_1 - \theta_{j_1} \| < \epsilon$ and
+$\|\theta_{j_{i}} - \theta_{j_{i+1}}\| < \epsilon$, and
+$\|\theta_{j_q}- w_j\| <\epsilon$ for some $w_j$. So, there exists $j$, such that $\|\theta_1 - w_j\| < k\epsilon$. 
+
+Otherwise, notice that for each $\theta_i \in S$, $\|w_j - \theta_i\|\geq \epsilon$ for all $j$, and $\|\theta_i - \theta_j\| \geq \epsilon$ for all $\theta_j\not \in S$. WLOG, let $S = \{\theta_1,\dots,\theta_l\}$. 
+  
+We consider changing all
+$\theta_1, \ldots, \theta_{l}$ by the same $v$ and define 
+%
+\[H({\bf a}, v) = G({\bf a},\theta_1+v,...,\theta_l+v, \theta_{l+1}
+\ldots, \theta_k).\]
+
+The optimality conditions on ${\bf a}$ are 
+\begin{align*}
+   \abs{\pd{H}{a_i}} & = \lvert 4a_i  + 2\sum_{j\neq i} a_j \Phi_\epsilon(\theta_i,\theta_j) + 2\sum_{j=1}^k b_j \Phi_\epsilon(\theta_i,w_j) \rvert \leq \delta
+\end{align*}
+%
+Next, since $\Phi_\epsilon(r)$ is $\lambda$-harmonic for $r \geq \epsilon$, we may calculate the Laplacian of $H$ as
+%
+\begin{align*}
+\Delta_v H & = \sum_{i=1}^l \lambda \left(2\sum_{j=1}^k a_ib_j
+  \Phi_\epsilon(\theta_i, w_j) + 2\sum_{j=l+1}^k a_ia_j
+  \Phi_\epsilon(\theta_i, \theta_j)\right) \\
+& \leq \sum_{i=1}^l \lambda \left(-4 a_i^2 - 2
+  \sum_{j = 1, j\neq i}^l  a_ia_j \Phi_\epsilon(\theta_i,\theta_j)\right)+ \delta \sum_{i=1}^l \lambda |a_i| \\
+&= -2\lambda\expt\left[\left( \sum_{i=1}^l a_i \sigma(\theta_i,X)\right)^2\right] -2\lambda \sum_{i=1}^l a_i^2+ \delta\lambda\sum_{i=1}^l  |a_i| 
+\end{align*} 
+%
+The second line follows from our optimality conditions and the third line follows from completing the square. Since $\boldsymbol{(a,\theta)} \in \mathcal{M}_{G,\delta}$, we have $\Delta_v H \geq - 2kd\delta$. Let $S = \sum_{i=1}^l a_i^2$. Then, by Cauchy-Schwarz, we have $-2 \lambda S + \delta\lambda\sqrt{k} \sqrt{S} \geq -2kd\delta$. When $S \geq \delta^2 k$, we see that $-\lambda S \geq -2 \lambda S + \delta\lambda \sqrt{k}\sqrt{S} \geq -2kd\delta$. Therefore, $S \leq 2kd\delta/\lambda$.
+ 
+We conclude that $S \leq \max(\delta^2k, 2kd\delta/\lambda) \leq 2kd\delta/\lambda$ since $\delta\leq 1 \leq 2d/\lambda$ and $\lambda = 1$. Therefore, $a_i^2 \leq 2kd\delta$.
+\end{proof}
+
+\almostharmres*
+
+ \begin{proof}
+ If there does not exists $i, j$ such that
+   $\|\theta_i - w_j\| <k\epsilon$, then by Lemma \ref{almostHarmConv}, this implies $a_i^2 < \delta^2/k^2$ for all $i$. Now, for a integrable
+   function $f(x)$, $\| f\|_X = \sqrt{\expt_X[f(X)^2]}$ is a
+   norm. Therefore, if $f(x) = \sum_i b_i \sigma(w_i,x)$ be our true
+   target function, we conclude that by triangle inequality
+\begin{align*}
+\sqrt{G(\boldsymbol{a,\theta})}  & \geq \norm{\sum_{i=1}^k a_i \sigma(\theta_i,x) - f(x)}_X \geq \|f(x)\|_X\ - \sum_{i=1}^k \|a_i\sigma(\theta_i,x) \|_X \geq
+  \sqrt{G(\boldsymbol{0,0})} - \delta
+\end{align*}
+This gives a contradiction, so we conclude that there must exist $i, j$ such that $\theta_i$ is in a $k\epsilon$ neighborhood of $w_j$.
+ \end{proof}
+ 
+\almostharminitialize*
+
+ \begin{proof}
+  Consider choosing $\theta_1 = {\bf 0}$ and then
+  optimizing $a_1$. Given $\theta_1$, the loss decrease is:
+%
+\begin{align*}
+   G(a_1,{\bf 0}) - G({\bf 0},{\bf 0}) & = \min_{a_1} 2a_1^2 +
+  2\sum_{j=1}^k a_1 b_j\Phi_\epsilon({\bf 0},w_j) 
+ %
+ = -\frac{1}{2}\left(  \sum_{j=1}^k b_j
+   \Phi_\epsilon({\bf 0},w_j)\right)^2 
+\end{align*}
+
+Because $w_j$ are random Gaussians with variance $O(d \log d)$, we have $\|w_j\| \leq O(d\log d)$ with high probability for all $j$. By Lemma~\ref{almostHarmReal}, our potential satisfies ${\Phi}_\epsilon({\bf 0}, w_j) \geq (d/\epsilon)^{ - O(d)}$. And since $b_j$ are uniformly chosen in $[-1,1]$, we conclude that with high probability over the choices of $b_j$, $-\frac{1}{2}\left( \sum_{j=1}^k b_j\Phi(\theta_1,w_j)\right)^2 \geq (d/\epsilon)^{ - O(d)}$ by appealing to Chebyshev's inequality on the squared term. 
+
+%\Snote{State the random variable and its expectation, and what is high probability.}
+
+Therefore, we conclude that with high probability, $G(a_1, {\bf 0}) \leq G(\boldsymbol{0,0}) - \frac{1}{2}(d/\epsilon)^{ - O(d)}$. Let $\sqrt{G(a_1, {\bf 0})} = \sqrt{G(\boldsymbol{0,0})} - \Delta \geq 0$. Squaring and rearranging gives $\Delta \geq \frac{1}{4\sqrt{G({\bf 0, 0})}}(d/\epsilon)^{ - O(d)}$. Since $G(\boldsymbol{0,0}) \leq O(k) = O(\poly(d))$, we are done. 
+\end{proof}
+%%Cramer-Rao type Argument
+%Let $f(x) =  \sum_{j=1}^k b_j \Phi(x,w_j)$, then it suffices (***Justify later) to show that $\Var(f(X)) \geq 1/\poly(d) $, where $X$ is a multivariate standard normal. By appealing to Cramer-Rao type bounds given in \cite{cacoullos1982upper}, we see that
+%%
+%\begin{align*}
+% \Var(f(X)) &\geq \frac{1}{d}\expt \left[\sum_{i=1}^d \frac{\partial}{\partial x_i} f(X)\right]^2 \\
+% &= \frac{1}{d}\left( \sum_{j=1}^k b_j \sum_{i=1}^d \expt \frac{\partial}{\partial x_i}\Phi(X,w_j) \right)^2 \\
+%\end{align*}
+%
+%By Stein's identity, $\expt[\frac{\partial}{\partial x_i}\Phi(X,w_j)] = \expt[X_i\Phi(X,w_j)]$. And since $\Phi$ is translationally symmetric, if we let $w_{ji}$ be the $i$-th coordinate of $w_j$, then $\expt[ X_i\Phi(X,w_j)] = \expt[(X_i - w_{ji})\Phi(X, {\bf 0})] = -w_{ji}\expt[\Phi(X,{\bf 0})] = -Cw_{ji}$, where $C$ is a positive constant and $C\geq 1/\poly(d)$ (justify later).
+%
+%Therefore, $\Var(f(X)) \geq \frac{C^2}{d} \left(\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}\right)^2$. However, note that $w_{ji}$ are independent Gaussians of variance 1, so we conclude that $\sum_{j=1}^k b_j \sum_{i=1}^d w_{ji}$ is a Gaussian of variance $d\|{\bf b}\|^2 \geq d$. So, with high probability over $w_1,...,w_j$, we conclude that $\Var(f(X)) \geq C^2 \geq 1/\poly(d)$.
+
+
+
+%%%%%%%%%%%Begin Node Convergence
+\subsection{Node by Node Analysis}
+
+This proofs in this section can be found in the full version of this paper on ArXiv. 
+
+\begin{lemma}\label{nodeConv}
+Let $\mathcal{M} = \R^d$ for $d \equiv 3 \mod 4$ and let $L_1$ be the loss restricted to $(a_1,\theta_1)$ corresponding to the activation function $\sigma_\epsilon$ given by Lemma~\ref{almostHarmReal} with $\lambda = 1$. For any $\epsilon \in (0,1)$ and $\delta \in (0, 1)$, we can construct $\sigma_\epsilon$ such that if ${(a_1,\theta_1)} \in \mathcal{M}_{L_1,\delta}$, then for all $i$, either 1) there exists $j$ such that $\|\theta_1 - w_j\| < \epsilon$ or 2) $a_1^2 < 2d\delta$.
+\end{lemma}
+%
+\begin{lemma}\label{nodeRes}
+Assume the conditions of Lemma~\ref{nodeConv}. If
+$\sqrt{L_1(a_1,\theta_1)} \leq \sqrt{L_1(0, 0)} - \delta$
+  and $(a_1,\theta_1) \in \mathcal{M}_{G,\delta^2/(2d)}$,
+  then there exists some $j$ such that $\|\theta_1 - w_j\| <\epsilon$.
+\end{lemma}
+% 
+\begin{lemma}\label{nodeGradient}
+Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma~\ref{nodeConv}. If $\|\theta_1 - w_j\| \leq d$ and $|b_j|\geq 1/\poly(d)$ and $|a_1 - a_1^*(\theta_1)| \leq (d/\epsilon)^{-O(d)}$ is almost optimal and for $i$, $\|w_i - w_j\| \geq \Omega(d \log d)$, then $-\nabla_{\theta_1}L_1 = \zeta \frac{w_j - \theta_1}{\|\theta_1 - w_j\|} + \xi$ with $\zeta \geq  \frac{1}{\poly(d)}(d/\epsilon)^{-8d}$ and $\xi \leq (d/\epsilon)^{-O(d)}$. 
+\end{lemma}
+%
+
+ %
+ \begin{lemma}[Node-wise Initialization]\label{nodeInitialize}
+Assume the conditions of Theorem~\ref{nodewiseSGD} and Lemma~\ref{nodeConv}. With high probability, we can initialize $(a_1^{(0)},\theta_1^{(0)})$ such that $\sqrt{L(a_1^{(0)},\theta_1^{(0)})} \leq \sqrt{L({0,0})} -\delta$ with $\delta = \frac{1}{\poly(d)}(d/\epsilon)^{ -18d}$ in time $\log(d)^{O(d)}$.
+ \end{lemma}
+%
+\begin{lemma}\label{nodewiseSGD}
+Assume the conditions of Lemma~\ref{nodeConv}. Also, assume $b_1,...,b_k$ are any numbers in $[-1,1]$ and $w_1,...,w_k \in \R^d$ satisfy $\|w_i\|\leq O(d\log d)$ for all $i$ and there exists some $|b_j| \geq 1/\poly(d)$ with $\|w_i - w_j\| \geq \Omega(d\log d)$ for all $i$.
+
+Then with high probability, we can choose an initial point $(a_1^{(0)}, \theta_1^{(0)})$ such that after running SecondGD (Algorithm \ref{SecondGD}) on the restricted regularized objective $L_1(a_1,\theta_1)$ for at most $(d/\epsilon)^{O(d)}$ iterations, there exists some $w_j$ such that $\|\theta_1 - w_j\| < \epsilon$. Furthermore, if $|b_j| \geq 1/\poly(d)$ and $\|w_i - w_j\| \geq \Omega(d\log d)$ for all $i$, then $\|\theta_1 - w_j\| < (d/\epsilon)^{-O(d)}$ and $|a + b_j| < (d/\epsilon)^{-O(d)}$.
+\end{lemma}
+
+\nodewise*
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "icmlpaper2017.tex"
+%%% End:
