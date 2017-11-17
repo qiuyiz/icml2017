@@ -92,13 +92,12 @@ node, under squared loss, using a network of the same architecture,
 is equivalent to the motion of $k$ charges in the presence of $k$ fixed charges where the force between each pair of charges is given by a potential function that depends on $\sigma$ and the input distribution.  \end{theorem}
 %
  % and that the training data comes from a standard multivariate Gaussian distribution.
-Our main technical contribution is to prove the existence of an
+Based on this correspondence we  prove the existence of an
 activation function such that the corresponding gradient descent
 dynamics under standard Gaussian inputs result in learning at least
 one of the hidden nodes in the target network. We then show that this
-allows us to learn the complete target network one node at a time. We
-leave open the problem of convergence for dynamics corresponding to
-more realistic activation functions. We assume the sample complexity
+allows us to learn the complete target network one node at a time. For more realistic activation functions, we only obtain
+partial results. We assume the sample complexity
 is close to its infinite limit.
 %
 % {\color{red} }
