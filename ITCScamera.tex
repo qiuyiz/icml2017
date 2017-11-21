@@ -114,50 +114,19 @@
 
 \begin{abstract} 
 We study whether a depth two neural network can learn another 
-depth two network using gradient descent.
-% We study the problem of learning a depth two neural network with
-% another
-% randomly initialized
- % depth two network using gradient descent.
-  % We study the problem of learning a function using a neural network
-  % of a certain depth and width assuming it can be represented using
-  % such a network.  
-Assuming a linear output node,
-% the output node of the network
-% is linear, 
-we show that
-% We show that for networks of depth two with certain
-%   simplifying assumptions 
-the question of whether gradient descent converges to the 
+depth two network using gradient descent. Assuming a linear output node, we show that the question of whether gradient descent converges to the 
 target function is equivalent to the following question in
 electrodynamics: 
-Given $k$ fixed protons in $\rea^d,$ and $k$ electrons,
-% initialized at random positions 
-% with the electrons moving due to 
-% under the influence of the 
-%electrical
-each moving due to the attractive force from the protons and repulsive
+Given $k$ fixed protons in $\rea^d,$ and $k$ electrons, each moving due to the attractive force from the protons and repulsive
 force from the remaining electrons,
-%. The question of convergence, then, is 
-whether at equilibrium all the electrons will be matched up with
-%to all the
-the protons, up to a permutation. 
+whether at equilibrium all the electrons will be matched up with the protons, up to a permutation. 
 Under the standard electrical
 force, this follows from the classic Earnshaw's theorem. In our setting,
-the force  is 
-% If the force function between a pair of
-% charges is not given by the standard electrical force of $1/r^2$
-% (where $r$ is the distance between unit charges), but by another
-% function that is 
-determined by the activation function and the
+the force is determined by the activation function and the
 input distribution.  
 Building on this equivalence, we prove the
 existence of an activation function such that 
-% the corresponding
-gradient descent learns
-% dynamics 
-% result in learning 
-at least one of the
+gradient descent learns at least one of the
 hidden nodes in the target network. 
 Iterating, we show that gradient
 descent can be used to learn the entire network one node at a time.
