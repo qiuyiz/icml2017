@@ -81,6 +81,11 @@ Surbhi Goel, Varun Kanade, Adam Klivans, and Justin Thaler.
 \newblock Reliably learning the relu in polynomial time.
 \newblock {\em arXiv preprint arXiv:1611.10258}, 2016.
 
+\bibitem[GLM17]{ge2017learning}
+Rong Ge, Jason~D Lee, and Tengyu Ma.
+\newblock Learning one-hidden-layer neural networks with landscape design.
+\newblock {\em arXiv preprint arXiv:1711.00501}, 2017.
+
 \bibitem[JGN{\etalchar{+}}17]{jin2017escape}
 Chi Jin, Rong Ge, Praneeth Netrapalli, Sham~M Kakade, and Michael~I Jordan.
 \newblock How to escape saddle points efficiently.
@@ -109,6 +114,12 @@ Roi Livni, Shai Shalev-Shwartz, and Ohad Shamir.
 \newblock On the computational efficiency of training neural networks.
 \newblock In {\em Advances in Neural Information Processing Systems}, pages
   855--863, 2014.
+
+\bibitem[LY17]{li2017convergence}
+Yuanzhi Li and Yang Yuan.
+\newblock Convergence analysis of two-layer neural networks with relu
+  activation.
+\newblock {\em arXiv preprint arXiv:1705.09886}, 2017.
 
 \bibitem[SC16]{SoudryC16}
 Daniel Soudry and Yair Carmon.

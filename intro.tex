@@ -66,7 +66,7 @@ small error using gradient descent.
 
 
 
-\paragraph{Results and Contributions.} 
+\subsection{Results and Contributions.} 
 We theoretically investigate the question of convergence for networks of depth two.
  % with certain simplifying assumptions.  
 Our main conceptual contribution is that for depth $2$ networks where the top node is a sum node, the question of whether gradient descent converges to the desired target function is equivalent to the following question in electrodynamics: Given $k$ fixed protons in $\rea^d,$ and $k$ moving electrons,
@@ -92,13 +92,12 @@ node, under squared loss, using a network of the same architecture,
 is equivalent to the motion of $k$ charges in the presence of $k$ fixed charges where the force between each pair of charges is given by a potential function that depends on $\sigma$ and the input distribution.  \end{theorem}
 %
  % and that the training data comes from a standard multivariate Gaussian distribution.
-Our main technical contribution is to prove the existence of an
+Based on this correspondence we  prove the existence of an
 activation function such that the corresponding gradient descent
 dynamics under standard Gaussian inputs result in learning at least
 one of the hidden nodes in the target network. We then show that this
-allows us to learn the complete target network one node at a time. We
-leave open the problem of convergence for dynamics corresponding to
-more realistic activation functions. We assume the sample complexity
+allows us to learn the complete target network one node at a time. For more realistic activation functions, we only obtain
+partial results. We assume the sample complexity
 is close to its infinite limit.
 %
 % {\color{red} }
@@ -152,7 +151,7 @@ Polynomial  & $(\theta^Tw)^m$       & Yes, for orthonormal $w_i.$ Lem~\ref{PolyS
  \label{table1}
  \end{table} 
 
-\paragraph{Intuition and Techniques.}
+\subsection{Intuition and Techniques.}
 %
 Note that for the standard electric potential function given by $\Phi = 1/r$ where $r$ is the distance between the charges, it is known from Earnshaw's theorem that an electrodynamic system with some fixed protons and some moving electrons is at equilibrium only when the moving electrons coincide with the fixed protons. Given our translation above between electrodynamic systems and depth 2 networks (Section~\ref{sec:epdyn}), this would imply learnability of depth 2 networks under gradient descent under $\ell_2$ loss, if the activation function corresponds to the electrostatic potential. However, there exists no activation function $\sigma$ corresponding to this $\Phi$.
 %

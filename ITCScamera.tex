@@ -1,63 +1,31 @@
 \documentclass[a4paper,UKenglish]{lipics-v2016}
 
-% if you need to pass options to natbib, use, e.g.:
-% \PassOptionsToPackage{numbers, compress}{natbib}
-% before loading nips_2017
-%
-% to avoid loading the natbib package, add option nonatbib:
-% \usepackage[nonatbib]{nips_2017}
-
-%\usepackage{nips_2017}
-
-% to compile a camera-ready version, add the [final] option, e.g.:
-% \usepackage[final]{nips_2017}
-
-\usepackage[utf8]{inputenc} % allow utf-8 input
-\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
 \usepackage{hyperref}       % hyperlinks
 \usepackage{url}            % simple URL typesetting
-\usepackage{booktabs}       % professional-quality tables
-\usepackage{amsfonts}       % blackboard math symbols
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
-\usepackage{microtype}      % microtypography
-\usepackage{color}
-
 \usepackage{graphicx} % more modern
 
-\usepackage{amsthm}
-\usepackage{amssymb}
 % For algorithms
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
-\usepackage{nicefrac}
-%\usepackage{algorithmic}
 
-% \usepackage[margin=1in]{geometry}
-
-\usepackage{amsmath}
 \usepackage{thmtools, thm-restate}
 \usepackage{multirow}
 \usepackage{tabularx}
-\usepackage{colortbl}
-\usepackage{color}
-%\usepackage[small]{caption}
-%\usepackage[ruled,vlined]{algorithm2e}
 
-%\newtheorem{theorem}{Theorem}[section]
-%\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{fact}[theorem]{Fact}
-%\newtheorem{proposition}[theorem]{Proposition}
-%\newtheorem{observation}[theorem]{Observation}
-%\newtheorem{corollary}[theorem]{Corollary}
-%\newtheorem{remark}[theorem]{Remark}
-%\newtheorem{conjecture}[theorem]{Conjecture}
-%\newtheorem{definition}[theorem]{Definition}
-%\newtheorem{claim}[theorem]{Claim}
-\newtheorem{assumption}{Assumption}
+
 
 %%%%%%%%%%%%% Macros %%%%%%%%%%%%% 
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}{Assumption}
+
 \newcommand{\llabel}[1]{\label{#1}}
 \newcommand{\heading}[1]{{\bf #1}}
+
+\newcommand\rea{\mathbb R}
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\norm}[1]{\ensuremath{\left\lVert #1 \right\rVert}}
+\def\abs#1{\left| #1 \right|}
 
 \newcommand{\zo}{\{0,1\}}
 \newcommand{\mzo}{\{-1,+1\}}
@@ -97,30 +65,28 @@
 \def\showauthornotes{0}
 \def\showdraftbox{0}
 \def\showsupmaterial{0}
-\input{macros}
+% \input{macros}
 \newcommand{\supmaterial}[1]{\ifnum\showsupmaterial =1 supplementary material \else #1 \fi}
 
-\newcommand{\Anote}{\Authornote{A}}
-\newcommand{\Qnote}{\Authornote{Q}}
-\newcommand{\Rnote}{\Authornote{R}}
-\newcommand{\Snote}{\Authornote{S}}
-
-%\allowdisplaybreaks[3]
-\title{Convergence Results for Neural Networks via Electrodynamics}
+\allowdisplaybreaks[3]
+\title{Convergence Results for Neural Networks via Electrodynamics
+  \footnote{The full version of this paper is available at \url{https://arxiv.org/abs/1702.00458}~\cite{PanigrahyRSZ17}}}
 
 \author[1]{Rina Panigrahy}
 \author[2]{Ali Rahimi}
 \author[3]{Sushant Sachdeva}
 \author[4]{Qiuyi Zhang}
-\affil[1]{ Google Inc., Mountain View, CA \\
+\affil[1]{Google Inc., Mountain View, CA \\
   \texttt{rinap@google.com}}
 \affil[2]{Google Inc., Mountain View, CA \\
   \texttt{arahimi@google.com}}
- \affil[3]{University of Toronto, Toronto, Canada\\
+ \affil[3]{University of Toronto, Toronto, Canada. \footnote{Part of this work
+   was done when this author was a research scientist at Google Inc.,
+   Mountain View, CA}\\
   \texttt{sachdeva@cs.toronto.edu}}
   \affil[4]{University of California Berkeley, Berkeley, CA \\
   \texttt{10zhangqiuyi@berkeley.edu} }
-\authorrunning{R. Panigrahy, A. Rahimi, S. Sachdeva and Q. Zhang}
+\authorrunning{R. Panigrahy, A. Rahimi, S. Sachdeva, and Q. Zhang}
 
 \Copyright{Rina Panigrahy, Ali Rahimi, Sushant Sachdeva and Qiuyi Zhang}
 
@@ -139,6 +105,8 @@
 \EventLogo{}
 \SeriesVolume{94}
 \ArticleNo{22}
+
+
 
 \begin{document} 
 
@@ -214,9 +182,9 @@ descent can be used to learn the entire network one node at a time.
 % We believe that convergence results for depth-2 neural networks can be extended to even more activation functions, such as the sigmoid or the ReLU. Also, we believe these convergence results can be proven with minimal assumptions.
 
 
-{\bibliographystyle{alpha}
+\bibliographystyle{plainurl}
 \bibliography{biblio}
-}
+
 
 \appendix
 %
@@ -224,7 +192,7 @@ descent can be used to learn the entire network one node at a time.
 %\input{App-Realizable}
 \section{Realizable Potentials}
 \label{sec:realizable}
-This section can be found in the full version of this paper on ArXiv.
+This section can be found in the full version of this paper on ArXiv~\cite{PanigrahyRSZ17}.
 
 \input{App-Earnshaw}
 \input{App-Finite}

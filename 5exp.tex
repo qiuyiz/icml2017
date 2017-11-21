@@ -6,14 +6,14 @@ For our experiments, our training data is given by $(x_i, f(x_i))$, where $x_i$ 
 
 However, it seems that for depth greater than 2, the test error becomes significant  when width is high (see Fig~\ref{tablePlot}). Even for depth 3 networks, the increase in depth impedes the learnability of the neural network and the training error does not get close enough to 0. It seems that for neural networks with greater depth, positive convergence results in practice are elusive. We note that we are using training error as a measure of success, so it's possible that the true underlying parameters are not learned. 
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
   \centering
 \includegraphics[width = 4.5in]{tablePlot.jpg}
 \caption{Test Error of Varying-Depth Networks vs. Width}
 \label{tablePlot}
 \end{figure}
 
-\begin{table}[h!]
+\begin{table}
 \vskip 0.1in
 \begin{center}
 \begin{small}
